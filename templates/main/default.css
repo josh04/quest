@@ -1,0 +1,251 @@
+/*****************************************************/
+/*   Partly Based on Gerhard Erbes' template         */
+/*****************************************************/
+
+@import url('boxes.css');
+
+body
+{
+	font-family: TrebuchetMS, Verdana, Arial;
+	font-size: 12px;
+	text-align: center;
+}
+
+form, textarea
+{
+	font-weight: normal;
+	font-family: TrebuchetMS, Verdana, Arial;
+}
+
+a
+{
+	color:blue;
+}
+
+#wrapper
+{
+	width: 70%;
+	margin: 0 auto 0 auto;
+	border-left: 3px solid #AAAAAA;
+	border-right: 3px solid #AAAAAA;
+	padding: 0px 15px 0px 15px;
+	text-align:left;
+}
+
+#header-text
+{
+	font-size: 5em;
+	color: #DD8822;
+	text-align: center;
+	border: 1px solid #CCCCCC;
+	background-image: url('../images/header2.jpg');
+	background-repeat: no-repeat;
+  margin: 0 auto 0 auto;
+}
+
+#left
+{
+	width: 18%;
+	float: left;
+	border: 0px;
+	font-size: 0.9em;
+}
+
+.left-section
+{
+
+	background-color: rgb(255,255,255);
+	color: rgb(50,50,50);
+	text-align: left;
+}
+
+.left-section ul
+{
+	width: 95%;
+	padding:0;
+	margin:0;
+	list-style: none;
+}
+
+.left-section li {
+	margin:0;
+	padding:0;
+}
+
+
+.left-section li a {
+	display: block;
+	padding: 0.3em 0.7em 0.2em 1.2em;
+	border-left: solid 0.5em rgb(235,235,235);
+	border-top: solid 0.1em rgb(200,200,200);
+	background-color: rgb(235,235,235);
+	text-decoration: none;
+	font-weight: normal;
+	color: rgb(50,50,50);
+	margin:0 !important;
+}
+	
+.left-section li a:hover {
+	border-left: solid 0.5em rgb(175,175,175);
+	background-color: rgb(220,220,220);
+	text-decoration: none;
+	color: rgb(50,50,50);
+}
+
+.left-section .header {
+	display: block;
+	margin: 1.0em 0em 0em 0em;
+	padding: 0.3em 0.7em 0.2em 0.4em;
+	border-left: solid 0.5em rgb(125,125,125);
+	background-color: rgb(220,220,220);
+	text-transform: uppercase;
+	text-decoration: none;
+	font-weight: bold;
+	color: rgb(50,50,50);
+	border-top: solid 0.1em rgb(200,200,200);
+}
+
+#right
+{
+	width: 78%;
+	float: right;
+	padding: 5px 0px 5px 0px;
+	margin: 5px 0px 5px 0px;
+}
+
+#content
+{
+	width: 97%;
+	padding: 5px;
+	border-left: 2px solid #AAAAAA;
+	border-right: 2px solid #AAAAAA;
+}
+
+
+#footer
+{
+	width: 100%;
+	clear: both;
+	padding: 20px 0px 0px 0px;
+}
+
+#footer-text
+{
+	width: 100%;
+	padding: 5px;
+	background-color: rgb(220,220,220);
+	text-align: center;
+	color: rgb(80,80,80);
+	font-size: 1.0em;
+	font-weight: bold;
+}
+
+td
+{
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.row1 td
+{
+	background-color: #EEE;
+	font-size: 10px;
+}
+
+.row2 td
+{
+	background-color: #CCC;
+	font-size: 10px;
+}
+
+input, select, textarea
+{
+	border-left: 6px solid rgb(175,175,175);
+	border-right: 1px solid #999999;
+	border-top: 1px solid #999999;
+	border-bottom: 1px solid #999999;
+	background-color: #EEEEEE;
+	font-family: 'Trebuchet MS', 'Verdana', 'Arial';
+	padding: 2px;
+	margin: 2px;
+	font-size:12px;
+}
+
+fieldset
+{
+	border-left: 6px solid rgb(175,175,175);
+	border-right: 1px solid #999999;
+	border-top: 1px solid #999999;
+	border-bottom: 1px solid #999999;
+	background-color: #FFFFFF;
+	font-family: 'Trebuchet MS';
+	font-size: 14px;
+	padding-top: 6px;
+	margin: 2px;
+}
+
+legend
+{
+	font-weight: bold;
+	font-family: 'Trebuchet MS';
+}
+
+th
+{
+	text-align: left;
+}
+
+.ticket {
+  border: solid 1px #000;
+  background:#DDD;
+  font-family: TrebuchetMS, Verdana, Arial;
+  font-size:12px;
+  padding:5px;
+  margin:2px;
+}
+
+.blogdiv {
+  width: 450px;
+  margin-left: 10%;
+}
+
+.blogdivt {
+  width: 100%;
+  height: 24px;
+  margin-top: 4px;
+  background: url("../images/blogdivt.png") no-repeat 40px 0px;
+}
+
+.blogdivm {
+  background: url("../images/blogdivm.png") repeat-y 40px 0px;
+}
+
+.blogdivb {
+  width: 100%;
+  height: 26px;
+  margin-bottom: 4px;
+  background: url("../images/blogdivb.png") no-repeat 40px 0px;
+}
+
+.blogcomment {
+  margin: 4px;
+  padding: 4px;
+  border: 1px solid #000;
+}
+
+.reply {
+	margin-left: 5%;
+}
+
+a.faq {
+	color: #000;
+	font-weight: bold;
+}
+
+.first {
+    font-size: 13px;
+}
+
+
+
+
