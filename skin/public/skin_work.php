@@ -7,6 +7,11 @@
  */
 class skin_work extends skin_common {
 
+   /**
+    * work page
+    *
+    * @return string html
+    */
     public function make_work() {
         $make_work .= "
             <h2>Work for tokens</h2>

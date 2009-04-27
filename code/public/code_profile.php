@@ -17,7 +17,12 @@ class code_profile extends code_common {
     public function construct_page() {
         $this->initiate("skin_profile");
 
-        $this->make_profile_player($_GET['id']);
+        if ($_GET['name']) {
+            $this->make_profile_player_name($_GET['name']);
+        } else {
+            $this->make_profile_player_id($_GET['id']);
+        }
+
         $this->make_profile_html();
 
         $code_profile = $this->skin->make_profile($this->profile);
@@ -29,15 +34,31 @@ class code_profile extends code_common {
     * makes player object
     * 
     * @param integer $id player id
-    * @return boolean success
+    * @return bool success
     */
-    public function make_profile_player($id) {
+    public function make_profile_player_id($id) {
         $this->profile = new code_player;
         $this->profile->db =& $this->db;
-        if (!$this->profile->get_user_by_id(intval($id))) {
-            $this->error->error_page("Player not found.");
-        } else {
+        if ($this->profile->get_user_by_id(intval($id))) {
             return true;
+        } else {
+            $this->error_page("Player not found.");
+        }
+    }
+
+   /**
+    * makes player object
+    *
+    * @param string $name player name
+    * @return bool success
+    */
+    public function make_profile_player_name($name) {
+        $this->profile = new code_player;
+        $this->profile->db =& $this->db;
+        if ($this->profile->get_user_by_name($name)) {
+            return true;
+        } else {
+            $this->error_page("Player not found.");
         }
     }
 
