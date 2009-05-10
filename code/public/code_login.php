@@ -83,7 +83,7 @@ class code_login extends code_common {
                 $hash = sha1($player_db['id'].$player_db['password'].$login_rand);
                 $_SESSION['userid'] = $player_db['id'];
                 $_SESSION['hash'] = $hash;
-                setcookie("cookie_hash", $hash, mktime()+864000);
+                setcookie("cookie_hash", $hash, mktime()+2592000);
                 header("Location: index.php");
                 exit;
             }

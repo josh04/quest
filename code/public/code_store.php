@@ -65,7 +65,7 @@ class code_store extends code_common {
         }
 
         //Select the item from the database
-        $item_query = $this->db->execute("select `id`, `name`, `price` from `blueprint_items` where `id`=?", array(intval($_POST['id'])));
+        $item_query = $this->db->execute("SELECT `id`, `name`, `price` FROM `blueprint_items` WHERE `id`=?", array(intval($_POST['id'])));
 
         //Invalid item (it doesn't exist)
         if ($item_query->recordcount() == 0) {
@@ -85,7 +85,7 @@ class code_store extends code_common {
         $update_player['gold'] = $this->player->gold;
         $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
 
-        $insert_item['player_id'] = $player->id;
+        $insert_item['player_id'] = $this->player->id;
         $insert_item['item_id'] = $item['id'];
         $insert_item_query = $this->db->AutoExecute('items', $insert_item, 'INSERT');
 
@@ -106,7 +106,7 @@ class code_store extends code_common {
         }
 
         //Select the item from the database
-        $item_query = $db->execute("SELECT items.id, blueprint_items.name, blueprint_items.price FROM `blueprint_items`, `items` WHERE items.item_id=blueprint_items.id and items.player_id=? and items.id=?", array($this->player->id, intval($_GET['id'])));
+        $item_query = $this->db->execute("SELECT items.id, blueprint_items.name, blueprint_items.price FROM `blueprint_items`, `items` WHERE items.item_id=blueprint_items.id and items.player_id=? and items.id=?", array($this->player->id, intval($_POST['id'])));
 
         //Invalid item (it doesn't exist)
         if ($item_query->recordcount() == 0) {
@@ -121,11 +121,11 @@ class code_store extends code_common {
 		$this->player->gold = $this->player->gold + floor($item['price']/2);
 
 		//Delete item from database, add tokens to player's account
-		$delete_query = $db->execute("delete from `items` where `id`=?", array($item['id']));
+		$delete_query = $this->db->execute("DELETE FROM `items` WHERE `id`=?", array($item['id']));
 
         $update_player['gold'] = $this->player->gold;
 
-		$player_query = $db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
+		$player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
 
 		$sell = "You have sold your ".$item['name'].". We'll look after it well.";
 		return $sell;

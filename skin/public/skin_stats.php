@@ -26,9 +26,10 @@ class skin_stats extends skin_common {
             stat points to spend, agent. What would you
             like to spend them on?</i>
             <br /><br />
-            <a href='index.php?page=stats&amp;action=spend&amp;stat=1'>Strength</a><br />
-            <a href='index.php?page=stats&amp;action=spend&amp;stat=2'>Vitality</a><br />
-            <a href='index.php?page=stats&amp;action=spend&amp;stat=3'>Agility</a><br />
+            <form action='index.php?page=stats&amp;action=spend' method='POST' />
+            <input type='submit' name='stat' value='Strength' /><br />
+            <input type='submit' name='stat' value='Vitality' /><br />
+            <input type='submit' name='stat' value='Agility' /><br />
             ";
         return $stats_to_spend;
     }

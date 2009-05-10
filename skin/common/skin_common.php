@@ -26,7 +26,7 @@ class skin_common {
     * @param string $css name of css file
     * @return string html
     */
-    public function start_header($title, $css) {
+    public function start_header($title, $skin) {
         
         $start_header = "
                     <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'> 
@@ -34,7 +34,7 @@ class skin_common {
                     <head>
                     <title>CHERUBQuest - ".$title."</title>
                     <meta http-equiv='content-type' content='text/html; charset=utf-8' />
-                    <link rel='stylesheet' type='text/css' href='./templates/main/" . $css . "' />
+                    <link rel='stylesheet' type='text/css' href='./templates/main/" . $skin . "' />
                     <script type='text/javascript' language='JavaScript' src='./templates/functions.js'></script>
                     </head>
                     <body>

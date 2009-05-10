@@ -1,7 +1,7 @@
 <?php
 /**
  * (TODO): This code friggin' sucks.
- * (TODO): This should be POST not GET, certainly.
+ * (DONE): This should be POST not GET, certainly.
  * code_stats.php
  *
  * lets the user l-l-level up.
@@ -48,14 +48,14 @@ class code_stats extends code_common {
     * @return string html
     */
     public function spend() {
-        switch((intval($_GET['stat']))) {
-            case '1':
+        switch((intval($_POST['stat']))) {
+            case 'Strength':
                 $increase_stat = $this->increase_stat('strength');
                 break;
-            case '2':
+            case 'Vitality':
                 $increase_stat = $this->increase_stat('vitality');
                 break;
-            case '3':
+            case 'Agility':
                 $increase_stat = $this->increase_stat('agility');
                 break;
         }

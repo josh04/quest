@@ -25,6 +25,7 @@ require("skin/common/skin_common.php");
 //which 'translates' them so to speak. If it 
 //isn't in the array, it's not included.
 
+// (TODO) this should be db, help modders
 $pages = array( "login"         =>          "login",
                 "stats"         =>          "stats",
                 "laptop"        =>          "log",
@@ -33,7 +34,7 @@ $pages = array( "login"         =>          "login",
                 "hospital"      =>          "hospital",
                 "work"          =>          "work",
                 "help"          =>          "help",
-                "editprofile"   =>          "edit_profile",
+                "profile_edit"   =>         "edit_profile",
                 "battle_search" =>          "battle_search",
                 "battle"        =>          "battle",
                 "profile"       =>          "profile",
