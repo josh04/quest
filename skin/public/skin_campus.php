@@ -37,7 +37,7 @@ class skin_campus extends skin_common {
         <a href='index.php?page=inventory'>Inventory</a><br /><br />
 
         <strong>Dojo</strong><br />
-        <a href='index.php?page=battle_search'>Combat Training</a>
+        <a href='index.php?page=battle'>Combat Training</a>
         </td>
 
         </tr></table></div>";

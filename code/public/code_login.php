@@ -81,8 +81,9 @@ class code_login extends code_common {
                 $update_player['last_active'] = time();
                 $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$player_db['id']);
                 $hash = sha1($player_db['id'].$player_db['password'].$login_rand);
-                $_SESSION['userid'] = $player_db['id'];
+                $_SESSION['user_id'] = $player_db['id'];
                 $_SESSION['hash'] = $hash;
+                setcookie("user_id", $player_db['id'], mktime()+2592000);
                 setcookie("cookie_hash", $hash, mktime()+2592000);
                 header("Location: index.php");
                 exit;
@@ -160,16 +161,16 @@ class code_login extends code_common {
             }
         }
 
-        $insert['username'] = $_POST['username'];
-        $insert['password'] = sha1($_POST['password']);
-        $insert['email'] = $_POST['email'];
-        $insert['registered'] = time();
-        $insert['last_active'] = time();
-        $insert['ip'] = $_SERVER['REMOTE_ADDR'];
-        $insert['verified'] = 1;
+        $player_insert['username'] = $_POST['username'];
+        $player_insert['password'] = sha1($_POST['password']);
+        $player_insert['email'] = $_POST['email'];
+        $player_insert['registered'] = time();
+        $player_insert['last_active'] = time();
+        $player_insert['ip'] = $_SERVER['REMOTE_ADDR'];
+        $player_insert['verified'] = 1;
 
-        $player_insert = $this->db->autoexecute('players', $insert, 'INSERT');
-        if (!$player_insert) {
+        $player_insert_query = $this->db->AutoExecute('players', $player_insert, 'INSERT');
+        if (!$player_insert_query) {
             $register_submit = $this->skin->register($username, $email, "Error registering new user.");
             return $register_submit;
         }

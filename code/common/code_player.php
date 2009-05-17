@@ -7,29 +7,46 @@
  * @author josh04
  */
 
+
 class code_player {
 
   public $db;
   public $is_member = false;
   public $friends = array();
-  public $error;
 
 
   /**
    * Main player function. Used to generate the player who is playing.
    *
+   * (TODO) I think some of the code_login procedure should end up in here instead. 
+   *
    * @return bool good to go?
    */
     public function make_player() {
-        $player_query = $this->db->execute("SELECT * FROM players WHERE id=?", array(intval($_SESSION['userid'])));
+        if ($_COOKIE['user_id']) {
+            $id = $_COOKIE['user_id'];
+        } else {
+            $id = $_SESSION['user_id'];
+        }
+
+        $player_query = $this->db->execute("SELECT * FROM players WHERE id=?", array(intval($id)));
 
         $player_db = $player_query->fetchrow();
 
-        $check = sha1($_SESSION['userid'].$player_db['password'].$player_db['login_rand']);
+        $check = sha1($player_db['id'].$player_db['password'].$player_db['login_rand']);
 
         if ($check == $_COOKIE['cookie_hash'] || $check == $_SESSION['hash']) {
             $this->is_member = true;
             $last_active = time();
+
+            $mail_count_query = $this->db->execute("SELECT count(*) AS c FROM mail WHERE `to`=? AND `status`=0", array($player_db['id']));
+            $mail_count = $mail_count_query->fetchrow();
+            if ($mail_count) {
+                $player_db['unread'] = $mail_count['c'];
+            } else {
+                $player_db['unread'] = 0;
+            }
+            
             $player_db['last_active'] = $last_active;
             $player_db['exp_percent'] = intval(($player_db['exp'] / $player_db['exp_max']) * 100);
             $this->player_db_to_object($player_db);
@@ -103,15 +120,60 @@ class code_player {
    * @param integer $id player id
    * @return boolean succeed/fail
    */
-function get_user_by_name($name) {
-			$player_query = $this->db->execute("SELECT * FROM players WHERE username=?", array($name));
-			if ($player_query->recordcount() == 0) {
-				return false;
-			}
-			$player_db = $player_query->fetchrow();
-			$this->player_db_to_object($player_db);
-            return true;
-		}
+    public function get_user_by_name($name) {
+        $player_query = $this->db->execute("SELECT * FROM players WHERE username=?", array($name));
+        if ($player_query->recordcount() == 0) {
+            return false;
+        }
+        $player_db = $player_query->fetchrow();
+        $this->player_db_to_object($player_db);
+        return true;
+    }
+
+   /**
+    * commits changes to the database - incorporates levelling up
+    *
+    * @return bool levelled up?
+    */
+    public function update_player() {
+        $levelled_up = false;
+
+        $update_player['energy'] = $this->energy;
+        $update_player['exp'] = $this->exp;
+        $update_player['gold'] = $this->gold;
+        $update_player['deaths'] = $this->deaths;
+        $update_player['kills'] = $this->kills;
+        $update_player['hp'] = $this->hp;
+
+
+        if ($this->exp > $this->exp_max) {
+            $this->level++;
+            $this->exp_max = $this->exp_max + ($this->level * 70) - 20;
+            $this->stat_points = $this->stat_points + 3;
+            $this->hp_max = $this->hp_max + rand(5,20);
+            $levelled_up = true;
+        }
+        
+        $update_player['level'] = $this->level;
+        $update_player['exp_max'] = $this->exp_max;
+        $update_player['stat_points'] = $this->stat_points;
+        $update_player['hp_max'] = $this->hp_max;
+
+        //Update victor (the loser)
+        $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id='.$this->id);
+        return $levelled_up;
+    }
+
+   /**
+    * notify the player
+    *
+    */
+    public function add_log($message) {
+        $insert_log['player_id'] = $this->id;
+        $insert_log['message'] = $message;
+        $insert_log['time'] = time();
+        $log_query = $this->db->AutoExecute('user_log', $insert_log, 'INSERT');
+    }
 
 function getfriends(){
 

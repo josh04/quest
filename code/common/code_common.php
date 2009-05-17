@@ -34,6 +34,7 @@ class code_common {
 
    /**
     * builds the page header
+    * (TODO) mess of a skin code
     *
     * @return string html
     */
@@ -56,20 +57,23 @@ class code_common {
     * @return string html
     */
     public function menu_player() {
-        $mail_query = $this->db->execute(" SELECT m.*, p.username FROM mail AS m
-                                        LEFT JOIN players AS p ON m.from=p.id
-                                        WHERE m.to=? AND m.status=0
-                                        ORDER BY m.time DESC", array($this->player->id));
-        $this->player->unread = $mail_query->recordcount();
-        if ($mail_query->recordcount()) {
-            while ($mail = $mail_query->fetchrow()) {
-                $mail_rows .= $this->skin->mail_row($mail['id'], $mail['user'], $mail['subject']);
-            }
-        } else if (!$mail_query) {
-            $mail_rows = "Error retrieving mail.";
-        }
 
-        $mail = $this->skin->mail_wrap($mail_rows);
+        $mail = "";
+        if ($this->player->unread) {
+            require_once("skin/public/skin_mail.php");
+            $mail_query = $this->db->execute(" SELECT m.*, p.username FROM mail AS m
+                                            LEFT JOIN players AS p ON m.from=p.id
+                                            WHERE m.to=? AND m.status=0
+                                            ORDER BY m.time DESC", array($this->player->id));
+
+            if ($mail_query->recordcount()) {
+                while ($mail = $mail_query->fetchrow()) {
+                    $mail_rows .= skin_mail::mail_row_small($mail['id'], $mail['username'], $mail['subject']);
+                }
+            }
+
+            $mail = skin_mail::mail_wrap_small($mail_rows);
+        }
 
         $admin = "";
 
@@ -117,14 +121,15 @@ class code_common {
     *
     */
     public function make_db() {
+        global $ADODB_QUOTE_FIELDNAMES;
         // Set up the Database
-        $this->db = &ADONewConnection('mysql'); //Get our database object.
-
+        $this->db = &ADONewConnection('mysqli'); //Get our database object.
+        //$this->db->debug = true;
         $status = $this->db->Connect(     $this->config['server'],
                                           $this->config['db_username'],
                                           $this->config['db_password'],
                                           $this->config['database']     );
-
+        $ADODB_QUOTE_FIELDNAMES = 1;
         $this->db->SetFetchMode(ADODB_FETCH_ASSOC); //Set to fetch associative arrays
 
     }
@@ -145,17 +150,21 @@ class code_common {
     *
     * @param string $skin_name skin name
     */
-    public function make_skin($skin_name) {
-        require("skin/public/".$skin_name.".php"); // Get config values.
-        $this->skin = new $skin_name;
-        return $config;
+    public function make_skin($skin_name = "") {
+        if ($skin_name) {
+            require_once("skin/public/".$skin_name.".php"); // Get config values.
+            $this->skin = new $skin_name;
+        } else {
+            $this->skin = new skin_common;
+        }
     }
 
    /**
     * sets up db, player, etc. can't go in construct_page because that happens after the child class has run.
     *
+    * @param string $skin_name name of skin file to load - if left blank, loads skin_common (not recommended)
     */
-    public function initiate($skin_name) {
+    public function initiate($skin_name = "") {
         $this->make_config();
         $this->make_skin($skin_name);
         $this->make_db();
