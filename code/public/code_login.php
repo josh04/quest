@@ -151,7 +151,7 @@ class code_login extends code_common {
             $register_submit = $this->skin->register($username, $email, "Your email must be longer than 3 characters.");
             return $register_submit;
         } else if (!preg_match("/^[-!#$%&\'*+\\.\/0-9=?A-Z^_`{|}~]+@([-0-9A-Z]+\.)+([0-9A-Z]){2,4}$/i", $_POST['email'])) {
-            $$register_submit = $this->skin->register($username, $email, "Your email format is wrong.");
+            $register_submit = $this->skin->register($username, $email, "Your email format is wrong.");
             return $register_submit;
         } else {
             $email_query = $this->db->execute("select `id` from `players` where `email`=?", array($_POST['email']));

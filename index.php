@@ -26,6 +26,7 @@ require("skin/common/skin_common.php");
 //isn't in the array, it's not included.
 
 // (TODO) this should be db, help modders
+// BUT HOW?!?!
 $pages = array( "login"         =>          "login",
                 "stats"         =>          "stats",
                 "laptop"        =>          "log",
@@ -34,33 +35,37 @@ $pages = array( "login"         =>          "login",
                 "hospital"      =>          "hospital",
                 "work"          =>          "work",
                 "help"          =>          "help",
-                "profile_edit"  =>         "edit_profile",
-                "battle_search" =>          "battle_search",
+                "profile_edit"  =>          "edit_profile",
                 "battle"        =>          "battle",
                 "profile"       =>          "profile",
                 "ticket"        =>          "ticket",
                 "staff"         =>          "staff",
-                "blog"          =>          "blog",
                 "store"         =>          "store",
                 "mail"          =>          "mail",
                 "campus"        =>          "campus",
                 "guesthelp"     =>          "guest_help",
                 "ranks"         =>          "ranks",
-                "forums"        =>          "forums",
                 "index"         =>          "index",
                 "members"       =>          "members"   );
-                
 
-if($pages[$_GET['page']]) {
-    require("code/public/code_".$pages[$_GET['page']].".php"); //Include whichever php file we want.
-    $class_name = "code_".$pages[$_GET['page']];
-    $code = new $class_name;
-    $code->construct_page();
-} else {
-    require("code/public/code_index.php"); //Include whichever php file we want.
-    $code = new code_index;
-    $code->construct_page();
+$path = "public";
+$page = "index";
+if (!file_exists('install.lock')) {
+    $path = "install";
+    require("code/install/code_install.php");
+    $pages = array( "index"         =>          "start",
+                    "database"      =>          "database",
+                    "user"          =>          "user"    );
+
 }
 
+if ($pages[$_GET['page']]) {
+    $page = $_GET['page'];
+}
+
+require("code/".$path."/code_".$pages[$page].".php"); //Include whichever php file we want.
+$class_name = "code_".$pages[$page];
+$code = new $class_name;
+$code->construct_page();
 
 ?>

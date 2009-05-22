@@ -9,6 +9,8 @@
 
 class skin_common {
 
+    public $lang_error;
+
    /**
     * displays error; needs skinning
     *
@@ -16,7 +18,19 @@ class skin_common {
     * @return string html
     */
     public function error_page($error) {
-        return $error;
+        $error_page = "<p class='error'>".$error."</p>";
+        return $error_page;
+    }
+
+   /**
+    * less deadly errors
+    *
+    * @param string $error message
+    * @return string html
+    */
+    public function warning_page($error) {
+        $warning_page = "<p class='warning'>".$error."</p>";
+        return $warning_page;
     }
     
     /**
@@ -34,7 +48,7 @@ class skin_common {
                     <head>
                     <title>CHERUBQuest - ".$title."</title>
                     <meta http-equiv='content-type' content='text/html; charset=utf-8' />
-                    <link rel='stylesheet' type='text/css' href='./templates/main/" . $skin . "' />
+                    <link rel='stylesheet' type='text/css' href='./skin/common/" . $skin . "' />
                     <script type='text/javascript' language='JavaScript' src='./templates/functions.js'></script>
                     </head>
                     <body>

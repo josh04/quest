@@ -18,14 +18,17 @@ class code_profile extends code_common {
         $this->initiate("skin_profile");
 
         if ($_GET['name']) {
-            $this->make_profile_player_name($_GET['name']);
+            $success = $this->make_profile_player_name($_GET['name']);
         } else {
-            $this->make_profile_player_id($_GET['id']);
+            $success = $this->make_profile_player_id($_GET['id']);
         }
 
-        $this->make_profile_html();
+        if ($success) {
+            $code_profile = $this->make_profile();
+        } else {
+            $code_profile = $this->skin->warning_page($this->skin->lang_error->player_not_found);
+        }
 
-        $code_profile = $this->skin->make_profile($this->profile);
 
         parent::construct_page($code_profile);
     }
@@ -42,7 +45,7 @@ class code_profile extends code_common {
         if ($this->profile->get_user_by_id(intval($id))) {
             return true;
         } else {
-            $this->error_page("Player not found.");
+            return false;
         }
     }
 
@@ -58,15 +61,16 @@ class code_profile extends code_common {
         if ($this->profile->get_user_by_name($name)) {
             return true;
         } else {
-            $this->error_page("Player not found.");
+            return false;
         }
     }
 
    /**
     * assigns html to profile object
     *
+    * @return string html
     */
-    public function make_profile_html() {
+    public function make_profile() {
       if ($this->profile->msn) {
           $this->profile->im_links .= $this->skin->im_link('msn', $this->profile->msn);
       }
@@ -92,6 +96,9 @@ class code_profile extends code_common {
       } else {
           $this->profile->is_online = "offline";
       }
+
+      $make_profile = $this->skin->make_profile($this->profile);
+      return $make_profile;
       
     }
 

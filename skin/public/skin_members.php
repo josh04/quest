@@ -19,8 +19,10 @@ class skin_members extends skin_common {
                     <td><a href='index.php?page=profile&amp;id=" .$member['id']."'>
                     ".$member['username']."</a></td><td>".$member['level']."</td>
                     <td><a href='index.php?page=mail&amp;action=compose&amp;to=".$member['username']."'>
-                    Mail</a> | <a href='index.php?page=battle&id="
-                    .$member['id']."'>Battle</a></td></tr>";
+                    Mail</a> | <form method='POST' action='index.php?page=battle&amp;action=fight'>
+                        <input type='hidden' name='id' value='".$member['id']."' />
+                        <input type='submit' value='Battle' />
+                    </form></td></tr>";
 
         return $member_row;
     }

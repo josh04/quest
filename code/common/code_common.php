@@ -14,6 +14,7 @@ class code_common {
     public $page_title = "CHERUBQuest"; //(TODO) use this
     public $player;
     public $config;
+    public $cron;
 
    /**
     * ERROR!
@@ -21,10 +22,10 @@ class code_common {
     * @param string $error error text
     */
     public function error_page($error) {
-        $error_page = $this->skin->error_page($error);
+
         $output = $this->skin->start_header("Error", "default.css");
 
-        $output .= $error_page;
+        $output .= $this->skin->error_page($error);
 
         $output .= $this->skin->footer();
 
@@ -39,9 +40,8 @@ class code_common {
     * @return string html
     */
     public function start_header() {
-        $q = $this->db->execute("SELECT cssfile FROM `skins` WHERE `id`=?",array($this->player->skin));
-        $css = $q->fetchrow();
-        $css = $css['cssfile'];
+        
+        $css = $this->player->skin;
 
         if(!isset($this->player->skin)) {
             $css = "default.css";
@@ -91,12 +91,12 @@ class code_common {
     * @return string html
     */
     public function menu_guest() {
-        $onlinecountq = $this->db->execute("SELECT count(*) AS c FROM players WHERE (last_active > (".(time()-(60*15))."))");
-        $onlinecount = $onlinecountq->fetchrow();
-        $moneyq = $this->db->execute("SELECT sum(`gold`) AS g FROM players");
-        $money = $moneyq->fetchrow();
+        $online_query = $this->db->execute("SELECT count(*) AS c FROM players WHERE (last_active > (".(time()-(60*15))."))");
+        $online_count = $online_query->fetchrow();
+        $money_query = $this->db->execute("SELECT sum(`gold`) AS g FROM players");
+        $money_sum = $money_query->fetchrow();
 
-        $menu_guest = $this->skin->menu_guest($onlinecount['c'], $money['g']);
+        $menu_guest = $this->skin->menu_guest($online_count['c'], $money_sum['g']);
         return $menu_guest;
     }
 
@@ -119,19 +119,25 @@ class code_common {
    /**
     * sets up the database.
     *
+    * @return bool success
     */
     public function make_db() {
         global $ADODB_QUOTE_FIELDNAMES;
         // Set up the Database
         $this->db = &ADONewConnection('mysqli'); //Get our database object.
         //$this->db->debug = true;
+        ob_start(); // Do not error if the database isn't there.
         $status = $this->db->Connect(     $this->config['server'],
                                           $this->config['db_username'],
                                           $this->config['db_password'],
                                           $this->config['database']     );
+        ob_end_clean();
+        if (!$status) {
+            return false;
+        }
         $ADODB_QUOTE_FIELDNAMES = 1;
         $this->db->SetFetchMode(ADODB_FETCH_ASSOC); //Set to fetch associative arrays
-
+        return true;
     }
 
    /**
@@ -151,12 +157,25 @@ class code_common {
     * @param string $skin_name skin name
     */
     public function make_skin($skin_name = "") {
+        require_once("skin/lang/lang_error.php");
         if ($skin_name) {
             require_once("skin/public/".$skin_name.".php"); // Get config values.
             $this->skin = new $skin_name;
         } else {
             $this->skin = new skin_common;
         }
+        $this->skin->lang_error = new lang_error;
+    }
+
+   /**
+    * is it that time again?
+    *
+    */
+    public function cron() {
+        require_once('code/common/code_cron.php');
+        $this->cron = new code_cron;
+        $this->cron->db =& $this->db;
+        $this->cron->update();
     }
 
    /**
@@ -167,8 +186,11 @@ class code_common {
     public function initiate($skin_name = "") {
         $this->make_config();
         $this->make_skin($skin_name);
-        $this->make_db();
+        if (!$this->make_db()) {
+            $this->error_page($this->skin->lang_error->failed_to_connect);
+        }
         $this->make_player();
+        $this->cron();
     }
 
    /**
