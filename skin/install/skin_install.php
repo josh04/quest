@@ -15,7 +15,9 @@ class skin_install extends skin_common {
     public function start() {
         $start = "Welcome to the Quest installer. To begin, click continue.<br />
             <br />
-            <a href='index.php?page=database'>Continue.</a>";
+            <a href='index.php?page=database'>Continue.</a><br />
+            <br />
+            <a href='index.php?page=upgrade_database'>To upgrade from an ezRPG install, click here.</a>";
         return $start;
     }
 
@@ -65,9 +67,39 @@ class skin_install extends skin_common {
         return $user_add_form;
     }
 
+   /**
+    * done!
+    *
+    * @return string html
+    */
     public function complete() {
         $complete = "Install complete! Click here to log in: <a href='index.php'>Continue.</a>";
         return $complete;
     }
+
+   /**
+    * shows the ezrpg db upgrade page
+    *
+    * @return string html
+    */
+    public function upgrade_page() {
+        $upgrade_page = "Please backup your ezrpg database before proceeding.
+            Due to the nature of ezrpg installs, databases vary greatly so it
+            is not possible to guarentee the following procedure will work.<br />
+            <br />
+            <a href='index.php?page=upgrade_database&amp;action=upgrade'>Continue</a>.";
+        return $upgrade_page;
+    }
+
+   /**
+    * they did it!
+    *
+    * @return string html
+    */
+    public function setup_database_complete() {
+        $setup_database_complete = "Database installation was successful. <a href='index.php?page=user'>Click here to continue.</a>";
+        return $setup_database_complete;
+    }
+
 }
 ?>

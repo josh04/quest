@@ -36,7 +36,7 @@ class code_inventory extends code_common {
                                 b.name, b.effectiveness,
                                 b.description
                                 FROM items AS i
-                                LEFT JOIN blueprint_items AS b
+                                LEFT JOIN blueprints AS b
                                 ON i.item_id=b.id
                                 WHERE i.player_id=?
                                 ORDER BY i.status DESC",
@@ -63,7 +63,7 @@ class code_inventory extends code_common {
     */
     public function equip_item() {
         $item_query = $this->db->execute("SELECT i.id, i.status, i.item_id, b.type FROM items AS i
-                                    LEFT JOIN blueprint_items AS b
+                                    LEFT JOIN blueprints AS b
                                     ON i.item_id=b.id
                                     WHERE i.id=? AND i.player_id=?",
                                     array(intval($_POST['id']), $this->player->id));
@@ -78,7 +78,7 @@ class code_inventory extends code_common {
         switch($item['status']) {
             case 0:
                 $unequip_query = $this->db->execute("SELECT i.id, b.type FROM items AS i
-                                                LEFT JOIN blueprint_items AS b
+                                                LEFT JOIN blueprints AS b
                                                 ON i.item_id=b.id
                                                 WHERE i.player_id=?
                                                 AND i.status=1", array($this->player->id));

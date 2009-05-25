@@ -77,7 +77,7 @@ class code_common {
 
         $admin = "";
 
-        if ($this->player->rank == 'admin') {
+        if ($this->player->rank == 'Admin') {
             $admin = $this->skin->menu_admin();
         }
 

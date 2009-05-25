@@ -1,11 +1,11 @@
 <?php
 /**
- * Description of code_database
+ * sort of roughly get a quest db from an ezrpgdb (e-zur-puh-ger-duh-buh).
  *
  * @author josh04
  * @package code_install
  */
-class code_database extends code_install {
+class code_upgrade_database extends code_install {
 
    /**
     * class override. calls parents, sends kids home.
@@ -15,156 +15,103 @@ class code_database extends code_install {
     public function construct_page() {
         $this->initiate("skin_install");
 
-        $code_database = $this->database_switch();
+        $code_upgrade_database = $this->upgrade_switch();
 
-        parent::construct_page($code_database);
+        parent::construct_page($code_upgrade_database);
     }
 
    /**
-    * have they filled it in?
+    * display the "you sure?" page, or actually do it
     *
     * @return string html
     */
-    public function database_switch() {
-        if ($_GET['action'] == 'confirm') {
-            $database_switch = $this->setup_database();
-            return $database_switch;
+    public function upgrade_switch() {
+        if ($_GET['action'] == 'upgrade') {
+            $upgrade_switch = $this->upgrade();
+            return $upgrade_switch;
         }
 
-        $database_switch = $this->setup_database_form();
-        return $database_switch;
+        $upgrade_switch = $this->upgrade_page();
+        return $upgrade_switch;
     }
 
    /**
-    * show a fill-me-in
-    *
-    * @param string $message did the fuck up?
-    * @return string html
-    */
-    public function setup_database_form($message="") {
-        $db_username = htmlentities($_POST['db_username'], ENT_COMPAT, "UTF-8");
-        $db_name = htmlentities($_POST['db_name'], ENT_COMPAT, "UTF-8");
-        if ($_POST['db_server']) {
-            $db_server = htmlentities($_POST['db_server'], ENT_COMPAT, "UTF-8");
-        } else {
-            $db_server = "localhost";
-        }
-        $database_switch = $this->skin->setup_database_form($db_server, $db_username, $db_name, $message);
-        return $database_switch;
-    }
-
-   /**
-    * check all the vars
+    * show a message detailing what will happen.
     *
     * @return string html
     */
-    public function setup_database() {
-        if (!$_POST['db_username']) {
-            $message = $this->skin->lang_error->no_database_username;
-            $setup_database = $this->setup_database_form($message);
-            return $setup_database;
-        }
-
-        if (!$_POST['db_name']) {
-            $message = $this->skin->lang_error->no_database_name;
-            $setup_database = $this->setup_database_form($message);
-            return $setup_database;
-        }
-
-        if (!$_POST['db_server']) {
-            $message = $this->skin->lang_error->no_database_server;
-            $setup_database = $this->setup_database_form($message);
-            return $setup_database;
-        }
-
-        if (!$_POST['db_password'] || !$_POST['db_password_confirm']) {
-            $message = $this->skin->lang_error->no_database_password;
-            $setup_database = $this->setup_database_form($message);
-            return $setup_database;
-        }
-
-        if ($_POST['db_password'] != $_POST['db_password_confirm']) {
-            $message = $this->skin->lang_error->passwords_do_not_match;
-            $setup_database = $this->setup_database_form($message);
-            return $setup_database;
-        }
-
-        $verified = $this->make_db();
-        
-        if ($verified === true) {
-            $setup_database = $this->success();
-            return $setup_database;
-        } else {
-            $setup_database = $this->setup_database_form($verified);
-            return $setup_database;
-        }
-
+    public function upgrade_page() {
+        $upgrade_page = $this->skin->upgrade_page();
+        return $upgrade_page;
     }
 
    /**
-    * sets up the database.
-    *
-    * @return bool success
-    * @return string failure
-    */
-    public function make_db() {
-        global $ADODB_QUOTE_FIELDNAMES;
-        // Set up the Database
-        $ADODB_QUOTE_FIELDNAMES = 1;
-        $this->db = &ADONewConnection('mysqli'); //Get our database object.
-        //$this->db->debug = true;
-        ob_start(); // Do not error if the database isn't there.
-        $is_db_there = $this->db->Connect( $_POST['db_server'] , $_POST['db_username'], $_POST['db_password'], $_POST['db_name']);
-        ob_end_clean();
-        if ($is_db_there) {
-            $this->db->SetFetchMode(ADODB_FETCH_ASSOC); //Set to fetch associative arrays
-            return true;
-        } else {
-            $make_db = "MySQL Error: ".$this->db->ErrorMsg();
-            return $make_db;
-        }
-    }
-
-   /**
-    * okay, let's jam that db in there
+    * get the config file and convert it, go from there
     *
     * @return string html
     */
-    function success() {
-        $blueprints_query = "CREATE TABLE IF NOT EXISTS `blueprints` (
-            `id` int(11) NOT NULL auto_increment,
-            `name` varchar(255) NOT NULL default '',
-            `description` text NOT NULL,
-            `type` tinyint(1) NOT NULL default '0',
-            `effectiveness` int(11) NOT NULL default '0',
-            `price` int(11) NOT NULL default '0',
-            PRIMARY KEY  (`id`)
-            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
+    public function upgrade() {
+
+        require("config.php");
+
+        $this->db =& $db;
+
+        $db_query = "ALTER DATABASE COLLATE utf8_general_ci; ";
+
+        $blueprints_query = "RENAME TABLE blueprint_items TO blueprints;
+                            ALTER TABLE `blueprints` ADD COLUMN `type2` varchar(255) NOT NULL;
+                            UPDATE `blueprints` set `type2`='weapon' WHERE `type`='weapon';
+                            UPDATE `blueprints` set `type2`='armour' WHERE `type`='armour';
+                            ALTER TABLE `blueprints` DROP COLUMN `type`;
+                            ALTER TABLE `blueprints` CHANGE `type2` `type` varchar(255) NOT NULL;
+                            ALTER TABLE `blueprints` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; ";
+
+        $items_query = "ALTER TABLE `items` ADD COLUMN `status2` tinyint(1) NOT NULL;
+                        UPDATE `items` set `status2`='1' WHERE `status`='equipped';
+                        UPDATE `items` set `status2`='0' WHERE `status`='uneqipped';
+                        ALTER TABLE `items` DROP COLUMN `status`;
+                        ALTER TABLE `items` CHANGE `status2` `status` tinyint(1) NOT NULL;
+                        ALTER TABLE `items` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; ";
+
+        $mail_query =  "ALTER TABLE `mail` ADD COLUMN `status2` tinyint(1) NOT NULL;
+                        UPDATE `mail` set `status2`='1' WHERE `status`='equipped';
+                        UPDATE `mail` set `status2`='0' WHERE `status`='uneqipped';
+                        ALTER TABLE `mail` DROP COLUMN `status`;
+                        ALTER TABLE `mail` CHANGE `status2` `status` tinyint(1) NOT NULL;
+                        ALTER TABLE `mail` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; ";
+
+        $players_query = "ALTER TABLE `players` ADD COLUMN `show_email` tinyint(3) NOT NULL default '0',
+                        ADD COLUMN `avatar` varchar(255) NOT NULL default 'images/avatar.png',
+                        ADD COLUMN `skin` int(3) NOT NULL default '2',
+                        ADD COLUMN `gender` tinyint(1) NOT NULL default '0',
+                        ADD COLUMN `msn` varchar(65) NOT NULL default '',
+                        ADD COLUMN `aim` varchar(65) NOT NULL default '',
+                        ADD COLUMN `skype` varchar(65) NOT NULL default '',
+                        ADD COLUMN `login_rand` varchar(255) NOT NULL default '',
+                        ADD COLUMN `description` text NOT NULL default '';
+
+                        ALTER TABLE `players` ADD COLUMN `password2` text NOT NULL;
+                        UPDATE `players` SET `password2`=`password`;
+                        ALTER TABLE `players` DROP COLUMN `password`;
+                        ALTER TABLE `players` CHANGE `password2` `password` text NOT NULL;
+                        ALTER TABLE `players` CHANGE `maxexp` `exp_max` int(11);
+                        ALTER TABLE `players` CHANGE `maxhp` `hp_max` int(11);
+                        ALTER TABLE `players` CHANGE `maxenergy` `energy_max` int(11);
+                        ALTER TABLE `players` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; ";
+
+        $log_query =    "ALTER TABLE `user_log` ADD COLUMN `status2` tinyint(1) NOT NULL;
+                        UPDATE `user_log` SET `status2`='1' WHERE `status`='read';
+                        UPDATE `user_log` SET `status2`='0' WHERE `status`='unread';
+                        ALTER TABLE `user_log` DROP COLUMN `status`;
+                        ALTER TABLE `user_log` CHANGE `status2` `status` tinyint(1) NOT NULL;
+                        ALTER TABLE `user_log` CHANGE `msg` `message` text NOT NULL;
+                        ALTER TABLE `user_log` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; ";
 
         $help_query = "CREATE TABLE IF NOT EXISTS `help` (
             `id` int(3) NOT NULL auto_increment,
             `title` varchar(65) NOT NULL default '',
             `body` longtext NOT NULL,
             `colour` varchar(8) NOT NULL default 'blue',
-            PRIMARY KEY  (`id`)
-            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
-
-        $items_query = "CREATE TABLE IF NOT EXISTS `items` (
-            `id` int(11) NOT NULL auto_increment,
-            `player_id` int(11) NOT NULL default '0',
-            `item_id` int(11) NOT NULL default '0',
-            `status` tinyint(1) NOT NULL default '0',
-            PRIMARY KEY  (`id`)
-            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
-
-        $mail_query = "CREATE TABLE IF NOT EXISTS `mail` (
-            `id` int(11) NOT NULL auto_increment,
-            `to` int(11) NOT NULL default '0',
-            `from` int(11) NOT NULL default '0',
-            `subject` varchar(255) NOT NULL default '',
-            `body` text NOT NULL,
-            `time` int(11) NOT NULL default '0',
-            `status` tinyint(1) NOT NULL default '0',
             PRIMARY KEY  (`id`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
 
@@ -176,51 +123,13 @@ class code_database extends code_install {
             PRIMARY KEY  (`id`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
 
-        $players_query = "CREATE TABLE IF NOT EXISTS `players` (
-            `id` int(11) NOT NULL auto_increment,
-            `username` varchar(255) NOT NULL default '',
-            `password` text NOT NULL,
-            `email` varchar(255) NOT NULL default '',
-            `rank` varchar(255) NOT NULL default 'Agent',
-            `registered` int(11) NOT NULL default '0',
-            `last_active` int(11) NOT NULL default '0',
-            `description` text NOT NULL,
-            `ip` varchar(255) NOT NULL default '',
-            `level` int(11) NOT NULL default '1',
-            `stat_points` int(11) NOT NULL default '5',
-            `gold` int(11) NOT NULL default '200',
-            `bank` int(11) NOT NULL default '20',
-            `hp` int(11) NOT NULL default '60',
-            `hp_max` int(11) NOT NULL default '60',
-            `exp` int(11) NOT NULL default '0',
-            `exp_max` int(11) NOT NULL default '50',
-            `energy` int(11) NOT NULL default '10',
-            `energy_max` int(11) NOT NULL default '10',
-            `strength` int(11) NOT NULL default '1',
-            `vitality` int(11) NOT NULL default '1',
-            `agility` int(11) NOT NULL default '1',
-            `interest` tinyint(1) NOT NULL default '0',
-            `kills` int(11) NOT NULL default '0',
-            `deaths` int(11) NOT NULL default '0',
-            `show_email` tinyint(3) NOT NULL default '0',
-            `avatar` varchar(255) NOT NULL default 'images/avatar.png',
-            `skin` int(3) NOT NULL default '2',
-            `gender` tinyint(1) NOT NULL default '0',
-            `msn` varchar(65) NOT NULL default '',
-            `aim` varchar(65) NOT NULL default '',
-            `skype` varchar(65) NOT NULL default '',
-            `login_rand` varchar(255) NOT NULL default'',
-            PRIMARY KEY  (`id`),
-            KEY `rank` (`rank`)
-            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
-
         $skins_query = "CREATE TABLE IF NOT EXISTS `skins` (
             `id` int(3) NOT NULL auto_increment,
             `name` varchar(65) NOT NULL default '',
             `cssfile` varchar(65) NOT NULL default '',
             `image` varchar(65) NOT NULL default '',
             PRIMARY KEY  (`id`)
-            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
+            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8; ";
 
         $tickets_query = "CREATE TABLE IF NOT EXISTS `tickets` (
             `id` int(11) NOT NULL auto_increment,
@@ -229,16 +138,7 @@ class code_database extends code_install {
             `date` int(10) NOT NULL default '0',
             `sorted` tinyint(3) NOT NULL default '0',
             PRIMARY KEY  (`id`)
-            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
-
-        $log_query = "CREATE TABLE IF NOT EXISTS `user_log` (
-            `id` int(11) NOT NULL auto_increment,
-            `player_id` int(11) NOT NULL default '0',
-            `message` text NOT NULL,
-            `status` tinyint(1) NOT NULL default '0',
-            `time` int(11) NOT NULL default '0',
-            PRIMARY KEY  (`id`)
-            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
+            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8; ";
 
         $cron_query = "CREATE TABLE IF NOT EXISTS `cron` (
             `id` int(11) NOT NULL auto_increment,
@@ -246,7 +146,7 @@ class code_database extends code_install {
             `last_active` int(11) NOT NULL default '0',
             `period` int(11) NOT NULL default '0',
             PRIMARY KEY  (`id`)
-            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
+            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8; ";
 
         $help_insert_query = "
             INSERT INTO `help` (`id`, `title`, `body`, `colour`) VALUES
@@ -276,26 +176,26 @@ class code_database extends code_install {
             (24, 'How do I get my health back?', 'You can regain health in the hospital (Click on \"Campus\" on the left and follow through) or by waiting. Every night at midnight all the agents'' healths are restored. So, even if you have no money, you can live to fight again!', 'yellow');
             ";
 
-        $make_tables_success = $this->db->execute($cron_query.$blueprints_query.$help_query.$items_query.$mail_query.$news_query.$players_query.$skins_query.$tickets_query.$log_query.$help_insert_query);
+$make_tables_success = $this->db->execute($db_query.$cron_query.$help_query.$news_query.$skins_query.$tickets_query.$help_insert_query.$blueprints_query.$items_query.$mail_query.$players_query.$log_query);
 
         if (!$this->db->ErrorMsg()) {
+            rename("config.php", "config.php.bak");
             $config_string = "<? \n
-                \$config['server'] = '".$_POST['db_server']. "';\n
-                \$config['database'] = '".$_POST['db_name']."';\n
-                \$config['db_username'] = '".$_POST['db_username']."';\n
-                \$config['db_password'] = '".$_POST['db_password']."';\n
+                \$config['server'] = '".$config_server. "';\n
+                \$config['database'] = '".$config_database."';\n
+                \$config['db_username'] = '".$config_username."';\n
+                \$config['db_password'] = '".$config_password."';\n
                     ?>";
             $config_file = fopen("config.php", 'w');
             fwrite($config_file, $config_string);
             fclose($config_file);
-            $success = $this->setup_database_complete();
+            $success = "woo?";
             return $success;
         } else {
             $message = $this->skin->lang_error->database_create_error;
-            $success = $this->setup_database_page($message." ".$this->db->ErrorMsg());
+            $success = $message." ".$this->db->ErrorMsg();
             return $success;
         }
-
     }
 
 }

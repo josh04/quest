@@ -98,8 +98,6 @@ class skin_common {
                     <ul>
                         <li class='first'>Other</li>
                         <li><a href='index.php?page=help'>Help</a></li>
-                        <li><a href='index.php?page=forums'>Forums</a></li>
-                        <li><a href='index.php?page=staff'>Our Staff</a></li>
                         <li><a href='index.php?page=ticket'>Tickets</a></li>
                         <li><a href='index.php?page=login'>Logout</a></li>
                     </ul>

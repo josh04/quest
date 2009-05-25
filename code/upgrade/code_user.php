@@ -106,6 +106,7 @@ class code_user extends code_install {
         $player_insert['registered'] = time();
         $player_insert['last_active'] = time();
         $player_insert['ip'] = $_SERVER['REMOTE_ADDR'];
+        $player_insert['verified'] = 1;
         $player_insert['rank'] = 'Admin';
 
 

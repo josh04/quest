@@ -33,7 +33,8 @@ class code_login extends code_common {
         $username = htmlentities($_POST['username'],ENT_COMPAT,'UTF-8');
         session_unset();
         session_destroy();
-        setcookie("hash", NULL, mktime() - 36000000, "/");
+        setcookie("cookie_hash", NULL, mktime() - 36000000);
+        setcookie("user_id", NULL, mktime() - 36000000);
         $login_message = "You have logged out.";
         $log_out = $this->skin->index_guest($username, $login_message);
         return $log_out;

@@ -53,9 +53,10 @@ $page = "index";
 if (!file_exists('install.lock')) {
     $path = "install";
     require("code/install/code_install.php");
-    $pages = array( "index"         =>          "start",
-                    "database"      =>          "database",
-                    "user"          =>          "user"    );
+    $pages = array( "index"             =>          "start",
+                    "database"          =>          "database",
+                    "user"              =>          "user",
+                    "upgrade_database"  =>          "upgrade_database"    );
 
 }
 

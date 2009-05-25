@@ -37,7 +37,7 @@ class code_store extends code_common {
             return $make_store;
         }
 
-        $items_query = $this->db->execute("SELECT * FROM blueprint_items ORDER BY 'type' asc");
+        $items_query = $this->db->execute("SELECT * FROM blueprints ORDER BY 'type' asc");
         
         if ($items_query->recordcount() == 0) {
             $make_store = $this->skin->make_store("", "There are currently no items in the store.");
@@ -65,7 +65,7 @@ class code_store extends code_common {
         }
 
         //Select the item from the database
-        $item_query = $this->db->execute("SELECT `id`, `name`, `price` FROM `blueprint_items` WHERE `id`=?", array(intval($_POST['id'])));
+        $item_query = $this->db->execute("SELECT `id`, `name`, `price` FROM `blueprints` WHERE `id`=?", array(intval($_POST['id'])));
 
         //Invalid item (it doesn't exist)
         if ($item_query->recordcount() == 0) {
@@ -106,7 +106,7 @@ class code_store extends code_common {
         }
 
         //Select the item from the database
-        $item_query = $this->db->execute("SELECT items.id, blueprint_items.name, blueprint_items.price FROM `blueprint_items`, `items` WHERE items.item_id=blueprint_items.id and items.player_id=? and items.id=?", array($this->player->id, intval($_POST['id'])));
+        $item_query = $this->db->execute("SELECT items.id, blueprints.name, blueprints.price FROM `items` LEFT JOIN `blueprints` ON items.item_id=blueprints.id WHERE items.player_id=? and items.id=?", array($this->player->id, intval($_POST['id'])));
 
         //Invalid item (it doesn't exist)
         if ($item_query->recordcount() == 0) {

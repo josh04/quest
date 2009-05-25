@@ -177,29 +177,29 @@ class code_battle extends code_common {
         }
 
 		//Get enemies bonuses from equipment
-		$enemy_attack_query = $this->db->query("SELECT blueprint_items.effectiveness, blueprint_items.name 
-            FROM `items`, `blueprint_items` 
-            WHERE blueprint_items.id=items.item_id AND items.player_id=? AND blueprint_items.type='weapon' AND items.status='equipped'", 
+		$enemy_attack_query = $this->db->query("SELECT blueprints.effectiveness, blueprints.name
+            FROM `items`, `blueprints`
+            WHERE blueprints.id=items.item_id AND items.player_id=? AND blueprints.type='weapon' AND items.status='equipped'",
             array($this->enemy->id));
         $enemy_weapon = $enemy_attack_query->fetchrow();
 		$this->enemy->attack_bonus = $enemy_weapon['effectiveness'];
-		$enemy_defense_query = $this->db->query("select blueprint_items.effectiveness, blueprint_items.name 
-            FROM `items`, `blueprint_items` 
-            WHERE blueprint_items.id=items.item_id AND items.player_id=? AND blueprint_items.type='armour' AND items.status='equipped'", 
+		$enemy_defense_query = $this->db->query("select blueprints.effectiveness, blueprints.name
+            FROM `items`, `blueprints` 
+            WHERE blueprints.id=items.item_id AND items.player_id=? AND blueprints.type='armour' AND items.status='equipped'",
             array($this->enemy->id));
         $enemy_armour = $enemy_defense_query->fetchrow();
 		$this->enemy->defense_bonus = $enemy_armour['effectiveness'];
 		
 		//Get player's bonuses from equipment
-		$player_attack_query = $this->db->query("SELECT blueprint_items.effectiveness, blueprint_items.name 
-            FROM `items`, `blueprint_items` 
-            WHERE blueprint_items.id=items.item_id AND items.player_id=? AND blueprint_items.type='weapon' AND items.status='equipped'", 
+		$player_attack_query = $this->db->query("SELECT blueprints.effectiveness, blueprints.name
+            FROM `items`, `blueprints` 
+            WHERE blueprints.id=items.item_id AND items.player_id=? AND blueprints.type='weapon' AND items.status='equipped'",
             array($this->player->id));
         $player_weapon = $player_attack_query->fetchrow();
 		$this->player->attack_bonus = $player_weapon['effectiveness'];
-		$player_defense_query = $this->db->query("select blueprint_items.effectiveness, blueprint_items.name 
-            FROM `items`, `blueprint_items` 
-            WHERE blueprint_items.id=items.item_id AND items.player_id=? AND blueprint_items.type='armour' AND items.status='equipped'", 
+		$player_defense_query = $this->db->query("select blueprints.effectiveness, blueprints.name
+            FROM `items`, `blueprints` 
+            WHERE blueprints.id=items.item_id AND items.player_id=? AND blueprints.type='armour' AND items.status='equipped'",
             array($this->player->id));
         $player_armour = $player_defense_query->fetchrow();
 		$this->player->defense_bonus = $player_armour['effectiveness'];

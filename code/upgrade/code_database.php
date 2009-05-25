@@ -202,6 +202,9 @@ class code_database extends code_install {
             `interest` tinyint(1) NOT NULL default '0',
             `kills` int(11) NOT NULL default '0',
             `deaths` int(11) NOT NULL default '0',
+            `cheater` tinyint(1) NOT NULL default '0',
+            `warning` tinyint(3) NOT NULL default '0',
+            `verified` tinyint(1) NOT NULL default '0',
             `show_email` tinyint(3) NOT NULL default '0',
             `avatar` varchar(255) NOT NULL default 'images/avatar.png',
             `skin` int(3) NOT NULL default '2',
@@ -288,8 +291,7 @@ class code_database extends code_install {
             $config_file = fopen("config.php", 'w');
             fwrite($config_file, $config_string);
             fclose($config_file);
-            $success = $this->setup_database_complete();
-            return $success;
+            header("Location: index.php?page=user");
         } else {
             $message = $this->skin->lang_error->database_create_error;
             $success = $this->setup_database_page($message." ".$this->db->ErrorMsg());
