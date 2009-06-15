@@ -2,6 +2,8 @@
 /**
  * sort of roughly get a quest db from an ezrpgdb (e-zur-puh-ger-duh-buh).
  *
+ * (TODO) This shares a lot of code with code_database, but I have no way of merging them.
+ *
  * @author josh04
  * @package code_install
  */
@@ -40,8 +42,8 @@ class code_upgrade_database extends code_install {
     *
     * @return string html
     */
-    public function upgrade_page() {
-        $upgrade_page = $this->skin->upgrade_page();
+    public function upgrade_page($message="") {
+        $upgrade_page = $this->skin->upgrade_page($message);
         return $upgrade_page;
     }
 
@@ -54,7 +56,14 @@ class code_upgrade_database extends code_install {
 
         require("config.php");
 
-        $this->db =& $db;
+        if (!$db) {
+            $message = $this->skin->lang_error->upgrade_no_db_object;
+            $upgrade = $this->upgrade_page($message);
+            return $upgrade;
+        }
+
+        $this->db = &ADONewConnection('mysqli'); //Connect to database - need mysqli to do multiquery :(
+        $this->db->Connect($config_server, $config_username, $config_password, $config_database);
 
         $db_query = "ALTER DATABASE COLLATE utf8_general_ci; ";
 
@@ -88,15 +97,16 @@ class code_upgrade_database extends code_install {
                         ADD COLUMN `aim` varchar(65) NOT NULL default '',
                         ADD COLUMN `skype` varchar(65) NOT NULL default '',
                         ADD COLUMN `login_rand` varchar(255) NOT NULL default '',
+                        ADD COLUMN `login_salt` varchar(255) NOT NULL default '',
                         ADD COLUMN `description` text NOT NULL default '';
 
                         ALTER TABLE `players` ADD COLUMN `password2` text NOT NULL;
                         UPDATE `players` SET `password2`=`password`;
                         ALTER TABLE `players` DROP COLUMN `password`;
                         ALTER TABLE `players` CHANGE `password2` `password` text NOT NULL;
-                        ALTER TABLE `players` CHANGE `maxexp` `exp_max` int(11);
-                        ALTER TABLE `players` CHANGE `maxhp` `hp_max` int(11);
-                        ALTER TABLE `players` CHANGE `maxenergy` `energy_max` int(11);
+                        ALTER TABLE `players` CHANGE `maxexp` `exp_max` int(11) NOT NULL default '50';
+                        ALTER TABLE `players` CHANGE `maxhp` `hp_max` int(11) NOT NULL default '60';
+                        ALTER TABLE `players` CHANGE `maxenergy` `energy_max` int(11) NOT NULL default '10';
                         ALTER TABLE `players` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; ";
 
         $log_query =    "ALTER TABLE `user_log` ADD COLUMN `status2` tinyint(1) NOT NULL;
@@ -148,6 +158,11 @@ class code_upgrade_database extends code_install {
             PRIMARY KEY  (`id`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8; ";
 
+        $cron_insert_query = "INSERT INTO `cron` (`id`, `function`, `last_active`, `period`) VALUES
+            (1, 'reset_energy', 0, 7200),
+            (2, 'recover_health', 0, 7200),
+            (3, 'interest', 0, 86400);";
+
         $help_insert_query = "
             INSERT INTO `help` (`id`, `title`, `body`, `colour`) VALUES
             (1, 'Help Home', 'Welcome to the Quest Help Section. You can use the links above to find specific help files about what you want to know. Please make good use of this feature. If your questions are not answered by the help section, please create a ticket and the administrators will get around to helping you as quickly as possible.', 'blue'),
@@ -176,8 +191,11 @@ class code_upgrade_database extends code_install {
             (24, 'How do I get my health back?', 'You can regain health in the hospital (Click on \"Campus\" on the left and follow through) or by waiting. Every night at midnight all the agents'' healths are restored. So, even if you have no money, you can live to fight again!', 'yellow');
             ";
 
-$make_tables_success = $this->db->execute($db_query.$cron_query.$help_query.$news_query.$skins_query.$tickets_query.$help_insert_query.$blueprints_query.$items_query.$mail_query.$players_query.$log_query);
-
+        $this->db->execute($db_query);
+        $this->db->execute($cron_query.$help_query.$news_query.$skins_query.$tickets_query.
+            $help_insert_query.$blueprints_query.$items_query.$mail_query.$players_query.
+            $log_query.$cron_insert_query);
+                        
         if (!$this->db->ErrorMsg()) {
             rename("config.php", "config.php.bak");
             $config_string = "<? \n
@@ -185,17 +203,28 @@ $make_tables_success = $this->db->execute($db_query.$cron_query.$help_query.$new
                 \$config['database'] = '".$config_database."';\n
                 \$config['db_username'] = '".$config_username."';\n
                 \$config['db_password'] = '".$config_password."';\n
+                define('IS_UPGRADE', 1);\n
                     ?>";
             $config_file = fopen("config.php", 'w');
             fwrite($config_file, $config_string);
             fclose($config_file);
-            $success = "woo?";
-            return $success;
+            $upgrade = $this->setup_database_complete();
+            return $upgrade;
         } else {
             $message = $this->skin->lang_error->database_create_error;
-            $success = $message." ".$this->db->ErrorMsg();
-            return $success;
+            $upgrade = $message." ".$this->db->ErrorMsg();
+            return $upgrade;
         }
+    }
+
+   /*
+    * well done!
+    *
+    * @return string html
+    */
+    public function setup_database_complete() {
+        $setup_database_complete = $this->skin->setup_database_complete();
+        return $setup_database_complete;
     }
 
 }

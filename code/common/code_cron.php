@@ -14,12 +14,17 @@ class code_cron {
     * 
     */
     public function update() {
-        $cron_query = $this->db->execute("SELECT * FROM `cron`");
+        $cron_query = $this->db->execute("SELECT * FROM `cron` WHERE `enabled`=1");
         while ($cron = $cron_query->fetchrow()) {
             $time = time();
             if ($time > ($cron['last_active']+$cron['period'])) {
-                $this->$cron['function']();
-                $update_cron['last_active'] = $time;
+                $repeat = intval(($time - $cron['last_active'])/$cron['period']);
+                
+                for ($i=0;$i<$repeat;$i++) {
+                    $this->$cron['function']($repeat);
+                }
+
+                $update_cron['last_active'] = $cron['last_active']+($cron['period']*$repeat);
                 $cron_update_query = $this->db->AutoExecute('cron', $update_cron, 'UPDATE', 'id='.$cron['id']);
             }
         }
@@ -43,11 +48,20 @@ class code_cron {
     }
 
    /**
+    * recover health naturally?
+    *
+    */
+    public function natural_heal($repeat) {
+        $player_query = $this->db->execute("UPDATE `players` SET `hp`=`hp`+".$repeat);
+    }
+
+   /**
     * money for all
     * 
     */
-    public function interest() {
-        $player_query = $this->db->execute("UPDATE `players` SET `interest`=0");
+    public function interest($repeat) {
+
+        $player_query = $this->db->execute("UPDATE `players` SET `interest`=".$repeat."+`interest`");
     }
 }
 ?>

@@ -100,13 +100,16 @@ class code_user extends code_install {
             return $register_submit;
         }
 
+        $login_salt = substr(md5(uniqid(rand(), true)), 0, 5);
+
         $player_insert['username'] = $username;
-        $player_insert['password'] = sha1($_POST['password']);
+        $player_insert['password'] = md5($_POST['password'].$login_salt);
         $player_insert['email'] = $email;
         $player_insert['registered'] = time();
         $player_insert['last_active'] = time();
         $player_insert['ip'] = $_SERVER['REMOTE_ADDR'];
         $player_insert['rank'] = 'Admin';
+        $player_insert['login_salt'] = $login_salt;
 
 
         $player_insert_query = $this->db->AutoExecute('players', $player_insert, 'INSERT');

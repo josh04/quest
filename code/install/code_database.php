@@ -1,6 +1,7 @@
 <?php
 /**
  * Description of code_database
+ * (TODO) merge this and upgrade_database so there's only one set of bliddy table definitions. sloppy.
  *
  * @author josh04
  * @package code_install
@@ -209,7 +210,8 @@ class code_database extends code_install {
             `msn` varchar(65) NOT NULL default '',
             `aim` varchar(65) NOT NULL default '',
             `skype` varchar(65) NOT NULL default '',
-            `login_rand` varchar(255) NOT NULL default'',
+            `login_rand` varchar(255) NOT NULL default '',
+            `login_salt` varchar(255) NOT NULL default '',
             PRIMARY KEY  (`id`),
             KEY `rank` (`rank`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
@@ -248,6 +250,11 @@ class code_database extends code_install {
             PRIMARY KEY  (`id`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
 
+        $cron_insert_query = "INSERT INTO `cron` (`id`, `function`, `last_active`, `period`) VALUES
+            (1, 'reset_energy', 0, 7200),
+            (2, 'recover_health', 0, 7200),
+            (3, 'interest', 0, 86400);";
+
         $help_insert_query = "
             INSERT INTO `help` (`id`, `title`, `body`, `colour`) VALUES
             (1, 'Help Home', 'Welcome to the Quest Help Section. You can use the links above to find specific help files about what you want to know. Please make good use of this feature. If your questions are not answered by the help section, please create a ticket and the administrators will get around to helping you as quickly as possible.', 'blue'),
@@ -276,7 +283,7 @@ class code_database extends code_install {
             (24, 'How do I get my health back?', 'You can regain health in the hospital (Click on \"Campus\" on the left and follow through) or by waiting. Every night at midnight all the agents'' healths are restored. So, even if you have no money, you can live to fight again!', 'yellow');
             ";
 
-        $make_tables_success = $this->db->execute($cron_query.$blueprints_query.$help_query.$items_query.$mail_query.$news_query.$players_query.$skins_query.$tickets_query.$log_query.$help_insert_query);
+        $make_tables_success = $this->db->execute($cron_query.$blueprints_query.$help_query.$items_query.$mail_query.$news_query.$players_query.$skins_query.$tickets_query.$log_query.$help_insert_query.$cron_insert_query);
 
         if (!$this->db->ErrorMsg()) {
             $config_string = "<? \n
@@ -296,6 +303,16 @@ class code_database extends code_install {
             return $success;
         }
 
+    }
+
+   /*
+    * well done!
+    *
+    * @return string html
+    */
+    public function setup_database_complete() {
+        $setup_database_complete = $this->skin->setup_database_complete();
+        return $setup_database_complete;
     }
 
 }

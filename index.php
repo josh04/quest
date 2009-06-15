@@ -68,5 +68,4 @@ require("code/".$path."/code_".$pages[$page].".php"); //Include whichever php fi
 $class_name = "code_".$pages[$page];
 $code = new $class_name;
 $code->construct_page();
-
 ?>

@@ -16,6 +16,7 @@ class lang_error {
     public $no_database_server = "You did not enter a database server.";
     public $database_server_error = "The database could not be contacted.";
     public $database_create_error = "There was an error creating a database table. Ensure your database user has the permissions to create tables.";
+    public $upgrade_db_no_object = "Your installation of ezrpg is not suitable to be upgraded.";
 
     // battle
     public $player_not_found = "Player not found.";

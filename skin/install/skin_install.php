@@ -82,8 +82,8 @@ class skin_install extends skin_common {
     *
     * @return string html
     */
-    public function upgrade_page() {
-        $upgrade_page = "Please backup your ezrpg database before proceeding.
+    public function upgrade_page($message="") {
+        $upgrade_page = $message."<br />Please backup your ezrpg database before proceeding.
             Due to the nature of ezrpg installs, databases vary greatly so it
             is not possible to guarentee the following procedure will work.<br />
             <br />

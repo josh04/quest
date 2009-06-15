@@ -59,6 +59,7 @@ class code_login extends code_common {
 
    /**
     * logs user in
+    * (TODO) slighty odd code structure here
     *
     * @return string html
     */
@@ -71,13 +72,33 @@ class code_login extends code_common {
             $login_message = "Please enter your password.";
             $log_in = $this->skin->index_guest($username, $login_message);
         } else {
-            $player_query = $this->db->execute("SELECT `id`, `username`, `password` FROM `players` WHERE `username`=? AND `password`=?", array($_POST['username'], sha1($_POST['password'])));
+            $player_query = $this->db->execute("SELECT `id`, `username`, `password` FROM `players` WHERE `username`=?", array($_POST['username']));
+            $login_message = "Incorrect Username/Password.";
+            $log_in = $this->skin->index_guest($username, $login_message);
+            
             if ($player_query->recordcount() == 0) {
-                $login_message = "Incorrect Username/Password.";
-                $log_in = $this->skin->index_guest($username, $login_message);
-            } else {
+                return $log_in;
+            }
+
+            $player_db = $player_query->fetchrow();
+            
+            /**
+             * Sigh. sha1 fails so bad, and there's no easy way to get rid of it which doesn't suck, esp on an upgraded db.
+             */
+            if ($player_db['password'] == sha1($_POST['password']) && IS_UPGRADE) {
+
+                $player_db['login_salt'] = substr(md5(uniqid(rand(), true)), 0, 5);
+                $player_db['password'] = md5($_POST['password'].$player_db['login_salt']);
+
+                $player_update['password'] = $player_db['password'];
+                $player_update['login_salt'] = $player_db['login_salt'];
+
+                $player_insert_query = $this->db->AutoExecute('players', $player_update, 'UPDATE', 'id = '.$player_db['id']);
+                
+            }
+
+            if ($player_db['password'] == md5($_POST['password'].$player_db['login_salt'])) {
                 $login_rand = substr(md5(uniqid(rand(), true)), 0, 5);
-                $player_db = $player_query->fetchrow();
                 $update_player['login_rand'] = $login_rand;
                 $update_player['last_active'] = time();
                 $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$player_db['id']);
@@ -161,14 +182,17 @@ class code_login extends code_common {
                 return $register_submit;
             }
         }
+        
+        $login_salt = substr(md5(uniqid(rand(), true)), 0, 5);
 
         $player_insert['username'] = $_POST['username'];
-        $player_insert['password'] = sha1($_POST['password']);
+        $player_insert['password'] = md5($_POST['password'].$login_salt);
         $player_insert['email'] = $_POST['email'];
         $player_insert['registered'] = time();
         $player_insert['last_active'] = time();
         $player_insert['ip'] = $_SERVER['REMOTE_ADDR'];
         $player_insert['verified'] = 1;
+        $player_insert['login_salt'] = $login_salt;
 
         $player_insert_query = $this->db->AutoExecute('players', $player_insert, 'INSERT');
         if (!$player_insert_query) {
