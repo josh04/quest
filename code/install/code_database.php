@@ -264,6 +264,37 @@ class code_database extends code_install {
             (23, 'How do I get a friends list?', 'Simply go on the member list and select the person you want to be friends with. On their profile, click ''Invite to be friend''.', 'yellow'),
             (24, 'How do I get my health back?', 'You can regain health in the hospital (Click on \"Campus\" on the left and follow through) or by waiting. Every night at midnight all the agents'' healths are restored. So, even if you have no money, you can live to fight again!', 'yellow');
             ";
+        
+        $modules_query = "CREATE TABLE IF NOT EXISTS `modules` (
+              `id` int(11) NOT NULL auto_increment,
+              `name` varchar(255) NOT NULL,
+              `section` varchar(255) NOT NULL default 'public',
+              `redirect` varchar(255) NOT NULL,
+              PRIMARY KEY  (`id`)
+            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
+
+        $modules_insert_query = "
+            INSERT INTO `modules` (`id`, `name`, `section`, `redirect`) VALUES
+            (1, 'login', 'public', 'login'),
+            (2, 'stats', 'public', 'stats'),
+            (3, 'log', 'public', 'laptop'),
+            (4, 'inventory', 'public', 'inventory'),
+            (5, 'bank', 'public', 'bank'),
+            (6, 'hospital', 'public', 'hospital'),
+            (7, 'work', 'public', 'work'),
+            (8, 'help', 'public', 'help'),
+            (9, 'edit_profile', 'public', 'profile_edit'),
+            (10, 'battle', 'public', 'battle'),
+            (11, 'profile', 'public', 'profile'),
+            (12, 'ticket', 'public', 'ticket'),
+            (13, 'staff', 'public', 'staff'),
+            (14, 'store', 'public', 'store'),
+            (15, 'mail', 'public', 'mail'),
+            (16, 'campus', 'public', 'campus'),
+            (17, 'guesthelp', 'public', 'guesthelp'),
+            (18, 'ranks', 'public', 'ranks'),
+            (19, 'index', 'public', 'index'),
+            (20, 'members', 'public', 'members');";
 
         $make_tables_success = $this->db->execute($cron_query.$blueprints_query.$help_query.$items_query.
             $mail_query.$news_query.$players_query.$skins_query.$tickets_query.$log_query.$help_insert_query.

@@ -5,7 +5,7 @@
  * @author josh04
  * @package code_common
  */
-class code_database_wrapper extends code_common {
+class code_database_wrapper {
     private static $instance;
     public $db;
 

@@ -129,5 +129,16 @@ class code_user extends code_install {
         return $insert_user;
     }
 
+   /**
+    * gets config info
+    *
+    * @return array config values
+    */
+    public function make_config() {
+        require("config.php"); // Get config values.
+        $this->config = $config;
+        return $config;
+    }
+
 }
 ?>
