@@ -12,12 +12,12 @@ class code_hospital extends code_common {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_hospital");
 
         $code_hospital = $this->make_hospital();
 
-        parent::construct_page($code_hospital);
+        parent::construct($code_hospital);
     }
 
     public function make_hospital() {

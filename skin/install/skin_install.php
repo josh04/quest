@@ -22,6 +22,18 @@ class skin_install extends skin_common {
     }
 
    /**
+    * failtro page
+    *
+    * @return string html
+    */
+    public function start_fail() {
+        $start_fail = "Welcome to the Quest installer. To begin, click continue.<br />
+            <br />
+            <strong>Cannot proceed. Please make sure both config.php and install.lock are writable.</strong>";
+        return $start_fail;
+    }
+
+   /**
     * make a db form
     *
     * @param string $db_server server url

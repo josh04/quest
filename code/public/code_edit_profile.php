@@ -12,12 +12,12 @@ class code_edit_profile extends code_common {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_profile");
 
         $code_edit_profile = $this->profile_switch();
 
-        parent::construct_page($code_edit_profile);
+        parent::construct($code_edit_profile);
     }
 
    /**

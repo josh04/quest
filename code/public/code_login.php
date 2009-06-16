@@ -13,7 +13,7 @@ class code_login extends code_common {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_index");
         if($this->player->is_member) {
             $code_login = $this->log_out();
@@ -21,7 +21,7 @@ class code_login extends code_common {
             $code_login = $this->register_or_login();
         }
 
-        parent::construct_page($code_login);
+        parent::construct($code_login);
     }
 
    /**
@@ -72,7 +72,7 @@ class code_login extends code_common {
             $login_message = "Please enter your password.";
             $log_in = $this->skin->index_guest($username, $login_message);
         } else {
-            $player_query = $this->db->execute("SELECT `id`, `username`, `password` FROM `players` WHERE `username`=?", array($_POST['username']));
+            $player_query = $this->db->execute("SELECT `id`, `username`, `password`, `login_salt` FROM `players` WHERE `username`=?", array($_POST['username']));
             $login_message = "Incorrect Username/Password.";
             $log_in = $this->skin->index_guest($username, $login_message);
             

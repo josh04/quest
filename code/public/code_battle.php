@@ -14,12 +14,12 @@ class code_battle extends code_common {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_battle");
 
         $code_battle = $this->battle_switch();
 
-        parent::construct_page($code_battle);
+        parent::construct($code_battle);
     }
     
    /**

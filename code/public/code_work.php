@@ -12,12 +12,12 @@ class code_work extends code_common {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_work");
 
         $code_work = $this->make_work();
 
-        parent::construct_page($code_work);
+        parent::construct($code_work);
     }
 
    /**

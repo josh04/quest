@@ -15,6 +15,19 @@ class code_common {
     public $player;
     public $config;
     public $cron;
+    public $section;
+    public $page;
+
+   /**
+    * section name and page name
+    * 
+    * @param string $section name of the site chunk we're in
+    * @param string $page name of our particular page
+    */
+    public function __construct($section, $page) {
+        $this->section = $section;
+        $this->page = $page;
+    }
 
    /**
     * ERROR!
@@ -122,33 +135,11 @@ class code_common {
     * @return bool success
     */
     public function make_db() {
-        global $ADODB_QUOTE_FIELDNAMES;
-        // Set up the Database
-        $this->db = &ADONewConnection('mysqli'); //Get our database object.
-        //$this->db->debug = true;
-        ob_start(); // Do not error if the database isn't there.
-        $status = $this->db->Connect(     $this->config['server'],
-                                          $this->config['db_username'],
-                                          $this->config['db_password'],
-                                          $this->config['database']     );
-        ob_end_clean();
-        if (!$status) {
-            return false;
-        }
-        $ADODB_QUOTE_FIELDNAMES = 1;
-        $this->db->SetFetchMode(ADODB_FETCH_ASSOC); //Set to fetch associative arrays
-        return true;
-    }
+        $this->db =& code_database_wrapper::get_db($this->config);
 
-   /**
-    * gets config info
-    *
-    * @return array config values
-    */
-    public function make_config() {
-        require("config.php"); // Get config values.
-        $this->config = $config;
-        return $config;
+        if (!$this->db->IsConnected()) {
+            $this->error_page($this->skin->lang_error->failed_to_connect);
+        }
     }
 
    /**
@@ -159,12 +150,24 @@ class code_common {
     public function make_skin($skin_name = "") {
         require_once("skin/lang/lang_error.php");
         if ($skin_name) {
-            require_once("skin/public/".$skin_name.".php"); // Get config values.
-            $this->skin = new $skin_name;
+            require_once("skin/".$this->section."/".$skin_name.".php"); // Get config values.
+            if ($this->player->skin) {
+                if (file_exists("skin/".$this->player->skin."/".$this->section."/".$this->player->skin."_".$skin_name.".php")) {
+                    require_once("skin/".$this->player->skin."/".$this->section."/".$this->player->skin."_".$skin_name.".php");
+                    $skin_class_name = $this->player->skin."_".$skin_name;
+                } else {
+                    $skin_class_name = $skin_name;
+                }
+            } else {
+                $skin_class_name = $skin_name;
+            }
+            
+            $this->skin = new $skin_class_name;
         } else {
             $this->skin = new skin_common;
         }
-        $this->skin->lang_error = new lang_error;
+
+        $this->skin->lang_error = new lang_error; //(TODO) make languages work
     }
 
    /**
@@ -179,18 +182,15 @@ class code_common {
     }
 
    /**
-    * sets up db, player, etc. can't go in construct_page because that happens after the child class has run.
+    * sets up db, player, etc. can't go in construct because that happens after the child class has run.
     *
     * @param string $skin_name name of skin file to load - if left blank, loads skin_common (not recommended)
     */
     public function initiate($skin_name = "") {
-        $this->make_config();
-        $this->make_skin($skin_name);
-        if (!$this->make_db()) {
-            $this->error_page($this->skin->lang_error->failed_to_connect);
-        }
-        $this->make_player();
+        $this->make_db();
         $this->cron();
+        $this->make_player();
+        $this->make_skin($skin_name);
     }
 
    /**
@@ -198,7 +198,7 @@ class code_common {
     *
     * @param string $page contains the html intended to go between the menu and the bottom.
     */
-    public function construct_page($page) {
+    public function construct($page) {
 
         $output = $this->start_header();
 

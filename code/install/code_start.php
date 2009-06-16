@@ -12,12 +12,18 @@ class code_start extends code_install {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_install");
 
-        $code_start = $this->skin->start();
+        if (is_writable("config.php") && is_writable("install.lock")) {
+            $code_start = $this->skin->start();
+        } else {
+            $code_start = $this->skin->start_fail();
+        }
 
-        parent::construct_page($code_start);
+        
+
+        parent::construct($code_start);
     }
 
 }

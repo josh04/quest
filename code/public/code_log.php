@@ -12,12 +12,12 @@ class code_log extends code_common {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_log");
 
         $code_log = $this->make_log();
 
-        parent::construct_page($code_log);
+        parent::construct($code_log);
     }
 
    /**

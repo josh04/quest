@@ -14,7 +14,7 @@ class code_profile extends code_common {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_profile");
 
         if ($_GET['name']) {
@@ -30,7 +30,7 @@ class code_profile extends code_common {
         }
 
 
-        parent::construct_page($code_profile);
+        parent::construct($code_profile);
     }
 
    /**

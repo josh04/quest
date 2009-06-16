@@ -12,12 +12,12 @@ class code_bank extends code_common {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_bank");
 
         $code_bank = $this->make_bank();
 
-        parent::construct_page($code_bank);
+        parent::construct($code_bank);
     }
 
    /**
@@ -34,7 +34,7 @@ class code_bank extends code_common {
         $interest = intval($this->player->bank * 0.03);
         $tomorrow = "You may collect your interest now.";
         $disabled = "";
-        if ($this->player->collected_interest) {
+        if ($this->player->interest) {
             $disabled = "disabled='disabled'";
             $tomorrow = "";
         }
@@ -110,7 +110,7 @@ class code_bank extends code_common {
     }
 
     public function interest() {
-        if ($this->player->collected_interest) {
+        if ($this->player->interest) {
             $interest = "You can collect your interest again tomorrow.";
             return $interest;
         }
@@ -119,7 +119,7 @@ class code_bank extends code_common {
 
         $this->player->gold = $this->player->gold + $interest_rate;
         $update_player['gold'] = $this->player->gold;
-        $update_player['collected_interest'] = 1;
+        $update_player['interest'] = 1;
         $interest_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
 
         $interest = "You collected your interest. You now have £".$this->player->gold." on you and £".$this->player->bank." in the bank.";

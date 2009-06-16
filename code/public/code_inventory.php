@@ -12,12 +12,12 @@ class code_inventory extends code_common {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_inventory");
 
         $code_inventory = $this->make_inventory();
 
-        parent::construct_page($code_inventory);
+        parent::construct($code_inventory);
     }
 
    /**

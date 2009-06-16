@@ -20,9 +20,7 @@ class code_cron {
             if ($time > ($cron['last_active']+$cron['period'])) {
                 $repeat = intval(($time - $cron['last_active'])/$cron['period']);
                 
-                for ($i=0;$i<$repeat;$i++) {
-                    $this->$cron['function']($repeat);
-                }
+                $this->$cron['function']($repeat);
 
                 $update_cron['last_active'] = $cron['last_active']+($cron['period']*$repeat);
                 $cron_update_query = $this->db->AutoExecute('cron', $update_cron, 'UPDATE', 'id='.$cron['id']);
@@ -59,9 +57,9 @@ class code_cron {
     * money for all
     * 
     */
-    public function interest($repeat) {
+    public function interest() {
 
-        $player_query = $this->db->execute("UPDATE `players` SET `interest`=".$repeat."+`interest`");
+        $player_query = $this->db->execute("UPDATE `players` SET `interest`=1");
     }
 }
 ?>

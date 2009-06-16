@@ -12,12 +12,12 @@ class code_store extends code_common {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_store");
 
         $code_store = $this->make_store("");
 
-        parent::construct_page($code_store);
+        parent::construct($code_store);
     }
 
    /**

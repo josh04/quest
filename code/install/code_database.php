@@ -13,12 +13,12 @@ class code_database extends code_install {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_install");
 
         $code_database = $this->database_switch();
 
-        parent::construct_page($code_database);
+        parent::construct($code_database);
     }
 
    /**
@@ -90,9 +90,14 @@ class code_database extends code_install {
             return $setup_database;
         }
 
-        $verified = $this->make_db();
+        $this->config = array('server' => $_POST['db_server'],
+                        'db_username' => $_POST['db_username'],
+                        'db_password' => $_POST['db_password'],
+                        'database' => $_POST['db_name']);
+
+        $this->make_db();
         
-        if ($verified === true) {
+        if ($this->db->IsConnected()) {
             $setup_database = $this->success();
             return $setup_database;
         } else {
@@ -100,30 +105,6 @@ class code_database extends code_install {
             return $setup_database;
         }
 
-    }
-
-   /**
-    * sets up the database.
-    *
-    * @return bool success
-    * @return string failure
-    */
-    public function make_db() {
-        global $ADODB_QUOTE_FIELDNAMES;
-        // Set up the Database
-        $ADODB_QUOTE_FIELDNAMES = 1;
-        $this->db = &ADONewConnection('mysqli'); //Get our database object.
-        //$this->db->debug = true;
-        ob_start(); // Do not error if the database isn't there.
-        $is_db_there = $this->db->Connect( $_POST['db_server'] , $_POST['db_username'], $_POST['db_password'], $_POST['db_name']);
-        ob_end_clean();
-        if ($is_db_there) {
-            $this->db->SetFetchMode(ADODB_FETCH_ASSOC); //Set to fetch associative arrays
-            return true;
-        } else {
-            $make_db = "MySQL Error: ".$this->db->ErrorMsg();
-            return $make_db;
-        }
     }
 
    /**
@@ -247,13 +228,14 @@ class code_database extends code_install {
             `function` varchar(255) NOT NULL default '',
             `last_active` int(11) NOT NULL default '0',
             `period` int(11) NOT NULL default '0',
+            `enabled` tinyint(1) NOT NULL default '0',
             PRIMARY KEY  (`id`)
-            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
+            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8; ";
 
-        $cron_insert_query = "INSERT INTO `cron` (`id`, `function`, `last_active`, `period`) VALUES
-            (1, 'reset_energy', 0, 7200),
-            (2, 'recover_health', 0, 7200),
-            (3, 'interest', 0, 86400);";
+        $cron_insert_query = "INSERT INTO `cron` (`id`, `function`, `last_active`, `period`, `enabled`) VALUES
+            (1, 'reset_energy', 0, 7200, 1),
+            (2, 'recover_health', 0, 7200, 1),
+            (3, 'interest', 0, 86400, 1);";
 
         $help_insert_query = "
             INSERT INTO `help` (`id`, `title`, `body`, `colour`) VALUES
@@ -283,9 +265,12 @@ class code_database extends code_install {
             (24, 'How do I get my health back?', 'You can regain health in the hospital (Click on \"Campus\" on the left and follow through) or by waiting. Every night at midnight all the agents'' healths are restored. So, even if you have no money, you can live to fight again!', 'yellow');
             ";
 
-        $make_tables_success = $this->db->execute($cron_query.$blueprints_query.$help_query.$items_query.$mail_query.$news_query.$players_query.$skins_query.$tickets_query.$log_query.$help_insert_query.$cron_insert_query);
+        $make_tables_success = $this->db->execute($cron_query.$blueprints_query.$help_query.$items_query.
+            $mail_query.$news_query.$players_query.$skins_query.$tickets_query.$log_query.$help_insert_query.
+            $cron_insert_query.$modules_query.$modules_insert_query);
 
         if (!$this->db->ErrorMsg()) {
+            
             $config_string = "<? \n
                 \$config['server'] = '".$_POST['db_server']. "';\n
                 \$config['database'] = '".$_POST['db_name']."';\n
@@ -295,6 +280,8 @@ class code_database extends code_install {
             $config_file = fopen("config.php", 'w');
             fwrite($config_file, $config_string);
             fclose($config_file);
+
+                           
             $success = $this->setup_database_complete();
             return $success;
         } else {

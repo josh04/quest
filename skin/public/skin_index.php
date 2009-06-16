@@ -24,8 +24,8 @@ class skin_index extends skin_common {
                 <li class='first'>Welcome ".$player->username."</li>
                 <li>".$player->description."</li>
                 <li>Email: ".$player->email."</li>
-                <li>Registered: ".$player->date."</li>
-                <li>Character Age: ".$player->age." days</li>
+                <li>Registered: ".$player->registered_date."</li>
+                <li>Character Age: ".$player->registered_days." days</li>
                 <li>Wins/Losses: ".$player->kills."/".$player->deaths."</li>
             </ul>
             ".$stats."

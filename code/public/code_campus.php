@@ -12,12 +12,12 @@ class code_campus extends code_common {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_campus");
 
         $code_campus = $this->campus();
 
-        parent::construct_page($code_campus);
+        parent::construct($code_campus);
     }
 
    /**

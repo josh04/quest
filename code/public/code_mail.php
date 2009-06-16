@@ -12,12 +12,12 @@ class code_mail extends code_common {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_mail");
 
         $code_mail = $this->mail_switch();
 
-        parent::construct_page($code_mail);
+        parent::construct($code_mail);
     }
 
    /**
@@ -97,7 +97,11 @@ class code_mail extends code_common {
     * @return string html
     */
     public function compose($message = "") {
-        $to = htmlentities($_POST['mail_to'],ENT_COMPAT,'UTF-8');
+        if ($_POST['mail_to']) {
+            $to = htmlentities($_POST['mail_to'],ENT_COMPAT,'UTF-8');
+        } else {
+            $to = htmlentities($_GET['to'],ENT_COMPAT,'UTF-8');
+        }
         $subject = htmlentities($_POST['mail_subject'],ENT_COMPAT,'UTF-8');
         $body = htmlentities($_POST['mail_body'],ENT_COMPAT,'UTF-8');
         $compose = $this->skin->compose($to, $subject, $body, $message);

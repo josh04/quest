@@ -79,7 +79,7 @@ class code_index extends code_common {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_index");
         if($this->player->is_member) {
             $code_index = $this->index_player();
@@ -87,7 +87,7 @@ class code_index extends code_common {
             $code_index = $this->index_guest("", "");
         }
         
-        parent::construct_page($code_index);
+        parent::construct($code_index);
     }
 }
 

@@ -13,12 +13,12 @@ class code_ticket extends code_common {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_ticket");
 
         $code_ticket = $this->ticket_switch();
 
-        parent::construct_page($code_ticket);
+        parent::construct($code_ticket);
     }
 
    /**

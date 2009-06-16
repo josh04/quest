@@ -12,14 +12,14 @@ class code_user extends code_install {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_install");
         $this->make_config();
         $this->make_db();
 
         $code_user = $this->user_switch();
 
-        parent::construct_page($code_user);
+        parent::construct($code_user);
     }
 
    /**
@@ -118,10 +118,12 @@ class code_user extends code_install {
             return $insert_user;
         }
 
-        $config_string = "Do not remove.";
-        $config_file = fopen("install.lock", 'w');
-        fwrite($config_file, $config_string);
-        fclose($config_file);
+            $lock_string = "<? \n
+                    define('IS_INSTALLED', 1);\n
+                    ?>";
+            $lock_file = fopen("install.lock", 'w');
+            fwrite($lock_file, $lock_string);
+            fclose($lock_file);
 
         $insert_user = $this->skin->complete();
         return $insert_user;

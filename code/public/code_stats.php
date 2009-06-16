@@ -15,7 +15,7 @@ class code_stats extends code_common {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_stats");
 
         if ($_GET['action'] == 'spend' && $this->player->stat_points > 0) {
@@ -24,7 +24,7 @@ class code_stats extends code_common {
             $code_stats = $this->stats_page("");
         }
 
-        parent::construct_page($code_stats);
+        parent::construct($code_stats);
     }
 
    /**

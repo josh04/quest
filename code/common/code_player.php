@@ -48,7 +48,7 @@ class code_player {
             }
             
             $player_db['last_active'] = $last_active;
-            $player_db['exp_percent'] = intval(($player_db['exp'] / $player_db['exp_max']) * 100);
+
             $this->player_db_to_object($player_db);
             $update_player['last_active'] = $last_active;
             $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->id);
@@ -96,6 +96,10 @@ class code_player {
         foreach($player_db as $key=>$value) { //Fill out our object.
             $this->$key = $value;
         }
+
+        $this->exp_percent = intval(($this->exp / $this->exp_max) * 100);
+        $this->registered_date = date("l, jS F Y", $this->registered);
+        $this->registered_days = intval((time() - $this->registered)/84600);
     }
 
   /**

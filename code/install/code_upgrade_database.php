@@ -14,12 +14,12 @@ class code_upgrade_database extends code_install {
     *
     * @return string html
     */
-    public function construct_page() {
+    public function construct() {
         $this->initiate("skin_install");
 
         $code_upgrade_database = $this->upgrade_switch();
 
-        parent::construct_page($code_upgrade_database);
+        parent::construct($code_upgrade_database);
     }
 
    /**
@@ -62,8 +62,12 @@ class code_upgrade_database extends code_install {
             return $upgrade;
         }
 
-        $this->db = &ADONewConnection('mysqli'); //Connect to database - need mysqli to do multiquery :(
-        $this->db->Connect($config_server, $config_username, $config_password, $config_database);
+        $this->config = array('server' => $config_server,
+                        'db_username' => $config_username,
+                        'db_password' => $config_password,
+                        'database' => $config_database);
+
+        $this->make_db();
 
         $db_query = "ALTER DATABASE COLLATE utf8_general_ci; ";
 
@@ -155,13 +159,14 @@ class code_upgrade_database extends code_install {
             `function` varchar(255) NOT NULL default '',
             `last_active` int(11) NOT NULL default '0',
             `period` int(11) NOT NULL default '0',
+            `enabled` tinyint(1) NOT NULL default '0',
             PRIMARY KEY  (`id`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8; ";
 
-        $cron_insert_query = "INSERT INTO `cron` (`id`, `function`, `last_active`, `period`) VALUES
-            (1, 'reset_energy', 0, 7200),
-            (2, 'recover_health', 0, 7200),
-            (3, 'interest', 0, 86400);";
+        $cron_insert_query = "INSERT INTO `cron` (`id`, `function`, `last_active`, `period`, `enabled`) VALUES
+            (1, 'reset_energy', 0, 7200, 1),
+            (2, 'recover_health', 0, 7200, 1),
+            (3, 'interest', 0, 86400, 1);";
 
         $help_insert_query = "
             INSERT INTO `help` (`id`, `title`, `body`, `colour`) VALUES
@@ -191,10 +196,42 @@ class code_upgrade_database extends code_install {
             (24, 'How do I get my health back?', 'You can regain health in the hospital (Click on \"Campus\" on the left and follow through) or by waiting. Every night at midnight all the agents'' healths are restored. So, even if you have no money, you can live to fight again!', 'yellow');
             ";
 
+        $modules_query = "CREATE TABLE IF NOT EXISTS `modules` (
+              `id` int(11) NOT NULL auto_increment,
+              `name` varchar(255) NOT NULL,
+              `section` varchar(255) NOT NULL default 'public',
+              `redirect` varchar(255) NOT NULL,
+              PRIMARY KEY  (`id`)
+            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
+
+        $modules_insert_query = "
+            INSERT INTO `modules` (`id`, `name`, `section`, `redirect`) VALUES
+            (1, 'login', 'public', 'login'),
+            (2, 'stats', 'public', 'stats'),
+            (3, 'log', 'public', 'laptop'),
+            (4, 'inventory', 'public', 'inventory'),
+            (5, 'bank', 'public', 'bank'),
+            (6, 'hospital', 'public', 'hospital'),
+            (7, 'work', 'public', 'work'),
+            (8, 'help', 'public', 'help'),
+            (9, 'edit_profile', 'public', 'profile_edit'),
+            (10, 'battle', 'public', 'battle'),
+            (11, 'profile', 'public', 'profile'),
+            (12, 'ticket', 'public', 'ticket'),
+            (13, 'staff', 'public', 'staff'),
+            (14, 'store', 'public', 'store'),
+            (15, 'mail', 'public', 'mail'),
+            (16, 'campus', 'public', 'campus'),
+            (17, 'guesthelp', 'public', 'guesthelp'),
+            (18, 'ranks', 'public', 'ranks'),
+            (19, 'index', 'public', 'index'),
+            (20, 'members', 'public', 'members');";
+
+
         $this->db->execute($db_query);
         $this->db->execute($cron_query.$help_query.$news_query.$skins_query.$tickets_query.
             $help_insert_query.$blueprints_query.$items_query.$mail_query.$players_query.
-            $log_query.$cron_insert_query);
+            $log_query.$cron_insert_query.$modules_query.$modules_insert_query);
                         
         if (!$this->db->ErrorMsg()) {
             rename("config.php", "config.php.bak");
@@ -208,6 +245,7 @@ class code_upgrade_database extends code_install {
             $config_file = fopen("config.php", 'w');
             fwrite($config_file, $config_string);
             fclose($config_file);
+
             $upgrade = $this->setup_database_complete();
             return $upgrade;
         } else {

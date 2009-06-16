@@ -12,7 +12,7 @@ class code_install extends code_common {
     *
     * @param string $page contains the html intended to go between the menu and the bottom.
     */
-    public function construct_page($page) {
+    public function construct($page) {
 
         $output = $this->start_header();
         $output .= $page;
@@ -23,23 +23,7 @@ class code_install extends code_common {
     }
 
    /**
-    * makes skin class
-    *
-    * @param string $skin_name skin name
-    */
-    public function make_skin($skin_name = "") {
-        require_once("skin/lang/lang_error.php");
-        if ($skin_name) {
-            require_once("skin/install/".$skin_name.".php"); // Get config values.
-            $this->skin = new $skin_name;
-        } else {
-            $this->skin = new skin_common;
-        }
-        $this->skin->lang_error = new lang_error;
-    }
-
-   /**
-    * sets up db, player, etc. can't go in construct_page because that happens after the child class has run.
+    * sets up db, player, etc. can't go in construct because that happens after the child class has run.
     *
     * @param string $skin_name name of skin file to load - if left blank, loads skin_common (not recommended)
     */
