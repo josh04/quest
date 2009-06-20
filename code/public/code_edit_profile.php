@@ -72,14 +72,13 @@ class code_edit_profile extends code_common {
         }
         $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
         $this->player->make_player();
-        $update_profile = $this->edit_profile_page("Profile updated sucessfully");
+        $update_profile = $this->edit_profile_page($this->skin->lang_error->profile_updated);
         return $update_profile;
     }
 
    /**
     * updates the player's password
-    * (TODO) this method of passing an error message to the skin template is shit
-    * (TODO) clean password, add salt to login code
+    * (TODO) clean password
     *
     * @return string html
     */
@@ -90,12 +89,12 @@ class code_edit_profile extends code_common {
         }
 
         if ($_POST['new_password'] != $_POST['confirm_password']) {
-            $update_password = $this->edit_profile_page("The passwords entered do not match.");
+            $update_password = $this->edit_profile_page($this->skin->lang_error->passwords_do_not_match);
             return $update_password;
         }
         
         if (sha1($_POST['current_password'].$this->player->salt) != $this->player->password) {
-            $update_password = $this->edit_profile_page("Incorrect password.");
+            $update_password = $this->edit_profile_page($this->skin->lang_error->password_wrong);
             return $update_password;
         }
         $update_password['password'] = sha1($_POST['new_password'].$this->player->salt);
@@ -104,7 +103,7 @@ class code_edit_profile extends code_common {
         $hash = sha1($this->player->id.$this->player->password.$this->player->login_rand);
         $_SESSION['hash'] = $hash;
         setcookie("cookie_hash", $hash, mktime()+2592000);
-        $update_password = $this->edit_profile_page("Password updated.");
+        $update_password = $this->edit_profile_page($this->skin->lang_error->password_updated);
         return $update_password;
         
     }

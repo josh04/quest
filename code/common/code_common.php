@@ -11,7 +11,7 @@ class code_common {
 
     public $db;
     public $skin;
-    public $page_title = "CHERUBQuest"; //(TODO) use this
+    public $page_title = "Quest"; //(TODO) use this
     public $player;
     public $config;
     public $cron;
@@ -143,12 +143,13 @@ class code_common {
     }
 
    /**
-    * makes skin class
+    * makes skin class - if the player has a skin, use that. needs skin selection code to be useful, tbqh
+    * (TODO) skin code
     *
     * @param string $skin_name skin name
     */
     public function make_skin($skin_name = "") {
-        require_once("skin/lang/lang_error.php");
+        require_once("skin/lang/en/lang_error.php"); // (TODO) language string abstraction
         if ($skin_name) {
             require_once("skin/".$this->section."/".$skin_name.".php"); // Get config values.
             if ($this->player->skin) {
@@ -167,7 +168,7 @@ class code_common {
             $this->skin = new skin_common;
         }
 
-        $this->skin->lang_error = new lang_error; //(TODO) make languages work
+        $this->skin->lang_error = new lang_error;
     }
 
    /**

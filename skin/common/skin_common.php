@@ -46,14 +46,14 @@ class skin_common {
                     <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'> 
                     <html xml:lang='en' lang='en' xmlns='http://www.w3.org/1999/xhtml'>
                     <head>
-                    <title>CHERUBQuest - ".$title."</title>
+                    <title>".$title."</title>
                     <meta http-equiv='content-type' content='text/html; charset=utf-8' />
                     <link rel='stylesheet' type='text/css' href='./skin/common/" . $skin . "' />
                     <script type='text/javascript' language='JavaScript' src='./templates/functions.js'></script>
                     </head>
                     <body>
                     <div id='wrapper'>
-                    <div id='header-text'>CHERUB Quest</div>
+                    <div id='header-text'>".$title."</div>
                     ";
         
         return $start_header;
@@ -202,9 +202,10 @@ class skin_common {
                     </div>
                     <div id='footer'>
                         <div id='footer-text'>
+                            <span style='font-size:1.5em;'>Quest</span><br />
                             <span style='font-weight:normal;'>Based on ezRPG 0.1 by Zeggy.</span><br />
-                            New code by Jamie, Josh04 and Grego.<br />
-                            Newer code by Josh04.
+                            New code by Justin, Jamie, Josh04 and Grego.<br />
+                            This version by Josh04.
                         </div>
                     </div>
                 </div>

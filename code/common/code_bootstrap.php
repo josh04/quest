@@ -66,6 +66,12 @@ class code_bootstrap {
             $page = $_GET['page'];
         }
 
+        if (!$pages[$page]) {
+            $this->page = new code_common;
+            $this->page->initiate();
+            $this->page->error_page($this->skin->lang_error->page_not_exist);
+        }
+
         require_once("code/".$section."/code_".$pages[$page].".php"); //Include whichever php file we want.
         $class_name = "code_".$pages[$page];
         $this->page = new $class_name($section, $page);
