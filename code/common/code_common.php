@@ -125,7 +125,7 @@ class code_common {
         //Is our player a member, or a guest?
         $allowed = $this->player->make_player();
         if (!$allowed) {
-            $this->error_page("You lack the secure file access required to view this page.");
+            $this->error_page($this->skin->lang_error->page_not_exist);
         }
     }
 

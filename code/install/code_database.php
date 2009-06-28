@@ -79,7 +79,7 @@ class code_database extends code_install {
         }
 
         if (!$_POST['db_password'] || !$_POST['db_password_confirm']) {
-            $message = $this->skin->lang_error->no_database_password;
+            $message = $this->skin->lang_error->no_password;
             $setup_database = $this->setup_database_form($message);
             return $setup_database;
         }

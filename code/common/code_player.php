@@ -7,13 +7,11 @@
  * @author josh04
  */
 
-
 class code_player {
 
   public $db;
   public $is_member = false;
   public $friends = array();
-
 
   /**
    * Main player function. Used to generate the player who is playing.
