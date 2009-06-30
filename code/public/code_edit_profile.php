@@ -53,7 +53,7 @@ class code_edit_profile extends code_common {
             return $update_profile;
         }
         if (!preg_match("/^[-!#$%&\'*+\\.\/0-9=?A-Z^_`{|}~]+@([-0-9A-Z]+\.)+([0-9A-Z]){2,4}$/i", $_POST['email'])) {
-            $update_profile = $this->edit_profile_page("Email incorrect format.");
+            $update_profile = $this->edit_profile_page($this->skin->lang_error->email_wrong_format);
             return $update_profile;
         }
 

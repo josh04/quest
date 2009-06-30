@@ -17,12 +17,14 @@ class skin_campus extends skin_common {
     * @return string html
     */
     public function campus($username, $unread_log) {
-        $campus = "<strong>Security Guard:</strong><br />
+        $campus = "
+        <h2>Campus</h2>
+        <strong>Security Guard:</strong><br />
         <i>Welcome onto Campus, agent. Let me just check your ID.<br />
         ...<br />
         You have permission to enter, ".$username.". If you follow the path to the left, you can get to the Main Building. To the right you'll find the training areas and accommodation. Have a good day.</i>
 
-        <div>
+        <div class=\"gbox\">
         <table><tr>
 
         <td><strong>Main Building</strong><br />

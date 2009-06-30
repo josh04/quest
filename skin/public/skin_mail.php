@@ -13,7 +13,7 @@ class skin_mail extends skin_common {
     * @return string html
     */
     public function mail_row($mail) {
-        $mail_row = "<tr>
+        $mail_row = "<tr class=\"mail-".($mail['status']==0?"un":"")."read\">
 				<td width='5%'><input type='checkbox' name='mail_id[]' value='".$mail['id']."' /></td>
 				<td width='20%'>
 				<a href='index.php?page=profile&amp;id=".$mail['from']."'>".$mail['username']."</a>
@@ -34,21 +34,22 @@ class skin_mail extends skin_common {
     */
     public function read($mail, $username) {
         $read = "
+        <h2>Mail</h2>
             <a href='index.php?page=mail'>Inbox</a> | <a href='index.php?page=mail&amp;action=compose'>New Message</a>
 
-			<b>To:</b><a href='index.php?page=profile&amp;id=".$mail['to']."'>".$username."</a>
-			<b>From:</b><a href='index.php?page=profile&amp;id=".$mail['from']."'>".$mail['username']."</a>
-			<b>Date:</b>".$mail['time']."
-			<b>Subject:</b>".$mail['subject']."
-			<b>Body:</b>".$mail['body']."
+		<table style='width:100%;margin:12px 0px;'>
+			<tr><th style='width:15%;'>To:</th><td><a href='index.php?page=profile&amp;id=".$mail['to']."'>".$username."</a></td></tr>
+			<tr><th>From:</th><td><a href='index.php?page=profile&amp;id=".$mail['from']."'>".$mail['username']."</a></td></tr>
+			<tr><th>Date:</th><td>".$mail['time']."</td></tr>
+			<tr><th>Subject:</th><td>".$mail['subject']."</td></tr>
+			<tr><td colspan='2' style='border:1px solid #CCC; border-width: 1px 0px; padding:12px;'>".$mail['body']."</td></tr>
+		</table>
 
-			<br /><br />
-
-			<form method='POST' action='index.php?page=mail&amp;action=compose'>
+			<form method='POST' action='index.php?page=mail&amp;action=compose' style='display:inline;'>
 			<input type='hidden' name='mail_to' value='".$mail['username']."' />
 			<input type='submit' name='reply' value='Reply' />
 			</form>
-			<form method='post' action='index.php?page=mail&amp;action=delete_multiple'>
+			<form method='post' action='index.php?page=mail&amp;action=delete_multiple' style='display:inline;'>
 			<input type='hidden' name='mail_id[]' value='".$mail['id']."' />
 			<input type='submit' name='delete' value='Delete' />
 			</form>";
@@ -63,19 +64,21 @@ class skin_mail extends skin_common {
     * @return string html
     */
     public function mail_wrap($mail_html, $message = "") {
-        $mail_wrap = "<a href='index.php?page=mail'>Inbox</a> | <a href='index.php?page=mail&amp;action=compose'>New Message</a>
+        $mail_wrap = "
+        <h2>Mail</h2>
+        <strong>Inbox</strong> | <a href='index.php?page=mail&amp;action=compose'>New Message</a>
         <form method='POST' action='index.php?page=mail&amp;action=delete_multiple' name='inbox'>
-        ".$message."
-            <table width='100%' border='0'>
-                <tr>
+        ".($message?"<div class=\"success\">".$message."</div>":"")."
+            <table style='width:100%;margin: 12px 0px; border:1px solid #DDD; padding: 4px;' cellspacing='0' cellpadding='4'>
+                <tr style='background-color:#EEE;'>
                     <th width='5%'><input type='checkbox' name='check_all' /></th>
                     <th width='20%'>From</th>
-                    <th width='35%'>Subject</th>
-                    <th width='40%'>Date</th>
+                    <th width='40%'>Subject</th>
+                    <th width='35%'>Date</th>
                 </tr>
                 ".$mail_html."
             </table>
-            <input type='submit' name='delete_multiple' value='Delete' />
+            With selected: <input type='submit' name='delete_multiple' value='Delete' />
 		</form>";
         return $mail_wrap;
     }
@@ -91,13 +94,16 @@ class skin_mail extends skin_common {
     */
     public function compose($to, $subject, $body, $message = "") {
         $compose = "
-            <a href='index.php?page=mail'>Inbox</a> | <a href='index.php?page=mail&amp;action=compose_submit'>New Message</a>
+            <h2>Mail</h2>
+            <a href='index.php?page=mail'>Inbox</a> | <strong>New Message</strong>
             <form method='POST' action='index.php?page=mail&amp;action=compose_submit'>
-                ".$message."
-                To: <input type='text' name='mail_to' value='".$to."' />
-                Subject: <input type='text' name='mail_subject' value='".$subject."' />
-                Body: <textarea name='mail_body' rows='15' cols='50'>".$body."</textarea>
-                <input type='submit' value='Send' />
+		<table style='width:100%;margin-top:12px;'>
+                ".($message?"<tr><td colspan=\"2\"><div class=\"error\">".$message."</div></td></tr>":"")."
+                <tr><td style='width:20%;'><label for='mail-to'>To</label></td><td><input type='text' id='mail-to' name='mail_to' value='".$to."' style='width:95%;' /></td></tr>
+                <tr><td><label for='mail-subject'>Subject</label></td><td><input type='text' id='mail-subject' name='mail_subject' value='".$subject."' style='width:95%;' /></td></tr>
+                <tr><td colspan='2'><textarea name='mail_body' rows='10' style='width:96%;'>".$body."</textarea></td></tr>
+                <tr><td colspan='2'><input type='submit' value='Send' /></td></tr>
+		</table>
             </form>";
         return $compose;
     }
@@ -139,7 +145,7 @@ class skin_mail extends skin_common {
     }
 
     public static function mail_wrap_small($mail_html) {
-        $mail_wrap_small = "<ul><li class='first'>Mail</li>".$mail_html."</ul>";
+        $mail_wrap_small = "<ul><li class='header'>Mail</li>".$mail_html."</ul>";
         return $mail_wrap_small;
     }
 

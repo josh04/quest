@@ -14,7 +14,7 @@ class skin_store extends skin_common {
     * @return string html
     */
     public function make_store($items, $message) {
-        $make_store = $message."<br />".$items;
+        $make_store = "<h2>Store</h2>".$message."<br />".$items;
         return $make_store;
     }
 

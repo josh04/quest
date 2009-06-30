@@ -27,6 +27,7 @@ class skin_inventory extends skin_common {
     */
     public function item_row($item, $equip) {
 	    $item_row .= "
+                        <h2>Inventory</h2>
                         <fieldset><legend>
                         <b>".$item['name']."</b></legend>
                         <table width='100%'>

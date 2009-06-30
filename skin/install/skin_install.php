@@ -13,11 +13,11 @@ class skin_install extends skin_common {
     * @return string html
     */
     public function start() {
-        $start = "Welcome to the Quest installer. To begin, click continue.<br />
-            <br />
-            <a href='index.php?page=database'>Continue.</a><br />
-            <br />
-            <a href='index.php?page=upgrade_database'>To upgrade from an ezRPG install, click here.</a>";
+        $start = "<div><div><p>Welcome to the Quest installer. To begin, click continue.</p>
+
+            <p><a href='index.php?page=database'>Continue</a></p>
+
+            <p>To upgrade from an ezRPG install, click <a href='index.php?page=upgrade_database'>here</a>.</p>";
         return $start;
     }
 
@@ -27,7 +27,7 @@ class skin_install extends skin_common {
     * @return string html
     */
     public function start_fail() {
-        $start_fail = "Welcome to the Quest installer. To begin, click continue.<br />
+        $start_fail = "<div><div>Welcome to the Quest installer. To begin, click continue.<br />
             <br />
             <strong>Cannot proceed. Please make sure both config.php and install.lock are writable.</strong>";
         return $start_fail;
@@ -45,12 +45,24 @@ class skin_install extends skin_common {
     public function setup_database_form($db_server, $db_username="", $db_name="", $message="") {
         $setup_database_form = $message."<br />
             <form action='index.php?page=database&amp;action=confirm' method='POST'>
-                Server: <input type='text' name='db_server' value='".$db_server."' /><br />
-                Username: <input type='text' name='db_username' value='".$db_username."' /><br />
-                Password: <input type='password' name='db_password' /><br />
-                Password Confirm: <input type='password' name='db_password_confirm' /><br />
-                Database: <input type='text' name='db_name' value='".$db_name."' /><br />
-                <input type='submit' value='Set up database' />
+            <table>
+                <tr><td style='width: 150px;'><label for='install-server'>Server</label></td>
+                <td><input type='text' id='install-server' name='db_server' value='".$db_server."' /></td></tr>
+
+                <tr><td><label for='install-username'>Username</label></td>
+                <td><input type='text' name='db_username' value='".$db_username."' /></td></tr>
+
+                <tr><td><label for='install-password'>Password</label></td>
+                <td><input type='password' name='db_password' /></td></tr>
+
+                <tr><td><label for='install-password-confirm'>Confirm password</label></td>
+                <td><input type='password' name='db_password_confirm' /></td></tr>
+
+                <tr><td><label for='install-database'>Database</label></td>
+                <td><input type='text' name='db_name' value='".$db_name."' /></td></tr>
+
+                <tr><td colspan='2'><input type='submit' value='Set up database' /></td></tr>
+            </table>
             </form>
             ";
         return $setup_database_form;

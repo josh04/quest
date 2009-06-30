@@ -20,33 +20,18 @@ class skin_index extends skin_common {
     */
     public function index_player($player, $stats, $news, $online_list) {
         $index_player = "
-            <ul>
-                <li class='first'>Welcome ".$player->username."</li>
-                <li>".$player->description."</li>
-                <li>Email: ".$player->email."</li>
-                <li>Registered: ".$player->registered_date."</li>
-                <li>Character Age: ".$player->registered_days." days</li>
-                <li>Wins/Losses: ".$player->kills."/".$player->deaths."</li>
-            </ul>
+                <h2>Welcome ".$player->username."</h2>
             ".$stats."
 
-            <ul>
-                <li>Level: ".$player->level."</li>
-                <li>EXP: ".$player->exp."/".$player->exp_max." (".$player->exp_percent."%)</li>
-                <li>HP: ".$player->hp."/".$player->hp_max."</li>
-                <li>Energy: ".$player->energy."/".$player->energy_max."</li>
-                <li>Tokens: ".$player->gold."</li>
-            </ul>
-            <ul>
-                <li>Strength: ".$player->strength."</li>
-                <li>Vitality: ".$player->vitality."</li>
-                <li>Agility:".$player->agility."</li>
-            </ul>
+            <table style=\"width:100px;margin:8px auto;\">
+                <tr><th style=\"width: 100px;\">Strength</th><td>".$player->strength."</td></tr>
+                <tr><th>Vitality</th><td>".$player->vitality."</td></tr>
+                <tr><th>Agility</th><td>".$player->agility."</td></tr>
+            </table>
 
-            <h4>Users Online:</h4>
-            <div class='bblue'>".$online_list."</div>
-            <h4>Latest News:</h4>
-            ".$news;
+            <h4>Users online</h4>
+            <div style=\"margin: 0px 12px;\">".$online_list."</div>
+            ".($news?"<h4>Latest news</h4>".$news:"");
         return $index_player;
     }
 
@@ -59,27 +44,27 @@ class skin_index extends skin_common {
     */
     public function index_guest($username, $login_message) {
         $index_guest .= "
-            <div>
-                Let the adventure begin!<br />
-                Welcome to CHERUBQuest!<br />
-                Login now to play, or <a href='index.php?page=login&amp;action=register'>Register</a> to join the game and become an agent!<br />
-                <br />
-                CHERUBQuest is the first CHERUB persistent online browser game, or PBBG. Join now to begin the adventure!<br />
-                <br />You can go around campus, earning tokens and stat points, hiring weapons and armour, and challenging other agents to fights in the Combat Training Centre. <br /><br />All queries and suggestions, as well as pointing out any mistakes should be directed towards the admin staff either through CHERUB Forums or through e-mail at admin@cherubquest.uni.cc
-                <br />Train against your friends and in the process earn tokens off them, or lose them if you are defeated. Buy weapons and armour from the equipment store and use it to arm yourself against your friends!
-                <br />Good luck agent, and good luck becoming the best on campus!
-                <div class='login'>
+                <div class='login' style='float:right;border:1px solid #CCC;padding:8px;margin:4px;'>
                     <form method='post' action='index.php?page=login'>
-                        <strong>Login:</strong><br />
-                        Username:<br />
-                        <input type='text' name='username' value='".$username."' style='background-image:url(images/icons/user.png);background-repeat:no-repeat;padding-left:16px;' /><br />
-                        Password:<br />
-                        <input type='password' name='password' style='background-image:url(images/icons/key.png);background-repeat:no-repeat;padding-left:16px;' /><br />
+                        <strong>Log in</strong><br />
+                        <label for='login-username'>Username:</label><br />
+                        <input type='text' id='login-username' name='username' value='".$username."' style='background:url(images/icons/user.png) no-repeat 2px 2px;background-repeat:no-repeat;padding-left:16px;' /><br />
+                        <label for='login-password'>Password:</label><br />
+                        <input type='password' id='login-password' name='password' style='background:url(images/icons/key.png) no-repeat 2px 2px;padding-left:16px;' /><br />
                         <input name='login' type='submit' value='Login' /><br />
                     </form>
                     ".$login_message."<br />
                     <a href='index.php?page=login&amp;action=register'>Click here to register!</a>
                 </div>
+            <div>
+                Let the adventure begin!<br />
+                Welcome to <strong>CHERUBQuest!</strong><br />
+                Login now to play, or <a href='index.php?page=login&amp;action=register'>Register</a> to join the game and become an agent!
+                
+                <p>CHERUBQuest is the first CHERUB persistent online browser game, or PBBG. Join now to begin the adventure!</p>
+                <p>You can go around campus, earning tokens and stat points, hiring weapons and armour, and challenging other agents to fights in the Combat Training Centre. <br /><br />All queries and suggestions, as well as pointing out any mistakes should be directed towards the admin staff either through CHERUB Forums or through e-mail at admin@cherubquest.uni.cc</p>
+                <p>Train against your friends and in the process earn tokens off them, or lose them if you are defeated. Buy weapons and armour from the equipment store and use it to arm yourself against your friends!</p>
+                <p>Good luck agent, and good luck becoming the best on campus!</p>
             </div>";
         return $index_guest;
     }
@@ -91,8 +76,8 @@ class skin_index extends skin_common {
     * @return string html
     */
     public function stats_link($stat_points) {
-        $stats_link = "You have ".$stat_points." stat points to spend.
-	       <a href='index.php?page=stats'>Click Here</a> to spend them.";
+        $stats_link = "<div class=\"success\">You have ".$stat_points." stat points to spend.
+	       <a href='index.php?page=stats'>Click here</a> to spend them.</div>";
         return $stats_link;
     }
 

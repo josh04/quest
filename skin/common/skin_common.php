@@ -18,7 +18,9 @@ class skin_common {
     * @return string html
     */
     public function error_page($error) {
-        $error_page = "<p class='error'>".$error."</p>";
+        $error_page = "<h2>Error</h2><div class='error'>".$error."</div>
+			<p><a href=\"index.php\">Return home</a> | <a href=\"#\" onclick=\"javascript:history.go(-1);return false;\">Back one page</a></p>
+			<div><div>";
         return $error_page;
     }
 
@@ -29,7 +31,7 @@ class skin_common {
     * @return string html
     */
     public function warning_page($error) {
-        $warning_page = "<p class='warning'>".$error."</p>";
+        $warning_page = "<div class='warning'>".$error."</div>";
         return $warning_page;
     }
     
@@ -49,7 +51,7 @@ class skin_common {
                     <title>".$title."</title>
                     <meta http-equiv='content-type' content='text/html; charset=utf-8' />
                     <link rel='stylesheet' type='text/css' href='./skin/common/" . $skin . "' />
-                    <script type='text/javascript' language='JavaScript' src='./templates/functions.js'></script>
+                    <script type='text/javascript' language='JavaScript' src='./skin/common/functions.js'></script>
                     </head>
                     <body>
                     <div id='wrapper'>
@@ -72,19 +74,19 @@ class skin_common {
         $menu_player .= "
             <div id='left'>
                 <div class='left-section'>
+                    <strong>Username:</strong> <a href='index.php?page=profile&amp;id=".$player->id."'>".$player->username."</a>
                     <ul>
-                       <li class='first'><strong>Username:</strong> <a href='index.php?page=profile&amp;id=".$player->id."'>".$player->username."</a></li>
                        <li><strong>Level:</strong> ".$player->level."</li>
                        <li><strong>EXP:</strong> ".$player->exp."/".$player->exp_max." (".$player->exp_percent."%)</li>
                        <li><strong>Health:</strong> ".$player->hp."/".$player->hp_max."</li>
                        <li><strong>Energy:</strong> ".$player->energy."/".$player->energy_max."</li>
-                       <li><strong>Money:</strong> £".$player->gold."</li>
-                        ".$mail."
+                       <li><strong>Money:</strong> &#163;".$player->gold."</li>
                     </ul>
+                        ".$mail."
                 </div>
                 <div class='left-section'>
                     <ul>
-                        <li class='first'>Game Menu</li>
+                        <li class='header'>Game Menu</li>
                         <li><a href='index.php'>Home</a></li>
                         <li><a href='index.php?page=mail'>Mail [".$player->unread."]</a></li>
                         <li><a href='index.php?page=campus'>Campus</a></li>
@@ -96,7 +98,7 @@ class skin_common {
                 ".$admin."
                 <div class='left-section'>
                     <ul>
-                        <li class='first'>Other</li>
+                        <li class='header'>Other</li>
                         <li><a href='index.php?page=help'>Help</a></li>
                         <li><a href='index.php?page=ticket'>Tickets</a></li>
                         <li><a href='index.php?page=login'>Logout</a></li>
@@ -117,7 +119,7 @@ class skin_common {
         $menu_admin .= "
             <div class='left-section'>
                 <ul>
-                    <li class='first'>Admin</li>
+                    <li class='header'>Admin</li>
                     <li><a href='admin.php'>Control Panel</a></li>
                     <li><a href='admin.php?page=ticket'>Ticket Control</a></li>
                     <li><a href='admin.php?page=phpmy'>phpMyAdmin</a></li>
@@ -166,16 +168,17 @@ class skin_common {
             <div id='left'>
                 <div class='left-section'>
                     <ul>
-                        <li class='first'>General</li>
+                        <li class='header'>General</li>
                         <li><a href='index.php'>Home</a></li>
                         <li><a href='index.php?page=login'>Register</a></li>
-                        <li><a href='index.php?page=ranks'>Player Stats</a></li>
+                        <li><a href='index.php?page=ranks'>Player stats</a></li>
                         <li><a href='index.php?page=guesthelp'>Help</a></li>
                     </ul>
 
                     <ul>
-                        <li class='first'>Players Online: ".$players."</li>
-                        <li class='first'>Money in game: ".$money."</li>
+                        <li class='header'>Quick stats</li>
+                        <li><a style=\"cursor:default;\">Players online: ".$players."</a></li>
+                        <li><a style=\"cursor:default;\">Money in game: ".$money."</a></li>
                     </ul>
                 </div>
             </div>";
