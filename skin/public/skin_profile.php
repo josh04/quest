@@ -78,15 +78,16 @@ class skin_profile extends skin_common {
     * @param player $profile profile to display
     * @param string $gender_list gender html
     * @param string $show_email show email?
+    * @param string $section if this is the admin use of the form.
     * @param string $message error message?
     * @return string html
     */
-    function edit_profile($profile, $gender_list, $show_email, $message="") {
+    function edit_profile($profile, $gender_list, $show_email, $section, $message="") {
         $edit_profile = "
                             ".$message."
                                 <a href='#' style='color:transparent;' onClick='showHide(\"showhide-1\",\"showhide-1-icon\");'><div class='edit-profile-header'><img id='showhide-1-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Edit Profile</div></a>
-                                <div class='edit-profile-body' id='showhide-1'><form action='index.php?page=profile_edit&amp;action=update_profile' method='POST'>
-
+                                <div class='edit-profile-body' id='showhide-1'><form action='index.php?".$section."page=profile_edit&amp;action=update_profile' method='POST'>
+                                <input type='hidden' name='id' value='".$profile->id."' />
                                 <table>
                                     <tr><td style='width:50%;'><label style='margin:0;'>Username</label></td>
                                     <td style='width:50%;'><strong>".$profile->username."</strong></td></tr>
@@ -125,6 +126,11 @@ class skin_profile extends skin_common {
         return $edit_profile;
     }
 
+   /**
+    * Edit password code, seperated.
+    *
+    * @return string html
+    */
     public function edit_password() {
         $edit_password = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\",\"showhide-2-icon\");'><div class='edit-profile-header'><img id='showhide-2-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Change Password</div></a>
             <div class='edit-profile-body' id='showhide-2'><form action='index.php?page=profile_edit&amp;action=update_password' method='POST'>
@@ -144,6 +150,28 @@ class skin_profile extends skin_common {
         return $edit_password;
     }
 
+   /**
+    * Sneakily placed here. I'm such a cheat.
+    *
+    * @param int $id member id
+    * @return string html
+    */
+    public function edit_password_admin($id) {
+        $edit_password = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\",\"showhide-2-icon\");'><div class='edit-profile-header'><img id='showhide-2-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Change Password</div></a>
+            <div class='edit-profile-body' id='showhide-2'><form action='index.php?section=admin&amp;page=profile_edit&amp;action=update_password' method='POST'>
+            <input type='hidden' name='id' value='".$id."' />
+            <table>
+                <tr><td><label for='edit-p2'>New password</label></td>
+                <td><input type='password' id='edit-p2' name='new_password' /></td></tr>
+
+                <tr><td><label for='edit-p3'>Confirm new password</label></td>
+                <td><input type='password' id='edit-p3' name='confirm_password' /></td></tr>
+
+                <tr><td colspan='2'><input type='submit' name='submit' value='Submit'/></td></tr>
+            </table></form>
+            </div>";
+        return $edit_password;
+    }
 
    /**
     * list of gender choices

@@ -31,7 +31,7 @@ class code_player {
 
         $player_db = $player_query->fetchrow();
 
-        $check = sha1($player_db['id'].$player_db['password'].$player_db['login_rand']);
+        $check = md5($player_db['id'].$player_db['password'].$player_db['login_rand']);
 
         if ($check == $_COOKIE['cookie_hash'] || $check == $_SESSION['hash']) {
             $this->is_member = true;

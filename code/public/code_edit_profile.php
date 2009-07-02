@@ -88,19 +88,25 @@ class code_edit_profile extends code_common {
             return $update_password;
         }
 
+        if ($_POST['new_password'] == "" || $_POST['confirm_password'] == "") { //stops you wiping your profile with GET
+            $update_password = $this->edit_profile_page($this->skin->lang_error->no_password);
+            return $update_password;
+        }
+
         if ($_POST['new_password'] != $_POST['confirm_password']) {
             $update_password = $this->edit_profile_page($this->skin->lang_error->passwords_do_not_match);
             return $update_password;
         }
-        
-        if (sha1($_POST['current_password'].$this->player->salt) != $this->player->password) {
+
+        if (md5($_POST['current_password'].$this->player->login_salt) != $this->player->password) {
             $update_password = $this->edit_profile_page($this->skin->lang_error->password_wrong);
             return $update_password;
         }
-        $update_password['password'] = sha1($_POST['new_password'].$this->player->salt);
+
+        $update_password['password'] = md5($_POST['new_password'].$this->player->login_salt);
         $password_query = $this->db->AutoExecute('players', $update_password, 'UPDATE', 'id = '.$this->player->id);
         $this->player->password = $update_password['password'];
-        $hash = sha1($this->player->id.$this->player->password.$this->player->login_rand);
+        $hash = md5($this->player->id.$this->player->password.$this->player->login_rand);
         $_SESSION['hash'] = $hash;
         setcookie("cookie_hash", $hash, mktime()+2592000);
         $update_password = $this->edit_profile_page($this->skin->lang_error->password_updated);
@@ -119,8 +125,8 @@ class code_edit_profile extends code_common {
         if ($this->player->show_email) {
             $show_email = "checked='checked'";
         }
-        $edit_profile = $this->skin->edit_profile($this->player, $gender_list, $show_email, $message);
-        $edit_password = $this->skin->edit_password();
+        $edit_profile = $this->skin->edit_profile($this->player, $gender_list, $show_email, "", $message);
+        $edit_password = $this->skin->edit_password($this->player->id);
         return $edit_profile.$edit_password;
     }
 

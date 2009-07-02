@@ -32,7 +32,7 @@ class lang_error {
 
     // login
     public $password_wrong = "The password entered is incorrect.";
-    public $password_updated = "Password successfully updated";
+    public $password_updated = "Password successfully updated.";
     public $profile_updated = "<div class='success'>Profile sucessfully updated.</div>";
 
     // register

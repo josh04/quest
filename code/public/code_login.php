@@ -102,7 +102,7 @@ class code_login extends code_common {
                 $update_player['login_rand'] = $login_rand;
                 $update_player['last_active'] = time();
                 $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$player_db['id']);
-                $hash = sha1($player_db['id'].$player_db['password'].$login_rand);
+                $hash = md5($player_db['id'].$player_db['password'].$login_rand);
                 $_SESSION['user_id'] = $player_db['id'];
                 $_SESSION['hash'] = $hash;
                 setcookie("user_id", $player_db['id'], mktime()+2592000);
