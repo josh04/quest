@@ -5,7 +5,7 @@
  * @author josh04
  * @package code_admin
  */
-class code_edit_profile extends code_common {
+class code_edit_profile extends _code_admin {
 
    /**
     * class override. calls parents, sends kids home.

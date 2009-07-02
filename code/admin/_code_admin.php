@@ -1,23 +1,18 @@
 <?php
 /**
- * Description of _code_admin
+ * extends code_common, verifies that the user in question has the auth to do this
  *
  * @author josh04
- * @package code_public
+ * @package code_admin
  */
 class _code_admin extends code_common {
 
-   /**
-    * class override. calls parents, sends kids home.
-    *
-    * @return string html
-    */
-    public function construct() {
-        $this->initiate("skin_");
+    public function make_player() {
+        parent::make_player();
 
-        $_code_admin = ;
-
-        parent::construct($_code_admin);
+        if ($this->player->rank != "Admin") { // yeah, I know, poor implementation of permissions
+            $this->error_page($this->skin->lang_error->access_denied);
+        }
     }
 
 }

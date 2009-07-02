@@ -47,7 +47,11 @@ class code_members extends code_common {
                                     array($begin, $limit));
 
         while($member = $memberlist->fetchrow()) {
-            $members_list .= $this->skin->member_row($member);
+            $admin = "";
+            if ($this->player->rank == "Admin") {
+                $admin = $this->skin->admin_link($member['id']);
+            }
+            $members_list .= $this->skin->member_row($member, $admin);
         }
 
         $members_list = $this->skin->members_list($begin, $next, $previous, $limit, $members_list);

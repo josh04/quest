@@ -5,7 +5,7 @@
  * @author josh04
  * @package code_install
  */
-class code_install extends code_common {
+class _code_install extends code_common {
 
    /**
     * pieces the site together. intended to be overriden by child class to generate $page.

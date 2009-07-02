@@ -11,9 +11,10 @@ class skin_members extends skin_common {
     * makes a single member row
     *
     * @param array $member member object
+    * @param string $admin the admin edit profile link
     * @return string html
     */
-    public function member_row($member) {
+    public function member_row($member, $admin) {
 
         $member_row = "<tr class='row".$num."'>
                     <td><a href='index.php?page=profile&amp;id=" .$member['id']."'>
@@ -22,9 +23,21 @@ class skin_members extends skin_common {
                     Mail</a> | <form method='POST' name='memberBattle".$member['id']."' action='index.php?page=battle&amp;action=fight' style='display:inline;'>
                         <input type='hidden' name='id' value='".$member['id']."' />
                         <a href='#' onclick='document.memberBattle".$member['id'].".submit();return false;'>Battle</a>
+                        ".$admin."
                     </form></td></tr>";
 
         return $member_row;
+    }
+
+   /**
+    * the link for admins to edit this profile
+    *
+    * @param int $id player id
+    * @return string html
+    */
+    public function admin_link($id) {
+        $admin_link = " | <a href='index.php?section=admin&amp;page=profile_edit&amp;id=".$id."'>Edit</a>";
+        return $admin_link;
     }
 
    /**
