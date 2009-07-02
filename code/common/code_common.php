@@ -24,7 +24,7 @@ class code_common {
     * @param string $section name of the site chunk we're in
     * @param string $page name of our particular page
     */
-    public function __construct($section, $page) {
+    public function __construct($section = "", $page = "") {
         $this->section = $section;
         $this->page = $page;
     }
@@ -35,6 +35,8 @@ class code_common {
     * @param string $error error text
     */
     public function error_page($error) {
+
+        $this->make_skin();
 
         $output = $this->skin->start_header("Error", "default.css");
 
@@ -48,7 +50,6 @@ class code_common {
 
    /**
     * builds the page header
-    * (TODO) mess of a skin code
     *
     * @return string html
     */

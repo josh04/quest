@@ -15,47 +15,39 @@ class skin_profile extends skin_common {
    */
    function make_profile($profile) {
         $make_profile = "
-            <fieldset>
-            <legend><b>".$profile->username."</b>'s Profile</legend><br />
-            <div>
+            <img src=\"".$profile->avatar."\" alt=\"[user avatar]\" style=\"max-width:50px;max-height:50px;float:left;border:1px solid #DDD;padding:4px;margin:8px;\" />
+            <h2>".$profile->username."
+            <a title='User is ".$profile->is_online."'><img src='../icons/status_".$profile->is_online.".png' /></a><br />
+            <span style='font-size:10px;font-weight:normal;'>( <a href=''>Mail</a>".$profile->edit." )</span></h2>
+            <br style='clear:both;' />
+            <div style='font-size:11px;'>
+            ".($profile->description==""?"":"<p><i>".$profile->description."</i></p>")."
 
-            <!-- LHS -->
-            <strong>Basic Info</strong>
+            <strong>Registered:</strong> ".$profile->registered."<br />
+            <strong>Character age:</strong> ".$profile->age." days<br />
+            <strong>Level:</strong> ".$profile->level."<br />
+            <strong>Kills/deaths:</strong> ".$profile->kills."/".$profile->deaths." (".($profile->deaths>0?number_format($profile->kills/$profile->deaths,2):"0").")<br />
+            ".($profile->im_links?$profile->im_links:"")."
+            <br />
 
-            Username: ".$profile->username."<br />
-            <a title='User is ".$profile->is_online."'><img src='images/icons/status_".$profile->is_online.".png' /></a><br />
-            <i>".$profile->description."<i><br />
-
-            ".$profile->avatar."<br />
-
-            Gender: ".$profile->gender."<br />
-            Registered: ".$profile->registered."<br />
-            In-Game Age: ".$profile->age." days<br />
-
-            <strong>Game Info</strong><br />
-            Level: ".$profile->level."<br />
-            Status: ".$profile->colour."<br />
-            Wins: ".$profile->kills."<br />
-            Losses: ".$profile->deaths."<br />
-
-            <strong>Contact</strong><br />
-
-            <strong>You can contact ".$profile->username." in the following ways:</strong><br />
-            <i><a href='index.php?page=mail&amp;action=compose&amp;to=".$profile->username."' class='faq'>CHERUB Internal Mail</a></i><br />
-            ".$profile->im_links."
-
-            <strong>Friends</strong><br />
-            <ul>
-            ".$profile->friends."<br />
-            </ul>
-            ".$profile->edit."<br />
+            <strong>Friends</strong>
+            ".(count($profile->friends==0)?"<br />".$profile->username." has no friends yet!":implode("<br />",$profile->friends))."<br /><br />
+            </div>
             <form action='index.php?page=profile&amp;id=".$profile->id."' method='post'>
             <input type='text' name='donate' />
             <input type='submit' accesskey='S' value='Donate to ".$profile->username."' />
-            </form>
-            </div>
-            </fieldset> ";
+            </form>";
          return $make_profile;
+   }
+
+  /**
+   * edit profile link
+   * 
+   * @return string html
+   */
+   function edit_profile_link() {
+       $edit_profile_link = "| <a href='index.php?page=profile_edit'>Edit Profile</a>";
+       return $edit_profile_link;
    }
 
    /**
@@ -64,7 +56,7 @@ class skin_profile extends skin_common {
     * @return string html
     */
     function im_link($im, $address) {
-        $im_link = "<i>".$im."</i>: ".$address."<br />";
+        $im_link = "<strong>".$im."</strong>: ".$address."<br />";
         return $im_link;
     }
 
@@ -89,51 +81,69 @@ class skin_profile extends skin_common {
     * @param string $message error message?
     * @return string html
     */
-    function edit_profile_page($profile, $gender_list, $show_email, $message="") {
-        $edit_profile_page = "
-                            <fieldset>
-                                <legend>Edit Profile</legend>
-                                <div><form action='index.php?page=profile_edit&amp;action=update_profile' method='POST'>
+    function edit_profile($profile, $gender_list, $show_email, $message="") {
+        $edit_profile = "
+                            ".$message."
+                                <a href='#' style='color:transparent;' onClick='showHide(\"showhide-1\",\"showhide-1-icon\");'><div class='edit-profile-header'><img id='showhide-1-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Edit Profile</div></a>
+                                <div class='edit-profile-body' id='showhide-1'><form action='index.php?page=profile_edit&amp;action=update_profile' method='POST'>
 
-                                    Username: <strong>".$profile->username."</strong>
+                                <table>
+                                    <tr><td style='width:50%;'><label style='margin:0;'>Username</label></td>
+                                    <td style='width:50%;'><strong>".$profile->username."</strong></td></tr>
 
-                                    Email: <input type='text' name='email' value='".$profile->email."' />
+                                    <tr><td><label for='edit-email'>Email</label></td>
+                                    <td><input type='text' id='edit-email' name='email' value='".$profile->email."' /></td></tr>
 
-                                    Show Email: <input type='checkbox' name='show_email' ".$show_email." />
+                                    <tr><td><label for='edit-show-email' style='margin:0;'>Show email</label></td>
+                                    <td><input type='checkbox' id='edit-show-email' name='show_email' ".$show_email." /></td></tr>
 
-                                    Description: <input type='text' name='description' value='".$profile->description."'/>
+                                    <tr><td><label for='edit-description'>Description</label></td>
+                                    <td><input type='text' id='edit-description' name='description' value='".$profile->description."'/></td></tr>
 
-                                    Avatar URL: <input type='text' name='avatar' value='".$profile->avatar."'/>
+                                    <tr><td><label for='edit-avatar'>Avatar URL</label></td>
+                                    <td><input type='text' id='edit-avatar' name='avatar' value='".$profile->avatar."'/></td></tr>
 
-                                    Gender: <select name='gender'>".$gender_list."</select>
+                                    <tr><td><label for='edit-gender'>Gender</label></td>
+                                    <td><select id='edit-gender' name='gender'>".$gender_list."</select></td></tr>
 
-                                    MSN Address: <input type='text' name='msn' value='".$profile->msn."'/>
+                                    <tr><td><label for='edit-msn'>MSN address</label></td>
+                                    <td><input type='text' id='edit-msn' name='msn' value='".$profile->msn."'/></td></tr>
 
-                                    AIM Address: <input type='text' name='aim' value='".$profile->aim."'/>
+                                    <tr><td><label for='edit-aim'>AIM address</label></td>
+                                    <td><input type='text' id='edit-aim' name='aim' value='".$profile->aim."'/></td></tr>
 
-                                    Skype ID: <input type='text' name='skype' value='".$profile->skype."'/>
-                                    <input type='submit' name='submit' value='Submit' />
+                                    <tr><td><label for='edit-skype'>Skype ID</label></td>
+                                    <td><input type='text' name='skype' value='".$profile->skype."'/></td></tr>
+
+                                    <tr><td colspan='2'><input type='submit' name='submit' value='Submit' /></td></tr>
+                                </table>
 
                                 </form></div>
-                            </fieldset>
 
+                                ";
 
-                            <fieldset>
-                                <legend>Change Password</legend>
-                                <div><form action='index.php?page=profile_edit&amp;action=update_password' method='POST'>
-
-                                    Current password:
-                                    <input type='password' name='current_password' />
-
-                                    New password: <input type='password' name='new_password' />
-
-                                    Confirm New Password: <input type='password' name='confirm_password' />
-                                    </div>
-                                    <input type='submit' name='submit' value='Submit'/>
-                                </form></div>
-                            </fieldset> ";
-        return $edit_profile_page;
+        return $edit_profile;
     }
+
+    public function edit_password() {
+        $edit_password = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\",\"showhide-2-icon\");'><div class='edit-profile-header'><img id='showhide-2-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Change Password</div></a>
+            <div class='edit-profile-body' id='showhide-2'><form action='index.php?page=profile_edit&amp;action=update_password' method='POST'>
+            <table>
+                <tr><td style='width:50%;'><label for='edit-p1'>Current password</label></td>
+                <td style='width:50%;'><input type='password' id='edit-p1' name='current_password' /></td></tr>
+
+                <tr><td><label for='edit-p2'>New password</label></td>
+                <td><input type='password' id='edit-p2' name='new_password' /></td></tr>
+
+                <tr><td><label for='edit-p3'>Confirm new password</label></td>
+                <td><input type='password' id='edit-p3' name='confirm_password' /></td></tr>
+
+                <tr><td colspan='2'><input type='submit' name='submit' value='Submit'/></td></tr>
+            </table></form>
+            </div>";
+        return $edit_password;
+    }
+
 
    /**
     * list of gender choices
@@ -147,11 +157,25 @@ class skin_profile extends skin_common {
         $gender_1 .= "<option value='1'";
         $gender_2 .=" <option value='2'";
         $$current_gender .= " selected='selected'";
-        $gender_0 .= ">Unknown</option>";
+        $gender_0 .= ">Undisclosed</option>";
         $gender_1 .= ">Female</option>";
         $gender_2 .= ">Male</option>";
         $gender_list = $gender_0.$gender_2.$gender_1;
         return $gender_list;
+    }
+
+   /**
+    * displays gender
+    *
+    * (TODO) need a proper place for images. in skin, i guess?
+    *
+    * @param int $gender gender
+    * @return string html
+    */
+    public function gender($gender) {
+        $gender_array = array(array("Undisclosed","_gray"),array("Female","_female"),array("Male",""));
+        $gender = "<img src=\"../icons/user".$g[$gender][1].".png\" alt=\"".$g[$gender][0]."\" title=\"".$g[$gender][0]."\" />";
+        return $gender;
     }
 }
 ?>

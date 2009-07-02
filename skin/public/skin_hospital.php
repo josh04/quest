@@ -10,6 +10,7 @@ class skin_hospital extends skin_common {
     public function make_hospital($full_heal) {
 
         $make_hospital = "
+            <h2>Hospital</h2>
             <div><b>Nurse:</b><br />
             <i>You have been in the wars, haven't you?<br />
             Well, to completely heal yourself will cost <b>".$full_heal."</b> tokens.<br />

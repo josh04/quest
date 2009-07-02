@@ -7,7 +7,7 @@
 
 $author = new player;
 $author->db =& $this->db;
-$var = $author->get_user_by_id($topic1['author']);
+$var = $author->get_player_by_id($topic1['author']);
 
 							$echotopic .= "<tr class='row'>
 				<td width='30%'>".$author->username."</td>

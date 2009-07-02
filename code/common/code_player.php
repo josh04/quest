@@ -106,7 +106,7 @@ class code_player {
    * @param integer $id player id
    * @return boolean suceed/fail
    */
-    public function get_user_by_id($id) {
+    public function get_player_by_id($id) {
         $player_query = $this->db->execute("SELECT * FROM players WHERE id=?", array(intval($id)));
         if ($player_query->recordcount() == 0) {
             return false;
@@ -122,7 +122,7 @@ class code_player {
    * @param integer $id player id
    * @return boolean succeed/fail
    */
-    public function get_user_by_name($name) {
+    public function get_player_by_name($name) {
         $player_query = $this->db->execute("SELECT * FROM players WHERE username=?", array($name));
         if ($player_query->recordcount() == 0) {
             return false;

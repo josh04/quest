@@ -42,25 +42,20 @@ class code_ticket extends code_common {
     * @return string html
     */
     public function ticket_list() {
-        $ticket_query = $this->db->execute("SELECT * FROM tickets WHERE player_id=? ORDER BY date DESC", array($this->player->id));
+        $ticket_query = $this->db->execute("SELECT * FROM tickets WHERE player_id=? AND sorted=0 ORDER BY date DESC", array($this->player->id));
 
         while($ticket = $ticket_query->fetchrow()) {
-            switch($ticket['sorted']){
-                case 0:
-                    $ticket['sorted'] = "<br /><i>This ticket has not been read yet.</i>";
-                    break;
-                case 1:
-                    $ticket['sorted'] = "<br />This ticket has been read.";
-                    break;
-                case 2:
-                    $ticket['sorted'] = "<br />This ticket has been responded to.";
-                    break;
-            }
             $ticket['date'] = date("Y-m-d H:i:s", $ticket['date']);
             $tickets_html .= $this->skin->ticket_row($ticket);
         }
 
-        $ticket_list = $this->skin->ticket_wrap($tickets_html);
+        if ($ticket_query->numrows() > 1) {
+            $plural = "s. They are";
+        } else {
+            $plural = ". It is";
+        }
+
+        $ticket_list = $this->skin->ticket_wrap($ticket_header, $ticket_query->numrows(), $plural);
         return $ticket_list;
     }
 
@@ -70,6 +65,7 @@ class code_ticket extends code_common {
     * @return string html
     */
     public function ticket_submit() {
+	if($_POST['message']=="" || !isset($_POST['message'])) return $this->ticket_list();
         $insert_ticket['player_id'] = $this->player->id;
         $insert_ticket['message'] = htmlentities($_POST['message'],ENT_COMPAT,'UTF-8');
         $insert_ticket['date'] = time();

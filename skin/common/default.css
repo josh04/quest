@@ -17,9 +17,54 @@ form, textarea
 	font-family: TrebuchetMS, Verdana, Arial;
 }
 
-a
-{
+a {
 	color:blue;
+}
+
+img {
+	border: 0;
+}
+
+table {
+	width: 100%;
+}
+
+input, select, textarea
+{
+	border: 1px solid #999999;
+	background-color: #EEEEEE;
+	font-family: 'Trebuchet MS', 'Verdana', 'Arial';
+	padding: 2px;
+	margin: 2px;
+	font-size:12px;
+}
+
+fieldset
+{
+	border-left: 6px solid rgb(175,175,175);
+	border-right: 1px solid #999999;
+	border-top: 1px solid #999999;
+	border-bottom: 1px solid #999999;
+	background-color: #FFFFFF;
+	font-family: 'Trebuchet MS';
+	font-size: 14px;
+	padding-top: 6px;
+	margin: 2px;
+}
+
+legend
+{
+	font-weight: bold;
+	font-family: 'Trebuchet MS';
+}
+
+label
+{
+	font-size: 11px;
+	font-weight: bold;
+	color: #333;
+	display: block;
+	margin-top: 8px;
 }
 
 #wrapper
@@ -158,83 +203,18 @@ td
 	font-size: 10px;
 }
 
-input, select, textarea
-{
-	border-left: 6px solid rgb(175,175,175);
-	border-right: 1px solid #999999;
-	border-top: 1px solid #999999;
-	border-bottom: 1px solid #999999;
-	background-color: #EEEEEE;
-	font-family: 'Trebuchet MS', 'Verdana', 'Arial';
-	padding: 2px;
-	margin: 2px;
-	font-size:12px;
-}
-
-fieldset
-{
-	border-left: 6px solid rgb(175,175,175);
-	border-right: 1px solid #999999;
-	border-top: 1px solid #999999;
-	border-bottom: 1px solid #999999;
-	background-color: #FFFFFF;
-	font-family: 'Trebuchet MS';
-	font-size: 14px;
-	padding-top: 6px;
-	margin: 2px;
-}
-
-legend
-{
-	font-weight: bold;
-	font-family: 'Trebuchet MS';
-}
-
 th
 {
 	text-align: left;
 }
 
 .ticket {
-  border: solid 1px #000;
-  background:#DDD;
+	border: solid 1px #999;
+	background:#EEE;
   font-family: TrebuchetMS, Verdana, Arial;
   font-size:12px;
   padding:5px;
   margin:2px;
-}
-
-.blogdiv {
-  width: 450px;
-  margin-left: 10%;
-}
-
-.blogdivt {
-  width: 100%;
-  height: 24px;
-  margin-top: 4px;
-  background: url("../images/blogdivt.png") no-repeat 40px 0px;
-}
-
-.blogdivm {
-  background: url("../images/blogdivm.png") repeat-y 40px 0px;
-}
-
-.blogdivb {
-  width: 100%;
-  height: 26px;
-  margin-bottom: 4px;
-  background: url("../images/blogdivb.png") no-repeat 40px 0px;
-}
-
-.blogcomment {
-  margin: 4px;
-  padding: 4px;
-  border: 1px solid #000;
-}
-
-.reply {
-	margin-left: 5%;
 }
 
 a.faq {
@@ -243,9 +223,58 @@ a.faq {
 }
 
 .first {
-    font-size: 13px;
+	font-size: 13px;
+}
+
+tr.mail-unread td {
+	background-color: #FBB;
+}
+
+div.edit-profile-header {
+	background-color: #888;
+	border: 1px solid #888;
+	color: #FFF;
+	font-weight:bold;
+	font-size: 11px;
+	padding: 4px;
+	width: 400px;
+	margin: 20px auto 0px;
+}
+
+div.edit-profile-body {
+  padding: 4px;
+	width: 400px;
+	margin: 0px auto;
+	border: 1px solid #888;
 }
 
 
+/* BOXES */
 
+div.error, div.rbox {
+	border: 1px solid #D00;
+	background-color: #FCC;
+	padding: 8px;
+	margin: 2px;
+}
 
+div.explanation, div.bbox {
+	border: 1px solid #00D;
+	background-color: #CCF;
+	padding: 8px;
+	margin: 2px;
+}
+
+div.success, div.ybox {
+	border: 1px solid #DD0;
+	background-color: #FFC;
+	padding: 8px;
+	margin: 2px;
+}
+
+div.gbox {
+	border: 1px solid #0D0;
+	background-color: #CFC;
+	padding: 8px;
+	margin: 2px;
+}

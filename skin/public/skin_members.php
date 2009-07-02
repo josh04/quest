@@ -11,20 +11,33 @@ class skin_members extends skin_common {
     * makes a single member row
     *
     * @param array $member member object
+    * @param string $admin the admin edit profile link
     * @return string html
     */
-    public function member_row($member) {
+    public function member_row($member, $admin) {
 
         $member_row = "<tr class='row".$num."'>
                     <td><a href='index.php?page=profile&amp;id=" .$member['id']."'>
                     ".$member['username']."</a></td><td>".$member['level']."</td>
                     <td><a href='index.php?page=mail&amp;action=compose&amp;to=".$member['username']."'>
-                    Mail</a> | <form method='POST' action='index.php?page=battle&amp;action=fight'>
+                    Mail</a> | <form method='POST' name='memberBattle".$member['id']."' action='index.php?page=battle&amp;action=fight' style='display:inline;'>
                         <input type='hidden' name='id' value='".$member['id']."' />
-                        <input type='submit' value='Battle' />
+                        <a href='#' onclick='document.memberBattle".$member['id'].".submit();return false;'>Battle</a>
+                        ".$admin."
                     </form></td></tr>";
 
         return $member_row;
+    }
+
+   /**
+    * the link for admins to edit this profile
+    *
+    * @param int $id player id
+    * @return string html
+    */
+    public function admin_link($id) {
+        $admin_link = " | <a href='index.php?section=admin&amp;page=profile_edit&amp;id=".$id."'>Edit</a>";
+        return $admin_link;
     }
 
    /**
@@ -38,20 +51,22 @@ class skin_members extends skin_common {
     * @return string html
     */
     public function members_list($begin, $next, $previous, $limit, $member_rows) {
-        $members_list = "<a href='index.php?page=members&amp;begin=".$previous."&amp;limit=".$limit."'>Previous Page</a> | <a href='index.php?page=members&amp;begin=".$next."&limit=".$limit."'>Next Page</a>
-                        <br /><br />
-                        Show <a href='index.php?page=members&amp;begin=".$begin."&amp;limit=5'>5</a> | <a href='index.php?page=members&amp;begin=".$begin."&amp;limit=10'>10</a>  | <a href='index.php?page=members&amp;begin=".$begin."&amp;limit=20'>20</a> | <a href='index.php?page=members&amp;begin=".$begin."&amp;limit=30'>30</a> | <a href='index.php?page=members&amp;begin=".$begin."&amp;limit=40'>40</a> | <a href='index.php?page=members&amp;begin=".$begin."&amp;limit=50'>50</a> | <a href='index.php?page=members&amp;begin=".$begin."&amp;limit=100'>100</a> members per page
+        $members_list = "
+                        <h2>Members</h2>
+                        <p><a href='index.php?page=members&amp;begin=".$previous."&amp;limit=".$limit."'>&laquo; Previous Page</a> | <a href='index.php?page=members&amp;begin=".$next."&limit=".$limit."'>Next Page &raquo;</a></p>
 
-                        <br /><br /><br />
+                        <p>Show <a href='index.php?page=members&amp;begin=".$begin."&amp;limit=5'>5</a> | <a href='index.php?page=members&amp;begin=".$begin."&amp;limit=10'>10</a>  | <a href='index.php?page=members&amp;begin=".$begin."&amp;limit=20'>20</a> | <a href='index.php?page=members&amp;begin=".$begin."&amp;limit=50'>50</a> | <a href='index.php?page=members&amp;begin=".$begin."&amp;limit=100'>100</a> members per page
+                        </p>
 
-                        <table>
-                        <tr>
-                        <th><b>Username</b></td>
-                        <th><b>Level</b></td>
-                        <th><b>Actions</b></td>
+                        <table style='width:100%;margin: 12px 0px; border:1px solid #DDD; padding: 4px;' cellspacing='0' cellpadding='4'>
+                        <tr style='background-color:#EEE;'>
+                        <th>Username</td>
+                        <th>Level</td>
+                        <th>Actions</td>
                         </tr>
                         ".$member_rows."
                         </table>
+                        <p><a href='index.php?page=members&amp;begin=".$previous."&amp;limit=".$limit."'>&laquo; Previous Page</a> | <a href='index.php?page=members&amp;begin=".$next."&limit=".$limit."'>Next Page &raquo;</a></p>
                         ";
         return $members_list;
     }

@@ -18,7 +18,8 @@ class skin_bank extends skin_common {
     * @return string html
     */
     public function make_bank($gold, $bank, $interest, $disabled, $tomorrow) {
-        $bank_page = "  <b>Campus Assistant:</b><br />
+        $bank_page = "  <h2>Bank</h2>
+                        <b>Campus Assistant:</b><br />
                         <i>Welcome to the token bank, agent. What would you like to do?</i>
                         <br /><br />
                         <table width='100%'>

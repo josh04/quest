@@ -18,8 +18,8 @@ class skin_stats extends skin_common {
     */
     public function stats_to_spend($stat_points, $stats_message) {
         $stats_to_spend = "
-            ".$stats_message."<br />
-            <br />
+            <h2>Stats Centre</h2>
+            ".$stats_message."
 
             <b>Stat Training Centre:</b><br />
             <i>You have ".$stat_points."
@@ -41,7 +41,9 @@ class skin_stats extends skin_common {
     * @return string html
     */
     public function stats_none($stats_message) {
-        $stats_none = "<b>Stat Training Centre:</b><br />
+        $stats_none = "
+            <h2>Stats Centre</h2>
+            <b>Stat Training Centre:</b><br />
             <i>Sorry agent, but you currently do not have any
             stat points to spend.<br />
             Please come back later when you have leveled up.</i>
