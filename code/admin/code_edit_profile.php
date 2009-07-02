@@ -143,11 +143,6 @@ class code_edit_profile extends _code_admin {
         $update_password['password'] = md5($_POST['new_password'].$profile->login_salt);
         $password_query = $this->db->AutoExecute('players', $update_password, 'UPDATE', 'id = '.$profile->id);
 
-        $this->player->password = $update_password['password'];
-        $hash = md5($profile->id.$profile->password.$profile->login_rand);
-        $_SESSION['hash'] = $hash;
-        setcookie("cookie_hash", $hash, mktime()+2592000);
-        $update_password = $this->edit_profile_page($id, $this->skin->lang_error->password_updated);
         return $update_password;
 
     }
