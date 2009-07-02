@@ -117,7 +117,7 @@ class code_mail extends code_common {
         //Process mail info, show success message
         $to = new code_player;
         $to->db =& $this->db;
-        if (!$to->get_user_by_name($_POST['mail_to'])) {
+        if (!$to->get_player_by_name($_POST['mail_to'])) {
             $compose_submit = $this->compose("User does not exist");
             return $compose_submit;
         }

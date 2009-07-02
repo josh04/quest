@@ -81,9 +81,9 @@ class skin_profile extends skin_common {
     * @param string $message error message?
     * @return string html
     */
-    function edit_profile_page($profile, $gender_list, $show_email, $message="") {
-        $edit_profile_page = "
-                            ".($message?$message:"")."
+    function edit_profile($profile, $gender_list, $show_email, $message="") {
+        $edit_profile = "
+                            ".$message."
                                 <a href='#' style='color:transparent;' onClick='showHide(\"showhide-1\",\"showhide-1-icon\");'><div class='edit-profile-header'><img id='showhide-1-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Edit Profile</div></a>
                                 <div class='edit-profile-body' id='showhide-1'><form action='index.php?page=profile_edit&amp;action=update_profile' method='POST'>
 
@@ -120,24 +120,30 @@ class skin_profile extends skin_common {
 
                                 </form></div>
 
+                                ";
 
-                                <a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\",\"showhide-2-icon\");'><div class='edit-profile-header'><img id='showhide-2-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Change Password</div></a>
-                                <div class='edit-profile-body' id='showhide-2'><form action='index.php?page=profile_edit&amp;action=update_password' method='POST'>
-                                <table>
-                                    <tr><td style='width:50%;'><label for='edit-p1'>Current password</label></td>
-                                    <td style='width:50%;'><input type='password' id='edit-p1' name='current_password' /></td></tr>
-
-                                    <tr><td><label for='edit-p2'>New password</label></td>
-                                    <td><input type='password' id='edit-p2' name='new_password' /></td></tr>
-
-                                    <tr><td><label for='edit-p3'>Confirm new password</label></td>
-                                    <td><input type='password' id='edit-p3' name='confirm_password' /></td></tr>
-
-                                    <tr><td colspan='2'><input type='submit' name='submit' value='Submit'/></td></tr>
-                                </table></form>
-                                </div>";
-        return $edit_profile_page;
+        return $edit_profile;
     }
+
+    public function edit_password() {
+        $edit_password = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\",\"showhide-2-icon\");'><div class='edit-profile-header'><img id='showhide-2-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Change Password</div></a>
+            <div class='edit-profile-body' id='showhide-2'><form action='index.php?page=profile_edit&amp;action=update_password' method='POST'>
+            <table>
+                <tr><td style='width:50%;'><label for='edit-p1'>Current password</label></td>
+                <td style='width:50%;'><input type='password' id='edit-p1' name='current_password' /></td></tr>
+
+                <tr><td><label for='edit-p2'>New password</label></td>
+                <td><input type='password' id='edit-p2' name='new_password' /></td></tr>
+
+                <tr><td><label for='edit-p3'>Confirm new password</label></td>
+                <td><input type='password' id='edit-p3' name='confirm_password' /></td></tr>
+
+                <tr><td colspan='2'><input type='submit' name='submit' value='Submit'/></td></tr>
+            </table></form>
+            </div>";
+        return $edit_password;
+    }
+
 
    /**
     * list of gender choices

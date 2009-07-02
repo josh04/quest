@@ -23,17 +23,6 @@ class skin_common {
 			<div><div>";
         return $error_page;
     }
-
-   /**
-    * less deadly errors
-    *
-    * @param string $error message
-    * @return string html
-    */
-    public function warning_page($error) {
-        $warning_page = "<div class='warning'>".$error."</div>";
-        return $warning_page;
-    }
     
     /**
     * return the static start of the skin
@@ -208,7 +197,7 @@ class skin_common {
                             <span style='font-size:1.5em;'>Quest</span><br />
                             <span style='font-weight:normal;'>Based on ezRPG 0.1 by Zeggy.</span><br />
                             New code by Justin, Jamie, Josh04 and Grego.<br />
-                            This version by Josh04.
+                            This version by Josh04 and Grego.
                         </div>
                     </div>
                 </div>

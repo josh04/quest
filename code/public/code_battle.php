@@ -120,7 +120,7 @@ class code_battle extends code_common {
         $this->enemy = new code_player;
         $this->enemy->db =& $this->db;
 
-        if (!$this->enemy->get_user_by_name($_POST['username'])) {
+        if (!$this->enemy->get_player_by_name($_POST['username'])) {
             $fight_by_name = "User not found.";
             return $fight_by_name;
         }
@@ -164,7 +164,7 @@ class code_battle extends code_common {
             $this->enemy = new code_player;
             $this->enemy->db =& $this->db;
 
-            if (!$this->enemy->get_user_by_id($id)) {
+            if (!$this->enemy->get_player_by_id($id)) {
                 $fight = $this->skin->warning_page($this->skin->lang_error->player_not_found);
                 return $fight;
             }

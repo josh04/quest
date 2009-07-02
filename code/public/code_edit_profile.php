@@ -119,8 +119,9 @@ class code_edit_profile extends code_common {
         if ($this->player->show_email) {
             $show_email = "checked='checked'";
         }
-        $edit_profile_page = $this->skin->edit_profile_page($this->player, $gender_list, $show_email, $message);
-        return $edit_profile_page;
+        $edit_profile = $this->skin->edit_profile($this->player, $gender_list, $show_email, $message);
+        $edit_password = $this->skin->edit_password();
+        return $edit_profile.$edit_password;
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Description of code_bank
+ * (TODO) Lotsa strings here : (
  *
  * @author josh04
  * @package code_public
@@ -28,7 +28,7 @@ class code_bank extends code_common {
     */
     public function make_bank() {
         if ($_GET['action']) {
-            $make_bank = $this->bank_actions();
+            $make_bank = $this->bank_switch();
             return $make_bank;
         }
         $interest = intval($this->player->bank * 0.03);
@@ -48,7 +48,7 @@ class code_bank extends code_common {
     *
     * @return string html
     */
-    public function bank_actions() {
+    public function bank_switch() {
         switch ($_GET['action']) {
             case 'deposit':
                 $bank_actions = $this->deposit();

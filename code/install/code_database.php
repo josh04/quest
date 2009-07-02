@@ -265,7 +265,7 @@ class code_database extends code_install {
             (24, 'How do I get my health back?', 'You can regain health in the hospital (Click on \"Campus\" on the left and follow through) or by waiting. Every night at midnight all the agents'' healths are restored. So, even if you have no money, you can live to fight again!', 'yellow');
             ";
         
-        $modules_query = "CREATE TABLE IF NOT EXISTS `modules` (
+        $pages_query = "CREATE TABLE IF NOT EXISTS `pages` (
               `id` int(11) NOT NULL auto_increment,
               `name` varchar(255) NOT NULL,
               `section` varchar(255) NOT NULL default 'public',
@@ -273,8 +273,8 @@ class code_database extends code_install {
               PRIMARY KEY  (`id`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
 
-        $modules_insert_query = "
-            INSERT INTO `modules` (`id`, `name`, `section`, `redirect`) VALUES
+        $pages_insert_query = "
+            INSERT INTO `pages` (`id`, `name`, `section`, `redirect`) VALUES
             (1, 'login', 'public', 'login'),
             (2, 'stats', 'public', 'stats'),
             (3, 'log', 'public', 'laptop'),
@@ -298,7 +298,7 @@ class code_database extends code_install {
 
         $make_tables_success = $this->db->execute($cron_query.$blueprints_query.$help_query.$items_query.
             $mail_query.$news_query.$players_query.$skins_query.$tickets_query.$log_query.$help_insert_query.
-            $cron_insert_query.$modules_query.$modules_insert_query);
+            $cron_insert_query.$pages_query.$pages_insert_query);
 
         if (!$this->db->ErrorMsg()) {
             
