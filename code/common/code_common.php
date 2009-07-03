@@ -203,15 +203,16 @@ class code_common {
     public function construct($page) {
 
         $output = $this->start_header();
-
+ 
         if ($this->player->is_member) {
             $output .= $this->menu_player();
         } else {
             $output .= $this->menu_guest();
         }
-
+ 
         $output .= $this->skin->glue();
         $output .= $page;
+        if(preg_match("/<h2>Error<\/h2>/",$page)) $output .= "</div></div>";
         $output .= $this->skin->footer();
 
         print $output;

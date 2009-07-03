@@ -110,7 +110,7 @@ class skin_common {
                 <ul>
                     <li class='header'>Admin</li>
                     <li><a href='admin.php'>Control Panel</a></li>
-                    <li><a href='admin.php?page=ticket'>Ticket Control</a></li>
+                    <li><a href='index.php?page=ticket&section=admin'>Ticket Control</a></li>
                     <li><a href='admin.php?page=phpmy'>phpMyAdmin</a></li>
                     <li><a href='admin.php?page=tasks'>Task List</a></li>
                 </ul>
