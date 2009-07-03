@@ -9,7 +9,7 @@
 <body>
 
 <div class="bred" style="width:60%;text-align:left;margin: 0 auto 0 auto;">
-<h1>Error 404 - Page not found</h1>
+<h1>Error 4004 - Page not found</h1>
 <br /><br />
 Page not found. You can <a href="javascript:history.go(-1);">Go back</a> to the page you were on before. If this should be a page, or you think there is some other error, please <a href="http://www.cherubquest.uni.cc/ticket.php">submit a ticket</a> for our administration team describing the problem you had and what, if any, like you followed.</div>
 
