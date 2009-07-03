@@ -210,7 +210,7 @@ class code_database extends _code_install {
             `player_id` int(11) NOT NULL default '0',
             `message` text NOT NULL,
             `date` int(10) NOT NULL default '0',
-            `sorted` tinyint(3) NOT NULL default '0',
+            `status` tinyint(3) NOT NULL default '0',
             PRIMARY KEY  (`id`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
 
@@ -294,11 +294,21 @@ class code_database extends _code_install {
             (17, 'guesthelp', 'public', 'guesthelp'),
             (18, 'ranks', 'public', 'ranks'),
             (19, 'index', 'public', 'index'),
-            (20, 'members', 'public', 'members');";
+            (20, 'members', 'public', 'members'),
+            (21, 'ticket', 'admin', 'ticket');";
+
+        $settings_query = "CREATE TABLE IF NOT EXISTS `settings` (
+            `name` varchar(125) NOT NULL,
+            `value` longtext NOT NULL,
+            PRIMARY KEY  (`name`)
+            ) ENGINE=MyISAM DEFAULT CHARSET=latin1;";
+
+        $settings_insert_query = "INSERT INTO `settings` (`name`, `value`) VALUES
+            ('name', 'Quest');";
 
         $make_tables_success = $this->db->execute($cron_query.$blueprints_query.$help_query.$items_query.
             $mail_query.$news_query.$players_query.$skins_query.$tickets_query.$log_query.$help_insert_query.
-            $cron_insert_query.$pages_query.$pages_insert_query);
+            $cron_insert_query.$pages_query.$pages_insert_query.$settings_query.$settings_insert_query);
 
         if (!$this->db->ErrorMsg()) {
             

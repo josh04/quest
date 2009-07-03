@@ -110,7 +110,7 @@ class skin_common {
                 <ul>
                     <li class='header'>Admin</li>
                     <li><a href='admin.php'>Control Panel</a></li>
-                    <li><a href='admin.php?page=ticket'>Ticket Control</a></li>
+                    <li><a href='index.php?page=ticket&section=admin'>Ticket Control</a></li>
                     <li><a href='admin.php?page=phpmy'>phpMyAdmin</a></li>
                     <li><a href='admin.php?page=tasks'>Task List</a></li>
                 </ul>
@@ -195,15 +195,47 @@ class skin_common {
                     <div id='footer'>
                         <div id='footer-text'>
                             <span style='font-size:1.5em;'>Quest</span><br />
-                            <span style='font-weight:normal;'>Based on ezRPG 0.1 by Zeggy.</span><br />
-                            New code by Justin, Jamie, Josh04 and Grego.<br />
-                            This version by Josh04 and Grego.
+                            <span style='font-weight:normal;'>Based on ezRPG 0.1 by Zeggy</span><br />
+                            New code by Justin, Jamie, Josh04 and Grego<br />
+                            This version by Josh04 and Grego
                         </div>
                     </div>
                 </div>
                 </body>
             </html>";
         return $footer;
+    }
+
+    /**
+     * parses bbcode to return html
+     * @param string bbcode
+     * @return string html
+     */
+    public function bbparse($code) {
+        $match = array (
+                "/\[b\](.*?)\[\/b\]/is",
+                "/\[i\](.*?)\[\/i\]/is",
+                "/\[u\](.*?)\[\/u\]/is",
+                "/\[s\](.*?)\[\/s\]/is",
+                "/\[url\](.*?)\[\/url\]/is",
+                "/\[url=(.*?)\](.*?)\[\/url\]/is",
+                "/\[img\](.*?)\[\/img\]/is",
+                "/\[code\](.*?)\[\/code\]/is",
+                "/\[colo(u)?r=([a-z]*?|#?[A-Fa-f0-9]*){3,6}\](.*?)\[\/colo(u)?r\]/is",
+                );
+        $replace = array (
+                "<strong>$1</strong>",
+                "<em>$1</em>",
+                "<ins>$1</ins>",
+                "<del>$1</del>",
+                "<a href='$1' target='_blank'>$1</a>",
+                "<a href='$1' target='_blank'>$2</a>",
+                "<img src='$1' alt='[image]' />",
+                "<pre>$1</pre>",
+                "<span style='color:$2;'>$3</span>",
+                );
+        $code = preg_replace($match,$replace,$code);
+        return $code;
     }
 
 }

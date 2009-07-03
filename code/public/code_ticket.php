@@ -42,7 +42,7 @@ class code_ticket extends code_common {
     * @return string html
     */
     public function ticket_list() {
-        $ticket_query = $this->db->execute("SELECT * FROM tickets WHERE player_id=? AND sorted=0 ORDER BY date DESC", array($this->player->id));
+        $ticket_query = $this->db->execute("SELECT * FROM tickets WHERE player_id=? AND status=0 ORDER BY date DESC", array($this->player->id));
 
         while($ticket = $ticket_query->fetchrow()) {
             $ticket['date'] = date("Y-m-d H:i:s", $ticket['date']);
@@ -56,7 +56,7 @@ class code_ticket extends code_common {
         }
 
         $ticket_list = $this->skin->ticket_wrap($ticket_header, $ticket_query->numrows(), $plural);
-        return $ticket_list;
+        return $ticket_list.$tickets_html;
     }
 
    /**
