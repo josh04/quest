@@ -210,7 +210,7 @@ class code_database extends _code_install {
             `player_id` int(11) NOT NULL default '0',
             `message` text NOT NULL,
             `date` int(10) NOT NULL default '0',
-            `sorted` tinyint(3) NOT NULL default '0',
+            `status` tinyint(3) NOT NULL default '0',
             PRIMARY KEY  (`id`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
 
@@ -294,7 +294,8 @@ class code_database extends _code_install {
             (17, 'guesthelp', 'public', 'guesthelp'),
             (18, 'ranks', 'public', 'ranks'),
             (19, 'index', 'public', 'index'),
-            (20, 'members', 'public', 'members');";
+            (20, 'members', 'public', 'members'),
+            (21, 'ticket', 'admin', 'ticket');";
 
         $make_tables_success = $this->db->execute($cron_query.$blueprints_query.$help_query.$items_query.
             $mail_query.$news_query.$players_query.$skins_query.$tickets_query.$log_query.$help_insert_query.

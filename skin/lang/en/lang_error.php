@@ -44,6 +44,8 @@ class lang_error {
     public $email_wrong_format = "<div class='error'>You did not enter a valid email address.</div>";
     public $error_registering = "Error registering new user: ";
 
+    // ticketing
+    public $ticket_not_exist = "The ticket you tried to access does not exist.";
 
 }
 ?>

@@ -11,5 +11,5 @@ if(el.style.display=="none") {
         el.style.display = "none";
         if(ol!=undefined) ol.src = "images/dropdown_closed.png";
     }
-
+return false;
 }
