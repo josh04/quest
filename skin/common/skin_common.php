@@ -3,7 +3,7 @@
  * skin_common.class.php
  *
  * Contains static skin elements, such as header html. No functions called or processing done.
- * @package display
+ * @package skin_common
  * @author josh04
  */
 
