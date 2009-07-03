@@ -195,9 +195,9 @@ class skin_common {
                     <div id='footer'>
                         <div id='footer-text'>
                             <span style='font-size:1.5em;'>Quest</span><br />
-                            <span style='font-weight:normal;'>Based on ezRPG 0.1 by Zeggy.</span><br />
-                            New code by Justin, Jamie, Josh04 and Grego.<br />
-                            This version by Josh04 and Grego.
+                            <span style='font-weight:normal;'>Based on ezRPG 0.1 by Zeggy</span><br />
+                            New code by Justin, Jamie, Josh04 and Grego<br />
+                            This version by Josh04 and Grego
                         </div>
                     </div>
                 </div>
@@ -226,7 +226,7 @@ class skin_common {
         $replace = array (
                 "<strong>$1</strong>",
                 "<em>$1</em>",
-                "<span style='text-decoration:underline;'>$1</span>",
+                "<ins>$1</ins>",
                 "<del>$1</del>",
                 "<a href='$1' target='_blank'>$1</a>",
                 "<a href='$1' target='_blank'>$2</a>",

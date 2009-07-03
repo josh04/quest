@@ -86,7 +86,7 @@ class code_common {
                 }
             }
 
-            $mail = skin_mail::mail_wrap_small($mail_rows);
+            $mail = ($mail_rows) ? skin_mail::mail_wrap_small($mail_rows) : "";
         }
 
         $admin = "";

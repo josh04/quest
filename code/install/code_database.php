@@ -297,9 +297,18 @@ class code_database extends _code_install {
             (20, 'members', 'public', 'members'),
             (21, 'ticket', 'admin', 'ticket');";
 
+        $settings_query = "CREATE TABLE IF NOT EXISTS `settings` (
+            `name` varchar(125) NOT NULL,
+            `value` longtext NOT NULL,
+            PRIMARY KEY  (`name`)
+            ) ENGINE=MyISAM DEFAULT CHARSET=latin1;";
+
+        $settings_insert_query = "INSERT INTO `settings` (`name`, `value`) VALUES
+            ('name', 'Quest');";
+
         $make_tables_success = $this->db->execute($cron_query.$blueprints_query.$help_query.$items_query.
             $mail_query.$news_query.$players_query.$skins_query.$tickets_query.$log_query.$help_insert_query.
-            $cron_insert_query.$pages_query.$pages_insert_query);
+            $cron_insert_query.$pages_query.$pages_insert_query.$settings_query.$settings_insert_query);
 
         if (!$this->db->ErrorMsg()) {
             
