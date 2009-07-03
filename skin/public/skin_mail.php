@@ -42,12 +42,12 @@ class skin_mail extends skin_common {
 			<tr><th>From:</th><td><a href='index.php?page=profile&amp;id=".$mail['from']."'>".$mail['username']."</a></td></tr>
 			<tr><th>Date:</th><td>".$mail['time']."</td></tr>
 			<tr><th>Subject:</th><td>".$mail['subject']."</td></tr>
-			<tr><td colspan='2' style='border:1px solid #CCC; border-width: 1px 0px; padding:12px;'>".$this->bbparse($mail['body'])."</td></tr>
+			<tr><td colspan='2' style='border:1px solid #CCC; border-width: 1px 0px; padding:12px;'>".$mail['body']."</td></tr>
 		</table>
 
 			<form method='POST' action='index.php?page=mail&amp;action=compose' style='display:inline;'>
 			<input type='hidden' name='mail_to' value='".$mail['username']."' />
-			<input type='hidden' name='mail_subject' value='".(substr($mail['subject'],0,3)=="RE:"?"":"RE: ").$mail['subject']."' />
+			<input type='hidden' name='mail_subject' value='".$mail['pre'].$mail['subject']."' />
 			<input type='submit' name='reply' value='Reply' />
 			</form>
 			<form method='post' action='index.php?page=mail&amp;action=delete_multiple' style='display:inline;'>

@@ -228,6 +228,38 @@ class code_common {
 
     }
 
+    /**
+     * parses bbcode to return html
+     * @param string bbcode
+     * @return string html
+     */
+    public function bbparse($code) {
+        $match = array (
+                "/\[b\](.*?)\[\/b\]/is",
+                "/\[i\](.*?)\[\/i\]/is",
+                "/\[u\](.*?)\[\/u\]/is",
+                "/\[s\](.*?)\[\/s\]/is",
+                "/\[url\](.*?)\[\/url\]/is",
+                "/\[url=(.*?)\](.*?)\[\/url\]/is",
+                "/\[img\](.*?)\[\/img\]/is",
+                "/\[code\](.*?)\[\/code\]/is",
+                "/\[colo(u)?r=([a-z]*?|#?[A-Fa-f0-9]*){3,6}\](.*?)\[\/colo(u)?r\]/is",
+                );
+        $replace = array (
+                "<strong>$1</strong>",
+                "<em>$1</em>",
+                "<ins>$1</ins>",
+                "<del>$1</del>",
+                "<a href='$1' target='_blank'>$1</a>",
+                "<a href='$1' target='_blank'>$2</a>",
+                "<img src='$1' alt='[image]' />",
+                "<pre>$1</pre>",
+                "<span style='color:$2;'>$3</span>",
+                );
+        $code = preg_replace($match,$replace,$code);
+        return $code;
+    }
+
 }
 
 ?>

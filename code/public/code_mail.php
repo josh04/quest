@@ -67,8 +67,12 @@ class code_mail extends code_common {
         }
 
         $mail['time'] = date("F j, Y, g:i a", $mail['time']);
-        $mail['body'] = nl2br($mail['body']);
+        $mail['body'] = $this->bbparse(nl2br($mail['body']));
         $mail['subject'] = nl2br($mail['subject']);
+
+        if (substr($mail['subject'],0,3) != "RE:") {
+            $mail['pre'] = "RE: ";
+        }
         $read = $this->skin->read($mail, $this->player->username);
         return $read;
     }
