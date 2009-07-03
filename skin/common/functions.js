@@ -1,4 +1,3 @@
-
 // Shows or hides an element, depending on its current state
 function showHide(id,icon) {
 

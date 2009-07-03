@@ -102,7 +102,12 @@ class code_mail extends code_common {
         } else {
             $to = htmlentities($_GET['to'],ENT_COMPAT,'UTF-8');
         }
-        $subject = htmlentities($_POST['mail_subject'],ENT_COMPAT,'UTF-8');
+
+        if ($_POST['mail_subject']) {
+            $subject = htmlentities($_POST['mail_subject'],ENT_COMPAT,'UTF-8');
+        } else {
+            $subject = htmlentities($_GET['subject'],ENT_COMPAT,'UTF-8');
+        }
         $body = htmlentities($_POST['mail_body'],ENT_COMPAT,'UTF-8');
         $compose = $this->skin->compose($to, $subject, $body, $message);
         return $compose;

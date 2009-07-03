@@ -67,6 +67,13 @@ label
 	margin-top: 8px;
 }
 
+pre
+{
+	padding: 8px;
+	border: 1px dashed #99F;
+	background-color: #EEF;
+}
+
 #wrapper
 {
 	width: 70%;
