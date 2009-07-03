@@ -17,6 +17,7 @@ class code_common {
     public $cron;
     public $section;
     public $page;
+    public $settings = array();
 
    /**
     * section name and page name
@@ -130,6 +131,13 @@ class code_common {
         }
     }
 
+    public function make_settings() {
+        $settings_query = $this->db->execute("SELECT * FROM `settings`");
+        while ($setting = $settings->fetchrow()) {
+            $this->settings[$setting['name']] = $setting['value'];
+        }
+    }
+
    /**
     * sets up the database.
     *
@@ -190,6 +198,7 @@ class code_common {
     */
     public function initiate($skin_name = "") {
         $this->make_db();
+        $this->make_settings();
         $this->cron();
         $this->make_player();
         $this->make_skin($skin_name);
