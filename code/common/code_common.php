@@ -131,9 +131,12 @@ class code_common {
         }
     }
 
+   /**
+    * gets settings from table
+    */
     public function make_settings() {
         $settings_query = $this->db->execute("SELECT * FROM `settings`");
-        while ($setting = $settings_queryo->fetchrow()) {
+        while ($setting = $settings_query->fetchrow()) {
             $this->settings[$setting['name']] = $setting['value'];
         }
     }
