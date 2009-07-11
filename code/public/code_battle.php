@@ -30,19 +30,19 @@ class code_battle extends code_common {
     public function battle_switch() {
         switch($_GET['action']) {
             case 'search':
-                $battle_switch = $this->battle_search();
-                return $battle_switch;
+                $battle_search = $this->battle_search();
+                return $battle_search;
             case 'fight':
                 if ($_POST['username']) {
-                    $battle_switch = $this->fight_by_name();
-                    return $battle_switch;
+                    $battle_search = $this->fight_by_name();
+                    return $battle_search;
                 }
-                $battle_switch = $this->fight();
-                return $battle_switch;
+                $battle_search = $this->fight();
+                return $battle_search;
         }
         
-        $battle_switch = $this->battle_search_page();
-        return $battle_switch;
+        $battle_search = $this->battle_search_page();
+        return $battle_search;
     }
     
    /**

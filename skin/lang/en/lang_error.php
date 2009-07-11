@@ -48,5 +48,11 @@ class lang_error {
     // ticketing
     public $ticket_not_exist = "The ticket you tried to access does not exist.";
 
+    // blueprints
+    public $no_blueprints = "There are currently no blueprints";
+    public $add = "Add";
+    public $modify = "Modify";
+    public $remove = "Remove";
+
 }
 ?>

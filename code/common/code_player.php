@@ -152,7 +152,7 @@ class code_player {
             $this->level++;
             $this->exp_max = $this->exp_max + ($this->level * 70) - 20;
             $this->stat_points = $this->stat_points + 3;
-            $this->hp_max = $this->hp_max + rand(5,20);
+            $this->hp_max = $this->hp_max + rand(5,15) + intval($this->vitality / 2);
             $levelled_up = true;
         }
         

@@ -162,6 +162,9 @@ class code_common {
     */
     public function make_skin($skin_name = "") {
         require_once("skin/lang/en/lang_error.php"); // (TODO) language string abstraction
+        if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) {
+            require_once("skin/".$this->section."/_skin_".$this->section.".php");
+        }
         if ($skin_name) {
             require_once("skin/".$this->section."/".$skin_name.".php"); // Get config values.
             if ($this->player->skin) {

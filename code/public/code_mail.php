@@ -28,7 +28,7 @@ class code_mail extends code_common {
     * @param int $from Sending player id
     * @param string $body Body of message - no html
     * @param string $subject Subject of message - definitely no html
-    * @return int Mail database id.
+    * @return int Mail database id
     */
     public function mail_send($to, $from, $body, $subject) {
         $mail_insert['to'] = intval($to);
@@ -125,7 +125,7 @@ class code_mail extends code_common {
     * @param string $message error message
     * @return string html
     */
-    public function compose($message = "") {
+    private function compose($message = "") {
         if ($_POST['mail_to']) {
             $to = htmlentities($_POST['mail_to'],ENT_COMPAT,'UTF-8');
         } else {
