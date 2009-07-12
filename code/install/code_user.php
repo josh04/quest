@@ -93,7 +93,7 @@ class code_user extends _code_install {
             $register_submit = $this->user_add_form($this->skin->lang_error->emails_do_not_match);
             return $register_submit;
         } else if (!preg_match("/^[-!#$%&\'*+\\.\/0-9=?A-Z^_`{|}~]+@([-0-9A-Z]+\.)+([0-9A-Z]){2,4}$/i", $_POST['email'])) {
-            $register_submit = $this->user_add_form($this->skin->lang_error->email_wrong_format);
+            $register_submit = $this->user_add_form($this->skin->error_box($this->skin->lang_error->email_wrong_format));
             return $register_submit;
         }
 

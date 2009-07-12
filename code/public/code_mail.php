@@ -197,7 +197,7 @@ class code_mail extends code_common {
         $mail_ids = "(".substr($mail_ids, 0, strlen($mail_ids)-2).")";
 
         $this->db->execute('DELETE FROM mail WHERE id IN '.$mail_ids.' AND `to`=?', array(intval($this->player->id))); // eh, this is sloppy.
-        $delete_multiple_confirm = $this->mail_inbox("Messages deleted.");
+        $delete_multiple_confirm = $this->mail_inbox($this->skin->lang_error->messages_deleted);
         return $delete_multiple_confirm;
     }
 

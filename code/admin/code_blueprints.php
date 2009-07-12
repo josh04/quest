@@ -26,43 +26,47 @@ class code_blueprints extends _code_admin {
     *
     * @return string html
     */
-    public function blueprints_switch() {
-        if ($_GET['action'] == "add") {
-            $blueprints_switch = $this->add();
-            return $blueprints_switch;
+    private function blueprints_switch() {
+        switch($_GET['action']) {
+            case 'add':
+                $blueprints_switch = $this->add();
+                break;
+            case 'modify':
+                $blueprints_switch = $this->modify();
+                break;
+            case 'remove_confirm':
+                $blueprints_switch = $this->remove_confirm();
+                break;
+            default:
+                $blueprints_switch = $this->list_blueprints();
+                break;
         }
-
-        if ($_GET['action'] == "remove") {
-            $blueprints_switch = $this->remove();
-            return $blueprints_switch;
-        }
-
-        $blueprints_switch = $this->list_blueprints();
         return $blueprints_switch;
     }
 
    /**
     * Show the ones already there
     *
+    * @param string $message error message
     * @return string html
     */
-    public function list_blueprints() {
+    private function list_blueprints($message="") {
         $blueprints_query = $this->db->execute("SELECT * FROM `blueprints` ORDER BY `name` ASC");
 
         if (!$blueprints_query->RecordCount()) {
-            $list_blueprints = $this->skin->blueprint_row(array(), $this->skin->lang_error->add, "add", $this->skin->lang_error->no_blueprints);
+            $list_blueprints = $this->skin->blueprint_row(array(), $this->skin->lang_error->add, "add", $message.$this->skin->lang_error->no_blueprints);
             return $list_blueprints;
         }
 
         while ($blueprint = $blueprints_query->fetchrow()) {
             if ($blueprint->type == 1) {
-                $blueprints_offense = $this->skin->blueprint_row($blueprint, $this->skin->lang_error->modify, "modify");
+                $blueprints_offense .= $this->skin->blueprint_row($blueprint, $this->skin->lang_error->modify, "modify", $this->skin->remove_button());
             } else {
-                $blueprints_defense = $this->skin->blueprint_row($blueprint, $this->skin->lang_error->modify, "modify");
+                $blueprints_defense .= $this->skin->blueprint_row($blueprint, $this->skin->lang_error->modify, "modify", $this->skin->remove_button());
             }
         }
-
-        $list_blueprints = $this->skin->blueprints_wrap($blueprints_offense, $blueprints_defense, $this->skin->blueprints_form());
+        $add_form = $this->skin->blueprint_row(array(), $this->skin->lang_error->add, "add", "", $message);
+        $list_blueprints = $this->skin->blueprints_wrap($blueprints_offense, $blueprints_defense, $add_form);
         return $list_blueprints;
     }
 
@@ -71,18 +75,99 @@ class code_blueprints extends _code_admin {
     *
     * @return string html
     */
-    public function add() {
-        
+    private function add() {
+        $name = htmlentities($_POST['blueprint_name'],ENT_COMPAT,'UTF-8');
+        $description = htmlentities($_POST['blueprint_description'],ENT_COMPAT,'UTF-8');
+        $effectiveness = intval($_POST['blueprint_effectiveness']);
+        $price = intval($_POST['blueprint_price']);
+        $type = intval($_POST['blueprint_type']);
+
+        $this->make_blueprint($name, $description, $effectiveness, $price, $type);
+        $add = $this->list_blueprints($this->skin->success_box($this->skin->lang_error->blueprint_added));
+        return $add;
     }
 
    /**
-    * they've removed one!
+    * just trying to expose a little functionality. Not sure who for, but still.
+    *
+    * @param string $name Name of item
+    * @param string $description Description of item
+    * @param int $effectiveness Strength of item
+    * @param int $price Price of item
+    * @param int $type 1 for Offense, 0 for Defense
+    * @return int id of new item
+    */
+    public function make_blueprint($name, $description, $effectiveness, $price, $type) {
+        $blueprint_insert['name'] = $name;
+        $blueprint_insert['description'] = $description;
+        $blueprint_insert['effectiveness'] = $effectiveness;
+        $blueprint_insert['price'] = $price;
+        if ($type) {
+            $blueprint_insert['type'] = 1;
+        } else {
+            $blueprint_insert['type'] = 0;
+        }
+
+       $this->db->AutoExecute("blueprints", $blueprint_insert, "INSERT");
+       return $this->db->Insert_Id();
+    }
+
+   /**
+    * they've edited/deleted one!
     *
     * @return string html
-    *
     */
-    public function remove() {
+    private function modify() {
+        
+        if ($_POST['blueprint_submit'] == "Remove") {
+            $modify = $this->remove();
+            return $modify;
+        }
 
+
+        return "";
+    }
+
+   /**
+    * they've definitely deleted one!
+    *
+    * @return string html
+    */
+    private function remove() {
+        if (!$_POST['blueprint_id']) {
+            $remove = $this->list_blueprints($this->skin->lang_error->no_blueprint_selected);
+            return $remove;
+        }
+        $blueprint_query = $this->db->execute("SELECT `id`, `name` FROM `blueprints` WHERE `id`=? LIMIT 0,1", array(intval($_POST['blueprint_id'])));
+        if (!$blueprint_query->RecordCount()) {
+            $remove = $this->list_blueprints($this->skin->lang_error->no_blueprint_selected);
+            return $remove;
+        }
+        $blueprint = $blueprint_query->fetchrow();
+
+        $items_query = $this->db->execute("SELECT COUNT(*) AS c FROM `items` WHERE `item_id`=?", array($blueprint['id']));
+        $items_count = $items_query->fetchrow(); // nggggg
+        $blueprint['c'] = $items_count['c'];
+
+        $remove = $this->skin->remove($blueprint);
+        return $remove;
+    }
+
+   /**
+    * actually deletes one
+    *
+    * @return string html
+    */
+    private function remove_confirm() {
+        $remove_query = $this->db->execute('DELETE FROM `blueprints` WHERE `id`=?', array(intval($_POST['blueprint_id'])));
+        
+        if ($this->db->Affected_Rows()) {
+            $message = $this->skin->success_box($this->skin->lang_error->blueprint_removed);
+        } else {
+            $message = $this->skin->error_box($this->skin->lang_error->blueprint_remove_failed);
+        }
+        $remove_confirm = $this->list_blueprints($message);
+        return $remove_confirm;
     }
 }
 ?>

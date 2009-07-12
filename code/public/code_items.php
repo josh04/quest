@@ -38,8 +38,7 @@ class code_items extends code_common {
                     return $make_store;
                 }
 
-                $make_store = $this->make_store();
-                return $make_store;
+                $items_switch = $this->make_store();
                 break;
 
             case "inventory":
@@ -48,12 +47,13 @@ class code_items extends code_common {
                     return $make_inventory;
                 }
 
-                $make_inventory = $this->make_inventory();
-                return $make_inventory;
+                $items_switch = $this->make_inventory();
                 break;
             default:
                 $this->error_page($this->skin->lang_error->page_not_found);
         }
+
+        return $items_switch;
     }
 
    /**
