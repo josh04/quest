@@ -73,8 +73,6 @@ class code_bootstrap {
 
         if ($pages[$_GET['page']]) {
             $page = $_GET['page'];
-        } else {
-            $section = "public";
         }
 
         if (!$pages[$page]) {
