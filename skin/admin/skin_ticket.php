@@ -5,7 +5,7 @@
  * @author grego
  * @package skin_public
  */
-class skin_ticket extends skin_common {
+class skin_ticket extends _skin_admin {
     
    /**
     * single ticket row
