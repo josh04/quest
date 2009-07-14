@@ -266,6 +266,15 @@ td.form-explanation {
 	border-bottom: 1px solid #DDD;
 }
 
+div.help-topic {
+	padding: 8px 12px;
+	font-size: 11px;
+}
+
+a.help-topic-link {
+	color: #66F;
+}
+
 
 /* BOXES */
 
