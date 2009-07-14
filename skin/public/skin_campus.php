@@ -14,15 +14,14 @@ class skin_campus extends skin_common {
     * 
     * @param string $username current player name
     * @param integer $unread_log number of unread logs
+    * @param string $campus_caption name of campus section
+    * @param string $campus_welcome welcome text on page
     * @return string html
     */
-    public function campus($username, $unread_log) {
+    public function campus($username, $unread_log, $campus_caption, $campus_welcome) {
         $campus = "
-        <h2>Campus</h2>
-        <strong>Security Guard:</strong><br />
-        <i>Welcome onto Campus, agent. Let me just check your ID.<br />
-        ...<br />
-        You have permission to enter, ".$username.". If you follow the path to the left, you can get to the Main Building. To the right you'll find the training areas and accommodation. Have a good day.</i>
+        <h2>".$campus_caption."</h2>
+        ".$campus_welcome."
 
         <div class=\"gbox\">
         <table><tr>

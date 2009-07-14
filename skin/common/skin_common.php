@@ -159,14 +159,14 @@ class skin_common {
                     <ul>
                         <li class='header'>General</li>
                         <li><a href='index.php'>Home</a></li>
-                        <li><a href='index.php?page=login'>Register</a></li>
+                        <li><a href='index.php?page=login&action=register'>Register</a></li>
                         <li><a href='index.php?page=ranks'>Player stats</a></li>
                         <li><a href='index.php?page=guesthelp'>Help</a></li>
                     </ul>
 
                     <ul>
                         <li class='header'>Quick stats</li>
-                        <li><a style=\"cursor:default;\">Players online: ".$players."</a></li>
+".($players>1?"                        <li><a style=\"cursor:default;\">Players online: ".$players."</a></li>":"")."
                         <li><a style=\"cursor:default;\">Money in game: ".$money."</a></li>
                     </ul>
                 </div>
@@ -178,9 +178,12 @@ class skin_common {
      * glues the left side to the right. yeah.
      * @return string html
      */
-    public function glue() {
+    public function glue($section) {
         $glue = "<div id='right'>
                  <div id='content'>";
+
+if($section=="admin") $glue .= "
+                 <img style='float:right;margin:8px;' src='images/icons/lock.png' alt='admin' title='Administrator page' />";
         return $glue;
     }
 

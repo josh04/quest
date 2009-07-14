@@ -70,7 +70,7 @@ class code_index extends code_common {
     * @return string html
     */
     public function index_guest($login_error) {
-        $index_guest = $this->skin->index_guest("", $login_error);
+        $index_guest = $this->skin->index_guest("", $login_error, $this->settings['welcometext']);
         return $index_guest;
     }
 

@@ -40,7 +40,12 @@ class code_members extends code_common {
         $previous = $begin - $limit;
         $next = $begin + $limit;
 
-
+        if($_GET['act']=="staff")
+        $memberlist = $this->db->execute("SELECT `id`, `username`, `level`
+                                    FROM `players` WHERE `rank`=? ORDER BY `level` DESC
+                                    LIMIT ?,?",
+                                    array("Admin",$begin, $limit));
+        else
         $memberlist = $this->db->execute("SELECT `id`, `username`, `level`
                                     FROM `players` ORDER BY `level` DESC
                                     LIMIT ?,?",
