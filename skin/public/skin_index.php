@@ -44,7 +44,7 @@ class skin_index extends skin_common {
     */
     public function index_guest($username, $login_message) {
         $index_guest .= "
-                <div class='login' style='float:right;border:1px solid #CCC;padding:8px;margin:4px;'>
+                <div class='login' style='float:right;border:1px solid #CCC;padding:8px;margin:4px;width:30%;'>
                     <form method='post' action='index.php?page=login'>
                         <strong>Log in</strong><br />
                         <label for='login-username'>Username:</label><br />
