@@ -197,7 +197,8 @@ class _code_install extends code_common {
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1;";
 
     public $settings_insert_query = "INSERT INTO `settings` (`name`, `value`) VALUES
-        ('name', 'Quest');";
+        ('name', 'Quest'),
+        ('welcometext', '<p>Welcome to Quest. This is a default welcome message. To add your own, go to the Administration panel and click on \"Messages\".</p>');";
 
     public $db_query = "ALTER DATABASE COLLATE utf8_general_ci; ";
 

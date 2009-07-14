@@ -74,6 +74,11 @@ pre
 	background-color: #EEF;
 }
 
+h2
+{
+	line-height: 0px;
+}
+
 #wrapper
 {
 	width: 70%;
@@ -249,10 +254,16 @@ div.edit-profile-header {
 }
 
 div.edit-profile-body {
-  padding: 4px;
+	padding: 4px;
 	width: 400px;
 	margin: 0px auto;
 	border: 1px solid #888;
+}
+
+td.form-explanation {
+	font-size: 90%;
+	padding-bottom: 4px;
+	border-bottom: 1px solid #DDD;
 }
 
 

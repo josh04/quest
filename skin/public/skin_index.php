@@ -42,29 +42,23 @@ class skin_index extends skin_common {
     * @param string $loginerror login error message
     * @return string html
     */
-    public function index_guest($username, $login_message) {
+    public function index_guest($username, $login_message, $welcome_text) {
         $index_guest .= "
-                <div class='login' style='float:right;border:1px solid #CCC;padding:8px;margin:4px;'>
+                <div class='login' style='float:right;border:1px solid #CCC;padding:8px;margin:4px;width:220px;'>
                     <form method='post' action='index.php?page=login'>
                         <strong>Log in</strong><br />
                         <label for='login-username'>Username:</label><br />
-                        <input type='text' id='login-username' name='username' value='".$username."' style='background:url(images/icons/user.png) no-repeat 2px 2px;background-repeat:no-repeat;padding-left:16px;' /><br />
+                        <input type='text' id='login-username' name='username' value='".$username."' style='background:url(images/icons/user.png) no-repeat 2px 2px;background-repeat:no-repeat;padding-left:18px;' /><br />
                         <label for='login-password'>Password:</label><br />
-                        <input type='password' id='login-password' name='password' style='background:url(images/icons/key.png) no-repeat 2px 2px;padding-left:16px;' /><br />
+                        <input type='password' id='login-password' name='password' style='background:url(images/icons/key.png) no-repeat 2px 2px;padding-left:18px;' /><br />
                         <input name='login' type='submit' value='Login' /><br />
                     </form>
-                    ".$login_message."<br />
+                    ".($login_message?"<div class='error'>".$login_message."</div>":"")."<br />
                     <a href='index.php?page=login&amp;action=register'>Click here to register!</a>
                 </div>
             <div>
-                Let the adventure begin!<br />
-                Welcome to <strong>CHERUBQuest!</strong><br />
-                Login now to play, or <a href='index.php?page=login&amp;action=register'>Register</a> to join the game and become an agent!
-                
-                <p>CHERUBQuest is the first CHERUB persistent online browser game, or PBBG. Join now to begin the adventure!</p>
-                <p>You can go around campus, earning tokens and stat points, hiring weapons and armour, and challenging other agents to fights in the Combat Training Centre. <br /><br />All queries and suggestions, as well as pointing out any mistakes should be directed towards the admin staff either through CHERUB Forums or through e-mail at admin@cherubquest.uni.cc</p>
-                <p>Train against your friends and in the process earn tokens off them, or lose them if you are defeated. Buy weapons and armour from the equipment store and use it to arm yourself against your friends!</p>
-                <p>Good luck agent, and good luck becoming the best on campus!</p>
+                ".$welcome_text."
+                <br style='clear:both;' />
             </div>";
         return $index_guest;
     }
@@ -119,23 +113,23 @@ class skin_index extends skin_common {
         $register .= "
             ".$register_error."
             <form method='POST' action='index.php?page=login&amp;action=register_submit'>
-                <table width='100%'>
-                    <tr><td width='40%'><b>Username</b>:</td><td><input type='text' name='username' value='".$username."' /></td></tr>
-                    <tr><td colspan='2'>Enter the username that you will use to login to your game. Only alpha-numerical characters are allowed.</td></tr>
+                <table style='width:100%'>
+                    <tr><td width='40%'><label for='form-username'>Username:</label></td><td><input type='text' id='form-username' name='username' value='".$username."' /></td></tr>
+                    <tr><td colspan='2' class='form-explanation'>Enter the username that you will use to login to your game. Only alpha-numerical characters are allowed.</td></tr>
 
-                    <tr><td width='40%'><b>Password</b>:</td><td><input type='password' name='password' value='' /></td></tr>
-                    <tr><td colspan='2'>Type in your desired password. Only alpha-numerical characters are allowed.</td></tr>
+                    <tr><td><label for='form-password'>Password:</label></td><td><input type='password' id='form-password' name='password' value='' /></td></tr>
+                    <tr><td colspan='2' class='form-explanation'>Type in your desired password. Only alpha-numerical characters are allowed.</td></tr>
 
-                    <tr><td width='40%'><b>Verify Password</b>:</td><td><input type='password' name='password_confirm' value='' /></td></tr>
-                    <tr><td colspan='2'>Please re-type your password.</td></tr>
+                    <tr><td><label for='form-password-confirm'>Verify Password:</label></td><td><input type='password' id='form-password-confirm' name='password_confirm' value='' /></td></tr>
+                    <tr><td colspan='2' class='form-explanation'>Please re-type your password.</td></tr>
 
-                    <tr><td width='40%'><b>Email</b>:</td><td><input type='text' name='email' value='".$email."' /></td></tr>
-                    <tr><td colspan='2'>Enter your email address. Only alpha-numerical characters are allowed.</td></tr>
+                    <tr><td><label for='form-email'>Email:</label></td><td><input type='text' id='form-email' name='email' value='".$email."' /></td></tr>
+                    <tr><td colspan='2' class='form-explanation'>Enter your email address. Only alpha-numerical characters are allowed.</td></tr>
 
-                    <tr><td width='40%'><b>Verify Email</b>:</td><td><input type='text' name='email_confirm' value='' /></td></tr>
-                    <tr><td colspan='2'>Please re-type your email address.</td></tr>
+                    <tr><td><label for='form-email-confirm'>Verify Email:</label></td><td><input type='text' id='form-email-confirm' name='email_confirm' value='' /></td></tr>
+                    <tr><td colspan='2' class='form-explanation'>Please re-type your email address.</td></tr>
 
-                    <tr><td colspan='2' align='center'><input type='submit' name='register' value='Register!'></td></tr>
+                    <tr><td colspan='2'><input type='submit' name='register' value='Register!'></td></tr>
                 </table>
             </form>";
         return $register;

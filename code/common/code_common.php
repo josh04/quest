@@ -136,6 +136,7 @@ class code_common {
         while ($setting = $settings_query->fetchrow()) {
             $this->settings[$setting['name']] = $setting['value'];
         }
+        $this->page_title = $this->settings['name'];
     }
 
    /**
@@ -218,8 +219,8 @@ class code_common {
         } else {
             $output .= $this->menu_guest();
         }
- 
-        $output .= $this->skin->glue();
+
+        $output .= $this->skin->glue($this->section);
         $output .= $page;
         if(preg_match("/<h2>Error<\/h2>/",$page)) $output .= "</div></div>";
         $output .= $this->skin->footer();

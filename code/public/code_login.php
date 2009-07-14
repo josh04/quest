@@ -36,7 +36,7 @@ class code_login extends code_common {
         setcookie("cookie_hash", NULL, mktime() - 36000000);
         setcookie("user_id", NULL, mktime() - 36000000);
         $login_message = "You have logged out.";
-        $log_out = $this->skin->index_guest($username, $login_message);
+        $log_out = $this->skin->index_guest($username, $login_message, $this->settings['welcometext']);
         return $log_out;
     }
 
@@ -67,14 +67,14 @@ class code_login extends code_common {
         $username = htmlentities($_POST['username'],ENT_COMPAT,'UTF-8');
         if ($username == "") {
             $login_message = "Please enter a username.";
-            $log_in = $this->skin->index_guest($username, $login_message);
+            $log_in = $this->skin->index_guest($username, $login_message, $this->settings['welcometext']);
         } elseif ($_POST['password'] == "") {
             $login_message = "Please enter your password.";
-            $log_in = $this->skin->index_guest($username, $login_message);
+            $log_in = $this->skin->index_guest($username, $login_message, $this->settings['welcometext']);
         } else {
             $player_query = $this->db->execute("SELECT `id`, `username`, `password`, `login_salt` FROM `players` WHERE `username`=?", array($_POST['username']));
             $login_message = "Incorrect Username/Password.";
-            $log_in = $this->skin->index_guest($username, $login_message);
+            $log_in = $this->skin->index_guest($username, $login_message, $this->settings['welcometext']);
             
             if ($player_query->recordcount() == 0) {
                 return $log_in;
