@@ -16,9 +16,9 @@ class skin_profile extends skin_common {
    function make_profile($profile) {
         $make_profile = "
             <img src=\"".$profile->avatar."\" alt=\"[user avatar]\" style=\"max-width:50px;max-height:50px;float:left;border:1px solid #DDD;padding:4px;margin:8px;\" />
-            <h2>".$profile->username."
+            <h2 style='line-height:20px;'>".$profile->username."
             <a title='User is ".$profile->is_online."'><img src='../icons/status_".$profile->is_online.".png' /></a><br />
-            <span style='font-size:10px;font-weight:normal;'>( <a href=''>Mail</a>".$profile->edit." )</span></h2>
+            <span style='font-size:10px;font-weight:normal;'>( <a href=''>Mail</a>".($profile->edit?' '.$profile->edit:'')." )</span></h2>
             <br style='clear:both;' />
             <div style='font-size:11px;'>
             ".($profile->description==""?"":"<p><i>".$profile->description."</i></p>")."
@@ -31,7 +31,7 @@ class skin_profile extends skin_common {
             <br />
 
             <strong>Friends</strong>
-            ".(count($profile->friends==0)?"<br />".$profile->username." has no friends yet!":implode("<br />",$profile->friends))."<br /><br />
+            ".(count($profile->friends)==0?"<br />".$profile->username." has no friends yet!":implode("<br />",$profile->friends))."<br /><br />
             </div>
             <form action='index.php?page=profile&amp;id=".$profile->id."' method='post'>
             <input type='text' name='donate' />
