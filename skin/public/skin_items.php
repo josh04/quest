@@ -11,10 +11,11 @@ class skin_items extends skin_common {
     * main inventory page
     *
     * @param string $items_html items rows
+    * @param string $message error message
     * @return string html
     */
-    public function make_inventory($items_html) {
-        $make_inventory = $items_html;
+    public function make_inventory($items_html, $message = "") {
+        $make_inventory = $message."<h2>Inventory</h2>".$items_html;
         return $make_inventory;
     }
 
@@ -27,7 +28,6 @@ class skin_items extends skin_common {
     */
     public function inventory_item_row($item, $equip) {
 	    $item_row .= "
-                        <h2>Inventory</h2>
                         <fieldset><legend>
                         <b>".$item['name']."</b></legend>
                         <table width='100%'>

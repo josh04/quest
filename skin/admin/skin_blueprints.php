@@ -19,10 +19,11 @@ class skin_blueprints extends skin_common {
     * @param string $button what to display on the submit button
     * @param string $action which action to use in the url
     * @param string $remove_button display the remove button?
+    * @param string $type_list list of available blueprint types
     * @param string $message error message
     * @return string html
     */
-    public function blueprint_row($blueprint, $button, $action, $remove_button, $message="") {
+    public function blueprint_row($blueprint, $button, $action, $remove_button, $type_list, $message="") {
         $blueprint_row = $message."<form action='index.php?section=admin&amp;page=blueprints&amp;action=".$action."' method='POST'>
             <input type='hidden' name='blueprint_id' value='".$blueprint['id']."' />
             <table>
@@ -44,8 +45,7 @@ class skin_blueprints extends skin_common {
                 </tr>
                 <tr>
                     <td>Type:</td>
-                    <td><input type='radio' name='blueprint_type' value='1' />Offense <br />
-                        <input type='radio' name='blueprint_type' value='0' checked='checked' />Defense <br /></td>
+                    <td>".$type_list."</td>
                 </tr>
                 <tr>
                     <td><input type='submit' name='blueprint_submit' value='".$button."' /></td>
@@ -79,6 +79,23 @@ class skin_blueprints extends skin_common {
                         <input type='submit' value='Delete' />
                     </form>";
         return $delete;
+    }
+
+   /**
+    * list of type choices
+    *
+    * @param int $current_type current type
+    * @return string html
+    */
+    public function type_list($current_type) {
+        $current_type = "type_".$current_type;
+        $type_0 .= "<input type='radio' name='blueprint_type' value='0'";
+        $type_1 .= "<input type='radio' name='blueprint_type' value='1'";
+        $$current_type .= " checked='checked'";
+        $type_0 .= " />Defense <br />";
+        $type_1 .= " />Offense <br />";
+        $type_list = $type_1.$type_0;
+        return $type_list;
     }
 }
 ?>

@@ -109,7 +109,7 @@ class code_battle extends code_common {
     * @return string html
     */
     public function battle_search_page() {
-        $username = htmlentities($_POST['username'],ENT_COMPAT,'UTF-8');
+        $username = htmlentities($_POST['username'],ENT_QUOTES,'UTF-8');
         $level_min = intval($_POST['level_min']);
         $level_max = intval($_POST['level_max']);
         $battle_search_page = $this->skin->battle_search_page($username, $level_min, $level_max);

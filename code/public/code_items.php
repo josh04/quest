@@ -163,11 +163,10 @@ class code_items extends code_common {
    /**
     * make inventory page
     *
+    * @param string $message Error Message
     * @return string html
     */
-    public function make_inventory() {
-
-
+    public function make_inventory($message = "") {
 
         $item_query = $this->db->execute("SELECT i.*, b.type,
                                 b.name, b.effectiveness,
@@ -180,16 +179,20 @@ class code_items extends code_common {
                                 array($this->player->id));
 
         if ($item_query->recordcount() == 0) {
-            $make_inventory = "You have no items.";
+            $make_inventory = $this->skin->error_box($this->skin->lang_error->no_items);
             return $make_inventory;
         }
 
         while ($item = $item_query->fetchrow()) {
-            $equip = ($item['status']) ? "Unequip" : "Equip";
+            if ($item['status']) {
+                $equip = $this->skin->lang_error->unequip;
+            } else {
+                $equip = $this->skin->lang_error->equip;
+            }
             $items_html .= $this->skin->inventory_item_row($item, $equip);
         }
 
-        $make_inventory = $this->skin->make_inventory($items_html);
+        $make_inventory = $this->skin->make_inventory($items_html, $message);
         return $make_inventory;
     }
 
@@ -206,36 +209,34 @@ class code_items extends code_common {
                                     array(intval($_POST['id']), $this->player->id));
 
         if ($item_query->recordcount() == 0) {
-            $_POST['action'] = "";
-            $equip_item = $this->make_inventory();
+            $equip_item = $this->make_inventory($this->skin->error_box($this->skin->lang_error->item_not_found));
             return $equip_item;
         }
 
         $item = $item_query->fetchrow();
-        switch($item['status']) {
-            case 0:
-                $unequip_query = $this->db->execute("SELECT i.id, b.type FROM items AS i
-                                                LEFT JOIN blueprints AS b
-                                                ON i.item_id=b.id
-                                                WHERE i.player_id=?
-                                                AND i.status=1", array($this->player->id));
-                while ($item_equipped = $unequip_query->fetchrow()) {
-                    if ($item['type'] == $item_equipped['type']) {
-                        $unequip_update_query = $this->db->AutoExecute("UPDATE items SET status=0 WHERE id=?", array($item_equipped['id']));
-                    }
+        if ($item['status']) {
+            $update_item['status'] = 0;
+            $unequip_query = $this->db->AutoExecute('items', $update_item, 'UPDATE', 'id = '.intval($item['id']));
+            $message = $this->skin->lang_error->item_unequipped;
+        } else {
+            $equipped_query = $this->db->execute("SELECT i.id, b.type FROM `items` AS i
+                                            LEFT JOIN `blueprints` AS b
+                                            ON i.item_id=b.id
+                                            WHERE i.player_id=?
+                                            AND i.status=1", array($this->player->id));
+            while ($item_equipped = $equipped_query->fetchrow()) {
+                if ($item['type'] == $item_equipped['type']) {
+                    $unequip_item['status'] = 0;
+                    $unequip_update_query = $this->db->AutoExecute("items", $unequip_item, "UPDATE", "id=".$item_equipped['id']);
                 }
-                $update_item['status'] = 1;
-                //Equip the selected item
-                $equip_query = $this->db->AutoExecute('items', $update_item, 'UPDATE', 'id = '.intval($item['id']));
-                print $this->db->ErrorMsg();
-                break;
-            case 1: //User wants to unequip item
-                $update_item['status'] = 0;
-                $unequip_query = $this->db->AutoExecute('items', $update_item, 'UPDATE', 'id = '.intval($item['id']));
-                break;
+            }
+            $update_item['status'] = 1;
+            //Equip the selected item
+            $equip_query = $this->db->AutoExecute('items', $update_item, 'UPDATE', 'id = '.intval($item['id']));
+            $message = $this->skin->lang_error->item_equipped;
         }
-        $_POST['action'] = "";
-        $equip_item = $this->make_inventory();
+        
+        $equip_item = $this->make_inventory($this->skin->success_box($message));
         return $equip_item;
     }
 

@@ -33,8 +33,8 @@ class code_mail extends code_common {
     public function mail_send($to, $from, $body, $subject) {
         $mail_insert['to'] = intval($to);
         $mail_insert['from'] = intval($from);
-        $mail_insert['body'] = htmlentities($body,ENT_COMPAT,'UTF-8');
-        $mail_insert['subject'] = htmlentities($subject,ENT_COMPAT,'UTF-8');
+        $mail_insert['body'] = htmlentities($body,ENT_QUOTES,'UTF-8');
+        $mail_insert['subject'] = htmlentities($subject,ENT_QUOTES,'UTF-8');
         $mail_insert['time'] = time();
         $mail_insert['status'] = 0; // unread
 
@@ -127,17 +127,17 @@ class code_mail extends code_common {
     */
     private function compose($message = "") {
         if ($_POST['mail_to']) {
-            $to = htmlentities($_POST['mail_to'],ENT_COMPAT,'UTF-8');
+            $to = htmlentities($_POST['mail_to'],ENT_QUOTES,'UTF-8');
         } else {
-            $to = htmlentities($_GET['to'],ENT_COMPAT,'UTF-8');
+            $to = htmlentities($_GET['to'],ENT_QUOTES,'UTF-8');
         }
 
         if ($_POST['mail_subject']) {
-            $subject = htmlentities($_POST['mail_subject'],ENT_COMPAT,'UTF-8');
+            $subject = htmlentities($_POST['mail_subject'],ENT_QUOTES,'UTF-8');
         } else {
-            $subject = htmlentities($_GET['subject'],ENT_COMPAT,'UTF-8');
+            $subject = htmlentities($_GET['subject'],ENT_QUOTES,'UTF-8');
         }
-        $body = htmlentities($_POST['mail_body'],ENT_COMPAT,'UTF-8');
+        $body = htmlentities($_POST['mail_body'],ENT_QUOTES,'UTF-8');
         $compose = $this->skin->compose($to, $subject, $body, $message);
         return $compose;
     }

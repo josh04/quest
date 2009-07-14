@@ -30,7 +30,7 @@ class code_login extends code_common {
     * @return string html
     */
     public function log_out() {
-        $username = htmlentities($_POST['username'],ENT_COMPAT,'UTF-8');
+        $username = htmlentities($_POST['username'],ENT_QUOTES,'UTF-8');
         session_unset();
         session_destroy();
         setcookie("cookie_hash", NULL, mktime() - 36000000);
@@ -64,7 +64,7 @@ class code_login extends code_common {
     * @return string html
     */
     public function log_in() {
-        $username = htmlentities($_POST['username'],ENT_COMPAT,'UTF-8');
+        $username = htmlentities($_POST['username'],ENT_QUOTES,'UTF-8');
         if ($username == "") {
             $login_message = "Please enter a username.";
             $log_in = $this->skin->index_guest($username, $login_message);
@@ -131,8 +131,8 @@ class code_login extends code_common {
     */
     public function register_submit() {
 
-        $username = htmlentities($_POST['username'],ENT_COMPAT,'UTF-8');
-        $email = htmlentities($_POST['email'],ENT_COMPAT,'UTF-8');
+        $username = htmlentities($_POST['username'],ENT_QUOTES,'UTF-8');
+        $email = htmlentities($_POST['email'],ENT_QUOTES,'UTF-8');
 
         $player_query = $this->db->execute("SELECT id FROM players WHERE username=?", array($_POST['username']));
 

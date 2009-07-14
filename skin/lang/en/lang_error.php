@@ -51,15 +51,26 @@ class lang_error {
     // blueprints
     public $no_blueprints = "There are currently no blueprints.";
     public $no_blueprint_selected = "You did not select a blueprint.";
+    public $no_blueprint_name = "You did not enter a name for your blueprint.";
+    public $no_blueprint_description = "You did not enter a description for your blueprint.";
     public $blueprint_removed = "The selected blueprint has been removed.";
     public $blueprint_remove_failed = "No blueprint was selected to delete.";
     public $blueprint_added = "Blueprint added.";
+    public $blueprint_modify = "Blueprint modified.";
     public $add = "Add";
     public $modify = "Modify";
     public $remove = "Remove";
 
     // mail
     public $messages_deleted = "Messages deleted.";
+
+    // items
+    public $item_not_found = "The selected item does not exist.";
+    public $item_equipped = "Item Equipped.";
+    public $item_unequipped = "Item Unequipped";
+    public $no_items = "You do not have any items in your inventory.";
+    public $equip = "Equip";
+    public $unequip = "Unequip";
 
 }
 ?>

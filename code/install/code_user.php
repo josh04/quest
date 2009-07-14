@@ -43,9 +43,9 @@ class code_user extends _code_install {
     * @return string html
     */
     public function user_add_form($message="") {
-        $username = htmlentities($_POST['username'], ENT_COMPAT, "UTF-8");
-        $user_email = htmlentities($_POST['user_email'], ENT_COMPAT, "UTF-8");
-        $user_email_confirm = htmlentities($_POST['user_email_confirm'], ENT_COMPAT, "UTF-8");
+        $username = htmlentities($_POST['username'], ENT_QUOTES, "UTF-8");
+        $user_email = htmlentities($_POST['user_email'], ENT_QUOTES, "UTF-8");
+        $user_email_confirm = htmlentities($_POST['user_email_confirm'], ENT_QUOTES, "UTF-8");
 
         $user_add_form = $this->skin->user_add_form($message, $username, $user_email, $user_email_confirm);
         return $user_add_form;
@@ -59,8 +59,8 @@ class code_user extends _code_install {
     */
     public function insert_user() {
 
-        $username = htmlentities($_POST['username'],ENT_COMPAT,'UTF-8');
-        $email = htmlentities($_POST['email'],ENT_COMPAT,'UTF-8');
+        $username = htmlentities($_POST['username'],ENT_QUOTES,'UTF-8');
+        $email = htmlentities($_POST['email'],ENT_QUOTES,'UTF-8');
 
         if ($username == "") {
             $register_submit = $this->user_add_form($this->skin->lang_error->no_database_username);
