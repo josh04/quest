@@ -21,11 +21,36 @@ class code_mail extends code_common {
     }
 
    /**
+    * Send Mail API
+    *
+    * @access public
+    * @param int $to Receiving player id
+    * @param int $from Sending player id
+    * @param string $body Body of message - no html
+    * @param string $subject Subject of message - definitely no html
+    * @return int Mail database id
+    */
+    public function mail_send($to, $from, $body, $subject) {
+        $mail_insert['to'] = intval($to);
+        $mail_insert['from'] = intval($from);
+        $mail_insert['body'] = htmlentities($body,ENT_QUOTES,'UTF-8');
+        $mail_insert['subject'] = htmlentities($subject,ENT_QUOTES,'UTF-8');
+        $mail_insert['time'] = time();
+        $mail_insert['status'] = 0; // unread
+
+        $compose_query = $this->db->AutoExecute('mail', $mail_insert, 'INSERT');
+        if ($this->db->ErrorMsg()) {
+            $this->error_page($this->skin->lang_error->db_query_failed);
+        }
+        return $this->db->Insert_Id();
+    }
+
+   /**
     * where to?
     *
     * @return string html
     */
-    public function mail_switch() {
+    private function mail_switch() {
         switch($_GET['action']) {
             case 'compose':
                 $mail_switch = $this->compose();
@@ -53,7 +78,7 @@ class code_mail extends code_common {
     *
     * @return string html
     */
-    public function read() {
+    private function read() {
 
         $mail_query = $this->db->execute("SELECT m.*, p.username FROM mail AS m LEFT JOIN players AS p ON m.from=p.id WHERE m.id=? AND m.to=?",
                                 array(intval($_GET['id']), $this->player->id));
@@ -83,7 +108,7 @@ class code_mail extends code_common {
     *
     * @return string html
     */
-    public function mail_inbox($message = "") {
+    private function mail_inbox($message = "") {
         $mail_query = $this->db->execute("SELECT m.*, p.username FROM mail AS m LEFT JOIN players AS p ON m.from=p.id WHERE m.to=? ORDER BY m.time DESC",
                                 array($this->player->id));
         while($mail = $mail_query->fetchrow()) {
@@ -100,19 +125,19 @@ class code_mail extends code_common {
     * @param string $message error message
     * @return string html
     */
-    public function compose($message = "") {
+    private function compose($message = "") {
         if ($_POST['mail_to']) {
-            $to = htmlentities($_POST['mail_to'],ENT_COMPAT,'UTF-8');
+            $to = htmlentities($_POST['mail_to'],ENT_QUOTES,'UTF-8');
         } else {
-            $to = htmlentities($_GET['to'],ENT_COMPAT,'UTF-8');
+            $to = htmlentities($_GET['to'],ENT_QUOTES,'UTF-8');
         }
 
         if ($_POST['mail_subject']) {
-            $subject = htmlentities($_POST['mail_subject'],ENT_COMPAT,'UTF-8');
+            $subject = htmlentities($_POST['mail_subject'],ENT_QUOTES,'UTF-8');
         } else {
-            $subject = htmlentities($_GET['subject'],ENT_COMPAT,'UTF-8');
+            $subject = htmlentities($_GET['subject'],ENT_QUOTES,'UTF-8');
         }
-        $body = htmlentities($_POST['mail_body'],ENT_COMPAT,'UTF-8');
+        $body = htmlentities($_POST['mail_body'],ENT_QUOTES,'UTF-8');
         $compose = $this->skin->compose($to, $subject, $body, $message);
         return $compose;
     }
@@ -122,7 +147,7 @@ class code_mail extends code_common {
     *
     * @return string html
     */
-    public function compose_submit() {
+    private function compose_submit() {
         //Process mail info, show success message
         $to = new code_player;
         $to->db =& $this->db;
@@ -137,15 +162,8 @@ class code_mail extends code_common {
         }
 
 
-        $mail_insert['to'] = intval($to->id);
-        $mail_insert['from'] = intval($this->player->id);
-        $mail_insert['body'] = htmlentities($_POST['mail_body'],ENT_COMPAT,'UTF-8');
-        $mail_insert['subject'] = htmlentities($_POST['mail_subject'],ENT_COMPAT,'UTF-8');
-        $mail_insert['time'] = time();
-        $mail_insert['status'] = 0;
+        $this->send_mail($to->id, $this->player->id, $_POST['mail_body'], $_POST['mail_subject']);
 
-        $compose_query = $this->db->AutoExecute('mail', $mail_insert, 'INSERT');
-        print $this->db->ErrorMsg();
         $compose_submit = $this->mail_inbox("Mail sent.");
         
         return $compose_submit;
@@ -157,7 +175,7 @@ class code_mail extends code_common {
     *
     * @return string html
     */
-    public function delete_multiple() {
+    private function delete_multiple() {
         foreach ($_POST['mail_id'] as $mail_id) {
             $delete_html .= $this->skin->mail_delete_input(intval($mail_id));
         }
@@ -171,7 +189,7 @@ class code_mail extends code_common {
     *
     * @return string html
     */
-    public function delete_multiple_confirm() {
+    private function delete_multiple_confirm() {
         foreach ($_POST['mail_id'] as $mail_id) {
             $mail_ids .= intval($mail_id).", ";
         }
@@ -179,7 +197,7 @@ class code_mail extends code_common {
         $mail_ids = "(".substr($mail_ids, 0, strlen($mail_ids)-2).")";
 
         $this->db->execute('DELETE FROM mail WHERE id IN '.$mail_ids.' AND `to`=?', array(intval($this->player->id))); // eh, this is sloppy.
-        $delete_multiple_confirm = $this->mail_inbox("Messages deleted.");
+        $delete_multiple_confirm = $this->mail_inbox($this->skin->lang_error->messages_deleted);
         return $delete_multiple_confirm;
     }
 

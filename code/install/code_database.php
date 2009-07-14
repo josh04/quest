@@ -43,10 +43,10 @@ class code_database extends _code_install {
     * @return string html
     */
     public function setup_database_form($message="") {
-        $db_username = htmlentities($_POST['db_username'], ENT_COMPAT, "UTF-8");
-        $db_name = htmlentities($_POST['db_name'], ENT_COMPAT, "UTF-8");
+        $db_username = htmlentities($_POST['db_username'], ENT_QUOTES, "UTF-8");
+        $db_name = htmlentities($_POST['db_name'], ENT_QUOTES, "UTF-8");
         if ($_POST['db_server']) {
-            $db_server = htmlentities($_POST['db_server'], ENT_COMPAT, "UTF-8");
+            $db_server = htmlentities($_POST['db_server'], ENT_QUOTES, "UTF-8");
         } else {
             $db_server = "localhost";
         }

@@ -65,7 +65,9 @@ class code_bootstrap {
             $page_query = $this->db->execute("SELECT * FROM `pages` WHERE `section`=?", array($section));
            
             while($page_row = $page_query->fetchrow()){
-                $pages[$page_row['redirect']] = $page_row['name'];
+                foreach (explode(",", $page_row['redirect']) as $redirect) {
+                    $pages[$redirect] = $page_row['name'];
+                }
             }
         }
 
@@ -88,7 +90,7 @@ class code_bootstrap {
           */
             require("code/".$section."/"."_code_".$section.".php");
         }
-
+        
         require_once("code/".$section."/code_".$pages[$page].".php"); //Include whichever php file we want.
         $class_name = "code_".$pages[$page];
         $this->page = new $class_name($section, $page);

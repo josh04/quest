@@ -110,8 +110,8 @@ class skin_common {
                 <ul>
                     <li class='header'>Admin</li>
                     <li><a href='admin.php'>Control Panel</a></li>
-                    <li><a href='index.php?page=ticket&section=admin'>Ticket Control</a></li>
-                    <li><a href='admin.php?page=phpmy'>phpMyAdmin</a></li>
+                    <li><a href='index.php?section=admin&amp;page=ticket'>Ticket Control</a></li>
+                    <li><a href='index.php?section=admin&amp;page=blueprints'>Item Blueprints</a></li>
                     <li><a href='admin.php?page=tasks'>Task List</a></li>
                 </ul>
             </div>";
@@ -209,6 +209,28 @@ if($section=="admin") $glue .= "
         return $footer;
     }
 
+   /**
+    * for making shiny red boxes
+    * (TODO) USE THIS EVERYWHERE
+    *
+    * @param string $message error
+    * @return string html
+    */
+    public function error_box($message) {
+        $error_box = "<div class='error'>".$message."</div>";
+        return $error_box;
+    }
+
+   /**
+    * for making shiny green boxes
+    *
+    * @param string $message what happened?
+    * @return string html
+    */
+    public function success_box($message) {
+        $success_box = "<div class='success'>".$message."</div>";
+        return $success_box;
+    }
 
 }
 ?>

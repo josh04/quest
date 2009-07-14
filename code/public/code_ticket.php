@@ -67,7 +67,7 @@ class code_ticket extends code_common {
     public function ticket_submit() {
 	if($_POST['message']=="" || !isset($_POST['message'])) return $this->ticket_list();
         $insert_ticket['player_id'] = $this->player->id;
-        $insert_ticket['message'] = htmlentities($_POST['message'],ENT_COMPAT,'UTF-8');
+        $insert_ticket['message'] = htmlentities($_POST['message'],ENT_QUOTES,'UTF-8');
         $insert_ticket['date'] = time();
 
         $ticket_insert_query = $this->db->AutoExecute('tickets', $insert_ticket, 'INSERT');

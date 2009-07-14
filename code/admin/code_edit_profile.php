@@ -89,7 +89,7 @@ class code_edit_profile extends _code_admin {
         }
 
         if (!preg_match("/^[-!#$%&\'*+\\.\/0-9=?A-Z^_`{|}~]+@([-0-9A-Z]+\.)+([0-9A-Z]){2,4}$/i", $_POST['email'])) {
-            $update_profile = $this->edit_profile_page($id, $this->skin->lang_error->email_wrong_format);
+            $update_profile = $this->edit_profile_page($id, $this->skin->error_box($this->skin->lang_error->email_wrong_format));
             return $update_profile;
         }
 
@@ -108,7 +108,7 @@ class code_edit_profile extends _code_admin {
         }
         $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$id);
 
-        $update_profile = $this->edit_profile_page($id, $this->skin->lang_error->profile_updated);
+        $update_profile = $this->edit_profile_page($id, $this->skin->success_box($this->skin->lang_error->profile_updated));
         return $update_profile;
     }
 
