@@ -105,6 +105,7 @@ class skin_battle extends skin_common {
     *
     * @param int $opponent_id who'd we fight?
     * @param string $opponent_name name thyself!
+    * @return string html
     */
     public function draw_log($opponent_id, $opponent_name) {
         $draw_log = "You fought <a href='index.php?page=profile&amp;id=".$opponent_id."'>".$opponent_name."</a> and drew.";
@@ -112,22 +113,45 @@ class skin_battle extends skin_common {
     }
 
    /**
-    * draws the fight
+    * draws the fight - player's moves
     *
     * @param string $attack what happened?
+    * @return string html
+    */
+    public function player_battle_row($attack) {
+        $battle_row = "<div style='text-align:right;color:#00FF00'>".$attack."</div>";
+        return $battle_row;
+    }
+
+   /**
+    * draws the fight - enemies's moves
+    *
+    * @param string $attack what happened?
+    * @return string html
+    */
+    public function enemy_battle_row($attack) {
+        $battle_row = "<div style='text-align:left;color:#FF0000'>".$attack."</div>";
+        return $battle_row;
+    }
+
+   /**
+    * draws the fight - misc
+    *
+    * @param string $attack what happened?
+    * @return string html
     */
     public function battle_row($attack) {
         $battle_row = $attack."<br />";
         return $battle_row;
     }
-
    /**
     * there was a fight
     *
     * @param string $battle_html what happened?
+    * @param string $banner win/lose/draw?
     */
-    public function fight($battle_html) {
-        return $battle_html;
+    public function fight($battle_html, $banner) {
+        return $banner.$battle_html;
     }
 
 }

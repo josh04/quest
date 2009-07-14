@@ -30,6 +30,11 @@ class lang_error {
     public $player_no_energy = "You do not have enough energy to attack";
     public $player_currently_incapacitated = "You are currently incapacitated.";
     public $enemy_currently_incapacitated = "Your opponent is currently incapacitated.";
+    public $you_won = "You won!";
+    public $you_lost = "You lost!";
+    public $you_drew = "You drew.";
+    public $levelled_up = "You gained a level!";
+    public $battle_drawn = "Battle drawn.";
 
     // login
     public $password_wrong = "The password entered is incorrect.";
