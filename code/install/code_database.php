@@ -1,7 +1,7 @@
 <?php
 /**
  * Description of code_database
- * (TODO) merge this and upgrade_database so there's only one set of bliddy table definitions. sloppy.
+ * (DONE) merge this and upgrade_database so there's only one set of bliddy table definitions. sloppy.
  *
  * @author josh04
  * @package code_install

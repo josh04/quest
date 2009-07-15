@@ -2,7 +2,7 @@
 /**
  * sort of roughly get a quest db from an ezrpgdb (e-zur-puh-ger-duh-buh).
  *
- * (TODO) This shares a lot of code with code_database, but I have no way of merging them.
+ * (DONE) This shares a lot of code with code_database, but I have no way of merging them.
  *
  * @author josh04
  * @package code_install
