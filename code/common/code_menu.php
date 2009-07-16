@@ -25,18 +25,20 @@ class code_menu {
         while ($menu_entry = $menu_query->fetchrow()) {
             if ($this->page == $menu_entry['page'] && $this->section == $menu_entry['section'] && $menu_entry['extra'] == "") {
                 $menu_entries[$menu_entry['category']] .= $this->skin->current_menu_entry($menu_entry['label'], $menu_entry['section'], $menu_entry['page'], $menu_entry['extra']);
+            } else if ($this->section == "public") {
+                $menu_entries[$menu_entry['category']] .= $this->skin->public_menu_entry($menu_entry['label'], $menu_entry['page'], $menu_entry['extra']);
             } else {
-                if ($this->section == "public") {
-                    $menu_entries[$menu_entry['category']] .= $this->skin->public_menu_entry($menu_entry['label'], $menu_entry['section'], $menu_entry['page'], $menu_entry['extra']);
-                }
+                $menu_entries[$menu_entry['category']] .= $this->skin->menu_entry($menu_entry['label'], $menu_entry['section'], $menu_entry['page'], $menu_entry['extra']);
             }
         }
-
+        
         foreach ($menu_entries as $category_name => $category_html) {
             $menu_html .= $this->skin->menu_category($category_name, $category_html);
         }
         
-        return $menu_html;
+        $menu_wrap = $this->skin->menu_wrap($menu_html);
+
+        return $menu_wrap;
     }
 
 }

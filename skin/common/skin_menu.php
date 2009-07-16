@@ -45,7 +45,7 @@ class skin_menu {
     * @return string html
     */
     public function current_menu_entry($label, $section, $page, $extra) {
-        $current_menu_entry = "";
+        $current_menu_entry = "<li><a href='index.php?section=".$section."&amp;page=".$page.$extra."' style='font-weight:bold'>".$label."</a></li>";
         return $current_menu_entry;
     }
 
@@ -61,5 +61,15 @@ class skin_menu {
         return $menu_category;
     }
     
+   /**
+    * all-encompassing div
+    *
+    * @param string $menu_html all the categories
+    * @return string html
+    */
+    public function menu_wrap($menu_html) {
+        $menu_wrap = "<div id='left'>".$menu_html."</div>";
+        return $menu_wrap;
+    }
 }
 ?>
