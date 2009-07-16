@@ -7,11 +7,15 @@
  */
 class code_menu {
 
+    public $db;
+    public $skin;
     public $section = "public";
     public $page = "index";
-    
+
    /**
     * main menu-making function. pretty bitchin'
+    *
+    * (TODO) check for the existence of a static function as a way to implement the mail counter fairly
     *
     * @return string html
     */
@@ -22,7 +26,9 @@ class code_menu {
             if ($this->page == $menu_entry['page'] && $this->section == $menu_entry['section'] && $menu_entry['extra'] == "") {
                 $menu_entries[$menu_entry['category']] .= $this->skin->current_menu_entry($menu_entry['label'], $menu_entry['section'], $menu_entry['page'], $menu_entry['extra']);
             } else {
-                $menu_entries[$menu_entry['category']] .= $this->skin->menu_entry($menu_entry['label'], $menu_entry['section'], $menu_entry['page'], $menu_entry['extra']);
+                if ($this->section == "public") {
+                    $menu_entries[$menu_entry['category']] .= $this->skin->public_menu_entry($menu_entry['label'], $menu_entry['section'], $menu_entry['page'], $menu_entry['extra']);
+                }
             }
         }
 
