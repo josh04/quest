@@ -22,9 +22,9 @@ class code_bank extends code_common {
 
    /**
     * decides where to go from here
-    * (TODO) standardise "make_" function
+    * (DONE) standardise "make_" function
     *
-    *
+    * @return string html
     */
     public function make_bank() {
         if ($_GET['action']) {

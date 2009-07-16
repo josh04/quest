@@ -5,7 +5,7 @@
  * @author josh04
  * @package skin_admin
  */
-class skin_blueprints extends skin_common {
+class skin_blueprints extends _skin_admin {
 
     public function blueprints_wrap($blueprints_defense, $blueprints_offense, $blueprints_form) {
         $blueprints_wrap = $blueprints_form."<hr /><div>".$blueprints_defense."</div><div>".$blueprints_offense."</div>";

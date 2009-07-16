@@ -120,7 +120,7 @@ class code_common {
     *
     */
     public function make_player() {
-        // (TODO) player shirt and percentage code has moved
+        // (DONE) player shirt and percentage code has moved
         // Get our player object
         $this->player = new code_player;
         $this->player->db =& $this->db;
@@ -157,7 +157,7 @@ class code_common {
 
    /**
     * makes skin class - if the player has a skin, use that. needs skin selection code to be useful, tbqh
-    * (TODO) skin code
+    * (DONE) skin code
     *
     * @param string $skin_name skin name
     */

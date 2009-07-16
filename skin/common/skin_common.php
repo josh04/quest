@@ -178,12 +178,9 @@ class skin_common {
      * glues the left side to the right. yeah.
      * @return string html
      */
-    public function glue($section) {
+    public function glue() {
         $glue = "<div id='right'>
                  <div id='content'>";
-
-if($section=="admin") $glue .= "
-                 <img style='float:right;margin:8px;' src='images/icons/lock.png' alt='admin' title='Administrator page' />";
         return $glue;
     }
 

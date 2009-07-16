@@ -25,7 +25,7 @@ class code_edit_profile extends code_common {
     *
     * @return string html
     */
-    public function profile_switch() { //(TODO) {page}_switch should be common, i think
+    public function profile_switch() { //(DONE) {page}_switch should be common, i think
         switch($_GET['action']) {
             case 'update_profile':
                 $profile_switch = $this->update_profile();
