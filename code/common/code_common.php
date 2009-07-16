@@ -188,6 +188,23 @@ class code_common {
     }
 
    /**
+    * this happy function runs the code which assembles the side bar
+    *
+    * @return string html
+    */
+    public function make_menu() {
+        require_once("code/common/code_menu.php");
+        require_once("skin/common/skin_menu.php");
+        $menu = new code_menu();
+        $menu->skin = new skin_menu();
+        $menu->db =& $this->db;
+        $menu->section = $this->section;
+        $menu->page = $this->page;
+        $make_menu = $menu->make_menu();
+        return $make_menu;
+    }
+
+   /**
     * is it that time again?
     *
     */
@@ -220,11 +237,7 @@ class code_common {
 
         $output = $this->start_header();
  
-        if ($this->player->is_member) {
-            $output .= $this->menu_player();
-        } else {
-            $output .= $this->menu_guest();
-        }
+        $output .= $this->make_menu();
 
         $output .= $this->skin->glue($this->section);
         $output .= $page;
