@@ -81,5 +81,7 @@ class lang_error {
     public $no_stat_points = "You do not currently have any stat points to spend.";
     public $not_a_stat = "That is not a stat.";
 
+    // quests
+    public $quest_not_found = "The quest you were looking for does not exist.";
 }
 ?>

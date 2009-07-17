@@ -9,16 +9,47 @@
 class skin_quest extends skin_common {
     
    /**
-    * main quest page
+    * quest selection rows
+    * 
+    * @param array $quest quest details
+    * @return string html
+    */
+    public function quest_row($quest) {
+        return "<div class='quest-select'>
+        <a style='float:right;' href='index.php?page=quest&id=".$quest['id']."'>Start this quest!</a>
+        <h3>".$quest['title']."</h3>
+        Author: ".$quest['author']."<br />
+        <p>".$quest['description']."</p></div>";
+    }
+
+   /**
+    * quest selection page
+    * 
+    * @param string $quest_html quests you can choose to do
+    * @return string html
+    */
+    public function quest_select($quest_html, $message='') {
+        return "<h2>Select a Quest</h2>
+        ".($message?"<div class='error'>".$message."</div>":"")."
+        <div>You can choose a quest to embark on from below.
+        When on a quest, you cannot perform various other actions, such as visit other places.</div>
+        ".($quest_html!=""?$quest_html:"<div class='quest-select'>There are no quests installed!</div>");
+    }
+
+   /**
+    * quest log page
     * 
     * @param object $quest main object
+    * @param integer $next_event time until next event
     * @param string $quest_html previous stages
     * @return string html
     */
-    public function quest($quest, $quest_html) {
+    public function quest($quest, $next_event, $quest_html) {
         $html = "<h2>".$quest->title."</h2>
-	By ".$quest->author."
-	<div style='border:1px solid #99F;background-color:#CCF;padding:4px;margin:4px;'>".$quest->body."</div>";
+        By ".$quest->author."
+        <div class='explanation'>".$quest->body."</div>
+        <div id='quest-countdown-container' style='text-align:center;'>Next event in <span id='quest-countdown'>".$next_event."</span> seconds</div>
+        <script>startQuestCountdown();</script>";
         return $html . $quest_html;
     }
 
@@ -45,7 +76,7 @@ class skin_quest extends skin_common {
     * @return string html
     */
     public function encounter($encounter, $body, $user) {
-        return "<table><tr><td>".$body."<hr />
+        return "<table><tr><td>".$body.($body&&$encounter?"<hr />":"")."
         " . $encounter[0] . "<br style=\"clear:both;\" /></td>
         <td style=\"border-left:1px solid #333;padding:4px;width:150px;height:auto;text-align:left;\">
         <strong>Enemies:</strong> ".$encounter->enemies."<br /><strong>Result:</strong> ".($encounter->success?"Won":"Lost")."
@@ -62,7 +93,7 @@ class skin_quest extends skin_common {
     * @return string html
     */
     public function challenge($challenge, $body, $user) {
-        return "<table><tr><td>".$body."<hr />
+        return "<table><tr><td>".$body.($body&&$challenge?"<hr />":"")."
         ".$challenge . "<br style=\"clear:both;\" /></td>
         <td style=\"border-left:1px solid #333;padding:4px;width:150px;height:auto;text-align:right;\">
         In a <strong>".$challenge->source."</strong> check of ".$challenge->value.", ".$user." got ".$challenge->result.".
