@@ -11,6 +11,7 @@ class lang_error {
     public $page_not_exist = "The page you have tried to access does not exist.";
     public $no_password = "You did not enter a password.";
     public $passwords_do_not_match = "The entered passwords do not match.";
+    public $access_denied = "You do not have permission to view this page";
 
     // db
     public $failed_to_connect = "Failed to connect to database.";

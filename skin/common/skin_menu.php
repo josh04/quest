@@ -65,10 +65,12 @@ class skin_menu {
     * all-encompassing div
     *
     * @param string $menu_html all the categories
+    * @param string $top top of the menu extras
+    * @param string $bottom bottom of the menu extras
     * @return string html
     */
-    public function menu_wrap($menu_html) {
-        $menu_wrap = "<div id='left'>".$menu_html."</div>";
+    public function menu_wrap($menu_html, $top, $bottom) {
+        $menu_wrap = "<div id='left'>".$top.$menu_html.$bottom."</div>";
         return $menu_wrap;
     }
 }
