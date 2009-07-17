@@ -77,5 +77,7 @@ class lang_error {
     public $equip = "Equip";
     public $unequip = "Unequip";
 
+    // quests
+    public $quest_not_found = "The quest you were looking for does not exist.";
 }
 ?>
