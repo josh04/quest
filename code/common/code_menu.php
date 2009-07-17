@@ -9,8 +9,11 @@ class code_menu {
 
     public $db;
     public $skin;
+    public $player;
     public $section = "public";
     public $page = "index";
+    public $top = "";
+    public $bottom = "";
 
    /**
     * main menu-making function. pretty bitchin'
@@ -30,7 +33,7 @@ class code_menu {
             $menu_html .= $this->skin->menu_category($category_name, $category_html);
         }
         
-        $menu_wrap = $this->skin->menu_wrap($menu_html);
+        $menu_wrap = $this->skin->menu_wrap($menu_html, $this->top, $this->bottom);
 
         return $menu_wrap;
     }
@@ -42,19 +45,18 @@ class code_menu {
     * @return string html
     */
     public function make_menu_entry($menu_entry) {
+        if ($menu_entry['function']) {
+            $class = "code_".$menu_entry['page'];
+            $function = "code_".$menu_entry['page']."_menu";
+            require_once("code/".$menu_entry['section']."/code_".$menu_entry['page'].".php");
+            eval("\$menu_entry['label'] .= ".$class."::".$function."(\$this);");
+        }
         if ($this->page == $menu_entry['page'] && $this->section == $menu_entry['section'] && $menu_entry['extra'] == "") {
             $make_menu_entry = $this->skin->current_menu_entry($menu_entry['label'], $menu_entry['section'], $menu_entry['page'], $menu_entry['extra']);
         } else if ($menu_entry['section'] == "public") {
             $make_menu_entry = $this->skin->public_menu_entry($menu_entry['label'], $menu_entry['page'], $menu_entry['extra']);
         } else {
             $make_menu_entry = $this->skin->menu_entry($menu_entry['label'], $menu_entry['section'], $menu_entry['page'], $menu_entry['extra']);
-        }
-
-        if ($menu_entry['function']) {
-            $class = "code_".$menu_entry['page'];
-            $function = "code_".$menu_entry['page']."_menu";
-            require_once("code/".$menu_entry['section']."/code_".$menu_entry['page'].".php");
-            $make_menu_entry .= eval($class."::".$function."(\$db, \$player);");
         }
         return $make_menu_entry;
     }

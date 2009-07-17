@@ -76,7 +76,7 @@ class code_upgrade_database extends _code_install {
         $this->db->execute($this->cron_query.$this->help_query.$this->news_query.$this->skins_query.$this->tickets_query.
             $this->help_insert_query.$this->blueprints_query_update.$this->items_query_update.$this->mail_query_update.$this->players_query_update.
             $this->log_query_update.$this->cron_insert_query.$this->pages_query.$this->pages_insert_query.$this->settings_query.
-            $this->settings_insert_query);
+            $this->settings_insert_query.$this->menu_query.$this->menu_insert_query);
                         
         if (!$this->db->ErrorMsg()) {
             rename("config.php", "config.php.bak");

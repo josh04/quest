@@ -135,6 +135,14 @@ class skin_mail extends skin_common {
         return $mail_delete_input;
     }
 
+   /**
+    * static function for menu row mail messages
+    *
+    * @param int $id mail id
+    * @param string $username username from
+    * @param string $subject mail subject
+    * @return string html
+    */
     public static function mail_row_small($id, $username, $subject) {
         $mail_row_small = "
             <li>
@@ -145,8 +153,14 @@ class skin_mail extends skin_common {
         return $mail_row_small;
     }
 
+   /**
+    * static function for the menu wrapper
+    *
+    * @param string $mail_html the mail rows
+    * @return string html
+    */
     public static function mail_wrap_small($mail_html) {
-        $mail_wrap_small = "<ul><li class='header'>Mail</li>".$mail_html."</ul>";
+        $mail_wrap_small = "<div class='left-section'><ul><li class='header'>Mail</li>".$mail_html."</ul></div>";
         return $mail_wrap_small;
     }
 

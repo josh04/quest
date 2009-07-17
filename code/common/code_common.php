@@ -37,8 +37,10 @@ class code_common {
     */
     public function error_page($error) {
 
-        $this->make_skin();
-
+        if (!$this->skin) {
+            $this->make_skin();
+        }
+        
         $output = $this->skin->start_header("Error", "default.css");
 
         $output .= $this->skin->error_page($error);
@@ -181,6 +183,7 @@ class code_common {
         $menu = new code_menu();
         $menu->skin = new skin_menu();
         $menu->db =& $this->db;
+        $menu->player =& $this->player;
         $menu->section = $this->section;
         $menu->page = $this->page;
         $make_menu = $menu->make_menu();

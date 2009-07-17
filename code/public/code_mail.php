@@ -162,7 +162,7 @@ class code_mail extends code_common {
         }
 
 
-        $this->send_mail($to->id, $this->player->id, $_POST['mail_body'], $_POST['mail_subject']);
+        $this->mail_send($to->id, $this->player->id, $_POST['mail_body'], $_POST['mail_subject']);
 
         $compose_submit = $this->mail_inbox("Mail sent.");
         
@@ -204,17 +204,16 @@ class code_mail extends code_common {
    /**
     * static menu function
     *
-    * @param database $db db object reference
-    * @param code_player $player player object reference
+    * @param code_menu $menu the current menu object, allows adding of top/bottom and db etc
     * @return string html
     */
-    public static function code_mail_menu(&$db, &$player) {
-        if ($player->unread) {
+    public static function code_mail_menu(&$menu) {
+        if ($menu->player->unread) {
             require_once("skin/public/skin_mail.php");
-            $mail_query = $this->db->execute(" SELECT m.*, p.username FROM mail AS m
+            $mail_query = $menu->db->execute(" SELECT m.*, p.username FROM mail AS m
                                             LEFT JOIN players AS p ON m.from=p.id
                                             WHERE m.to=? AND m.status=0
-                                            ORDER BY m.time DESC", array($player->id));
+                                            ORDER BY m.time DESC", array($menu->player->id));
 
             if ($mail_query->recordcount()) {
                 while ($mail = $mail_query->fetchrow()) {
@@ -224,9 +223,11 @@ class code_mail extends code_common {
             
             if ($mail_rows) {
                 $mail = skin_mail::mail_wrap_small($mail_rows);
+                $menu->top .= $mail;
             }
         }
-        return $mail;
+        $menu_entry_addition = "[".$menu->player->unread."]";
+        return $menu_entry_addition;
     }
 
 

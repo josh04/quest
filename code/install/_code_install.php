@@ -135,7 +135,7 @@ class _code_install extends code_common {
           (2, 1, 'General Game Queries', 'This section deals with general queries about the game. Ergo, \"stuff which don''t fit in elsewhere good but still kinda useful, y''know?\"'),
           (3, 1, 'FAQs', '<i>Somewhat incredibly</i> we don''t have any FAQs at the moment. None. Because nobody''s asked a single question. As soon as we start getting them, however, we''ll put them up here for y''all to see.'),
           (4, 1, 'What is..?', 'Confused about a certain part of the game? This section explains some key concepts in Quest.'),
-          (5, 1, 'Contact Us', 'To get in contact with staff, you''re best off using the mail system to send them a message. You can see the staff members <a href=\"index.php?page=members&amp;act=staff\">here</a>.'),
+          (5, 1, 'Contact Us', 'To get in contact with staff, you''re best off using the mail system to send them a message. You can see the staff members <a href=\"index.php?page=members&amp;action=staff\">here</a>.'),
           (6, 1, 'How do I..?', 'If you want to know how to do something in the game, this is the right section to come to. Use the links in this section to specify your question.'),
           (7, 2, 'Dealing with Errors and Bugs', 'Found a problem? Oh dear. Well this section is designed specifically so that you know what to do. It''s got some basic troubleshooting for common errors as well, just in case what you''re experiencing ain''t that unusual...'),
           (8, 2, 'Walkthrough', 'This section is designed for new users really. It contains a brief guide on how to play the game. Just a nice way to get you started so you know what you''re doing.'),
@@ -251,6 +251,33 @@ class _code_install extends code_common {
                     ALTER TABLE `user_log` CHANGE `status2` `status` tinyint(1) NOT NULL;
                     ALTER TABLE `user_log` CHANGE `msg` `message` text NOT NULL;
                     ALTER TABLE `user_log` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; ";
+
+    public $menu_query = "CREATE TABLE IF NOT EXISTS `menu` (
+        `id` int(11) NOT NULL auto_increment,
+        `label` varchar(255) NOT NULL,
+        `category` varchar(255) NOT NULL,
+        `section` varchar(255) NOT NULL,
+        `page` varchar(255) NOT NULL,
+        `extra` text NOT NULL,
+        `enabled` tinyint(1) NOT NULL,
+        `order` int(11) NOT NULL,
+        `function` tinyint(1) NOT NULL default '0',
+        PRIMARY KEY  (`id`)
+        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
+    
+    public $menu_insert_query = "INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enabled`, `order`, `function`) VALUES
+        (1, 'Home', 'Game Menu', 'public', 'index', '', 1, 1, 0),
+        (2, 'Mail', 'Game Menu', 'public', 'mail', '', 1, 2, 1),
+        (3, 'Campus', 'Game Menu', 'public', 'campus', '', 1, 3, 0),
+        (4, 'Player Stats', 'Game Menu', 'public', 'ranks', '', 1, 4, 0),
+        (5, 'Member List', 'Game Menu', 'public', 'members', '', 1, 5, 0),
+        (6, 'Edit Profile', 'Game Menu', 'public', 'profile_edit', '', 1, 6, 0),
+        (7, 'Ticket Control', 'Admin', 'admin', 'ticket', '', 1, 2, 0),
+        (8, 'Item Blueprints', 'Admin', 'admin', 'blueprints', '', 1, 3, 0),
+        (9, 'Help', 'Other', 'public', 'help', '', 1, 3, 0),
+        (10, 'Support Tickets', 'Other', 'public', 'ticket', '', 1, 4, 0),
+        (11, 'Log Out', 'Other', 'public', 'login', '', 1, 5, 0);
+        ";
 
    /**
     * pieces the site together. intended to be overriden by child class to generate $page.
