@@ -48,7 +48,7 @@ class skin_quest extends skin_common {
         $html = "<h2>".$quest->title."</h2>
         By ".$quest->author."
         <div class='explanation'>".$quest->body."</div>
-        <div id='quest-countdown-container' style='text-align:center;'>Next event in <span id='quest-countdown'>".$next_event."</span> seconds</div>
+        ".($next_event<=0?"":"<div id='quest-countdown-container' style='text-align:center;'>Next event in <span id='quest-countdown'>".$next_event."</span> seconds</div>")."
         <script>startQuestCountdown();</script>";
         return $html . $quest_html;
     }
@@ -76,10 +76,10 @@ class skin_quest extends skin_common {
     * @return string html
     */
     public function encounter($encounter, $body, $user) {
-        return "<table><tr><td>".$body.($body&&$encounter?"<hr />":"")."
-        " . $encounter[0] . "<br style=\"clear:both;\" /></td>
+        return "<table><tr><td>".$body.($body&&$encounter['main']?"<hr />":"")."
+        " . $encounter['main'] . "<br style=\"clear:both;\" /></td>
         <td style=\"border-left:1px solid #333;padding:4px;width:150px;height:auto;text-align:left;\">
-        <strong>Enemies:</strong> ".$encounter->enemies."<br /><strong>Result:</strong> ".($encounter->success?"Won":"Lost")."
+        <strong>Enemies:</strong> ".$encounter['enemies']."<br /><strong>Result:</strong> ".($encounter['success']?"Won":"Lost")."
         <br /><br />".$this->gains($encounter['gold'],$encounter['experience'])."</td>
         </tr></table>";
     }
@@ -94,9 +94,9 @@ class skin_quest extends skin_common {
     */
     public function challenge($challenge, $body, $user) {
         return "<table><tr><td>".$body.($body&&$challenge?"<hr />":"")."
-        ".$challenge . "<br style=\"clear:both;\" /></td>
+        ".$challenge['main'] . "<br style=\"clear:both;\" /></td>
         <td style=\"border-left:1px solid #333;padding:4px;width:150px;height:auto;text-align:right;\">
-        In a <strong>".$challenge->source."</strong> check of ".$challenge->value.", ".$user." got ".$challenge->result.".
+        In a <strong>".$challenge['source']."</strong> check of ".$challenge['value'].", ".$user." got ".$challenge['result'].".
         <br /><br />".$this->gains($challenge['gold'],$challenge['experience'])."</td>
         </tr></table>";
     }
@@ -128,6 +128,16 @@ class skin_quest extends skin_common {
         return ($gold>0?"+".$gold." gold".($experience>0?"<br />":""):"")."
         ".($experience>0?"+".$experience." experience":"");
     }
+
+   /**
+    * it's over. quit?
+    * 
+    * @return string html
+    */
+    public function finish_quest() {
+        return "<div style='text-align:center;'><a href='index.php?page=quest'>Finish quest</a></div>";
+    }
+
 
 }
 ?>
