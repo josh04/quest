@@ -200,6 +200,34 @@ class code_mail extends code_common {
         $delete_multiple_confirm = $this->mail_inbox($this->skin->lang_error->messages_deleted);
         return $delete_multiple_confirm;
     }
+    
+   /**
+    * static menu function
+    *
+    * @param database $db db object reference
+    * @param code_player $player player object reference
+    * @return string html
+    */
+    public static function code_mail_menu(&$db, &$player) {
+        if ($player->unread) {
+            require_once("skin/public/skin_mail.php");
+            $mail_query = $this->db->execute(" SELECT m.*, p.username FROM mail AS m
+                                            LEFT JOIN players AS p ON m.from=p.id
+                                            WHERE m.to=? AND m.status=0
+                                            ORDER BY m.time DESC", array($player->id));
+
+            if ($mail_query->recordcount()) {
+                while ($mail = $mail_query->fetchrow()) {
+                    $mail_rows .= skin_mail::mail_row_small($mail['id'], $mail['username'], $mail['subject']);
+                }
+            }
+            
+            if ($mail_rows) {
+                $mail = skin_mail::mail_wrap_small($mail_rows);
+            }
+        }
+        return $mail;
+    }
 
 
 }
