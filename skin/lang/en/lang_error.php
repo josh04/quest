@@ -83,5 +83,12 @@ class lang_error {
 
     // quests
     public $quest_not_found = "The quest you were looking for does not exist.";
+    public $confirm_delete_quest = "Are you sure you want to delete this quest?";
+    public $quest_install_warning = "The developers of Quest are not responsible for the quests you install. Check quests carefully before installing them.";
+    public $quest_install_success = "The quest was successfully installed";
+    public $quest_install_no = "The quest could not be installed";
+    public $quest_found_no = "The quest could not be found";
+    public $quest_delete_success = "The quest was successfully deleted";
+    public $quest_delete_no = "The quest could not be deleted";
 }
 ?>

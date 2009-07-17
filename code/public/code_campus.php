@@ -28,7 +28,7 @@ class code_campus extends code_common {
     public function campus() {
         $log_count = $this->db->getone("select count(*) as `count` from `user_log` where `player_id`=? and `status`='unread'", array($this->player->id));
 
-        $campus = $this->skin->campus($this->player->username, $log_count, $this->settings['campus_caption'], $this->settings['campus_welcome']);
+        $campus = $this->skin->campus($this->player->username, $log_count, $this->settings['portal_caption'], $this->settings['portal_welcome']);
 
         return $campus;
     }
