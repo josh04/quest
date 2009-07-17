@@ -54,8 +54,8 @@ class skin_ticket extends _skin_admin {
                 <tr style='background-color: #EEE;'>
                 <th style='width:5%;'></th>
                 <th style='width:10%;'>ID</th>
-                <th style='width:30%;'>User</th>
-                <th style='width:55%;'>Message</th></tr>
+                <th style='width:20%;'>User</th>
+                <th style='width:65%;'>Message</th></tr>
                 ".$ticket_html."
                 </table>
                 <h3>Key</h3>
@@ -82,7 +82,7 @@ class skin_ticket extends _skin_admin {
         $ticket_wrap = "
                 <h2>Ticket ".$ticket['id']."</h2>
                 ".$message."
-                <p><a href='index.php?page=profile&id=".$ticket['player_id']."'>".$ticket['username']."</a>; ".$category."; <a href='index.php?page=ticket&section=admin'>Back to inbox</a></p>
+                <p><a href='index.php?page=profile&id=".$ticket['player_id']."'>".$ticket['username']."</a>; ".$category."; <a href='index.php?page=ticket&section=admin'>Back to ticket home</a></p>
                <div style='width:300px;height:100px;overflow-y:scroll;background-color:#EEE;padding:4px;border:1px solid #999;'>
                 ".$ticket['message']."
                 </div>
