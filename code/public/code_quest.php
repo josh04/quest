@@ -188,7 +188,7 @@ class code_quest extends code_common {
         $this->args[($c[0])] = $c[1]; }
         $this->args['last'] = $this->args['start'];
 
-        $file = 'quests/quest-'.$this->args[1].'.xml';
+        $file = 'quests/quest-'.md5($this->settings['quests_code'].$this->args[1]).'.xml';
         if(file_exists($file)) $quest = simplexml_load_file($file);
         else {
                 $this->db->execute("UPDATE `players` SET `quest`='0' WHERE `id`=?",array($this->player->id));
