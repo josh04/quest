@@ -82,29 +82,21 @@ class code_quest extends code_common {
         $event = $this->events->$id;
 
         if($event->encounter) {
-                if(isset($this->args['ev-'.$id])) {
-                $c = explode(",",urldecode($this->args['ev-'.$id]));
-                $encounter['main'] = $c[6];$encounter['hp'] = $c[3];
-                $encounter['gold'] = $c[5]; $encounter['xp'] =$c[4];
-                $encounter['success'] = $c[0];$encounter['jump'] = $c[1];$encounter['enemies'] = $c[2];
-                } else $encounter = $this->event_encounter($event->encounter);
+                if(isset($this->args['ev-'.$id])) $encounter = $this->stat_return($this->args['ev-'.$id], array('success','jump','enemies','hp','xp','gold','main'));
+                else $encounter = $this->event_encounter($event->encounter);
 
                 $event->body = $this->skin->encounter($encounter, $event->body, $this->player->username);
                 $event->jump = $encounter['jump'];
-                if(!isset($this->args['ev-'.$id])) $this->args['ev-'.$id] = urlencode($encounter['success'] . "," . $encounter['jump'] . "," . $encounter['enemies'] . "," . $encounter['hp'] . "," . $encounter['xp'] . "," . $encounter['gold'] . "," . $encounter['main']);
+                if(!isset($this->args['ev-'.$id])) $this->args['ev-'.$id] = $this->stat_imply($encounter, array('success','jump','enemies','hp','xp','gold','main'));
                 }
 
         if($event->challenge) {
-                if(isset($this->args['ev-'.$id])) {
-                $c = explode(",",urldecode($this->args['ev-'.$id]));
-                $challenge['main'] = $c[5];$challenge['xp'] = $c[4];
-                $challenge['jump'] = $c[0];$challenge['source'] = $c[1];
-                $challenge['value'] = $c[2];$challenge['result'] = $c[3];
-                } else $challenge = $this->event_challenge($event->challenge);
+                if(isset($this->args['ev-'.$id])) $challenge = $this->stat_return($this->args['ev-'.$id], array('jump', 'source', 'value', 'result', 'xp', 'main'));
+                else $challenge = $this->event_challenge($event->challenge);
 
                 $event->body = $this->skin->challenge($challenge, $event->body, $this->player->username);
                 $event->jump = $challenge['jump'];
-                if(!isset($this->args['ev-'.$id])) $this->args['ev-'.$id] = urlencode($challenge['jump'] . "," . $challenge['source'] . "," . $challenge['value'] . "," . $challenge['result'] . "," . $challenge['xp'] . "," . $challenge['main']);
+                if(!isset($this->args['ev-'.$id])) $this->args['ev-'.$id] = $this->stat_imply($challenge, array('jump', 'source', 'value', 'result', 'xp', 'main'));
                 }
 
         $quest_html .= $this->skin->render_event($event->title,$event->body);
@@ -155,6 +147,9 @@ class code_quest extends code_common {
         $final['hp'] = $this->player->hp - $this->player->prehp;
         $final['enemies'] = $this->skin->enemy_list($enemies);
         $final['success'] = ($failed?0:1);
+        $this->player->exp = $this->player->exp+$final['xp'];
+        $this->player->gold = $this->player->gold+$final['gold'];
+        $this->player_update(array('exp'=>$this->player->exp, 'gold'=>$this->player->gold));
         return $final;
     }
 
@@ -170,7 +165,19 @@ class code_quest extends code_common {
         $ret = ($check>=$challenge['value']?$challenge->success:$challenge->failure);
         $ret['source']=$challenge['source'];$ret['value']=$challenge['value'];
         $ret['result'] = $check;$ret['main']=$ret;
+        $this->player->exp = $this->player->exp+$ret['xp'];
+        $this->player_update(array('exp'=>$this->player->exp));
         return $ret;
+    }
+
+   /**
+    * updates player's stats
+    *
+    * @param array new values
+    * @return boolean
+    */
+    public function player_update($records) {
+        $this->db->AutoExecute('players', $records, 'UPDATE', $this->player->id);
     }
 
    /**
@@ -223,7 +230,37 @@ class code_quest extends code_common {
                 }
         $args .= "}";
         $q = $this->db->execute("UPDATE `players` SET `quest`=? WHERE `id`=?",array($args,$this->player->id));
-        return $q;
+        return ($q?true:false);
+    }
+
+   /**
+    * stores some stats
+    *
+    * @param array $input stats to be encoded
+    * @return array $titles which ones to encode
+    */
+    public function stat_imply($input,$titles) {
+        $arr = array();
+        foreach($titles as $a=>$b) {
+                $arr[$a] = str_replace(",","{131}",$input[$b]);
+                }
+        return urlencode(implode(",",$arr));
+    }
+
+   /**
+    * returns stored stats
+    *
+    * @param string $code encoded string with stats
+    * @return array $titles stats to draw out by name
+    */
+    public function stat_return($code,$titles) {
+        $arr = array();
+        $c = explode(",",urldecode($code));
+        if(count($c)!=count($titles)) return array();
+        foreach($titles as $a=>$b) {
+                $arr[($titles[$a])] = str_replace("{131}",",",$c[$a]);
+                }
+        return $arr;
     }
 
 }
