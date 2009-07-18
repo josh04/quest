@@ -179,6 +179,7 @@ class code_common_battle {
         }
         $victor->victory = true;
         $loser->victory = false;
+        if(!$options['nosave']==true) {$this->db->execute("UPDATE `players` SET `hp`=? WHERE `id`=?",array($this->player->hp,$this->player->id));}
         if($options['returnval']=="fulltext") return $attacks;
         if($options['returnval']=="boolean") return ($this->player->victory?1:0);
         if($options['returnval']=="details") return $this->player;

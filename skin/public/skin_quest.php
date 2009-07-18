@@ -80,7 +80,7 @@ class skin_quest extends skin_common {
         " . $encounter['main'] . "<br style=\"clear:both;\" /></td>
         <td style=\"border-left:1px solid #333;padding:4px;width:150px;height:auto;text-align:left;\">
         <strong>Enemies:</strong> ".$encounter['enemies']."<br /><strong>Result:</strong> ".($encounter['success']?"Won":"Lost")."
-        <br /><br />".$this->gains($encounter['gold'],$encounter['experience'])."</td>
+        <br /><br />".$this->gains($encounter['gold'],$encounter['xp'],$encounter['hp'])."</td>
         </tr></table>";
     }
 
@@ -97,7 +97,7 @@ class skin_quest extends skin_common {
         ".$challenge['main'] . "<br style=\"clear:both;\" /></td>
         <td style=\"border-left:1px solid #333;padding:4px;width:150px;height:auto;text-align:right;\">
         In a <strong>".$challenge['source']."</strong> check of ".$challenge['value'].", ".$user." got ".$challenge['result'].".
-        <br /><br />".$this->gains($challenge['gold'],$challenge['experience'])."</td>
+        <br /><br />".$this->gains($challenge['gold'],$challenge['xp'],0)."</td>
         </tr></table>";
     }
 
@@ -121,12 +121,13 @@ class skin_quest extends skin_common {
     * the rewards of an event
     * 
     * @param string $gold gold received
-    * @param string $experience experience earned
+    * @param string $xp xp earned
     * @return string html
     */
-    public function gains($gold, $experience) {
-        return ($gold>0?"+".$gold." gold".($experience>0?"<br />":""):"")."
-        ".($experience>0?"+".$experience." experience":"");
+    public function gains($gold=0, $xp=0, $hp=0) {
+        return ($gold>0?"+".$gold." gold".($xp>0?"<br />":""):"")."
+        ".($xp>0?"+".$xp." xp":"").($hp!=0?"<br />":"")."
+        ".($hp==0?"":$hp." hp");
     }
 
    /**
