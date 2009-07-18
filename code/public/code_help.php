@@ -30,12 +30,12 @@ class code_help extends code_common {
 
         $helpq = $this->db->execute("SELECT * FROM `help` WHERE `id`=?",array($help_id));
         while($helpr = $helpq->fetchrow()) {
-                $help_html .= $this->skin->help_row($helpr,$help_id);
+                $help_html .= $this->skin->help_row($helpr, $help_id, $this->page);
         }
 
         $helpq = $this->db->execute("SELECT * FROM `help` WHERE `parent`=?",array($help_id));
         while($helpr = $helpq->fetchrow()) {
-                $help_children .= $this->skin->help_row($helpr,$help_id);
+                $help_children .= $this->skin->help_row($helpr, $help_id, $this->page);
         }
 
         $help = $this->skin->help($help_html, $help_children);
