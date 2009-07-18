@@ -39,7 +39,6 @@ class code_menu {
         }
         
         $menu_wrap = $this->skin->menu_wrap($menu_html, $this->top, $this->bottom);
-        //$id = $this->add_menu_entry("new", "aubergine", "wibble", "", "new cat", 0); test test testy test test
         return $menu_wrap;
     }
 
