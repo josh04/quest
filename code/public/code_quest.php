@@ -84,26 +84,27 @@ class code_quest extends code_common {
         if($event->encounter) {
                 if(isset($this->args['ev-'.$id])) {
                 $c = explode(",",urldecode($this->args['ev-'.$id]));
-                $encounter['main'] = $c[3];
+                $encounter['main'] = $c[6];$encounter['hp'] = $c[3];
+                $encounter['gold'] = $c[5]; $encounter['xp'] =$c[4];
                 $encounter['success'] = $c[0];$encounter['jump'] = $c[1];$encounter['enemies'] = $c[2];
                 } else $encounter = $this->event_encounter($event->encounter);
 
                 $event->body = $this->skin->encounter($encounter, $event->body, $this->player->username);
                 $event->jump = $encounter['jump'];
-                if(!isset($this->args['ev-'.$id])) $this->args['ev-'.$id] = urlencode($encounter['success'] . "," . $encounter['jump'] . "," . $encounter['enemies'] . "," . $encounter['main']);
+                if(!isset($this->args['ev-'.$id])) $this->args['ev-'.$id] = urlencode($encounter['success'] . "," . $encounter['jump'] . "," . $encounter['enemies'] . "," . $encounter['hp'] . "," . $encounter['xp'] . "," . $encounter['gold'] . "," . $encounter['main']);
                 }
 
         if($event->challenge) {
                 if(isset($this->args['ev-'.$id])) {
                 $c = explode(",",urldecode($this->args['ev-'.$id]));
-                $challenge['main'] = $c[4];
+                $challenge['main'] = $c[5];$challenge['xp'] = $c[4];
                 $challenge['jump'] = $c[0];$challenge['source'] = $c[1];
                 $challenge['value'] = $c[2];$challenge['result'] = $c[3];
                 } else $challenge = $this->event_challenge($event->challenge);
 
                 $event->body = $this->skin->challenge($challenge, $event->body, $this->player->username);
                 $event->jump = $challenge['jump'];
-                if(!isset($this->args['ev-'.$id])) $this->args['ev-'.$id] = urlencode($challenge['jump'] . "," . $challenge['source'] . "," . $challenge['value'] . "," . $challenge['result'] . "," . $challenge['main']);
+                if(!isset($this->args['ev-'.$id])) $this->args['ev-'.$id] = urlencode($challenge['jump'] . "," . $challenge['source'] . "," . $challenge['value'] . "," . $challenge['result'] . "," . $challenge['xp'] . "," . $challenge['main']);
                 }
 
         $quest_html .= $this->skin->render_event($event->title,$event->body);
@@ -131,6 +132,7 @@ class code_quest extends code_common {
     * @return array
     */
     public function event_encounter($encounter) {
+        $this->player->prehp = $this->player->hp;
         if(!isset($this->battle)) {
                 $this->battle = new code_common_battle;
                 $this->battle->player = $this->player;
@@ -149,6 +151,8 @@ class code_quest extends code_common {
         }
         $final['main'] = ($failed?$encounter->failure:$encounter->success);
         $final['jump'] = $final['main']['jump'];
+        $final['gold'] = $final['main']['gold'];$final['xp'] = $final['main']['xp'];
+        $final['hp'] = $this->player->hp - $this->player->prehp;
         $final['enemies'] = $this->skin->enemy_list($enemies);
         $final['success'] = ($failed?0:1);
         return $final;

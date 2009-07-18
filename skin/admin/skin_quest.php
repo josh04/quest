@@ -40,7 +40,7 @@ class skin_quest extends _skin_admin {
             <th style='width:20%;'>Title</th>
             <th style='width:60%;'>Description</th>
             <th style='width:5%;'></th></tr>
-                ".$quest_html."
+                ".($quest_html?$quest_html:"<tr><td colspan='4'><h3>There are no quests installed</h3></td></tr>")."
         </table>
         <p>To install a new quest, enter its URL in the box below:<br />
         <form method='get' action=''><input type='hidden' name='section' value='admin' /><input type='hidden' name='page' value='quest' />
