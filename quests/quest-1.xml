@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<quest>
+	<title>The Raid of Roadin</title>
+	<author>Grego</author>
+	<body>The barbaric Knights of Roadin are causing more unrest in the region! You have been recruited to join a group of rebels who will launch an attack on their home town!</body>
+	<start>0</start>
+
+	<event id="0" duration="1">
+	<title>The adventure begins...</title>
+	<body>{{USER}} bravely joined his new found friends, ready to do justice.</body>
+	<jump>1</jump>
+	</event>
+
+	<event id="1" duration="1">
+	<title>Breaching the walls!</title>
+	<body>Approaching the town, the rebels find a series of defenders. They must be defeated before any justice can be done!</body>
+		<encounter>
+		<combatant hp="20" strength="100" agility="2" vitality="3">Deathblade</combatant>
+		<combatant hp="20" strength="100" agility="2" vitality="3">Deathblade</combatant>
+		<loot source="hp" effect="+5" type="potion">Stalk of asparagus</loot>
+		<success jump="2" experience="50" gold="0">{{USER}} gloriously ravished the criminal family, laying waste to their home and plundering their possessions.</success>
+		<failure jump="fail-1">The defenders held their position well and {{USER}} was forced to hastily retreat.</failure>
+		</encounter>
+	</event>
+
+	<event id="fail-1">
+	<title>{{USER}} failed to complete the quest</title>
+	<jump>{{END}}</jump>
+	</event>
+
+	<event id="2" duration="480">
+	<title>Breaching the gates</title>
+	<body>{{USER}} must use his full strength to break open the gates of the town</body>
+		<challenge source="strength" value="10">
+		<success jump="3" experience="20">The gate buckled under {{USER}}'s grasp!</success>
+		<failure jump="fail-2">{{USER}} used all his might but failed to break into the town. The cause was lost.</failure>
+		</challenge>
+	</event>
+
+	<event id="fail-2">
+	<title>Having failed his rebel friends, {{USER}} returned home to wallow in self pity</title>
+	<jump>{{END}}</jump>
+	</event>
+
+	<event id="3" duration="10">
+	<title>Raiding a house</title>
+		<encounter>
+		<combatant hp="10" strength="3" vitality="16">Civilian</combatant>
+		<combatant hp="10" strength="3" vitality="17">Child</combatant>
+		<success jump="4" experience="20" gold="10">{{USER}} gloriously ravished the criminal family, laying waste to their home and plundering their possessions.</success>
+		<failure jump="fail-2">{{USER}} wasn't strong enough to defeat the family, and was forced to retreat from battle.</failure>
+		</encounter>
+	</event>
+
+	<event id="4">
+	<title>Having successfully completed the adventure, Duffy headed home to rest.</title>
+	<jump>{{END}}</jump>
+	</event>
+</quest>

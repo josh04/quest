@@ -70,7 +70,7 @@ class skin_mail extends skin_common {
         <strong>Inbox</strong> | <a href='index.php?page=mail&amp;action=compose'>New Message</a>
         <form method='POST' action='index.php?page=mail&amp;action=delete_multiple' name='inbox'>
         ".($message?"<div class=\"success\">".$message."</div>":"")."
-            <table style='width:100%;margin: 12px 0px; border:1px solid #DDD; padding: 4px;' cellspacing='0' cellpadding='4'>
+            <table class='nutable' cellspacing='0' cellpadding='4'>
                 <tr style='background-color:#EEE;'>
                     <th width='5%'><input type='checkbox' name='check_all' /></th>
                     <th width='20%'>From</th>

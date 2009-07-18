@@ -74,9 +74,8 @@ pre
 	background-color: #EEF;
 }
 
-h2
-{
-	line-height: 0px;
+h2, h3 {
+	margin: 4px 0px;
 }
 
 #wrapper
@@ -275,6 +274,19 @@ a.help-topic-link {
 	color: #66F;
 }
 
+div.quest-select {
+	border: 1px solid #CCC;
+	padding: 8px;
+	margin: 12px 4px;
+	cursor: default;
+	font-size: 11px;
+}
+
+table.nutable {
+	border: 1px solid #DDD;
+	margin: 12px 0px;
+	padding: 4px;
+}
 
 /* BOXES */
 
@@ -286,7 +298,7 @@ div.error, div.rbox {
 }
 
 div.explanation, div.bbox {
-	border: 1px solid #00D;
+	border: 1px solid #99F;
 	background-color: #CCF;
 	padding: 8px;
 	margin: 2px;

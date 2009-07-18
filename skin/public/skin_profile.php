@@ -84,6 +84,7 @@ class skin_profile extends skin_common {
     */
     function edit_profile($profile, $gender_list, $show_email, $section, $message="") {
         $edit_profile = "
+                            <h2>Edit profile</h2>
                             ".$message."
                                 <a href='#' style='color:transparent;' onClick='showHide(\"showhide-1\",\"showhide-1-icon\");'><div class='edit-profile-header'><img id='showhide-1-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Edit Profile</div></a>
                                 <div class='edit-profile-body' id='showhide-1'><form action='index.php?".$section."page=profile_edit&amp;action=update_profile' method='POST'>
