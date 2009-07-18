@@ -173,7 +173,7 @@ class _code_install extends code_common {
         (5, 'bank', 'public', 'bank'),
         (6, 'hospital', 'public', 'hospital'),
         (7, 'work', 'public', 'work'),
-        (8, 'help', 'public', 'help'),
+        (8, 'help', 'public', 'help,guesthelp'),
         (9, 'edit_profile', 'public', 'profile_edit'),
         (10, 'battle', 'public', 'battle'),
         (11, 'profile', 'public', 'profile'),
@@ -181,14 +181,13 @@ class _code_install extends code_common {
         (13, 'staff', 'public', 'staff'),
         (14, 'mail', 'public', 'mail'),
         (15, 'campus', 'public', 'campus'),
-        (16, 'guesthelp', 'public', 'guesthelp'),
-        (17, 'ranks', 'public', 'ranks'),
-        (18, 'index', 'public', 'index'),
-        (19, 'members', 'public', 'members'),
-        (20, 'ticket', 'admin', 'ticket'),
-        (21, 'blueprints', 'admin', 'blueprints'),
-        (22, 'quest', 'public', 'quest'),
-        (23, 'quest', 'admin', 'quest');";
+        (16, 'ranks', 'public', 'ranks'),
+        (17, 'index', 'public', 'index'),
+        (18, 'members', 'public', 'members'),
+        (19, 'ticket', 'admin', 'ticket'),
+        (20, 'blueprints', 'admin', 'blueprints'),
+        (21, 'quest', 'public', 'quest'),
+        (22, 'quest', 'admin', 'quest');";
 
     public $settings_query = "CREATE TABLE IF NOT EXISTS `settings` (
         `name` varchar(125) NOT NULL,

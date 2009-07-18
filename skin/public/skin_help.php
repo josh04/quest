@@ -12,11 +12,12 @@ class skin_help extends skin_common {
     * 
     * @param array $help_topic help topic from database
     * @param integer $help_id id of current topic
+    * @param string $page the current page name (help or guesthelp)
     * @return string html
     */
-    public function help_row($help_topic, $help_id) {
+    public function help_row($help_topic, $help_id, $page) {
         $help_row = "
-        <a ".($help_topic['id']==$help_id?'':"href='index.php?page=help&id=".$help_topic['id']."' ")."class='help-topic-link'>".$help_topic['title']."</a>
+        <a ".($help_topic['id']==$help_id?'':"href='index.php?page=".$page."&id=".$help_topic['id']."' ")."class='help-topic-link'>".$help_topic['title']."</a>
         <div id='help-topic-".$help_topic['id']."' class='help-topic'>".$help_topic['body']."</div>
         ";
         return $help_row;
