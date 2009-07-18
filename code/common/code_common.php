@@ -269,14 +269,35 @@ class code_common {
 
     /**
      * updates a specific setting
+     *
      * @param string setting name
      * @param string setting value
      * @return boolean success
      */
     public function setting_update($name, $value) {
-        $d = $this->db->execute("UPDATE `settings` SET `value`=? WHERE `name`=?",array($value,$name));
-        if($d) $this->settings[$name] = $value;
+        // If they're arrays, we're going cyclic
+        if(is_array($name) && is_array($value)) {
+            if(count($name)!=count($value)) return false;
+            foreach($name as $a=>$b) {
+                if($this->settings[($name[$a])] == $value[$a]) continue;
+                $d = $this->db->execute("UPDATE `settings` SET `value`=? WHERE `name`=?",array($value[$a],$name[$a]));
+                $this->settings[($name[$a])] = $value[$a];
+                }
+            }
+        else {
+            $d = $this->db->execute("UPDATE `settings` SET `value`=? WHERE `name`=?",array($value,$name));
+            if($d) $this->settings[$name] = $value;
+            }
         return ($d?true:false);
+    }
+
+    /**
+     * looks nicer than creating classes
+     * 
+     * @return object code_fight
+     */
+    public function fight_init() {
+        return new code_fight;
     }
 }
 

@@ -6,7 +6,6 @@
  * @package code_public
  * @author josh04
  */
-
 class code_index extends code_common {
 
    /**
