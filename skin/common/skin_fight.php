@@ -1,13 +1,13 @@
 <?php
 /**
- * skin_battle.class.php
+ * skin_fight.class.php
  *
  * Draws fight bits
  * @package skin_common
  * @author josh04
  */
 
-class skin_common_battle {
+class skin_fight {
 
     public $lang_error;
 

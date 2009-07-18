@@ -61,6 +61,10 @@ class code_quest extends code_common {
     */
     public function quest_start() {
         $id = $_GET['id'];
+
+        if($this->player->hp<=0) return $this->quest_select($this->skin->lang_error->player_currently_incapacitated);
+        if($this->player->energy<=0) return $this->quest_select($this->skin->lang_error->player_no_energy);
+
         $questq = $this->db->execute("SELECT `id` FROM `quests` WHERE `id`=?",array($_GET['id']));
         if($questq->numrows()==1) {
         $this->db->execute("UPDATE `players` SET `quest`=? WHERE `id`=?",array($_GET['id']."{start:".time()."}",$this->player->id));

@@ -1,19 +1,19 @@
 <?php
 /**
-* battle.class.php
+* fight.class.php
 *
-* allows battles to take place
+* allows fights and scuffles to take place
 * @package code_common
 * @author grego
 */
  
-class code_common_battle {
+class code_fight {
  
   public $db;
   private $enemy;
 
    /**
-   * do battle with an NPC
+   * do battle with another player or an NPC
    *
    * @param object $enemy all enemy details
    * @param array $options 'returnval'
@@ -24,6 +24,7 @@ class code_common_battle {
 
         $this->enemy = $enemy;
         $this->skin = new skin_common_battle;
+
         // Get player's bonuses from equipment
         $player_attack_query = $this->db->query("SELECT blueprints.effectiveness, blueprints.name
             FROM `items`, `blueprints`
