@@ -94,6 +94,6 @@ class lang_error {
     // admin
     public $setting_update_yes = "The setting has been updated";
     public $setting_update_no = "The setting could not be updated";
-
+    public $admin_home = "Welcome to the administration panel of Quest. You can select an area to administrate below.";
 }
 ?>
