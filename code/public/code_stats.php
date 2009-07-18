@@ -18,28 +18,23 @@ class code_stats extends code_common {
     public function construct() {
         $this->initiate("skin_stats");
 
-        if ($_GET['action'] == 'spend' && $this->player->stat_points > 0) {
-            $code_stats = $this->spend();
-        } else {
-            $code_stats = $this->stats_page("");
-        }
+        $code_stats = $this->stats_switch();
 
         parent::construct($code_stats);
     }
 
-   /**
-    * displays stats page
-    *
-    * @param string $stats_message stats updated message
-    * @return string html
-    */
-    public function stats_page($stats_message) {
-        if ($this->player->stat_points) {
-            $stats_page = $this->skin->stats_to_spend($this->player->stat_points, $stats_message);
+    /**
+     * spend spend spend
+     *
+     * @return string html
+     */
+    private function stats_switch() {
+        if ($this->player->stat_points > 0) {
+            $code_stats = $this->spend($_POST['stat']);
         } else {
-            $stats_page = $this->skin->stats_none($stats_message);
+            $code_stats = $this->skin->error_box($this->skin->lang_error->no_stat_points);
         }
-        return $stats_page;
+        return $code_stats;
     }
 
    /**
@@ -47,44 +42,28 @@ class code_stats extends code_common {
     *
     * @return string html
     */
-    public function spend() {
-        switch((intval($_POST['stat']))) {
-            case 'Strength':
-                $increase_stat = $this->increase_stat('strength');
-                break;
-            case 'Vitality':
-                $increase_stat = $this->increase_stat('vitality');
-                break;
-            case 'Agility':
-                $increase_stat = $this->increase_stat('agility');
-                break;
+    private function spend($stat) {
+        $stats = array("strength", "vitality", "agility");
+        if (in_array($stat, $stats)) {
+            $this->player->stat_points--;
+            $this->player->$stat++;
+            $this->player->update_player();
+            $spend = $this->skin->stat_increased($stat, $this->player->$stat);
+        } else {
+            $spend = $this->skin->error_box($this->skin->lang_error->not_a_stat);
         }
-
-        $spend = $this->stats_page($increase_stat);
-
         return $spend;
     }
 
-    /**
-    * increases stat by a point
-    *
-    * @param string $stat which stat?
-    * @return string html
-    */
-    public function increase_stat($stat) {
-        $this->player->stat_points--;
-        $this->player->$stat++;
-        $update_player['stat_points'] = $this->player->stat_points;
-        $update_player[$stat] = $this->player->$stat;
-        $stat_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id='.$this->player->id);
-
-        if ($stat_query) {
-            $increase_stat = "You have increased your ".$stat.". It is now at ".$this->player->$stat.".";
+    public function stats_table() {
+        if ($this->player->is_member == 1 && $this->player->stat_points > 0) {
+            $stats_link = $this->skin->stats_link($this->player->stat_points);
+            $stats_table = $this->skin->stats_table_can_spend($this->player->strength, $this->player->vitality, $this->player->agility);
         } else {
-            $increase_stat = "Error updating player's ".$stat.".";
+            $stats_table = $this->skin->stats_table($this->player->strength, $this->player->vitality, $this->player->agility);
         }
-
-        return $increase_stat;
+        return $stats_link.$stats_table;
     }
+
 }
 ?>

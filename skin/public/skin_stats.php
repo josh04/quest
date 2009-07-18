@@ -10,45 +10,78 @@
 class skin_stats extends skin_common {
 
    /**
-    * displays you-have-stats screen
+    * we increased a stat woo
     *
-    * @param integer $stats_points number of player stats points
-    * @param string $stats_message message if updated
+    * @param string $stat_name which stat?
+    * @param int $stat_value how many they got now?
     * @return string html
     */
-    public function stats_to_spend($stat_points, $stats_message) {
-        $stats_to_spend = "
-            <h2>Stats Centre</h2>
-            ".$stats_message."
+    public function stat_increased($stat_name, $stat_value) {
+        $stat_increased = "<div class='success'>You have increased your ".$stat_name.". It is now at ".$stat_value.".</div>";
+        return $stat_increased;
+    }
 
-            <b>Stat Training Centre:</b><br />
-            <i>You have ".$stat_points."
-            stat points to spend, agent. What would you
-            like to spend them on?</i>
-            <br /><br />
-            <form action='index.php?page=stats&amp;action=spend' method='POST' />
-            <input type='submit' name='stat' value='Strength' /><br />
-            <input type='submit' name='stat' value='Vitality' /><br />
-            <input type='submit' name='stat' value='Agility' /><br />
-            ";
-        return $stats_to_spend;
+
+   /**
+    * returns the link if you have stats points to spend
+    *
+    * @param integer $stat_points number of available stat points
+    * @return string html
+    */
+    public function stats_link($stat_points) {
+        $stats_link = "<div class=\"success\">You have ".$stat_points." stat points to spend.</div>";
+        return $stats_link;
     }
 
    /**
-    * displays you-have-stats screen
-    * 
-    * @param string $stats_message message if updated
+    * table 'o' stats
+    *
+    * @param int $strength player strength
+    * @param int $vitality player vitality
+    * @param int $agility player agility
     * @return string html
     */
-    public function stats_none($stats_message) {
-        $stats_none = "
-            <h2>Stats Centre</h2>
-            <b>Stat Training Centre:</b><br />
-            <i>Sorry agent, but you currently do not have any
-            stat points to spend.<br />
-            Please come back later when you have leveled up.</i>
-            ";
-        return $stats_none;
+    public function stats_table($strength, $vitality, $agility) {
+        $stats_table = "
+            <table style=\"width:100px;margin:8px auto;\">
+                <tr><th style=\"width: 100px;\">Strength</th><td>".$strength."</td></tr>
+                <tr><th>Vitality</th><td>".$vitality."</td></tr>
+                <tr><th>Agility</th><td>".$agility."</td></tr>
+            </table>";
+        return $stats_table;
+    }
+
+   /**
+    * table 'o' stats, and buttons to press
+    *
+    * @param int $strength player strength
+    * @param int $vitality player vitality
+    * @param int $agility player agility
+    * @return string html
+    */
+    public function stats_table_can_spend($strength, $vitality, $agility) {
+        $stats_table = "<form action='index.php?page=stats' method='POST'>
+            <table style=\"width:100px;margin:8px auto;\">
+                <tr><th style=\"width: 100px;\">Strength</th><td>".$strength."</td>
+                    <td>
+                        <form action='index.php?page=stats' method='POST'>
+                            <input type='hidden' name='stat' value='strength' />
+                            <input type='submit' value='+' />
+                        </form></td></tr>
+                <tr><th>Vitality</th><td>".$vitality."</td>
+                    <td>
+                        <form action='index.php?page=stats' method='POST'>
+                            <input type='hidden' name='stat' value='vitality' />
+                            <input type='submit' value='+' />
+                        </form></td></tr>
+                <tr><th>Agility</th><td>".$agility."</td>
+                    <td>
+                        <form action='index.php?page=stats' method='POST'>
+                            <input type='hidden' name='stat' value='agility' />
+                            <input type='submit' value='+' />
+                        </form></td></tr>
+            </table></form>";
+        return $stats_table;
     }
 }
 ?>

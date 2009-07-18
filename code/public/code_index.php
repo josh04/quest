@@ -14,12 +14,13 @@ class code_index extends code_common {
     *
     * @return string html
     */
-    public function index_player() {
-
-        $stats = "";
-        if ($this->player->is_member == 1 && $this->player->stat_points > 0) {
-            $stats = $this->skin->stats_link($this->player->stat_points);
-        }
+    private function index_player() {
+        require_once("code/public/code_stats.php");
+        $code_stats = new code_stats($this->section, $this->page);
+        $code_stats->db =& $this->db;
+        $code_stats->player =& $this->player;
+        $code_stats->make_skin('skin_stats');
+        $stats = $code_stats->stats_table();
 
         $news = "";
         $news = $this->news();

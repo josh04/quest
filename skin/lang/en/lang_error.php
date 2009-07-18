@@ -77,5 +77,9 @@ class lang_error {
     public $equip = "Equip";
     public $unequip = "Unequip";
 
+    // stats
+    public $no_stat_points = "You do not currently have any stat points to spend.";
+    public $not_a_stat = "That is not a stat.";
+
 }
 ?>

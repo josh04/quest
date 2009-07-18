@@ -160,7 +160,11 @@ class code_player {
         $update_player['exp_max'] = $this->exp_max;
         $update_player['stat_points'] = $this->stat_points;
         $update_player['hp_max'] = $this->hp_max;
- 
+
+        $update_player['strength'] = $this->strength;
+        $update_player['vitality'] = $this->vitality;
+        $update_player['agility'] = $this->agility;
+
         //Update victor (the loser)
         $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id='.$this->id);
         return $levelled_up;

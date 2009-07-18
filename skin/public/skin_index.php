@@ -21,14 +21,7 @@ class skin_index extends skin_common {
     public function index_player($player, $stats, $news, $online_list) {
         $index_player = "
                 <h2>Welcome ".$player->username."</h2>
-            ".$stats."
-
-            <table style=\"width:100px;margin:8px auto;\">
-                <tr><th style=\"width: 100px;\">Strength</th><td>".$player->strength."</td></tr>
-                <tr><th>Vitality</th><td>".$player->vitality."</td></tr>
-                <tr><th>Agility</th><td>".$player->agility."</td></tr>
-            </table>
-
+                ".$stats."
             <h4>Users online</h4>
             <div style=\"margin: 0px 12px;\">".$online_list."</div>
             ".($news?"<h4>Latest news</h4>".$news:"");
@@ -61,18 +54,6 @@ class skin_index extends skin_common {
                 <br style='clear:both;' />
             </div>";
         return $index_guest;
-    }
-
-   /**
-    * returns the link if you have stats points to spend
-    *
-    * @param integer $stat_points number of available stat points
-    * @return string html
-    */
-    public function stats_link($stat_points) {
-        $stats_link = "<div class=\"success\">You have ".$stat_points." stat points to spend.
-	       <a href='index.php?page=stats'>Click here</a> to spend them.</div>";
-        return $stats_link;
     }
 
    /**
