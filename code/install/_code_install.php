@@ -173,7 +173,7 @@ class _code_install extends code_common {
         (5, 'bank', 'public', 'bank'),
         (6, 'hospital', 'public', 'hospital'),
         (7, 'work', 'public', 'work'),
-        (8, 'help', 'public', 'help'),
+        (8, 'help', 'public', 'help,guesthelp'),
         (9, 'edit_profile', 'public', 'profile_edit'),
         (10, 'battle', 'public', 'battle'),
         (11, 'profile', 'public', 'profile'),
@@ -181,14 +181,14 @@ class _code_install extends code_common {
         (13, 'staff', 'public', 'staff'),
         (14, 'mail', 'public', 'mail'),
         (15, 'campus', 'public', 'campus'),
-        (16, 'guesthelp', 'public', 'guesthelp'),
-        (17, 'ranks', 'public', 'ranks'),
-        (18, 'index', 'public', 'index'),
-        (19, 'members', 'public', 'members'),
-        (20, 'ticket', 'admin', 'ticket'),
-        (21, 'blueprints', 'admin', 'blueprints'),
-        (22, 'quest', 'public', 'quest'),
-        (23, 'quest', 'admin', 'quest');";
+        (16, 'ranks', 'public', 'ranks'),
+        (17, 'index', 'public', 'index'),
+        (18, 'members', 'public', 'members'),
+        (19, 'ticket', 'admin', 'ticket'),
+        (20, 'blueprints', 'admin', 'blueprints'),
+        (21, 'quest', 'public', 'quest'),
+        (22, 'quest', 'admin', 'quest'),
+        (23, 'index', 'admin', 'index');";
 
     public $settings_query = "CREATE TABLE IF NOT EXISTS `settings` (
         `name` varchar(125) NOT NULL,
@@ -199,8 +199,10 @@ class _code_install extends code_common {
     public $settings_insert_query = "INSERT INTO `settings` (`name`, `value`) VALUES
         ('name', 'Quest'),
         ('welcometext', '<p>Welcome to Quest. This is a default welcome message. To add your own, go to the Administration panel and click on \"Messages\".</p>'),
-        ('portal_caption', 'Campus'),
-        ('portal_welcome', '<strong>Security Guard:</strong><br />\n<i>Welcome onto Campus, agent. Let me just check your ID.<br />\n...<br />\nYou have permission to enter, agent. If you follow the path to the left, you can get to the Main Building. To the right you\'ll find the training areas and accommodation. Have a good day.</i>');";
+        ('portal_name', 'Campus'),
+        ('portal_welcome', '<strong>Security Guard:</strong><br />\n<i>Welcome onto Campus, agent. Let me just check your ID.<br />\n...<br />\nYou have permission to enter, agent. If you follow the path to the left, you can get to the Main Building. To the right you\'ll find the training areas and accommodation. Have a good day.</i>'),
+        ('portal_links', '* Main Building\r\nhospital|Hospital\r\nbank|Bank\r\nstore|Store\r\nwork|Work\r\n--\r\n* Your Room\r\nlaptop|Laptop\r\ninventory|Inventory\r\n\r\n* Dojo\r\nbattle|Combat training'),
+        ('quests_code','');";
 
     public $db_query = "ALTER DATABASE COLLATE utf8_general_ci; ";
 

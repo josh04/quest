@@ -109,7 +109,7 @@ class skin_common {
             <div class='left-section'>
                 <ul>
                     <li class='header'>Admin</li>
-                    <li><a href='admin.php'>Control Panel</a></li>
+                    <li><a href='index.php?section=admin'>Control Panel</a></li>
                     <li><a href='index.php?section=admin&amp;page=ticket'>Ticket Control</a></li>
                     <li><a href='index.php?section=admin&amp;page=blueprints'>Item Blueprints</a></li>
                     <li><a href='index.php?section=admin&amp;page=quest'>Quest Control</a></li>

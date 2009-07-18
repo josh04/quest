@@ -48,7 +48,7 @@ class code_stats extends code_common {
     * @return string html
     */
     public function spend() {
-        switch((intval($_POST['stat']))) {
+        switch((strval($_POST['stat']))) {
             case 'Strength':
                 $increase_stat = $this->increase_stat('strength');
                 break;
@@ -57,6 +57,8 @@ class code_stats extends code_common {
                 break;
             case 'Agility':
                 $increase_stat = $this->increase_stat('agility');
+                break;
+            default:
                 break;
         }
 
@@ -79,9 +81,9 @@ class code_stats extends code_common {
         $stat_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id='.$this->player->id);
 
         if ($stat_query) {
-            $increase_stat = "You have increased your ".$stat.". It is now at ".$this->player->$stat.".";
+            $increase_stat = $this->skin->success_box("You have increased your ".$stat.". It is now at ".$this->player->$stat.".");
         } else {
-            $increase_stat = "Error updating player's ".$stat.".";
+            $increase_stat = $this->skin->error_box("Error updating player's ".$stat.".");
         }
 
         return $increase_stat;

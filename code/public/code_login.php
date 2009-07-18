@@ -35,8 +35,9 @@ class code_login extends code_common {
         session_destroy();
         setcookie("cookie_hash", NULL, mktime() - 36000000);
         setcookie("user_id", NULL, mktime() - 36000000);
-        $login_message = "You have logged out.";
-        $log_out = $this->skin->index_guest($username, $login_message, $this->settings['welcometext']);
+/*        $login_message = "You have logged out.";
+        $log_out = $this->skin->index_guest($username, $login_message, $this->settings['welcometext']);*/
+        header("location:index.php");
         return $log_out;
     }
 

@@ -35,6 +35,7 @@ class lang_error {
     public $you_drew = "You drew.";
     public $levelled_up = "You gained a level!";
     public $battle_drawn = "Battle drawn.";
+    public $incorrect_enemy = "Enemy not properly formed.";
 
     // login
     public $password_wrong = "The password entered is incorrect.";
@@ -81,10 +82,20 @@ class lang_error {
     public $quest_not_found = "The quest you were looking for does not exist.";
     public $confirm_delete_quest = "Are you sure you want to delete this quest?";
     public $quest_install_warning = "The developers of Quest are not responsible for the quests you install. Check quests carefully before installing them.";
-    public $quest_install_success = "The quest was successfully installed";
-    public $quest_install_no = "The quest could not be installed";
-    public $quest_found_no = "The quest could not be found";
-    public $quest_delete_success = "The quest was successfully deleted";
-    public $quest_delete_no = "The quest could not be deleted";
+    public $quest_install_success = "The quest was successfully installed.";
+    public $quest_install_no = "The quest could not be installed.";
+    public $quest_found_no = "The quest could not be found.";
+    public $quest_delete_success = "The quest was successfully deleted.";
+    public $quest_delete_no = "The quest could not be deleted.";
+
+    // admin
+    public $changes_saved = "Changes saved.";
+    public $changes_saved_no = "Changes could not be saved.";
+    public $setting_update_yes = "The setting has been updated.";
+    public $setting_update_no = "The setting could not be updated.";
+    public $admin_home = "Welcome to the administration panel of Quest. You can select an area to administrate below.";
+    public $admin_portal_home = "The portal allows players to easily travel between areas of the game. You can configure it below.";
+    public $admin_portal_syntax = "Put each entry on a new line, add an asterisk (*) at the start for bold, link to pages with pipe syntax (bank|Bank),
+        force new lines with a space ( ) and specify boxes with hypens (--)";
 }
 ?>
