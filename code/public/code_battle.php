@@ -17,6 +17,7 @@ class code_battle extends code_common {
     public function construct() {
         $this->initiate("skin_battle");
 
+        $this->fight = $this->fight_init();
         $code_battle = $this->battle_switch();
 
         parent::construct($code_battle);
@@ -37,7 +38,7 @@ class code_battle extends code_common {
                     $battle_search = $this->fight_by_name();
                     return $battle_search;
                 }
-                $battle_search = $this->fight();
+                $battle_search = $this->fight->battle();
                 return $battle_search;
         }
         
@@ -124,7 +125,7 @@ class code_battle extends code_common {
             $fight_by_name = $this->skin->error_page($this->skin->lang_error->player_not_found);
             return $fight_by_name;
         }
-        $fight_by_name = $this->fight($this->enemy->id);
+        $fight_by_name = $this->fight->battle($this->enemy->id);
         return $fight_by_name;
     }
    

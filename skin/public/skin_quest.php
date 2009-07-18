@@ -78,9 +78,9 @@ class skin_quest extends skin_common {
     public function encounter($encounter, $body, $user) {
         return "<table><tr><td>".$body.($body&&$encounter['main']?"<hr />":"")."
         " . $encounter['main'] . "<br style=\"clear:both;\" /></td>
-        <td style=\"border-left:1px solid #333;padding:4px;width:150px;height:auto;text-align:left;\">
-        <strong>Enemies:</strong> ".$encounter['enemies']."<br /><strong>Result:</strong> ".($encounter['success']?"Won":"Lost")."
-        <br /><br />".$this->gains($encounter['gold'],$encounter['xp'],$encounter['hp'])."</td>
+        <td style=\"border-left:1px solid #333;padding:4px;width:150px;height:auto;text-align:right;\">
+        <div style=\"text-align:left;\"><strong>Enemies:</strong> ".$encounter['enemies']."<br /><strong>Result:</strong> ".($encounter['success']?"Won":"Lost")."</div>
+        <br />".$this->gains($encounter['gold'],$encounter['xp'],$encounter['hp'])."</td>
         </tr></table>";
     }
 
@@ -96,8 +96,8 @@ class skin_quest extends skin_common {
         return "<table><tr><td>".$body.($body&&$challenge?"<hr />":"")."
         ".$challenge['main'] . "<br style=\"clear:both;\" /></td>
         <td style=\"border-left:1px solid #333;padding:4px;width:150px;height:auto;text-align:right;\">
-        In a <strong>".$challenge['source']."</strong> check of ".$challenge['value'].", ".$user." got ".$challenge['result'].".
-        <br /><br />".$this->gains($challenge['gold'],$challenge['xp'],0)."</td>
+        <div style=\"text-align:left;\">In a <strong>".$challenge['source']."</strong> check of ".$challenge['value'].", ".$user." got ".$challenge['result'].".</div>
+        <br />".$this->gains($challenge['gold'],$challenge['xp'],0)."</td>
         </tr></table>";
     }
 

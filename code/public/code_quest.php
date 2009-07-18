@@ -128,29 +128,29 @@ class code_quest extends code_common {
     * @return array
     */
     public function event_encounter($encounter) {
-        $this->player->prehp = $this->player->hp;
-        if(!isset($this->battle)) {
-                $this->battle = new code_common_battle;
-                $this->battle->player = $this->player;
-	        $this->battle->db = $this->db;
+        $prehp = $this->player->hp;
+        if(!isset($this->fight)) {
+                $this->fight = $this->fight_init();
         }
 
         foreach($encounter->combatant as $combatant) {
+                $enemy = $this->fight->create_enemy();
                 foreach($combatant->attributes() as $a=>$b) {
                 	$a = (string) $a;
                 	$enemy->$a = $b;
                 	}
 		$enemy->username = $combatant[0];
                 $enemies[] = strval($enemy->username);
-        	$ret = $this->battle->battle($enemy,array('returnval'=>'details'));
-        	if(!$ret->victory) {$failed=1;break;}
+        	$ret = $this->fight->battle($enemy,array('returnval'=>'boolean','save_gold'=>false,'save_xp'=>false));
+                $this->player = $this->fight->player;
+        	if($ret==false) break;
         }
-        $final['main'] = ($failed?$encounter->failure:$encounter->success);
+        $final['main'] = ($ret==true?$encounter->success:$encounter->failure);
         $final['jump'] = $final['main']['jump'];
         $final['gold'] = $final['main']['gold'];$final['xp'] = $final['main']['xp'];
-        $final['hp'] = $this->player->hp - $this->player->prehp;
+        $final['hp'] = $this->player->hp - $prehp;
         $final['enemies'] = $this->skin->enemy_list($enemies);
-        $final['success'] = ($failed?0:1);
+        $final['success'] = ($ret?true:false);
         $this->player->exp = $this->player->exp+$final['xp'];
         $this->player->gold = $this->player->gold+$final['gold'];
         $this->player_update(array('exp'=>$this->player->exp, 'gold'=>$this->player->gold));
