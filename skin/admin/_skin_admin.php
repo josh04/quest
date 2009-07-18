@@ -12,7 +12,7 @@ class _skin_admin extends skin_common {
      */
     public function glue($section) {
         $glue = parent::glue();
-        $glue .= "<img style='float:right;margin:8px;' src='images/icons/lock.png' alt='admin' title='Administrator page' />";
+        $glue .= "<img style='float:right;margin:8px;' src='images/icons/lock.png' alt='admin' title='Admin page' />";
         return $glue;
     }
 }
