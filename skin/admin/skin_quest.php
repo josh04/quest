@@ -28,7 +28,7 @@ class skin_quest extends _skin_admin {
     * @param string $message any messages or warnings to precede
     * @return string html
     */
-    public function quest_wrapper($quest_html,$message='') {
+    public function quest_wrapper($quest_html,$code,$message='') {
         $quest_wrap = "
         <h2>Quests</h2>
         ".$message."
@@ -42,9 +42,14 @@ class skin_quest extends _skin_admin {
             <th style='width:5%;'></th></tr>
                 ".($quest_html?$quest_html:"<tr><td colspan='4'><h3>There are no quests installed</h3></td></tr>")."
         </table>
-        <p>To install a new quest, enter its URL in the box below:<br />
-        <form method='get' action=''><input type='hidden' name='section' value='admin' /><input type='hidden' name='page' value='quest' />
-        <input type='text' name='url' style='width:70%;' /><input type='submit' value='Install' /></form></p>
+        <form method='get' action=''><p>To install a new quest, enter its URL in the box below:<br />
+        <input type='hidden' name='section' value='admin' /><input type='hidden' name='page' value='quest' />
+        <input type='text' name='url' style='width:70%;' /><input type='submit' value='Install' /></p></form>
+
+        <form method='get' action=''><p>You can also change your quest security code:<br />
+        <input type='hidden' name='section' value='admin' /><input type='hidden' name='page' value='quest' />
+        <input type='text' name='code' style='width:70%;' value='".$code."' /><input type='submit' value='Update' /></p></form>
+
         <div class='error'>".$this->lang_error->quest_install_warning."</div>";
         return $quest_wrap;
     }

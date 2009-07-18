@@ -267,6 +267,17 @@ class code_common {
         return $code;
     }
 
+    /**
+     * updates a specific setting
+     * @param string setting name
+     * @param string setting value
+     * @return boolean success
+     */
+    public function setting_update($name, $value) {
+        $d = $this->db->execute("UPDATE `settings` SET `value`=? WHERE `name`=?",array($value,$name));
+        if($d) $this->settings[$name] = $value;
+        return ($d?true:false);
+    }
 }
 
 ?>

@@ -90,5 +90,10 @@ class lang_error {
     public $quest_found_no = "The quest could not be found";
     public $quest_delete_success = "The quest was successfully deleted";
     public $quest_delete_no = "The quest could not be deleted";
+
+    // admin
+    public $setting_update_yes = "The setting has been updated";
+    public $setting_update_no = "The setting could not be updated";
+
 }
 ?>
