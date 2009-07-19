@@ -25,7 +25,19 @@ class code_index extends _code_admin {
     * @return string html
     */
     public function index_wrapper() {
-        $index = $this->skin->index_wrapper();
+        $boxes = array(
+            array( 'panel', 'Admin panel', 'Your administration panel is your home - design it to your tastes' ),
+            array( 'ticket', 'Tickets', 'Read, organise and respond to tickets' ),
+            array( 'blueprints', 'Item Blueprints', 'Add, remove and organise items' ),
+            array( 'quest', 'Quests', 'Add, remove and organise quests' ),
+            array( 'portal', 'Portal', 'Control the portal' )
+        );
+        $i = 0;
+        foreach($boxes as $box) {
+            $i++;
+            $boxes_html .= $this->skin->admin_box($box, ($i%2==0));
+        }
+        $index = $this->skin->index_wrapper($boxes_html, $this->settings['admin_notes']);
         return $index;
     }
 

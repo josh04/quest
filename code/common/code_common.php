@@ -275,6 +275,8 @@ class code_common {
      * @return boolean success
      */
     public function setting_update($name, $value) {
+        // If no query needs to be executed, the update is complete!
+        $d = true;
         // If they're arrays, we're going cyclic
         if(is_array($name) && is_array($value)) {
             if(count($name)!=count($value)) return false;

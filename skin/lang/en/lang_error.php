@@ -99,7 +99,7 @@ class lang_error {
     public $setting_update_no = "The setting could not be updated.";
     public $admin_home = "Welcome to the administration panel of Quest. You can select an area to administrate below.";
     public $admin_portal_home = "The portal allows players to easily travel between areas of the game. You can configure it below.";
-    public $admin_portal_syntax = "Put each entry on a new line, add an asterisk (*) at the start for bold, link to pages with pipe syntax (bank|Bank),
+    public $admin_link_syntax = "Put each entry on a new line, add an asterisk (*) at the start for bold, link to pages with pipe syntax (bank|Bank),
         force new lines with a space ( ) and specify boxes with hypens (--)";
 }
 ?>

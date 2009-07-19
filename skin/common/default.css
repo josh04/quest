@@ -288,6 +288,27 @@ table.nutable {
 	padding: 4px;
 }
 
+table.admin-home-table {
+	width: 100%;
+}
+
+table.admin-home-table td {
+	width: 50%;
+        height: 100px;
+	border: 1px solid #AAA;
+        padding: 4px;
+}
+
+table.admin-home-table td a {
+	display: block;
+	background-color: #CCF;
+	padding: 4px;
+	margin-bottom: 4px;
+	color: #000;
+	text-align: center;
+	text-decoration: none;
+}
+
 /* BOXES */
 
 div.error, div.rbox {
@@ -314,6 +335,13 @@ div.success, div.ybox {
 div.gbox {
 	border: 1px solid #0D0;
 	background-color: #CFC;
+	padding: 8px;
+	margin: 2px;
+}
+
+div.dbox {
+	border: 1px solid #999;
+	background-color: #EEE;
 	padding: 8px;
 	margin: 2px;
 }
