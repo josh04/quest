@@ -62,20 +62,20 @@ class code_bootstrap {
                 $this->page->error_page($this->skin->lang_error->failed_to_connect);
             }
             
-            $page_query = $this->db->execute("SELECT * FROM `pages` WHERE `section`=?", array($section));
+            $page_query = $this->db->execute("SELECT * FROM `pages`");
            
             while($page_row = $page_query->fetchrow()){
                 foreach (explode(",", $page_row['redirect']) as $redirect) {
-                    $pages[$redirect] = $page_row['name'];
+                    $pages[$page_row['section']][$redirect] = $page_row['name'];
                 }
             }
         }
 
-        if ($pages[$_GET['page']]) {
+        if ($pages[$section][$_GET['page']]) {
             $page = $_GET['page'];
         }
 
-        if (!$pages[$page]) {
+        if (!$pages[$section][$page]) {
             $this->page = new code_common;
             $this->page->initiate();
             $this->page->error_page($this->page->skin->lang_error->page_not_exist);
@@ -89,10 +89,11 @@ class code_bootstrap {
             require("code/".$section."/"."_code_".$section.".php");
         }
         
-        require_once("code/".$section."/code_".$pages[$page].".php"); //Include whichever php file we want.
-        $class_name = "code_".$pages[$page];
+        require_once("code/".$section."/code_".$pages[$section][$page].".php"); //Include whichever php file we want.
+        $class_name = "code_".$pages[$section][$page];
         $this->page = new $class_name($section, $page);
         $this->page->config = $this->config;
+        $this->page->pages = $pages;
     }
 
    /**

@@ -82,5 +82,13 @@ class lang_error {
     public $no_stat_points = "You do not currently have any stat points to spend.";
     public $not_a_stat = "That is not a stat.";
 
+    // menu
+    public $no_menu_entry_selected = "You did not select a menu entry.";
+    public $no_label = "You did not enter a label.";
+    public $no_section = "You did not enter a section.";
+    public $no_page = "You did not enter a page.";
+    public $menu_entry_added = "Menu entry added.";
+    public $menu_entry_modified = "Menu entry modified.";
+
 }
 ?>

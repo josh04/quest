@@ -16,5 +16,12 @@ class _code_admin extends code_common {
         }
     }
 
+    public static function _code_admin_menu(&$menu, $label) {
+        if ($menu->player->rank != "Admin") { // yeah, I know, poor implementation of permissions
+            $menu->enabled = false;
+        }
+        return $label;
+    }
+
 }
 ?>

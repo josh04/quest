@@ -18,6 +18,7 @@ class code_common {
     public $section;
     public $page;
     public $settings = array();
+    public $pages = array();
 
    /**
     * section name and page name
@@ -180,12 +181,8 @@ class code_common {
     public function make_menu() {
         require_once("code/common/code_menu.php");
         require_once("skin/common/skin_menu.php");
-        $menu = new code_menu();
+        $menu = new code_menu($this->db, $this->player, $this->section, $this->page, $this->pages);
         $menu->skin = new skin_menu();
-        $menu->db =& $this->db;
-        $menu->player =& $this->player;
-        $menu->section = $this->section;
-        $menu->page = $this->page;
         $make_menu = $menu->make_menu();
         return $make_menu;
     }

@@ -205,9 +205,10 @@ class code_mail extends code_common {
     * static menu function
     *
     * @param code_menu $menu the current menu object, allows adding of top/bottom and db etc
+    * @param string $label The text label
     * @return string html
     */
-    public static function code_mail_menu(&$menu) {
+    public static function code_mail_menu(&$menu, $label) {
         if ($menu->player->unread) {
             require_once("skin/public/skin_mail.php");
             $mail_query = $menu->db->execute(" SELECT m.*, p.username FROM mail AS m
@@ -226,7 +227,7 @@ class code_mail extends code_common {
                 $menu->top .= $mail;
             }
         }
-        $menu_entry_addition = "[".$menu->player->unread."]";
+        $menu_entry_addition = $label." [".$menu->player->unread."]";
         return $menu_entry_addition;
     }
 
