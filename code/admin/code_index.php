@@ -37,7 +37,7 @@ class code_index extends _code_admin {
             $i++;
             $boxes_html .= $this->skin->admin_box($box, ($i%2==0));
         }
-        $index = $this->skin->index_wrapper($boxes_html, $this->settings['admin_notes']);
+        $index = $this->skin->index_wrapper($boxes_html, $this->bbparse($this->settings['admin_notes'],true));
         return $index;
     }
 

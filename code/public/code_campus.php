@@ -29,7 +29,7 @@ class code_campus extends code_common {
         $log_count = $this->db->getone("select count(*) as `count` from `user_log` where `player_id`=? and `status`='unread'", array($this->player->id));
 
         $portal_links = $this->portal_links();
-        $campus = $this->skin->campus($this->player->username, $log_count, $this->settings['portal_name'], $this->settings['portal_welcome'], $portal_links);
+        $campus = $this->skin->campus($this->player->username, $log_count, $this->settings['portal_name'], $this->bbparse($this->settings['portal_welcome'],true), $portal_links);
 
         return $campus;
     }

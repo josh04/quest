@@ -237,10 +237,12 @@ class code_common {
 
     /**
      * parses bbcode to return html
-     * @param string bbcode
+     * @param string $code bbcode
+     * @param boolean $full whether to fully parse
      * @return string html
      */
-    public function bbparse($code) {
+    public function bbparse($code, $full=false) {
+        if($full) $code = nl2br(htmlentities($code));
         $match = array (
                 "/\[b\](.*?)\[\/b\]/is",
                 "/\[i\](.*?)\[\/i\]/is",

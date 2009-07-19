@@ -32,9 +32,10 @@ class skin_general extends _skin_admin {
     * add a textarea field
     *
     * @param array $f field details
+    * @param string $lang language
     * @return string html
     */
-    public function add_field($f) {
+    public function add_field($f, $lang='') {
         // A few special cases to deal with first...
         if($f['type']=='caption') return "<tr><td></td><td>".$f['value']."</td></tr>";
         if($f['type']=='text') $g = "<input type='".$f['type']."' id='form-".$f['name']."' name='form-".$f['name']."' style='width:95%;' value='".$f['value']."' />";
@@ -43,7 +44,7 @@ class skin_general extends _skin_admin {
         // ...then the default
         if(!isset($g)) $g = "<textarea id='form-".$f['name']."' name='form-".$f['name']."' rows='5' style='width:95%;'>".$f['value']."</textarea>";
         return "
-            <tr><td><label for='form-".$f['name']."'".($f['type']=='checkbox'?" style='margin:0;'":"").">".($f['caption']?$f['caption']:$f['name'])."</label></td>
+            <tr><td><label for='form-".$f['name']."'".($f['type']=='checkbox'?" style='margin:0;'":"").">".($f['caption']?$f['caption']:$f['name'])."</label>".$lang."</td>
             <td>".$g."</td></tr>";
     }
 
