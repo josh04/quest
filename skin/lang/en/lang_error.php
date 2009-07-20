@@ -89,6 +89,7 @@ class lang_error {
     public $no_page = "You did not enter a page.";
     public $menu_entry_added = "Menu entry added.";
     public $menu_entry_modified = "Menu entry modified.";
+    public $menu_reordered = "Menu reordered.";
 
 }
 ?>

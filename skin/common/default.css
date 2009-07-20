@@ -305,3 +305,49 @@ div.gbox {
 	padding: 8px;
 	margin: 2px;
 }
+
+
+
+.drag {
+    z-index: 100;
+    position:absolute;
+    opacity: .50;
+    filter: alpha(opacity=50);
+    text-align: center;
+    display: none;
+}
+
+.list {
+    position:relative;
+    z-index: 1;
+    opacity: 1;
+    filter: alpha(opacity=100);
+    top: 0px;
+    left: 0px;
+    text-align: center;
+    background-color: #EFEFEF;
+}
+
+.reorder_menu {
+    position:relative;
+    width: 20%;
+    z-index: 1;
+    opacity: 1;
+    filter: alpha(opacity=100);
+    top: 0px;
+    left: 0px;
+    margin: 0 auto;
+    text-align: center;
+    border-width:1px;
+    border-color:black;
+    border-style:solid;
+}
+
+.reorder_menu_categories {
+    position:relative;
+    margin: 0 auto;
+    text-align: center;
+    border-width:1px;
+    border-color:black;
+    border-style:solid;
+}

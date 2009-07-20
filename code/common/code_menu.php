@@ -7,6 +7,8 @@
  * label, and can add to the class variables $top and $bottom for new-mail style fun
  * stuff.
  *
+ * (TODO) Better explanation here, install functions elsewhere
+ *
  * @author josh04
  * @package code_public
  */
