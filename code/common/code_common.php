@@ -217,14 +217,11 @@ class code_common {
     * @param string $page contains the html intended to go between the menu and the bottom.
     */
     public function construct($page) {
-
         $output = $this->start_header();
  
         $output .= $this->make_menu();
 
-        $output .= $this->skin->glue($this->section);
-        $output .= $page;
-        if(preg_match("/<h2>Error<\/h2>/",$page)) $output .= "</div></div>";
+        $output .= $this->skin->glue($page);
         $output .= $this->skin->footer();
 
         print $output;

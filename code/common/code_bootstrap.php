@@ -49,7 +49,7 @@ class code_bootstrap {
 
         if (!IS_INSTALLED) {
             $section = "install";
-            $pages = array( "index"             =>          "start",
+            $pages[$section] = array( "index"             =>          "start",
                             "database"          =>          "database",
                             "user"              =>          "user",
                             "upgrade_database"  =>          "upgrade_database"    );
@@ -74,10 +74,10 @@ class code_bootstrap {
         if ($pages[$section][$_GET['page']]) {
             $page = $_GET['page'];
         }
-
+        
         if (!$pages[$section][$page]) {
             $this->page = new code_common;
-            $this->page->initiate();
+            $this->page->make_skin();
             $this->page->error_page($this->page->skin->lang_error->page_not_exist);
         }
 

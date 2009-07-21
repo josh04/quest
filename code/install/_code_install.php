@@ -185,8 +185,9 @@ class _code_install extends code_common {
         (17, 'ranks', 'public', 'ranks'),
         (18, 'index', 'public', 'index'),
         (19, 'members', 'public', 'members'),
-        (20, 'ticket', 'admin', 'ticket');
-        (21, 'blueprints', 'admin', 'blueprints')";
+        (20, 'ticket', 'admin', 'ticket'),
+        (21, 'blueprints', 'admin', 'blueprints'),
+        (22, 'menu_admin', 'admin', 'menu');";
 
     public $settings_query = "CREATE TABLE IF NOT EXISTS `settings` (
         `name` varchar(125) NOT NULL,

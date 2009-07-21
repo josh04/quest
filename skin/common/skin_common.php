@@ -20,7 +20,7 @@ class skin_common {
     public function error_page($error) {
         $error_page = "<h2>Error</h2><div class='error'>".$error."</div>
 			<p><a href=\"index.php\">Return home</a> | <a href=\"#\" onclick=\"javascript:history.go(-1);return false;\">Back one page</a></p>
-			<div><div>";
+			";
         return $error_page;
     }
     
@@ -176,11 +176,13 @@ class skin_common {
 
     /**
      * glues the left side to the right. yeah.
+     * @param string $page page html
      * @return string html
      */
-    public function glue() {
+    public function glue($page) {
         $glue = "<div id='right'>
-                 <div id='content'>";
+                 <div id='content'>".$page."
+                 </div></div>";
         return $glue;
     }
 
@@ -190,8 +192,6 @@ class skin_common {
      */
     public function footer() {
          $footer .= "
-                    </div>
-                    </div>
                     <div id='footer'>
                         <div id='footer-text'>
                             <span style='font-size:1.5em;'>Quest</span><br />
