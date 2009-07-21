@@ -16,14 +16,17 @@ class skin_index extends skin_common {
     * @param string $stats stats html
     * @param string $news news html
     * @param string $online names of online players
+    * @param string $quest current quest html
     * @return string html
     */
-    public function index_player($player, $stats, $news, $online_list) {
+    public function index_player($player, $stats, $news, $online_list, $quest) {
         $index_player = "
-                <h2>Welcome ".$player->username."</h2>
-                ".$stats."
+                <h2>Welcome, ".$player->username."</h2>
+            ".$quest."
+            ".$stats."
+
             <h4>Users online</h4>
-            <div style=\"margin: 0px 12px;\">".$online_list."</div>
+            <div class=\"success\" style=\"margin: 8px;\">".$online_list."</div>
             ".($news?"<h4>Latest news</h4>".$news:"");
         return $index_player;
     }
@@ -83,7 +86,21 @@ class skin_index extends skin_common {
     }
 
    /**
-    * returns a news entry
+    * returns the details of your current quest
+    *
+    * @param array $quest what you're doing
+    * @return string html
+    */
+    public function current_quest($quest) {
+        return "<div class='quest-select'>
+        <a style='float:right;' href='index.php?page=quest'>See your progress</a>
+        <h3>".$quest['title']."</h3>
+        Author: ".$quest['author']."<br />
+        <p>".$quest['description']."</p></div>";
+    }
+
+   /**
+    * returns the registration form
     *
     * @param string $username html-friendly username
     * @param string $email html-friendly email

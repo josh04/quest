@@ -6,7 +6,6 @@
  * @package code_public
  * @author josh04
  */
-
 class code_index extends code_common {
 
    /**
@@ -26,8 +25,9 @@ class code_index extends code_common {
         $news = $this->news();
 
         $online_list = $this->online_list();
+        $quest = $this->quest();
 
-        $index_player = $this->skin->index_player($this->player, $stats, $news, $online_list);
+        $index_player = $this->skin->index_player($this->player, $stats, $news, $online_list, $quest);
         return $index_player;
     }
 
@@ -63,6 +63,20 @@ class code_index extends code_common {
         }
 
         return $news;
+    }
+
+   /**
+    * current quest
+    *
+    * @return string html
+    */
+    public function quest() {
+        preg_match("/\A([0-9]+):([0-9a-z]+)/is",$this->player->quest,$m);
+        if(!$m[1]) return '';
+        $currentq = $this->db->execute("SELECT * FROM `quests` WHERE `id`=?",array($m[1]));
+        if($currentq->numrows()!=1) return '';
+        $quest = $this->skin->current_quest($currentq->fetchrow());
+        return $quest;
     }
 
    /**

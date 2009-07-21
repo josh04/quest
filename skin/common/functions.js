@@ -325,3 +325,14 @@ function itemDragEnd(element, className, List)
   element.style.top = '0px';
   element.style.left = '0px';
 }
+
+function startQuestCountdown() {
+setInterval(questCountdown,1000);
+}
+
+function questCountdown() {
+a = document.getElementById('quest-countdown');
+b = document.getElementById('quest-countdown-container');
+a.innerHTML = (a.innerHTML - 1);
+if(a.innerHTML<=0) b.innerHTML = '<a href=\"index.php?page=quest\">Next event...</a>';
+}

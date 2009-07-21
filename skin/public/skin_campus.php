@@ -18,30 +18,14 @@ class skin_campus extends skin_common {
     * @param string $campus_welcome welcome text on page
     * @return string html
     */
-    public function campus($username, $unread_log, $campus_caption, $campus_welcome) {
+    public function campus($username, $unread_log, $campus_caption, $campus_welcome, $portal_links) {
         $campus = "
         <h2>".$campus_caption."</h2>
         ".$campus_welcome."
 
-        <div class=\"gbox\">
-        <table><tr>
-
-        <td><strong>Main Building</strong><br />
-        <a href='index.php?page=hospital'>Hospital</a><br />
-        <a href='index.php?page=bank'>Bank</a><br />
-        <a href='index.php?page=store'>Store</a><br />
-        <a href='index.php?page=work'>Work</a>
-        </td>
-
-        <td style='width:50%;'><strong>Your Room</strong><br />
-        <a href='index.php?page=laptop'>Laptop [".$unread_log."]</a><br />
-        <a href='index.php?page=inventory'>Inventory</a><br /><br />
-
-        <strong>Dojo</strong><br />
-        <a href='index.php?page=battle'>Combat Training</a>
-        </td>
-
-        </tr></table></div>";
+        <div class='gbox'><table><tr><td>
+        ".$portal_links."
+        </td></tr></table></div>";
         return $campus;
     }
 

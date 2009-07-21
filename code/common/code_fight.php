@@ -1,167 +1,54 @@
 <?php
 /**
- * oooooh shit this is the bad one. fight!
- *
- * @author josh04
- * @package code_public
- */
-class code_battle extends code_common {
-
-    public $enemy;
+* fight.class.php
+*
+* allows fights and scuffles to take place
+* @package code_common
+* @author josh04, grego
+*/
+ 
+class code_fight extends code_common {
+ 
+  public $db;
+  private $enemy;
 
    /**
-    * class override. calls parents, sends kids home.
-    *
-    * @return string html
-    */
-    public function construct() {
-        $this->initiate("skin_battle");
-
-        $this->fight = $this->fight_init();
-        $code_battle = $this->battle_switch();
-
-        parent::construct($code_battle);
+   * create class
+   */
+    public function __construct() {
+        $this->section = 'common';
+        $this->initiate("skin_fight");
     }
-    
+
    /**
-    * which way shall we turn?
-    * 
-    * @return string html
-    */
-    public function battle_switch() {
-        switch($_GET['action']) {
-            case 'search':
-                $battle_search = $this->battle_search();
-                return $battle_search;
-            case 'fight':
-                if ($_POST['username']) {
-                    $battle_search = $this->fight_by_name();
-                    return $battle_search;
-                }
-                $battle_search = $this->fight->battle();
-                return $battle_search;
-        }
-        
-        $battle_search = $this->battle_search_page();
-        return $battle_search;
-    }
-    
-   /**
-    * find us a player
-    * 
-    * @return string html
-    */
-    public function battle_search() {
-		
-		//Construct query
-        $player_query_construct = "SELECT id, username, hp, hp_max, level
-            FROM players
-            WHERE id != ? ";
-        $player_query_values = array($this->player->id);
+   * do battle with another player or an NPC
+   *
+   * @param object|integer $enemy all enemy details or enemy id number
+   * @param array $options 'returnval'
+   * @return success or failure
+   */
+    public function battle($enemy=null, $options=array()) {
 
-        if ($_POST['username']) {
-            $player_query_construct .= " AND username LIKE ? ";
-            $player_query_values[] = "%".trim($_POST['username'])."%";
-        }
-        
-        //Add level range for search
-        if ($_POST['level_min']) {
-            $player_query_construct .= " AND level >= ? ";
-            $player_query_values[] = intval($_POST['level_min']);
-        }
-        
-        if ($_POST['level_max']) {
-            $player_query_construct .= " AND level <= ? ";
-            $player_query_values[] = intval($_POST['level_max']);
-        }
-        
-        switch($_POST['alive']) {
-            case 0:
-                $player_query_construct .= " AND hp = 0 ";
-                break;
-            case 1:
-                $player_query_construct .= " AND hp > 0 ";
-                break;
+        $defaults = $this->default_options();
+        $options = array_merge($defaults,$options);
+
+        if($this->enemy) $id = $this->enemy->id;
+
+        if (is_object($enemy)) {
+            $this->enemy = $enemy;
+            $id = $this->enemy->id;
         }
 
-        $player_query_construct .= "LIMIT 0,20";
-
-	$player_query = $this->db->execute($player_query_construct, $player_query_values); //Search!
-        print $this->db->ErrorMsg();
-        if ($player_query->recordcount()) {
-            while ($player = $player_query->fetchrow()) {
-                $player_rows .= $this->skin->battle_search_row($player);
-            }
-            $player_html = $this->skin->battle_search_row_wrap($player_rows);
-        } else {
-            $player_html = $this->skin->error_page($this->skin->lang_error->player_not_found);
-        }
-
-        $battle_search_page = $this->battle_search_page();
-
-        $battle_search = $battle_search_page.$player_html;
-
-        return $battle_search;
-    }
-    
-   /**
-    * battle search form
-    * 
-    * @return string html
-    */
-    public function battle_search_page() {
-        $username = htmlentities($_POST['username'],ENT_QUOTES,'UTF-8');
-        $level_min = intval($_POST['level_min']);
-        $level_max = intval($_POST['level_max']);
-        $battle_search_page = $this->skin->battle_search_page($username, $level_min, $level_max);
-        return $battle_search_page;
-    }
-
-    public function fight_by_name() {
-        $this->enemy = new code_player;
-        $this->enemy->db =& $this->db;
-
-        if (!$this->enemy->get_player_by_name($_POST['username'])) {
-            $fight_by_name = $this->skin->error_page($this->skin->lang_error->player_not_found);
-            return $fight_by_name;
-        }
-        $fight_by_name = $this->fight->battle($this->enemy->id);
-        return $fight_by_name;
-    }
-   
-   /**
-    * FIIIIGHT. finally.
-    * 
-    * @return string html
-    */
-    public function fight() {
-        $id = $this->enemy->id;
-        if (!$id) {
+        if (!$id && isset($_POST['id'])) {
             $id = intval($_POST['id']);
         }
 
-        if (!$id) {
-            $fight = $this->skin->error_page($this->skin->lang_error->no_player_selected);
-            return $fight;
+        if (is_integer($enemy)) {
+            $id = $enemy;
         }
 
-        if ($id == $this->player->id) {
-            $fight = $this->skin->error_page($this->skin->lang_error->cannot_attack_self);
-            return $fight;
-        }
-
-        //Player cannot attack any more
-        if ($this->player->energy == 0) {
-            $fight = $this->skin->error_page($this->skin->lang_error->player_no_energy);
-            return $fight;
-        }
-        
-        //Player is unconscious
-        if ($this->player->hp == 0) {
-            $fight = $this->skin->error_page($this->skin->lang_error->player_currently_incapacitated);
-            return $fight;
-        }
-        if (!$this->enemy) {
+        if (isset($id) && !is_object($enemy)) {
+            $options['type'] = 'player';
             $this->enemy = new code_player;
             $this->enemy->db =& $this->db;
 
@@ -171,27 +58,42 @@ class code_battle extends code_common {
             }
         }
 
+        if (!$id && $options['type']=="player") {
+            $fight = $this->skin->error_page($this->skin->lang_error->no_player_selected);
+            return $this->return_val($options['returnval'], array($fight), 0, $fight);
+        }
+
+        if ($id == $this->player->id) {
+            $fight = $this->skin->error_page($this->skin->lang_error->cannot_attack_self);
+            return $this->return_val($options['returnval'], array($fight), 0, $fight);
+        }
+
+        if (!method_exists($this->enemy,"add_log")) {
+            $fight = $this->skin->error_page($this->skin->lang_error->incorrect_enemy);
+            return $this->return_val($options['returnval'], array($fight), 0, $fight);
+        }
+
+        //Player cannot attack any more
+        if ($this->player->energy == 0) {
+            $fight = $this->skin->error_page($this->skin->lang_error->player_no_energy);
+            return $this->return_val($options['returnval'], array($fight), 0, $fight);
+        }
+        
+        //Player is unconscious
+        if ($this->player->hp == 0) {
+            $fight = $this->skin->error_page($this->skin->lang_error->player_currently_incapacitated);
+            return $this->return_val($options['returnval'], array($fight), 0, $fight);
+        }
+
         //Otherwise, check if agent has any health
         if ($this->enemy->hp == 0) {
             $fight = $this->skin->error_page($this->skin->lang_error->enemy_currently_incapacitated);
-            return $fight;
+            return $this->return_val($options['returnval'], array($fight), 0, $fight);
         }
 
-        //Get enemies bonuses from equipment
-        $enemy_attack_query = $this->db->query("SELECT blueprints.effectiveness, blueprints.name
-            FROM `items`, `blueprints`
-            WHERE blueprints.id=items.item_id AND items.player_id=? AND blueprints.type='weapon' AND items.status='equipped'",
-            array($this->enemy->id));
-        $enemy_weapon = $enemy_attack_query->fetchrow();
-        $this->enemy->attack_bonus = $enemy_weapon['effectiveness'];
-        $enemy_defense_query = $this->db->query("select blueprints.effectiveness, blueprints.name
-            FROM `items`, `blueprints`
-            WHERE blueprints.id=items.item_id AND items.player_id=? AND blueprints.type='armour' AND items.status='equipped'",
-            array($this->enemy->id));
-        $enemy_armour = $enemy_defense_query->fetchrow();
-        $this->enemy->defense_bonus = $enemy_armour['effectiveness'];
+        if($options['type']=="player") $this->player_combat_setup();
 
-        //Get player's bonuses from equipment
+        // Get player's bonuses from equipment
         $player_attack_query = $this->db->query("SELECT blueprints.effectiveness, blueprints.name
             FROM `items`, `blueprints`
             WHERE blueprints.id=items.item_id AND items.player_id=? AND blueprints.type='weapon' AND items.status='equipped'",
@@ -204,7 +106,6 @@ class code_battle extends code_common {
             array($this->player->id));
         $player_armour = $player_defense_query->fetchrow();
         $this->player->defense_bonus = $player_armour['effectiveness'];
-
 
         //Calculate some variables that will be used
 	if (($this->enemy->strength - $this->player->strength) > 0) {
@@ -260,7 +161,6 @@ class code_battle extends code_common {
         if ($this->enemy->damage_max <= 0) {
             $this->enemy->damage_max = 1;
         }
-        
 		//Calculate battle 'combos' - how many times in a row a player can attack (dependent on agility)
 		$this->enemy->combo_max = $this->enemy->agility_bonus + $this->enemy->vitality_bonus + 3;
         $this->player->combo_max = $this->player->agility_bonus + $this->player->vitality_bonus + 3;
@@ -286,7 +186,7 @@ class code_battle extends code_common {
                 $defending =& $this->player;
             }
 
-            $battle_function = $attacking->battle_function;
+            $battle_function = strval($attacking->battle_function);
 
             for ($i=0; $i<$attacking->combo_max; $i++) {
                 //Chance to miss?
@@ -294,7 +194,7 @@ class code_battle extends code_common {
                 if ($miss_chance <= $attacking->miss) {
                     $attacks[] = $this->skin->$battle_function($attacking->username." tried to attack ".$defending->username." but missed.");
                 } else {
-                    $damage = rand($attacking->damage_min, $attacking->damage_max); //Calculate random damage
+                    $damage = rand(intval($attacking->damage_min), intval($attacking->damage_max)); //Calculate random damage
                     $defending->hp -= $damage;
 
                     $attacks[] = $this->skin->$battle_function($attacking->username." attacks ".$defending->username." for <b>".$damage."</b> damage.");
@@ -346,8 +246,9 @@ class code_battle extends code_common {
                 }
             }
         }
-
         $victor->victory = true;
+        $loser->victory = false;
+
         $battle_function = $victor->battle_function;
         
         if ($battle_rounds) {
@@ -360,13 +261,13 @@ class code_battle extends code_common {
             
 
             $loser->hp = 0;
-            $loser->gold = $loser->gold - $gold_shift;
-            $loser->deaths++;
+            if($options['save_gold']) $loser->gold = $loser->gold - $gold_shift;
+            if($options['record_kills']) $loser->deaths++;
             
             
-            $victor->exp = $victor->exp + $exp_gain;
-            $victor->gold = $victor->gold + $gold_shift;
-            $victor->kills++;
+            if($options['save_xp']) $victor->exp = $victor->exp + $exp_gain;
+            if($options['save_gold']) $victor->gold = $victor->gold + $gold_shift;
+            if($options['record_kills']) $victor->kills++;
             
             $victor->add_log($this->skin->victory_log($loser->id, $loser->username, $gold_shift, $exp_gain));
             $loser->add_log($this->skin->loss_log($victor->id, $victor->username, $gold_shift));
@@ -376,17 +277,18 @@ class code_battle extends code_common {
             $banner = $this->skin->error_box($this->skin->lang_error->you_drew);
         }
 
-        $this->player->energy--; // he started it!
+        if($options['use_energy']) $this->player->energy--; // he started it!
         
         if ($this->player->update_player()) {
             $attacks[] = $this->skin->player_battle_row($this->player->username." gained a level!");
             $this->player->add_log($this->skin->lang_error->levelled_up);
         }
 
+        if($options['type']=="player") {
         if ($this->enemy->update_player()) {
             $attacks[] = $this->skin->enemy_battle_row($this->enemy->username." gained a level!");
             $this->enemy->add_log($this->skin->lang_error->levelled_up);
-        }
+        } }
 
         foreach ($attacks as $attack) {
             $battle_html .= $attack;
@@ -399,9 +301,89 @@ class code_battle extends code_common {
         }
 
         $fight = $this->skin->fight($battle_html, $banner);
-        return $fight;
 
+        return $this->return_val($options['returnval'], $attacks, $this->player->victory, $fight);
     }
 
+   /**
+   * setup enemy bits
+   *
+   * @return void;
+   */
+    public function player_combat_setup() {
+        $enemy_attack_query = $this->db->query("SELECT blueprints.effectiveness, blueprints.name
+            FROM `items`, `blueprints`
+            WHERE blueprints.id=items.item_id AND items.player_id=? AND blueprints.type='weapon' AND items.status='equipped'",
+            array($this->enemy->id));
+        $enemy_weapon = $enemy_attack_query->fetchrow();
+        $this->enemy->attack_bonus = $enemy_weapon['effectiveness'];
+        $enemy_defense_query = $this->db->query("select blueprints.effectiveness, blueprints.name
+            FROM `items`, `blueprints`
+            WHERE blueprints.id=items.item_id AND items.player_id=? AND blueprints.type='armour' AND items.status='equipped'",
+            array($this->enemy->id));
+        $enemy_armour = $enemy_defense_query->fetchrow();
+        $this->enemy->defense_bonus = $enemy_armour['effectiveness'];
+        return;
+    }
+
+   /**
+   * returns default values of 'options' array
+   *
+   * @return array;
+   */
+    public function default_options() {
+        return array(
+            'type'           => 'static',
+            'returnval'      => 'log',
+            'save'           => true,
+            'save_gold'      => true,
+            'save_xp'        => true,
+            'record_kills'   => true,
+            'use_energy'     => true,
+        );
+    }
+
+   /**
+   * return relevant entry from selection
+   *
+   * @param 
+   * @return class enemy;
+   */
+    public function return_val($type, $array, $boolean, $log) {
+        switch($type) {
+            case 'array': return $array; break;
+            case 'boolean': return $boolean; break;
+            case 'player': return $this->player; break;
+            case 'log':
+            default: return $log; break;
+        }
+    }
+
+   /**
+   * spawn enemy
+   *
+   * @return object enemy;
+   */
+    public function create_enemy() {
+        return new entity_enemy;
+    }
+ 
+}
+
+/**
+* enemy.class.php
+*
+* placeholder allows enemies to be spawned quickly
+* @package code_common
+* @author grego
+*/
+class entity_enemy {
+   public $hp=0;
+   public $username='Enemy';
+   public $level=1;
+   public $strength=0;
+   public $vitality=0;
+   public $agility=0;
+   function add_log() {return;}
 }
 ?>

@@ -74,9 +74,8 @@ pre
 	background-color: #EEF;
 }
 
-h2
-{
-	line-height: 0px;
+h2, h3, h4 {
+	margin: 4px 0px;
 }
 
 #wrapper
@@ -275,6 +274,40 @@ a.help-topic-link {
 	color: #66F;
 }
 
+div.quest-select {
+	border: 1px solid #CCC;
+	padding: 8px;
+	margin: 12px 4px;
+	cursor: default;
+	font-size: 11px;
+}
+
+table.nutable {
+	border: 1px solid #DDD;
+	margin: 12px 0px;
+	padding: 4px;
+}
+
+table.admin-home-table {
+	width: 100%;
+}
+
+table.admin-home-table td {
+	width: 50%;
+        height: 100px;
+	border: 1px solid #AAA;
+        padding: 4px;
+}
+
+table.admin-home-table td a {
+	display: block;
+	background-color: #CCF;
+	padding: 4px;
+	margin-bottom: 4px;
+	color: #000;
+	text-align: center;
+	text-decoration: none;
+}
 
 /* BOXES */
 
@@ -286,7 +319,7 @@ div.error, div.rbox {
 }
 
 div.explanation, div.bbox {
-	border: 1px solid #00D;
+	border: 1px solid #99F;
 	background-color: #CCF;
 	padding: 8px;
 	margin: 2px;
@@ -305,8 +338,6 @@ div.gbox {
 	padding: 8px;
 	margin: 2px;
 }
-
-
 
 .drag {
     z-index: 100;
@@ -350,4 +381,11 @@ div.gbox {
     border-width:1px;
     border-color:black;
     border-style:solid;
+}
+
+div.dbox {
+	border: 1px solid #999;
+	background-color: #EEE;
+	padding: 8px;
+	margin: 2px;
 }

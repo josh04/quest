@@ -17,7 +17,8 @@ class skin_stats extends skin_common {
     * @return string html
     */
     public function stat_increased($stat_name, $stat_value) {
-        $stat_increased = "<div class='success'>You have increased your ".$stat_name.". It is now at ".$stat_value.".</div>";
+        $stat_increased = "<div class='success'>You have increased your ".$stat_name.". It is now at ".$stat_value.".</div>
+        <a href='index.php'>Back home</a>";
         return $stat_increased;
     }
 
@@ -29,7 +30,7 @@ class skin_stats extends skin_common {
     * @return string html
     */
     public function stats_link($stat_points) {
-        $stats_link = "<div class=\"success\">You have ".$stat_points." stat points to spend.</div>";
+        $stats_link = "<div class='success'>You have ".$stat_points." stat points to spend.</div>";
         return $stats_link;
     }
 
@@ -62,19 +63,19 @@ class skin_stats extends skin_common {
     public function stats_table_can_spend($strength, $vitality, $agility) {
         $stats_table = "<form action='index.php?page=stats' method='POST'>
             <table style=\"width:100px;margin:8px auto;\">
-                <tr><th style=\"width: 100px;\">Strength</th><td>".$strength."</td>
+                <tr><th style=\"width: 100px;\">Strength</th><td><div style='margin:100% 0px;'>".$strength."</div></td>
                     <td>
                         <form action='index.php?page=stats' method='POST'>
                             <input type='hidden' name='stat' value='strength' />
                             <input type='submit' value='+' />
                         </form></td></tr>
-                <tr><th>Vitality</th><td>".$vitality."</td>
+                <tr><th>Vitality</th><td><div style='margin:100% 0px;'>".$vitality."</div></td>
                     <td>
                         <form action='index.php?page=stats' method='POST'>
                             <input type='hidden' name='stat' value='vitality' />
                             <input type='submit' value='+' />
                         </form></td></tr>
-                <tr><th>Agility</th><td>".$agility."</td>
+                <tr><th>Agility</th><td><div style='margin:100% 0px;'>".$agility."</div></td>
                     <td>
                         <form action='index.php?page=stats' method='POST'>
                             <input type='hidden' name='stat' value='agility' />
