@@ -20,6 +20,11 @@ class code_menu_admin extends code_common {
         parent::construct($code_menu_admin);
     }
 
+   /**
+    * this is pretty apparent
+    *
+    * @return string html
+    */
     private function menu_admin_switch() {
 
         if ($_GET['action'] == 'add') {
@@ -41,7 +46,13 @@ class code_menu_admin extends code_common {
         return $menu_admin_switch;
     }
 
-    public function show_menu($message = "") {
+   /**
+    * this is the main monster, displays the huge list of crap to edit.
+    *
+    * @param string $message error what?
+    * @return string html
+    */
+    private function show_menu($message = "") {
         $menu_post = array();
         if ($_GET['action'] == 'add') {
             $menu_post['label'] = htmlentities($_POST['label'], ENT_COMPAT, 'utf-8');
@@ -108,7 +119,12 @@ class code_menu_admin extends code_common {
         return $show_menu.$reorder_menu;
     }
 
-    public function modify() {
+   /**
+    * are we changing one?
+    *
+    * @return string html
+    */
+    private function modify() {
         $id = intval($_POST['id']);
 
         if (!$id) {
@@ -146,6 +162,11 @@ class code_menu_admin extends code_common {
         return $modify;
     }
 
+   /**
+    * A new menu thingy!
+    *
+    * @return string html
+    */
     private function add() {
         if (!$_POST['label']) {
             $add = $this->show_menu($this->skin->error_box($this->skin->lang_error->no_label));
@@ -177,6 +198,11 @@ class code_menu_admin extends code_common {
         return $add;
     }
 
+   /**
+    * shuffle shuffle shuffle. I should copyright this algorithm, it's nuts
+    *
+    * @return string html
+    */
     private function reorder() {
         $reorder_query = $this->db->execute("SELECT * FROM `menu`");
 
