@@ -271,21 +271,31 @@ class code_common {
      */
     public function setting_update($name, $value) {
         // If no query needs to be executed, the update is complete!
-        $d = true;
+        $setting_query = true;
         // If they're arrays, we're going cyclic
-        if(is_array($name) && is_array($value)) {
-            if(count($name)!=count($value)) return false;
-            foreach($name as $a=>$b) {
-                if($this->settings[($name[$a])] == $value[$a]) continue;
-                $d = $this->db->execute("UPDATE `settings` SET `value`=? WHERE `name`=?",array($value[$a],$name[$a]));
-                $this->settings[($name[$a])] = $value[$a];
+        if (is_array($name) && is_array($value)) {
+            if (count($name)!=count($value)) {
+                return false;
+            }
+            foreach ($name as $a=>$b) {
+                if ($this->settings[($name[$a])] == $value[$a]) {
+                    continue;
                 }
+                $setting_query = $this->db->execute("UPDATE `settings` SET `value`=? WHERE `name`=?",array($value[$a],$name[$a]));
+                if (!$setting_query) {
+                    return false;
+                }
+                $this->settings[($name[$a])] = $value[$a];
             }
-        else {
-            $d = $this->db->execute("UPDATE `settings` SET `value`=? WHERE `name`=?",array($value,$name));
-            if($d) $this->settings[$name] = $value;
+        } else {
+            $setting_query = $this->db->execute("UPDATE `settings` SET `value`=? WHERE `name`=?",array($value,$name));
+            if($setting_query)  {
+                $this->settings[$name] = $value;
+                return $true;
             }
-        return ($d?true:false);
+        }
+
+        return false; // This will only occur if it screws up. I expect.
     }
 
     /**

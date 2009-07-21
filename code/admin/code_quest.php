@@ -26,19 +26,29 @@ class code_quest extends _code_admin {
     */
     public function quest_page() {
         if(isset($_GET['url'])) {
-        $message = $this->install_quest($_GET['url']);
+            $message = $this->install_quest($_GET['url']);
         }
 
         if(isset($_GET['delete'])) {
-        $message = $this->delete_quest($_GET['delete']);
+            $message = $this->delete_quest($_GET['delete']);
         }
 
         if(isset($_GET['code'])) {
-        $message = $this->update_code($_GET['code']);
+            $message = $this->update_code($_GET['code']);
         }
 
-        $questq = $this->db->execute("SELECT * FROM `quests`");
-        while($quest = $questq->fetchrow()) $quest_html .= $this->skin->quest_row($quest);
+        $quest_query = $this->db->execute("SELECT * FROM `quests`");
+        
+        while ($quest = $quest_query->fetchrow()) {
+            $quest['description_short'] = substr($quest['description'],0,80);
+            if (strlen($quest['description']) > 80) {
+                $quest['description_short'] .= "...";
+            }
+            $quest_html .= $this->skin->quest_row($quest);
+        }
+        if (!$quest_html) {
+            $message = $this->skin->error_box($this->skin->lang_error->no_quests);
+        }
         return $this->skin->quest_wrapper($quest_html, $this->settings['quests_code'], $message);
     }
 
@@ -50,19 +60,31 @@ class code_quest extends _code_admin {
     */
     public function install_quest($url) {
         $handle = @fopen($url,'r');
-        if(!$handle) return "<div class='error'>".$this->skin->lang_error->quest_found_no."</div>";
+        if (!$handle) {
+            return $this->skin->error_box($this->skin->lang_error->quest_not_found);
+        }
 
         // First, let's stick it in the database
         $xml = simplexml_load_file($url);
-        if(!(isset($xml->title) && isset($xml->body) && isset($xml->author))) return "<div class='error'>".$this->skin->lang_error->quest_install_no."</div>";
-        $d = $this->db->execute("INSERT INTO `quests` (`title`,`description`,`author`) VALUES (?,?,?)",array($xml->title,$xml->body,$xml->author));
-        if(!$d) return "<div class='error'>".$this->skin->lang_error->quest_install_no."</div>";
+
+        if (!(isset($xml->title) && isset($xml->body) && isset($xml->author))) {
+            return $this->skin->error_box($this->skin->lang_error->quest_install_no);
+        }
+
+        $quest_query = $this->db->execute("INSERT INTO `quests` (`title`,`description`,`author`) VALUES (?,?,?)",array($xml->title,$xml->body,$xml->author));
+
+        if (!$quest_query) {
+            return $this->skin->error_box($this->skin->lang_error->quest_install_no);
+        }
 
         // Then we'll copy it into our files
         $insert_id = $this->db->GetOne("SELECT `id` FROM `quests` ORDER BY `id` DESC");
-        if(!copy($url, "quests/quest-".md5($this->settings['quests_code'].$insert_id).".xml")) return "<div class='error'>".$this->skin->lang_error->quest_install_no."</div>";
 
-        return "<div class='success'>".$this->skin->lang_error->quest_install_success."</div>";
+        if(!copy($url, "quests/quest-".md5($this->settings['quests_code'].$insert_id).".xml")) {
+            return $this->skin->error_box($this->skin->lang_error->quest_install_no);
+        }
+
+        return $this->skin->success_box($this->skin->lang_error->quest_install_success);
     }
 
    /**
@@ -74,15 +96,20 @@ class code_quest extends _code_admin {
     public function delete_quest($id, $keep_file=false) {
 
         // Remove it from the database
-        $d = $this->db->execute("DELETE FROM `quests` WHERE `id`=?",array($id));
-        if(!$d) return "<div class='error'>".$this->skin->lang_error->quest_delete_no."</div>";
+        $delete_query = $this->db->execute("DELETE FROM `quests` WHERE `id`=?", array($id));
 
-        // Then rip it out
-        if($keep_file==false) {
-        if(!@unlink("quests/quest-".md5($this->settings['quests_code'].$id).".xml")) return "<div class='error'>".$this->skin->lang_error->quest_delete_no."</div>";
+        if (!$delete_query) {
+            return $this->skin->error_box($this->skin->lang_error->quest_delete_no);
         }
 
-        return "<div class='success'>".$this->skin->lang_error->quest_delete_success."</div>";
+        // Then rip it out
+        if ($keep_file == false) {
+            if (!@unlink("quests/quest-".md5($this->settings['quests_code'].$id).".xml")) {
+                return $this->skin->error_box($this->skin->lang_error->quest_delete_no);
+            }
+        }
+
+        return $this->skin->success_box($this->skin->lang_error->quest_delete_success);
     }
 
    /**
@@ -93,8 +120,9 @@ class code_quest extends _code_admin {
     */
     public function update_code($newcode) {
         // Update all the current quests with the new code
-        $questq = $this->db->execute("SELECT `id` FROM `quests`");
-        while($quest = $questq->fetchrow()) {
+        $quest_query = $this->db->execute("SELECT `id` FROM `quests`");
+
+        while ($quest = $quest_query->fetchrow()) {
                 $quest['old'] = "quests/quest-".md5($this->settings['quests_code'].$quest['id']).".xml";
                 $quest['new'] = "quests/quest-".md5($newcode.$quest['id']).".xml";
                 copy($quest['old'],$quest['new']);
@@ -102,9 +130,14 @@ class code_quest extends _code_admin {
         }
 
         $attempt = $this->setting_update('quests_code',$_GET['code']);
-        return ($attempt?"<div class='success'>".$this->skin->lang_error->setting_update_yes."</div>":
-                "<div class='error'>".$this->skin->lang_error->setting_update_no."</div>");
+
+        if ($attempt) {
+            $update_code = $this->skin->success_box($this->skin->lang_error->setting_update_yes);
+        } else {
+            $update_code = $this->skin->error_box($this->skin->lang_error->setting_update_no);
         }
+        return $update_code;
+    }
 
 }
 ?>

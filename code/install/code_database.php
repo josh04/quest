@@ -118,7 +118,7 @@ class code_database extends _code_install {
             $this->mail_query.$this->news_query.$this->players_query.$this->skins_query.$this->tickets_query.$this->log_query.$this->help_insert_query.
             $this->cron_insert_query.$this->pages_query.$this->pages_insert_query.$this->settings_query.$this->settings_insert_query.
             $this->menu_query.$this->menu_insert_query);
-
+        
         if (!$this->db->ErrorMsg()) {
             
             $config_string = "<? \n

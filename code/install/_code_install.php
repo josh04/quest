@@ -189,14 +189,14 @@ class _code_install extends code_common {
         (21, 'quest', 'public', 'quest'),
         (22, 'quest', 'admin', 'quest'),
         (23, 'index', 'admin', 'index'),
-        (24, 'general', 'admin', 'panel,portal');";
-        (25, 'menu_admin', 'admin', 'menu');";
+        (24, 'general', 'admin', 'panel,portal'),
+        (25, 'menu_admin', 'admin', 'menu') ;";
 
     public $settings_query = "CREATE TABLE IF NOT EXISTS `settings` (
         `name` varchar(125) NOT NULL,
         `value` longtext NOT NULL,
         PRIMARY KEY  (`name`)
-        ) ENGINE=MyISAM DEFAULT CHARSET=latin1;";
+        ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
     public $settings_insert_query = "INSERT INTO `settings` (`name`, `value`) VALUES
         ('name', 'Quest'),
@@ -278,13 +278,15 @@ class _code_install extends code_common {
         (4, 'Player Stats', 'Game Menu', 'public', 'ranks', '', 1, 4, 0),
         (5, 'Member List', 'Game Menu', 'public', 'members', '', 1, 5, 0),
         (6, 'Edit Profile', 'Game Menu', 'public', 'profile_edit', '', 1, 6, 0),
-        (7, 'Ticket Control', 'Admin', 'admin', 'ticket', '', 1, 2, 0),
-        (8, 'Item Blueprints', 'Admin', 'admin', 'blueprints', '', 1, 3, 0),
+        (7, 'Ticket Control', 'Admin', 'admin', 'ticket', '', 1, 6, 0),
+        (8, 'Item Blueprints', 'Admin', 'admin', 'blueprints', '', 1, 5, 0),
         (9, 'Help', 'Other', 'public', 'help', '', 1, 4, 0),
         (10, 'Support Tickets', 'Other', 'public', 'ticket', '', 1, 5, 0),
         (11, 'Log Out', 'Other', 'public', 'login', '', 1, 6, 0),
         (12, 'Staff List', 'Other', 'public', 'members', '&amp;action=staff', 1, 3, 0),
-        (13, 'Menu Editor', 'Admin', 'admin', 'menu', '', 1, 4, 0);
+        (13, 'Menu Editor', 'Admin', 'admin', 'menu', '', 1, 4, 0),
+        (14, 'Quest Control', 'Admin', 'admin', 'quest', '', 1, 3, 0),
+        (15, 'Control Panel', 'Admin', 'admin', 'index', '', 1, 2, 0);
         ";
 
    /**
