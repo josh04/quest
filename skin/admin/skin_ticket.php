@@ -24,9 +24,9 @@ class skin_ticket extends _skin_admin {
     * @param array $ticket 
     */
     public function ticket_row($ticket) {
-        $ticket_row = "<tr class='row' style='background-color:#".$this->ticket_colour($ticket['status']).";'>
-                <td><img src='".$this->ticket_icon($ticket['status'])."' alt='' /></td><td>".$ticket['id']."</td><td><a href='index.php?page=profile&id=".$ticket['player_id']."'>".$ticket['username']."</a></td>
-                <td><a href='index.php?page=ticket&section=admin&id=".$ticket['id']."' style='color:#555;text-decoration:none;'>".substr($ticket['message'],0,30).(strlen($ticket['message'])>30?"...":"")."</td></tr>
+        $ticket_row = "<tr class='row' style='background-color:#".$this->ticket_colour[$ticket['status']].";'>
+                <td><img src='".$this->ticket_icon[$ticket['status']]."' alt='' /></td><td>".$ticket['id']."</td><td><a href='index.php?page=profile&id=".$ticket['player_id']."'>".$ticket['username']."</a></td>
+                <td><a href='index.php?page=ticket&section=admin&id=".$ticket['id']."' style='color:#555;text-decoration:none;'>".$ticket['message_short']."</td></tr>
                 ";
         return $ticket_row;
     }
@@ -65,11 +65,10 @@ class skin_ticket extends _skin_admin {
     *
     * @param array $tickets ticket details
     * @param string $category category of the ticket
+    * @param array $status_array Array of stati.
     * @param string $message any response messages
     */
-    public function single_ticket($ticket,$category,$message='') {
-        $sel = array("","","","","");
-        $sel[($ticket['status'])] = " selected=\"selected\"";
+    public function single_ticket($ticket, $category, $status_array, $message='') {
         $ticket_wrap = "
                 <h2>Ticket ".$ticket['id']."</h2>
                 ".$message."
@@ -78,11 +77,11 @@ class skin_ticket extends _skin_admin {
                 ".$ticket['message']."
                 </div>
                 Status: <select style='width: 150px;background-color:#".$this->ticket_colour[$ticket['status']].";' onChange='window.location=\"index.php?page=ticket&section=admin&id=".$ticket['id']."&status=\"+this.value;'>
-                <option".$sel[0]." style='background:#FFFF99 url(\"images/ticket_open.png\") no-repeat 2px 2px;padding-left:16px;height:18px;' value='0'>Open</option>
-                <option".$sel[1]." style='background:#99FF99 url(\"images/ticket_resolved.png\") no-repeat 2px 2px;padding-left:16px;height:18px;' value='1'>Resolved</option>
-                <option".$sel[2]." style='background:#FF9999 url(\"images/ticket_closed.png\") no-repeat 2px 2px;padding-left:16px;height:18px;' value='2'>Closed</option>
-                <option".$sel[3]." style='background:#FFFF99 url(\"images/ticket_working.png\") no-repeat 2px 2px;padding-left:16px;height:18px;' value='3'>Working</option>
-                <option".$sel[4]." style='background:#FFFF99 url(\"images/ticket_ready.png\") no-repeat 2px 2px;padding-left:16px;height:18px;' value='4'>Ready</option>
+                <option".$status_array[0]." style='background:#FFFF99 url(\"images/ticket_open.png\") no-repeat 2px 2px;padding-left:16px;height:18px;' value='0'>Open</option>
+                <option".$status_array[1]." style='background:#99FF99 url(\"images/ticket_resolved.png\") no-repeat 2px 2px;padding-left:16px;height:18px;' value='1'>Resolved</option>
+                <option".$status_array[2]." style='background:#FF9999 url(\"images/ticket_closed.png\") no-repeat 2px 2px;padding-left:16px;height:18px;' value='2'>Closed</option>
+                <option".$status_array[3]." style='background:#FFFF99 url(\"images/ticket_working.png\") no-repeat 2px 2px;padding-left:16px;height:18px;' value='3'>Working</option>
+                <option".$status_array[4]." style='background:#FFFF99 url(\"images/ticket_ready.png\") no-repeat 2px 2px;padding-left:16px;height:18px;' value='4'>Ready</option>
                 </select>
                 <p><a href='#' onClick='showHide(\"replybox\");'>Send a message to ".$ticket['username']."</a></p>
 

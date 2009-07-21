@@ -25,10 +25,13 @@ class code_common {
     * 
     * @param string $section name of the site chunk we're in
     * @param string $page name of our particular page
+    * @param string $config config values
     */
-    public function __construct($section = "", $page = "") {
+    public function __construct($section = "", $page = "", $config = array()) {
         $this->section = $section;
         $this->page = $page;
+        $this->config = $config;
+        $this->db =& code_database_wrapper::get_db($this->config);
     }
 
    /**

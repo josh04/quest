@@ -12,14 +12,18 @@ class code_player {
   public $db;
   public $is_member = false;
   public $friends = array();
+
+  public function __construct($config = array()) {
+      $this->db =& code_database_wrapper::get_db($this->config);
+  }
  
   /**
-* Main player function. Used to generate the player who is playing.
-*
-* (TODO) I think some of the code_login procedure should end up in here instead.
-*
-* @return bool good to go?
-*/
+    * Main player function. Used to generate the player who is playing.
+    *
+    * (TODO) I think some of the code_login procedure should end up in here instead.
+    *
+    * @return bool good to go?
+    */
     public function make_player() {
         if ($_COOKIE['user_id']) {
             $id = $_COOKIE['user_id'];
@@ -107,7 +111,7 @@ class code_player {
 * @return boolean suceed/fail
 */
     public function get_player_by_id($id) {
-        $player_query = $this->db->execute("SELECT * FROM players WHERE id=?", array(intval($id)));
+        $player_query = $this->db->execute("SELECT * FROM `players` WHERE id=?", array(intval($id)));
         if ($player_query->recordcount() == 0) {
             return false;
         }

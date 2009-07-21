@@ -54,6 +54,8 @@ class lang_error {
 
     // ticketing
     public $ticket_not_exist = "The ticket you tried to access does not exist.";
+    public $no_tickets = "No tickets have been issued";
+    public $ticket_status_updated = "Ticket status updated";
 
     // blueprints
     public $no_blueprints = "There are currently no blueprints.";
@@ -70,6 +72,8 @@ class lang_error {
 
     // mail
     public $messages_deleted = "Messages deleted.";
+    public $mail_sent = "Mail sent.";
+    public $fill_in_fields = "You must fill in all fields.";
 
     // items
     public $item_not_found = "The selected item does not exist.";

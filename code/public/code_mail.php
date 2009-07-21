@@ -152,19 +152,19 @@ class code_mail extends code_common {
         $to = new code_player;
         $to->db =& $this->db;
         if (!$to->get_player_by_name($_POST['mail_to'])) {
-            $compose_submit = $this->compose("User does not exist");
+            $compose_submit = $this->compose($this->skin->error_box($this->skin->lang_error->player_not_found));
             return $compose_submit;
         }
 
         if (!$_POST['mail_body'] || !$_POST['mail_subject']) {
-            $compose_submit = $this->compose("You must fill in all fields.");
+            $compose_submit = $this->compose($this->skin->error_box($this->skin->lang_error->fill_in_fields));
             return $compose_submit;
         }
 
 
         $this->mail_send($to->id, $this->player->id, $_POST['mail_body'], $_POST['mail_subject']);
 
-        $compose_submit = $this->mail_inbox("Mail sent.");
+        $compose_submit = $this->mail_inbox($this->skin->lang_error->mail_sent);
         
         return $compose_submit;
 
