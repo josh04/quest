@@ -11,15 +11,15 @@ class code_index extends code_common {
    /**
     * builds the logged-in index
     *
+    * @param string $message error message
     * @return string html
     */
-    private function index_player() {
+    public function index_player($message = "") {
         require_once("code/public/code_stats.php");
         $code_stats = new code_stats($this->section, $this->page);
-        $code_stats->db =& $this->db;
         $code_stats->player =& $this->player;
         $code_stats->make_skin('skin_stats');
-        $stats = $code_stats->stats_table();
+        $stats = $code_stats->stats_table($message);
 
         $news = "";
         $news = $this->news();
@@ -85,7 +85,10 @@ class code_index extends code_common {
     * @return string html
     */
     public function index_guest($login_error) {
-        $index_guest = $this->skin->index_guest("", $login_error, $this->settings['welcometext']);
+        if ($_GET['action'] == "logged_out") {
+            $login_error = $this->skin->lang_error->logged_out;
+        }
+        $index_guest = $this->skin->index_guest($username, $login_error, $this->settings['welcometext']);
         return $index_guest;
     }
 

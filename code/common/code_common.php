@@ -222,7 +222,12 @@ class code_common {
     public function construct($page) {
         $output = $this->start_header();
  
-        $output .= $this->make_menu();
+        if ($this->player->is_member) {
+            $output .= $this->make_menu();
+        } else {
+            $output .= $this->menu_guest();
+        }
+        
 
         $output .= $this->skin->glue($page);
         $output .= $this->skin->footer();

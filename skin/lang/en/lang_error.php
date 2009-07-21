@@ -42,6 +42,7 @@ class lang_error {
     public $password_wrong = "The password entered is incorrect.";
     public $password_updated = "Password successfully updated.";
     public $profile_updated = "Profile sucessfully updated.";
+    public $logged_out = "You have been logged out.";
 
     // register
     public $username_not_long_enough = "Your username must be longer than 3 characters.";
@@ -51,6 +52,7 @@ class lang_error {
     public $emails_do_not_match = "The entered emails do not match.";
     public $email_wrong_format = "You did not enter a valid email address.";
     public $error_registering = "Error registering new user: ";
+    public $registered = "You have registered. Please Login to continue.";
 
     // ticketing
     public $ticket_not_exist = "The ticket you tried to access does not exist.";

@@ -27,7 +27,6 @@ class code_login extends code_common {
    /**
     * logs the current user out. Destroys, session, backdates cookie.
     *
-    * @return string html
     */
     public function log_out() {
         $username = htmlentities($_POST['username'],ENT_QUOTES,'UTF-8');
@@ -35,10 +34,7 @@ class code_login extends code_common {
         session_destroy();
         setcookie("cookie_hash", NULL, mktime() - 36000000);
         setcookie("user_id", NULL, mktime() - 36000000);
-/*        $login_message = "You have logged out.";
-        $log_out = $this->skin->index_guest($username, $login_message, $this->settings['welcometext']);*/
-        header("location:index.php");
-        return $log_out;
+        header("location:index.php?action=logged_out");
     }
 
    /**
@@ -214,7 +210,7 @@ class code_login extends code_common {
 
         $mail_query = $this->db->execute("INSERT INTO mail(`to`,`from`,`subject`,`body`,`time`) VALUES (?, '1', 'Welcome to CHERUB Quest!', ?, time() )",array($newmemberid, $body) );
 
-        $register_submit = $this->skin->index_guest($username, "Congratulations! You have successfully registered. You may login to the game now. Enjoy your stay on campus.");
+        $register_submit = $this->skin->index_guest($username, $this->skin->lang_error->registered, $this->settings['welcometext']);
         return $register_submit;
 
     }

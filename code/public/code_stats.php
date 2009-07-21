@@ -52,10 +52,16 @@ class code_stats extends code_common {
         } else {
             $spend = $this->skin->error_box($this->skin->lang_error->not_a_stat);
         }
-        return $spend;
+        require_once("code/public/code_index.php");
+        $code_index = new code_index($this->section, $this->page);
+        $code_index->player =& $this->player;
+        $code_index->make_skin("skin_index");
+        $index_player = $code_index->index_player($spend);
+
+        return $index_player;
     }
 
-    public function stats_table() {
+    public function stats_table($message = "") {
         if ($this->player->is_member == 1 && $this->player->stat_points > 0) {
             $stats_link = $this->skin->stats_link($this->player->stat_points);
             $stats_table = $this->skin->stats_table_can_spend($this->player->strength, $this->player->vitality, $this->player->agility);
