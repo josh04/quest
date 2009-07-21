@@ -277,8 +277,8 @@ class _code_install extends code_common {
         (8, 'Item Blueprints', 'Admin', 'admin', 'blueprints', '', 1, 3, 0),
         (9, 'Help', 'Other', 'public', 'help', '', 1, 4, 0),
         (10, 'Support Tickets', 'Other', 'public', 'ticket', '', 1, 5, 0),
-        (11, 'Log Out', 'Other', 'public', 'login', '', 1, 6, 0);
-        (12, 'Staff List', 'Other', 'public', 'members', '&amp;action=staff', 1, 3, 0);
+        (11, 'Log Out', 'Other', 'public', 'login', '', 1, 6, 0),
+        (12, 'Staff List', 'Other', 'public', 'members', '&amp;action=staff', 1, 3, 0),
         (13, 'Menu Editor', 'Admin', 'admin', 'menu', '', 1, 4, 0);
         ";
 
