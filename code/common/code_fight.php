@@ -50,9 +50,8 @@ class code_fight extends code_common {
         if (isset($id) && !is_object($enemy)) {
             $options['type'] = 'player';
             $this->enemy = new code_player;
-            $this->enemy->db =& $this->db;
 
-            if (!$this->enemy->get_player_by_id($id)) {
+            if (!$this->enemy->get_player($id)) {
                 $fight = $this->skin->error_page($this->skin->lang_error->player_not_found);
                 return $fight;
             }

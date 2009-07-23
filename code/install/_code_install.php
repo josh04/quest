@@ -277,25 +277,26 @@ class _code_install extends code_common {
         `enabled` tinyint(1) NOT NULL,
         `order` int(11) NOT NULL,
         `function` tinyint(1) NOT NULL default '0',
+        `guest` tinyint(1) NOT NULL default '0',
         PRIMARY KEY  (`id`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
     
     public $menu_insert_query = "INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enabled`, `order`, `function`) VALUES
-        (1, 'Home', 'Game Menu', 'public', 'index', '', 1, 1, 0),
-        (2, 'Mail', 'Game Menu', 'public', 'mail', '', 1, 2, 1),
-        (3, 'Campus', 'Game Menu', 'public', 'campus', '', 1, 3, 0),
-        (4, 'Player Stats', 'Game Menu', 'public', 'ranks', '', 1, 4, 0),
-        (5, 'Member List', 'Game Menu', 'public', 'members', '', 1, 5, 0),
-        (6, 'Edit Profile', 'Game Menu', 'public', 'profile_edit', '', 1, 6, 0),
-        (7, 'Ticket Control', 'Admin', 'admin', 'ticket', '', 1, 6, 0),
-        (8, 'Item Blueprints', 'Admin', 'admin', 'blueprints', '', 1, 5, 0),
-        (9, 'Help', 'Other', 'public', 'help', '', 1, 4, 0),
-        (10, 'Support Tickets', 'Other', 'public', 'ticket', '', 1, 5, 0),
-        (11, 'Log Out', 'Other', 'public', 'login', '', 1, 6, 0),
-        (12, 'Staff List', 'Other', 'public', 'members', '&amp;action=staff', 1, 3, 0),
-        (13, 'Menu Editor', 'Admin', 'admin', 'menu', '', 1, 4, 0),
-        (14, 'Quest Control', 'Admin', 'admin', 'quest', '', 1, 3, 0),
-        (15, 'Control Panel', 'Admin', 'admin', 'index', '', 1, 2, 0);
+        (1, 'Home', 'Game Menu', 'public', 'index', '', 1, 1, 0, 0),
+        (2, 'Mail', 'Game Menu', 'public', 'mail', '', 1, 2, 1, 0),
+        (3, 'Campus', 'Game Menu', 'public', 'campus', '', 1, 3, 0, 0),
+        (4, 'Player Stats', 'Game Menu', 'public', 'ranks', '', 1, 4, 0, 0),
+        (5, 'Member List', 'Game Menu', 'public', 'members', '', 1, 5, 0, 0),
+        (6, 'Edit Profile', 'Game Menu', 'public', 'profile_edit', '', 1, 6, 0, 0),
+        (7, 'Ticket Control', 'Admin', 'admin', 'ticket', '', 1, 6, 0, 0),
+        (8, 'Item Blueprints', 'Admin', 'admin', 'blueprints', '', 1, 5, 0, 0),
+        (9, 'Help', 'Other', 'public', 'help', '', 1, 4, 0, 0),
+        (10, 'Support Tickets', 'Other', 'public', 'ticket', '', 1, 5, 0, 0),
+        (11, 'Log Out', 'Other', 'public', 'login', '', 1, 6, 0, 0),
+        (12, 'Staff List', 'Other', 'public', 'members', '&amp;action=staff', 1, 3, 0, 0),
+        (13, 'Menu Editor', 'Admin', 'admin', 'menu', '', 1, 4, 0, 0),
+        (14, 'Quest Control', 'Admin', 'admin', 'quest', '', 1, 3, 0, 0),
+        (15, 'Control Panel', 'Admin', 'admin', 'index', '', 1, 2, 0, 0);
         ";
 
    /**
@@ -320,6 +321,18 @@ class _code_install extends code_common {
     */
     public function initiate($skin_name = "") {
         $this->make_skin($skin_name);
+    }
+
+   /**
+    * section name and page name - db clipped
+    *
+    * @param string $section name of the site chunk we're in
+    * @param string $page name of our particular page
+    * @param string $config config values
+    */
+    public function __construct($section = "", $page = "") {
+        $this->section = $section;
+        $this->page = $page;
     }
 }
 ?>

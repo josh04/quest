@@ -75,6 +75,7 @@ class code_common {
    /**
     * builds the player menu
     *
+    * @deprecated
     * @return string html
     */
     public function menu_player() {
@@ -112,7 +113,7 @@ class code_common {
         // (DONE) player shirt and percentage code has moved
         // Get our player object
         $this->player = new code_player;
-        $this->player->db =& $this->db;
+        $this->player->page = $this->page;
         //Is our player a member, or a guest?
         $allowed = $this->player->make_player();
         if (!$allowed) {
@@ -183,9 +184,8 @@ class code_common {
     */
     public function make_menu() {
         require_once("code/common/code_menu.php");
-        require_once("skin/common/skin_menu.php");
-        $menu = new code_menu($this->db, $this->player, $this->section, $this->page, $this->pages);
-        $menu->skin = new skin_menu();
+        $menu = new code_menu($this->player, $this->section, $this->page, $this->pages);
+        $menu->make_skin('skin_menu');
         $make_menu = $menu->make_menu();
         return $make_menu;
     }
@@ -222,11 +222,7 @@ class code_common {
     public function construct($page) {
         $output = $this->start_header();
  
-        if ($this->player->is_member) {
             $output .= $this->make_menu();
-        } else {
-            $output .= $this->menu_guest();
-        }
         
 
         $output .= $this->skin->glue($page);

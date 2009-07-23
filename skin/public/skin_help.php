@@ -40,5 +40,19 @@ class skin_help extends skin_common {
         return $help;
     }
 
+   /**
+    * makes the menu stats box
+    *
+    * @param <type> $players
+    * @param <type> $money 
+    */
+    public static function make_guest_stats($players, $money) {
+        $make_guest_stats = "<div class='left-section'><ul>
+                        <li class='header'>Quick stats</li>
+                        <li><a style=\"cursor:default;\">Players online: ".$players."</a></li>
+                        <li><a style=\"cursor:default;\">Money in game: ".$money."</a></li>
+                    </ul></div>";
+        return $make_guest_stats;
+    }
 }
 ?>

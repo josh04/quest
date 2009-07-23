@@ -57,7 +57,7 @@ class code_ticket extends _code_admin {
 
         if (isset($_POST['ticket-mail'])) {
             $to = new code_player;
-            if (!$to->get_player_by_id($_POST['to'])) {
+            if (!$to->get_player($_POST['to'])) {
                 $message .= $this->skin->error_box($this->skin->lang_error->player_not_found);
             } else if (!$_POST['body'] || !$_POST['subject']) {
                 $message .= $this->skin->error_box($this->skin->lang_error->fill_in_fields);

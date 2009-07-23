@@ -5,7 +5,7 @@
  * @author josh04
  * @package skin_common
  */
-class skin_menu {
+class skin_menu extends skin_common {
 
    /**
     * menu entry with section

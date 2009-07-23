@@ -69,6 +69,10 @@ class code_menu_admin extends code_common {
                 $menu_post['enabled'] = "checked='checked'";
             }
 
+            if ($_POST['guest']) {
+                $menu_post['guest'] = "checked='checked'";
+            }
+
             if (!$menu_post['label'] && !$menu_post['section'] && !$menu_post['page']) {
                 $menu_post['enabled'] = "checked='checked'";
             }
@@ -90,6 +94,12 @@ class code_menu_admin extends code_common {
                 $menu_entry['enabled'] = "checked='checked'";
             } else {
                 $menu_entry['enabled'] = '';
+            }
+
+            if ($menu_entry['guest']) {
+                $menu_entry['guest'] = "checked='checked'";
+            } else {
+                $menu_entry['guest'] = "";
             }
 
             $menu_categories[$menu_entry['category']] .= $this->skin->make_menu_entry($menu_entry);
@@ -155,9 +165,13 @@ class code_menu_admin extends code_common {
             $enabled = 1;
         }
 
+        if ($_POST['guest']) {
+            $guest = 1;
+        }
+
         require_once("code/common/code_menu.php");
         $code_menu = new code_menu($this->db, $this->player, $this->section, $this->page, $this->pages);
-        $code_menu->modify_menu_entry($id, $_POST['label'], $_POST['category'], $_POST['section'], $_POST['page'], $_POST['extra'], $function, $enabled);
+        $code_menu->modify_menu_entry($id, $_POST['label'], $_POST['category'], $_POST['section'], $_POST['page'], $_POST['extra'], $function, $enabled, $guest);
         $modify = $this->show_menu($this->skin->success_box($this->skin->lang_error->menu_entry_modified));
         return $modify;
     }
@@ -191,9 +205,13 @@ class code_menu_admin extends code_common {
             $enabled = 1;
         }
 
+        if ($_POST['guest']) {
+            $guest = 1;
+        }
+
         require_once("code/common/code_menu.php");
         $code_menu = new code_menu($this->db, $this->player, $this->section, $this->page, $this->pages);
-        $code_menu->add_menu_entry($_POST['label'], $_POST['category'], $_POST['section'], $_POST['page'], $_POST['extra'], $function, $enabled);
+        $code_menu->add_menu_entry($_POST['label'], $_POST['category'], $_POST['section'], $_POST['page'], $_POST['extra'], $function, $enabled, $guest);
         $add = $this->show_menu($this->skin->success_box($this->skin->lang_error->menu_entry_added));
         return $add;
     }

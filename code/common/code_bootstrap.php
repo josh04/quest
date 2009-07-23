@@ -92,7 +92,6 @@ class code_bootstrap {
         require_once("code/".$section."/code_".$pages[$section][$page].".php"); //Include whichever php file we want.
         $class_name = "code_".$pages[$section][$page];
         $this->page = new $class_name($section, $page, $this->config);
-        $this->page->config = $this->config;
         $this->page->pages = $pages;
     }
 

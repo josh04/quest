@@ -22,6 +22,7 @@ class skin_menu_admin extends skin_common {
                 <td><input type='text' size='10' name='extra' value='".$menu_entry['extra']."' /></td>
                 <td><input type='checkbox' name='function' ".$menu_entry['function']." /></td>
                 <td><input type='checkbox' name='enabled' ".$menu_entry['enabled']." /></td>
+                <td><input type='checkbox' name='guest' ".$menu_entry['guest']." /></td>
                 <td><input type='hidden' name='id' value='".$menu_entry['id']."' /><input type='submit' value='Update' /></td>
             </form></tr>";
         return $make_menu_entry;
@@ -44,6 +45,7 @@ class skin_menu_admin extends skin_common {
                 <th>Extra</th>
                 <th>Func</th>
                 <th>On</th>
+                <th>Guest</th>
             </tr>".$category_html."";
         return $menu_category;
     }
@@ -66,6 +68,7 @@ class skin_menu_admin extends skin_common {
                 <th>Extra</th>
                 <th>Func</th>
                 <th>On</th>
+                <th>Guest</th>
             </tr>
             <tr><form action='index.php?section=admin&amp;page=menu&amp;action=add' method='POST'>
                 <td><input type='text' size='12' name='label' value='".$menu_entry['label']."' /></td>
@@ -75,6 +78,7 @@ class skin_menu_admin extends skin_common {
                 <td><input type='text' size='10' name='extra' value='".$menu_entry['extra']."' /></td>
                 <td><input type='checkbox' name='function' ".$menu_entry['function']." /></td>
                 <td><input type='checkbox' name='enabled' ".$menu_entry['enabled']." /></td>
+                <td><input type='checkbox' name='guest' ".$menu_entry['guest']." /></td>
                 <td><input type='submit' value='Add' /></td>
             </form></tr>
             ".$menu_html."</tbody></table>";

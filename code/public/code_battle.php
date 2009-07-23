@@ -34,10 +34,6 @@ class code_battle extends code_common {
                 $battle_search = $this->battle_search();
                 return $battle_search;
             case 'fight':
-                if ($_POST['username']) {
-                    $battle_search = $this->fight_by_name();
-                    return $battle_search;
-                }
                 $battle_search = $this->fight->battle();
                 return $battle_search;
         }
@@ -117,23 +113,13 @@ class code_battle extends code_common {
         return $battle_search_page;
     }
 
-    public function fight_by_name() {
-        $this->enemy = new code_player;
-        $this->enemy->db =& $this->db;
-
-        if (!$this->enemy->get_player_by_name($_POST['username'])) {
-            $fight_by_name = $this->skin->error_page($this->skin->lang_error->player_not_found);
-            return $fight_by_name;
-        }
-        $fight_by_name = $this->fight->battle($this->enemy->id);
-        return $fight_by_name;
-    }
+/**
+ * @deprecated
    
    /**
     * FIIIIGHT. finally.
     * 
     * @return string html
-    */
     public function fight() {
         $id = $this->enemy->id;
         if (!$id) {
@@ -402,6 +388,6 @@ class code_battle extends code_common {
         return $fight;
 
     }
-
+*/
 }
 ?>

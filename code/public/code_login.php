@@ -18,23 +18,19 @@ class code_login extends code_common {
         if($this->player->is_member) {
             $code_login = $this->log_out();
         } else {
-            $code_login = $this->register_or_login();
+            $code_login = $this->login_switch();
         }
 
         parent::construct($code_login);
     }
 
    /**
-    * logs the current user out. Destroys, session, backdates cookie.
+    * calls code_player function
     *
     */
     public function log_out() {
-        $username = htmlentities($_POST['username'],ENT_QUOTES,'UTF-8');
-        session_unset();
-        session_destroy();
-        setcookie("cookie_hash", NULL, mktime() - 36000000);
-        setcookie("user_id", NULL, mktime() - 36000000);
-        header("location:index.php?action=logged_out");
+        $this->player->log_out();
+        header("Location: index.php?action=logged_out");
     }
 
    /**
@@ -42,7 +38,7 @@ class code_login extends code_common {
     *
     * @return string html
     */
-    public function register_or_login() {
+    public function login_switch() {
         if ($_GET['action'] == 'register_submit') {
             $register_or_login = $this->register_submit();
         } else if ($_GET['action'] == 'register') {
@@ -61,54 +57,27 @@ class code_login extends code_common {
     * @return string html
     */
     public function log_in() {
-        $username = htmlentities($_POST['username'],ENT_QUOTES,'UTF-8');
-        if ($username == "") {
-            $login_message = "Please enter a username.";
-            $log_in = $this->skin->index_guest($username, $login_message, $this->settings['welcometext']);
-        } elseif ($_POST['password'] == "") {
-            $login_message = "Please enter your password.";
-            $log_in = $this->skin->index_guest($username, $login_message, $this->settings['welcometext']);
-        } else {
-            $player_query = $this->db->execute("SELECT `id`, `username`, `password`, `login_salt` FROM `players` WHERE `username`=?", array($_POST['username']));
-            $login_message = "Incorrect Username/Password.";
-            $log_in = $this->skin->index_guest($username, $login_message, $this->settings['welcometext']);
-            
-            if ($player_query->recordcount() == 0) {
-                return $log_in;
-            }
 
-            $player_db = $player_query->fetchrow();
-            
-            /**
-             * Sigh. sha1 fails so bad, and there's no easy way to get rid of it which doesn't suck, esp on an upgraded db.
-             */
-            if ($player_db['password'] == sha1($_POST['password']) && IS_UPGRADE) {
-
-                $player_db['login_salt'] = substr(md5(uniqid(rand(), true)), 0, 5);
-                $player_db['password'] = md5($_POST['password'].$player_db['login_salt']);
-
-                $player_update['password'] = $player_db['password'];
-                $player_update['login_salt'] = $player_db['login_salt'];
-
-                $player_insert_query = $this->db->AutoExecute('players', $player_update, 'UPDATE', 'id = '.$player_db['id']);
-                
-            }
-
-            if ($player_db['password'] == md5($_POST['password'].$player_db['login_salt'])) {
-                $login_rand = substr(md5(uniqid(rand(), true)), 0, 5);
-                $update_player['login_rand'] = $login_rand;
-                $update_player['last_active'] = time();
-                $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$player_db['id']);
-                $hash = md5($player_db['id'].$player_db['password'].$login_rand);
-                $_SESSION['user_id'] = $player_db['id'];
-                $_SESSION['hash'] = $hash;
-                setcookie("user_id", $player_db['id'], mktime()+2592000);
-                setcookie("cookie_hash", $hash, mktime()+2592000);
-                header("Location: index.php");
-                exit;
-            }
+        if ($_POST['username'] == "") {
+            $log_in = $this->skin->index_guest($username, $this->skin->lang_error->please_enter_username, $this->settings['welcometext']);
+            return $log_in;
         }
-        return $log_in;
+
+        if ($_POST['password'] == "") {
+            $log_in = $this->skin->index_guest($username, $this->skin->lang_error->please_enter_password, $this->settings['welcometext']);
+            return $log_in;
+        }
+
+        $player = new code_player();
+        $player_exists = $player->log_in($_POST['username'], $_POST['password']);
+
+        if (!$player_exists) {
+            $log_in = $this->skin->index_guest($username, $this->skin->lang_error->password_wrong, $this->settings['welcometext']);
+        }
+        
+        header("Location: index.php");
+        exit;
+
     }
 
    /**
@@ -179,24 +148,18 @@ class code_login extends code_common {
                 return $register_submit;
             }
         }
+
+        $registered_player = new code_player();
+        $username = htmlentities($_POST['username'], ENT_QUOTES, "utf-8");
+        $email = htmlentities($_POST['email'], ENT_QUOTES, "utf-8");
+        $success = $registered_player->create_player($username, $_POST['password'], $email);
         
-        $login_salt = substr(md5(uniqid(rand(), true)), 0, 5);
-
-        $player_insert['username'] = $_POST['username'];
-        $player_insert['password'] = md5($_POST['password'].$login_salt);
-        $player_insert['email'] = $_POST['email'];
-        $player_insert['registered'] = time();
-        $player_insert['last_active'] = time();
-        $player_insert['ip'] = $_SERVER['REMOTE_ADDR'];
-        $player_insert['verified'] = 1;
-        $player_insert['login_salt'] = $login_salt;
-
-        $player_insert_query = $this->db->AutoExecute('players', $player_insert, 'INSERT');
-        if (!$player_insert_query) {
-            $register_submit = $this->skin->register($username, $email, "Error registering new user.");
+        if (!$success) {
+            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->skin->lang_error->error_registering));
             return $register_submit;
         }
-        $player_id = $this->db->Insert_Id();
+
+        // loooooooooool. I'mma leave this here.
 
         $body = "<strong>Welcome to CHERUB Quest!</strong>
         <p>CHERUB Quest is a online browser game for fans of
@@ -207,8 +170,6 @@ class code_login extends code_common {
         (TeknoTom, JamieHD, Commander of One, Josh0-4 and Grego)</p>
 
         <p>But above all, have fun!</p>";
-
-        $mail_query = $this->db->execute("INSERT INTO mail(`to`,`from`,`subject`,`body`,`time`) VALUES (?, '1', 'Welcome to CHERUB Quest!', ?, time() )",array($newmemberid, $body) );
 
         $register_submit = $this->skin->index_guest($username, $this->skin->lang_error->registered, $this->settings['welcometext']);
         return $register_submit;

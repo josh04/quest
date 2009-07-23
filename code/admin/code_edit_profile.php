@@ -56,8 +56,7 @@ class code_edit_profile extends _code_admin {
         }
 
         $profile = new code_player;
-        $profile->db =& $this->db;
-        $profile->get_player_by_id($id);
+        $profile->get_player($id);
 
         $gender_list = $this->skin->gender_list($profile->gender);
         $show_email = "";
@@ -137,8 +136,7 @@ class code_edit_profile extends _code_admin {
         }
 
         $profile = new code_player;
-        $profile->db =& $this->db;
-        $profile->get_player_by_id($id);
+        $profile->get_player($id);
 
         $update_password['password'] = md5($_POST['new_password'].$profile->login_salt);
         $password_query = $this->db->AutoExecute('players', $update_password, 'UPDATE', 'id = '.$profile->id);

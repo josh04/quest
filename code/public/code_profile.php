@@ -41,8 +41,7 @@ class code_profile extends code_common {
     */
     public function make_profile_player_id($id) {
         $this->profile = new code_player;
-        $this->profile->db =& $this->db;
-        if ($this->profile->get_player_by_id(intval($id))) {
+        if ($this->profile->get_player(intval($id))) {
             return true;
         } else {
             return false;
@@ -57,8 +56,7 @@ class code_profile extends code_common {
     */
     public function make_profile_player_name($name) {
         $this->profile = new code_player;
-        $this->profile->db =& $this->db;
-        if ($this->profile->get_player_by_name($name)) {
+        if ($this->profile->get_player($name)) {
             return true;
         } else {
             return false;

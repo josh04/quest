@@ -12,13 +12,15 @@
  * @author josh04
  * @package code_public
  */
-class code_menu {
+class code_menu extends code_common {
 
     public $db;
     public $skin;
     public $player;
-    public $section = "public";
-    public $page = "index";
+    public $section = "common";
+    public $page = "menu";
+    public $player_section = "public";
+    public $player_page = "index";
     public $pages = array();
     
    /**
@@ -39,16 +41,15 @@ class code_menu {
    /**
     * menu maker
     *
-    * @param db $db
     * @param code_player $player
     * @param string $section
     * @param page $page 
     */
-    public function __construct(&$db, &$player, $section, $page, $pages) {
-        $this->db =& $db;
+    public function __construct(&$player, $section, $page, $pages, $config = array()) {
+        $this->db =& code_database_wrapper::get_db($config);
         $this->player =& $player;
-        $this->section = $section;
-        $this->page = $page;
+        $this->player_section = $section;
+        $this->player_page = $page;
         $this->pages = $pages;
     }
 
@@ -60,8 +61,17 @@ class code_menu {
     * @return string html
     */
     public function make_menu() {
-                
-        $menu_query = $this->db->execute("SELECT * FROM `menu` WHERE `enabled`=1 ORDER BY `order` ASC");
+
+        if ($this->player->is_member) {
+            $is_guest = '0';
+        } else {
+            $is_guest = '1';
+        }
+
+        $menu_query = $this->db->execute("SELECT * FROM `menu` WHERE `enabled`=1 AND `guest`=? ORDER BY `order` ASC", array($is_guest));
+        if ($menu_query->RecordCount() == 0) {
+            return $this->skin->error_page($this->skin->lang_error->no_menu_entries);
+        }
         while ($menu_entry = $menu_query->fetchrow()) {
             $menu_entries[$menu_entry['category']] .= $this->make_menu_entry($menu_entry);
         }
@@ -105,7 +115,7 @@ class code_menu {
             }
         }
         if ($this->enabled) {
-            if ($this->page == $menu_entry['page'] && $this->section == $menu_entry['section'] && $menu_entry['extra'] == "") {
+            if ($this->player_page == $menu_entry['page'] && $this->player_section == $menu_entry['section'] && $menu_entry['extra'] == "") {
                 $make_menu_entry = $this->skin->current_menu_entry($menu_entry['label'], $menu_entry['section'], $menu_entry['page'], $menu_entry['extra']);
             } else if ($menu_entry['section'] == "public") {
                 $make_menu_entry = $this->skin->public_menu_entry($menu_entry['label'], $menu_entry['page'], $menu_entry['extra']);
@@ -128,9 +138,10 @@ class code_menu {
     * @param string $extra extra url additions
     * @param int $function extra menu function
     * @param int $enabled is it turned on?
+    * @param int $guest is it for guests?
     * @return int new menu id.
     */
-    public function add_menu_entry($label, $category, $section, $page, $extra, $function, $enabled) {
+    public function add_menu_entry($label, $category, $section, $page, $extra, $function, $enabled, $guest) {
 
         $menu_insert['label'] = htmlentities($label, ENT_COMPAT, 'utf-8');
         $menu_insert['section'] = htmlentities($section, ENT_COMPAT, 'utf-8');
@@ -139,8 +150,9 @@ class code_menu {
         $menu_insert['category'] = htmlentities($category, ENT_COMPAT, 'utf-8');
         $menu_insert['function'] = intval($function);
         $menu_insert['enabled'] = intval($enabled);
+        $menu_insert['guest'] = intval($guest);
         
-        $menu_order_query = $this->db->execute("SELECT * FROM `menu` ORDER BY `order` ASC");
+        $menu_order_query = $this->db->execute("SELECT * FROM `menu` WHERE `guest`=? ORDER BY `order` ASC", array($guest));
         
         while ($menu_entry = $menu_order_query->fetchrow()) {
             if (!$menu_category_start_max_order[$menu_entry['category']]) {
@@ -174,7 +186,7 @@ class code_menu {
     * @param int $enabled Is it to be shown?
     * @return int menu id
     */
-    public function modify_menu_entry($id, $label, $category, $section, $page, $extra, $function, $enabled) {
+    public function modify_menu_entry($id, $label, $category, $section, $page, $extra, $function, $enabled, $guest) {
         $menu_update['id'] = intval($id);
         $menu_update['label'] = htmlentities($label, ENT_COMPAT, 'utf-8');
         $menu_update['section'] = htmlentities($section, ENT_COMPAT, 'utf-8');
@@ -183,6 +195,7 @@ class code_menu {
         $menu_update['category'] = htmlentities($category, ENT_COMPAT, 'utf-8');
         $menu_update['function'] = intval($function);
         $menu_update['enabled'] = intval($enabled);
+        $menu_update['guest'] = intval($guest);
 
         $this->db->AutoExecute("menu", $menu_update, "UPDATE", "id=".$menu_update['id']);
 

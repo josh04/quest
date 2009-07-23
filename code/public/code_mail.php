@@ -151,7 +151,7 @@ class code_mail extends code_common {
         //Process mail info, show success message
         $to = new code_player;
         $to->db =& $this->db;
-        if (!$to->get_player_by_name($_POST['mail_to'])) {
+        if (!$to->get_player($_POST['mail_to'])) {
             $compose_submit = $this->compose($this->skin->error_box($this->skin->lang_error->player_not_found));
             return $compose_submit;
         }

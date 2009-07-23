@@ -52,8 +52,9 @@ class skin_common {
     
     /**
     * return the logged-in menu
-     * (TODO) menu should be generated
+    * (TODO) menu should be generated
     *
+    * @deprecated
     * @param player $player player object
     * @param string $mail new message html
     * @param string $admin admin menu html
@@ -102,6 +103,7 @@ class skin_common {
     /**
     * return the admin menu
     *
+    * @deprecated
     * @return string html
     */
     public function menu_admin() {
@@ -116,34 +118,6 @@ class skin_common {
                 </ul>
             </div>";
         return $menu_admin;
-    }
-
-    /**
-    * return new mail row
-    *
-    * @param integer $id user id
-    * @param string $user username
-    * @param string $subject message subject
-    * @return string html
-    */
-    public function mail_row($id, $user, $subject) {
-        $mail_row .= "<li>
-                      <a style='background:#FCC;' href='index.php?page=mail&amp;action=read&amp;id=".$id."'>
-                      <strong>From:</strong> ".$user."<br />
-                      <strong>Subject:</strong><br /> ".$subject ."</a>
-                      </li>";
-        return $mail_row;
-    }
-
-    /**
-    * return mail wrap
-    *
-    * @param string $mail_rows mail list elements
-    * @return string html
-    */
-    public function mail_wrap($mail_rows) {
-        $mail_wrap = "<ul>".$mail_rows."</ul>";
-        return $mail_wrap;
     }
 
     /**
@@ -166,7 +140,7 @@ class skin_common {
 
                     <ul>
                         <li class='header'>Quick stats</li>
-".($players>1?"                        <li><a style=\"cursor:default;\">Players online: ".$players."</a></li>":"")."
+                        <li><a style=\"cursor:default;\">Players online: ".$players."</a></li>
                         <li><a style=\"cursor:default;\">Money in game: ".$money."</a></li>
                     </ul>
                 </div>
