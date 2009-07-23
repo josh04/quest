@@ -117,7 +117,7 @@ class code_database extends _code_install {
         $make_tables_success = $this->db->execute($this->cron_query.$this->blueprints_query.$this->help_query.$this->items_query.
             $this->mail_query.$this->news_query.$this->players_query.$this->skins_query.$this->tickets_query.$this->log_query.$this->help_insert_query.
             $this->cron_insert_query.$this->pages_query.$this->pages_insert_query.$this->settings_query.$this->settings_insert_query.
-            $this->menu_query.$this->menu_insert_query);
+            $this->menu_query.$this->menu_insert_query.$this->quests_query);
         
         if (!$this->db->ErrorMsg()) {
             

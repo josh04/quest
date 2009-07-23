@@ -5,7 +5,7 @@
  * @author josh04
  * @package code_public
  */
-class code_campus extends code_common {
+class code_portal extends code_common {
 
    /**
     * class override. calls parents, sends kids home.
@@ -13,11 +13,11 @@ class code_campus extends code_common {
     * @return string html
     */
     public function construct() {
-        $this->initiate("skin_campus");
+        $this->initiate("skin_portal");
 
-        $code_campus = $this->campus();
+        $code_portal = $this->portal();
 
-        parent::construct($code_campus);
+        parent::construct($code_portal);
     }
 
    /**
@@ -25,13 +25,13 @@ class code_campus extends code_common {
     *
     * @return string html
     */
-    public function campus() {
+    public function portal() {
         $log_count = $this->db->getone("select count(*) as `count` from `user_log` where `player_id`=? and `status`='unread'", array($this->player->id));
 
         $portal_links = $this->portal_links();
-        $campus = $this->skin->campus($this->player->username, $log_count, $this->settings['portal_name'], $this->bbparse($this->settings['portal_welcome'],true), $portal_links);
+        $portal = $this->skin->portal($this->player->username, $log_count, $this->settings['portal_name'], $this->bbparse($this->settings['portal_welcome'],true), $portal_links);
 
-        return $campus;
+        return $portal;
     }
 
    /**
