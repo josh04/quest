@@ -53,5 +53,22 @@ class code_ranks extends code_common {
         return $make_ranks;
     }
 
+   /**
+    * m-m-m-menu time!
+    *
+    * @param code_menu $menu menu object
+    * @param string $label the name of our slot
+    */
+    public static function code_ranks_menu(&$menu, $label) {
+        require_once("skin/public/skin_ranks.php");
+        $online_query = $menu->db->execute("SELECT count(*) AS c FROM players WHERE (last_active > (".(time()-(60*15))."))");
+        $online_count = $online_query->fetchrow();
+        $money_query = $menu->db->execute("SELECT sum(`gold`) AS g FROM players");
+        $money_sum = $money_query->fetchrow();
+
+        $menu->bottom .= skin_ranks::make_guest_stats($online_count['c'], $money_sum['g']);
+
+        return $label;
+    }
 }
 ?>

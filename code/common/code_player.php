@@ -90,7 +90,7 @@ class code_player {
     * @return bool kick them out?
     */
     private function halt_if_guest($page) {
-        $guest_pages = array("login","guesthelp","globalstats", "index", "");
+        $guest_pages = array("login","guesthelp","ranks", "index", "");
         if(!$this->is_member && !in_array($this->page,$guest_pages)){
             return false;
         }
