@@ -184,7 +184,7 @@ class code_common {
     */
     public function make_menu() {
         require_once("code/common/code_menu.php");
-        $menu = new code_menu($this->player, $this->section, $this->page, $this->pages);
+        $menu = new code_menu($this->player, $this->section, $this->page, $this->pages, $this->settings);
         $menu->make_skin('skin_menu');
         $make_menu = $menu->make_menu();
         return $make_menu;
@@ -281,24 +281,25 @@ class code_common {
             if (count($name)!=count($value)) {
                 return false;
             }
-            foreach ($name as $a=>$b) {
-                if ($this->settings[($name[$a])] == $value[$a]) {
+            foreach ($name as $setting_index => $setting_name) {
+                if ($this->settings[$setting_name] == $value[$setting_index]) {
                     continue;
                 }
-                $setting_query = $this->db->execute("UPDATE `settings` SET `value`=? WHERE `name`=?",array($value[$a],$name[$a]));
+                $setting_query = $this->db->execute("UPDATE `settings` SET `value`=? WHERE `name`=?",array($value[$setting_index],$setting_name));
+
                 if (!$setting_query) {
                     return false;
                 }
-                $this->settings[($name[$a])] = $value[$a];
+                $this->settings[$setting_name] = $value[$setting_index];
             }
+            return true;
         } else {
-            $setting_query = $this->db->execute("UPDATE `settings` SET `value`=? WHERE `name`=?",array($value,$name));
-            if($setting_query)  {
+            $setting_query = $this->db->execute("UPDATE `settings` SET `value`=? WHERE `name`=?", array($value, $name));
+            if ($setting_query)  {
                 $this->settings[$name] = $value;
                 return $true;
             }
         }
-
         return false; // This will only occur if it screws up. I expect.
     }
 

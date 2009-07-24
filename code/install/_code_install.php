@@ -189,7 +189,7 @@ class _code_install extends code_common {
         (21, 'quest', 'public', 'quest'),
         (22, 'quest', 'admin', 'quest'),
         (23, 'index', 'admin', 'index'),
-        (24, 'general', 'admin', 'panel,portal'),
+        (24, 'admin_template', 'admin', 'panel,portal'),
         (25, 'menu_admin', 'admin', 'menu') ;";
 
     public $settings_query = "CREATE TABLE IF NOT EXISTS `settings` (
@@ -213,7 +213,7 @@ class _code_install extends code_common {
         `author` varchar(125) NOT NULL,
         PRIMARY KEY  (`id`),
         UNIQUE KEY `title` (`title`,`author`)
-        ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;";
+        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
 
     public $db_query = "ALTER DATABASE COLLATE utf8_general_ci; ";
 
@@ -284,7 +284,7 @@ class _code_install extends code_common {
     public $menu_insert_query = "INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enabled`, `order`, `function`) VALUES
         (1, 'Home', 'Game Menu', 'public', 'index', '', 1, 1, 0, 0),
         (2, 'Mail', 'Game Menu', 'public', 'mail', '', 1, 2, 1, 0),
-        (3, 'Campus', 'Game Menu', 'public', 'campus', '', 1, 3, 0, 0),
+        (3, 'Portal', 'Game Menu', 'public', 'portal', '', 1, 3, 0, 0),
         (4, 'Player Stats', 'Game Menu', 'public', 'ranks', '', 1, 4, 0, 0),
         (5, 'Member List', 'Game Menu', 'public', 'members', '', 1, 5, 0, 0),
         (6, 'Edit Profile', 'Game Menu', 'public', 'profile_edit', '', 1, 6, 0, 0),

@@ -57,14 +57,15 @@ class code_edit_profile extends code_common {
             return $update_profile;
         }
 
-        $update_player = array( 'email'         => $_POST['email'],
-                                'description'   => $_POST['description'],
+
+        $update_player = array( 'email'         => htmlentities($_POST['email'], ENT_QUOTES, 'utf-8'),
+                                'description'   => htmlentities($_POST['description'], ENT_QUOTEs, 'utf-8'),
                                 'gender'        => intval($_POST['gender']),
-                                'msn'           => $_POST['msn'],
-                                'aim'           => $_POST['aim'],
-                                'skype'         => $_POST['skype'],
+                                'msn'           => htmlentities($_POST['msn'], ENT_QUOTES, 'utf-8'),
+                                'aim'           => htmlentities($_POST['aim'], ENT_QUOTES, 'utf-8'),
+                                'skype'         => htmlentities($_POST['skype'], ENT_QUOTES, 'utf-8'),
                                 'avatar'        => $_POST['avatar'],
-                                'skin'          => $_POST['skin']   );
+                                'skin'          => htmlentities($_POST['skin'], ENT_QUOTES, 'utf-8')   );
         if ($_POST['show_email'] == 'on') {
             $update_player['show_email'] = 1;
         } else {

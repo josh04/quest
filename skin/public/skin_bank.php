@@ -58,5 +58,17 @@ class skin_bank extends skin_common {
                         </table>";
         return $bank_page;
     }
+
+   /**
+    * message for depositing money
+    *
+    * @param int $gold amount of carried gold
+    * @param int $bank amount of bank gold
+    * @return string html
+    */
+    public function deposited($gold, $bank) {
+        $deposited = "<div class='success'>You deposited your money into the bank. You now have £".$gold." on you and £".$bank." in the bank.</div>";
+        return $deposited;
+    }
 }
 ?>

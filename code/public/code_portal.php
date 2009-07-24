@@ -51,6 +51,15 @@ class code_portal extends code_common {
         return $portal;
     }
 
-
+   /**
+    * Dynamic menu name.
+    *
+    * @param code_menu $menu for accessing all the important stuff
+    * @param string $label old label
+    * @return string new label
+    */
+    public static function code_portal_menu(&$menu, $label) {
+        return $menu->settings['portal_name'];
+    }
 }
 ?>

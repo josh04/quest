@@ -5,7 +5,7 @@
  * @author grego
  * @package skin_public
  */
-class skin_general extends _skin_admin {
+class skin_admin_template extends _skin_admin {
     
    /**
     * general wrapper

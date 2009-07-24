@@ -15,7 +15,7 @@ class code_bank extends code_common {
     public function construct() {
         $this->initiate("skin_bank");
 
-        $code_bank = $this->make_bank();
+        $code_bank = $this->bank_switch();
 
         parent::construct($code_bank);
     }
@@ -24,19 +24,17 @@ class code_bank extends code_common {
     * decides where to go from here
     * (DONE) standardise "make_" function
     *
+    * @param string $message error message
     * @return string html
     */
-    public function make_bank() {
-        if ($_GET['action']) {
-            $make_bank = $this->bank_switch();
-            return $make_bank;
-        }
+    public function make_bank($message = "") {
         $interest = intval($this->player->bank * 0.03);
-        $tomorrow = "You may collect your interest now.";
-        $disabled = "";
         if ($this->player->interest) {
             $disabled = "disabled='disabled'";
             $tomorrow = "";
+        } else {
+            $tomorrow = $this->skin->lang_error->collect_interest_now;
+            $disabled = "";
         }
         
         $make_bank = $this->skin->make_bank($this->player->gold, $this->player->bank, $interest, $disabled, $tomorrow);
@@ -60,7 +58,6 @@ class code_bank extends code_common {
                 $bank_actions = $this->interest();
                 break;
             default:
-                $_GET['action'] = false;
                 $bank_actions = $this->make_bank();
                 return $bank_actions;
         }
@@ -74,7 +71,7 @@ class code_bank extends code_common {
     */
     public function deposit() {
         if (abs(intval($_POST['amount'])) > $this->player->gold) {
-            $deposit = "You do not have that much cash to deposit.";
+            $deposit = $this->make_bank($this->skin->error_box($this->skin->lang_error->not_enough_cash_to_deposit));
             return $deposit;
         }
         $this->player->gold = $this->player->gold - abs(intval($_POST['amount']));
@@ -84,7 +81,8 @@ class code_bank extends code_common {
         $update_player['gold'] = $this->player->gold;
         $deposit_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
 
-        $deposit = "You deposited your money into the bank. You now have £".$this->player->gold." on you and £".$this->player->bank." in the bank.";
+        $deposited = $this->skin->deposited($this->player->gold, $this->player->bank);
+        $deposit_html = $this->make_bank($deposited);
         return $deposit;
     }
 

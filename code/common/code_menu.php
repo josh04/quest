@@ -13,15 +13,10 @@
  * @package code_public
  */
 class code_menu extends code_common {
-
-    public $db;
-    public $skin;
-    public $player;
     public $section = "common";
     public $page = "menu";
     public $player_section = "public";
     public $player_page = "index";
-    public $pages = array();
     
    /**
     * @var string for remote "topping off" of the menu
@@ -43,14 +38,18 @@ class code_menu extends code_common {
     *
     * @param code_player $player
     * @param string $section
-    * @param page $page 
+    * @param page $page
+    * @param array $pages array of possible pages
+    * @param array $settings array of setting keys
+    * @param array $config db config
     */
-    public function __construct(&$player, $section, $page, $pages, $config = array()) {
+    public function __construct(&$player, $section, $page, $pages, $settings, $config = array()) {
         $this->db =& code_database_wrapper::get_db($config);
         $this->player =& $player;
         $this->player_section = $section;
         $this->player_page = $page;
         $this->pages = $pages;
+        $this->settings =& $settings;
     }
 
    /**
