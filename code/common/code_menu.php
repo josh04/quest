@@ -10,7 +10,7 @@
  * (TODO) Better explanation here, install functions elsewhere
  *
  * @author josh04
- * @package code_public
+ * @package code_common
  */
 class code_menu extends code_common {
     public $section = "common";

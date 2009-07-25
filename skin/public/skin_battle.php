@@ -141,7 +141,7 @@ class skin_battle extends skin_common {
     * @return string html
     */
     public function battle_row($attack) {
-        $battle_row = $attack."<br />";
+        $battle_row = "<div>".$attack."</div>";
         return $battle_row;
     }
    /**

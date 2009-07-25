@@ -9,8 +9,6 @@
 
 class skin_fight extends skin_common {
 
-    public $lang_error;
-
    /**
     * 'we won!' message
     *

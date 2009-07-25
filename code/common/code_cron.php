@@ -9,6 +9,10 @@ class code_cron {
 
     public $db;
 
+    public function __construct($config = array()) {
+        $this->db = code_database_wrapper::get_db($config);
+    }
+
    /**
     * time to cron shit up
     * 

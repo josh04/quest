@@ -3,7 +3,7 @@
  * skin_default.class.php
  *
  * Contains static skin elements related to the index page.
- * @package display
+ * @package skin_public
  * @author josh04
  */
 

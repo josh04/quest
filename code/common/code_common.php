@@ -169,7 +169,6 @@ class code_common {
     public function cron() {
         require_once('code/common/code_cron.php');
         $this->cron = new code_cron;
-        $this->cron->db =& $this->db;
         $this->cron->update();
     }
 
@@ -194,8 +193,7 @@ class code_common {
     public function construct($page) {
         $output = $this->start_header();
  
-            $output .= $this->make_menu();
-        
+        $output .= $this->make_menu();
 
         $output .= $this->skin->glue($page);
         $output .= $this->skin->footer();
@@ -206,6 +204,7 @@ class code_common {
 
     /**
      * parses bbcode to return html
+     * (TODO) preg_replace is sloooooow
      * @param string $code bbcode
      * @param boolean $full whether to fully parse
      * @return string html

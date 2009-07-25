@@ -121,11 +121,17 @@ class code_database extends _code_install {
         
         if (!$this->db->ErrorMsg()) {
             
-            $config_string = "<? \n
-                \$config['server'] = '".$_POST['db_server']. "';\n
-                \$config['database'] = '".$_POST['db_name']."';\n
-                \$config['db_username'] = '".$_POST['db_username']."';\n
-                \$config['db_password'] = '".$_POST['db_password']."';\n
+            $config_string = "<? 
+                /**
+                 * config file
+                 * stores database username and password
+                 *
+                 * @package code_install
+                 */
+                \$config['server'] = '".$_POST['db_server']. "';
+                \$config['database'] = '".$_POST['db_name']."';
+                \$config['db_username'] = '".$_POST['db_username']."';
+                \$config['db_password'] = '".$_POST['db_password']."';
                     ?>";
             $config_file = fopen("config.php", 'w');
             fwrite($config_file, $config_string);
