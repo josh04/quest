@@ -2,7 +2,12 @@
 /**
  * code_common.class.php
  *
- * common page code - keep it simple, keep it safe, this will be called for most every page
+ * code_common is the base class for 90% of the other classes in the project -
+ * it only handles pretty much universal concepts such as database connections,
+ * the skin, the player etc - shouldn't be anything specific to one part.
+ *
+ * (TODO) general skin functions are kept in here, which is probably wrong.
+ * nowhere else to keep them though :(
  * @package code_common
  * @author josh04
  */
@@ -31,7 +36,7 @@ class code_common {
         $this->section = $section;
         $this->page = $page;
         $this->config = $config;
-        $this->db =& code_database_wrapper::get_db($this->config);
+        $this->db = code_database_wrapper::get_db($this->config);
     }
 
    /**
@@ -73,46 +78,13 @@ class code_common {
     }
 
    /**
-    * builds the player menu
-    *
-    * @deprecated
-    * @return string html
-    */
-    public function menu_player() {
-
-        $admin = "";
-
-        if ($this->player->rank == 'Admin') {
-            $admin = $this->skin->menu_admin();
-        }
-
-        $menu_player = $this->skin->menu_player($this->player, $mail, $admin);
-        return $menu_player;
-    }
-
-   /**
-    * builds the guest menu
-    *
-    * @return string html
-    */
-    public function menu_guest() {
-        $online_query = $this->db->execute("SELECT count(*) AS c FROM players WHERE (last_active > (".(time()-(60*15))."))");
-        $online_count = $online_query->fetchrow();
-        $money_query = $this->db->execute("SELECT sum(`gold`) AS g FROM players");
-        $money_sum = $money_query->fetchrow();
-
-        $menu_guest = $this->skin->menu_guest($online_count['c'], $money_sum['g']);
-        return $menu_guest;
-    }
-
-   /**
     * constructs the player
     *
     */
     public function make_player() {
         // (DONE) player shirt and percentage code has moved
         // Get our player object
-        $this->player = new code_player;
+        $this->player = new code_player();
         $this->player->page = $this->page;
         //Is our player a member, or a guest?
         $allowed = $this->player->make_player();
@@ -303,14 +275,6 @@ class code_common {
         return false; // This will only occur if it screws up. I expect.
     }
 
-    /**
-     * looks nicer than creating classes
-     * 
-     * @return object code_fight
-     */
-    public function fight_init() {
-        return new code_fight;
-    }
 }
 
 ?>

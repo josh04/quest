@@ -4,19 +4,29 @@
 *
 * allows fights and scuffles to take place
 * @package code_common
-* @author josh04, grego
+* @author grego
 */
  
 class code_fight extends code_common {
  
   public $db;
   protected $enemy;
+  public $player_section;
+  public $player_page;
 
    /**
-   * create class
-   */
-    public function __construct() {
+    * overrides the constructer to make the skin automatically
+    *
+    * @param string $section section name
+    * @param string $page section page
+    * @param array $config config array for db
+    */
+    public function __construct($section, $page, $config = array()) {
+        parent::__construct($section, $page, $config);
         $this->section = 'common';
+        $this->page = 'fight';
+        $this->player_section = $section;
+        $this->player_page = $page;
         $this->initiate("skin_fight");
     }
 

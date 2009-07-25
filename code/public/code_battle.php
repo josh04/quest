@@ -17,7 +17,7 @@ class code_battle extends code_common {
     public function construct() {
         $this->initiate("skin_battle");
 
-        $this->fight = $this->fight_init();
+        $this->fight = new code_fight($this->section, $this->page);
         $code_battle = $this->battle_switch();
 
         parent::construct($code_battle);

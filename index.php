@@ -2,7 +2,7 @@
 /**
  * index.php
  *
- * main bootstrap
+ * calls main bootstrap
  * @package code_common
  * @author josh04
  */

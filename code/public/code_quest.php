@@ -130,7 +130,7 @@ class code_quest extends code_common {
     public function event_encounter($encounter) {
         $prehp = $this->player->hp;
         if(!isset($this->fight)) {
-                $this->fight = $this->fight_init();
+                $this->fight = new code_fight($this->section, $this->page);
         }
 
         foreach($encounter->combatant as $combatant) {
