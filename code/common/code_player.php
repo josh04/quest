@@ -75,7 +75,7 @@ class code_player {
     *
     * @return bool suspended?
     */
-    private function halt_if_suspended() {
+    protected function halt_if_suspended() {
         if ($this->disabled == "1" && $page_name !="ticket") {
             return true;
         }
@@ -89,7 +89,7 @@ class code_player {
     * @param string $page current page
     * @return bool kick them out?
     */
-    private function halt_if_guest($page) {
+    protected function halt_if_guest($page) {
         $guest_pages = array("login","guesthelp","ranks", "index", "");
         if(!$this->is_member && !in_array($this->page,$guest_pages)){
             return false;
@@ -102,7 +102,7 @@ class code_player {
     *
     * @param array $player_db array from database
     */
-    private function player_db_to_object($player_db) {
+    protected function player_db_to_object($player_db) {
         foreach($player_db as $key=>$value) { //Fill out our object.
             $this->$key = $value;
         }
@@ -131,7 +131,7 @@ class code_player {
     * @param integer $id player id
     * @return bool succeed/fail
     */
-    private function get_player_by_id($id) {
+    protected function get_player_by_id($id) {
         $player_query = $this->db->execute("SELECT * FROM `players` WHERE id=?", array(intval($id)));
         if ($player_query->recordcount() == 0) {
             return false;
@@ -147,7 +147,7 @@ class code_player {
     * @param integer $id player id
     * @return bool succeed/fail
     */
-    private function get_player_by_name($name) {
+    protected function get_player_by_name($name) {
         $player_query = $this->db->execute("SELECT * FROM players WHERE username=?", array($name));
         if ($player_query->recordcount() == 0) {
             return false;

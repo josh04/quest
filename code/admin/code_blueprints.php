@@ -26,7 +26,7 @@ class code_blueprints extends _code_admin {
     *
     * @return string html
     */
-    private function blueprints_switch() {
+    protected function blueprints_switch() {
         switch($_GET['action']) {
             case 'add':
                 $blueprints_switch = $this->add();
@@ -54,7 +54,7 @@ class code_blueprints extends _code_admin {
     * @param string $message error message
     * @return string html
     */
-    private function list_blueprints($message="") {
+    protected function list_blueprints($message="") {
         $blueprint_temp['name'] = htmlentities($_POST['blueprint_name'],ENT_QUOTES,'UTF-8');
         $blueprint_temp['description'] = htmlentities($_POST['blueprint_description'],ENT_QUOTES,'UTF-8');
         $blueprint_temp['effectiveness'] = abs(intval($_POST['blueprint_effectiveness']));
@@ -85,7 +85,7 @@ class code_blueprints extends _code_admin {
     *
     * @return string html
     */
-    private function add() {
+    protected function add() {
         $name = htmlentities($_POST['blueprint_name'],ENT_QUOTES,'UTF-8');
         $description = htmlentities($_POST['blueprint_description'],ENT_QUOTES,'UTF-8');
         $effectiveness = abs(intval($_POST['blueprint_effectiveness']));
@@ -139,7 +139,7 @@ class code_blueprints extends _code_admin {
     *
     * @return string html
     */
-    private function modify() {
+    protected function modify() {
         $blueprint_update['name'] = htmlentities($_POST['blueprint_name'],ENT_QUOTES,'UTF-8');
         $blueprint_update['description'] = htmlentities($_POST['blueprint_description'],ENT_QUOTES,'UTF-8');
         $blueprint_update['effectiveness'] = abs(intval($_POST['blueprint_effectiveness']));
@@ -178,7 +178,7 @@ class code_blueprints extends _code_admin {
     *
     * @return string html
     */
-    private function remove() {
+    protected function remove() {
         if (!$_POST['blueprint_id']) {
             $remove = $this->list_blueprints($this->skin->lang_error->no_blueprint_selected);
             return $remove;
@@ -205,7 +205,7 @@ class code_blueprints extends _code_admin {
     *
     * @return string html
     */
-    private function remove_confirm() {
+    protected function remove_confirm() {
         $remove_query = $this->db->execute('DELETE FROM `blueprints` WHERE `id`=?', array(intval($_POST['blueprint_id'])));
         
         if ($this->db->Affected_Rows()) {

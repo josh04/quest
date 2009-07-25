@@ -91,7 +91,7 @@ class code_menu extends code_common {
     * @param array $menu_entry menu entry from the db
     * @return string html
     */
-    private function make_menu_entry($menu_entry) {
+    protected function make_menu_entry($menu_entry) {
         $this->enabled = true;
 
         $section_class = "_code_".$menu_entry['section'];

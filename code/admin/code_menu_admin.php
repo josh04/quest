@@ -25,7 +25,7 @@ class code_menu_admin extends code_common {
     *
     * @return string html
     */
-    private function menu_admin_switch() {
+    protected function menu_admin_switch() {
 
         if ($_GET['action'] == 'add') {
             $menu_admin_switch = $this->add();
@@ -52,7 +52,7 @@ class code_menu_admin extends code_common {
     * @param string $message error what?
     * @return string html
     */
-    private function show_menu($message = "") {
+    protected function show_menu($message = "") {
         $menu_post = array();
         if ($_GET['action'] == 'add') {
             $menu_post['label'] = htmlentities($_POST['label'], ENT_COMPAT, 'utf-8');
@@ -134,7 +134,7 @@ class code_menu_admin extends code_common {
     *
     * @return string html
     */
-    private function modify() {
+    protected function modify() {
         $id = intval($_POST['id']);
 
         if (!$id) {
@@ -181,7 +181,7 @@ class code_menu_admin extends code_common {
     *
     * @return string html
     */
-    private function add() {
+    protected function add() {
         if (!$_POST['label']) {
             $add = $this->show_menu($this->skin->error_box($this->skin->lang_error->no_label));
             return $add;
@@ -221,7 +221,7 @@ class code_menu_admin extends code_common {
     *
     * @return string html
     */
-    private function reorder() {
+    protected function reorder() {
         $reorder_query = $this->db->execute("SELECT * FROM `menu`");
 
         while ($menu_item = $reorder_query->fetchrow()) {

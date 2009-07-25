@@ -10,7 +10,7 @@
 class code_fight extends code_common {
  
   public $db;
-  private $enemy;
+  protected $enemy;
 
    /**
    * create class

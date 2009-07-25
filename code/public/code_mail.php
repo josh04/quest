@@ -50,7 +50,7 @@ class code_mail extends code_common {
     *
     * @return string html
     */
-    private function mail_switch() {
+    protected function mail_switch() {
         switch($_GET['action']) {
             case 'compose':
                 $mail_switch = $this->compose();
@@ -78,7 +78,7 @@ class code_mail extends code_common {
     *
     * @return string html
     */
-    private function read() {
+    protected function read() {
 
         $mail_query = $this->db->execute("SELECT m.*, p.username FROM mail AS m LEFT JOIN players AS p ON m.from=p.id WHERE m.id=? AND m.to=?",
                                 array(intval($_GET['id']), $this->player->id));
@@ -108,7 +108,7 @@ class code_mail extends code_common {
     *
     * @return string html
     */
-    private function mail_inbox($message = "") {
+    protected function mail_inbox($message = "") {
         $mail_query = $this->db->execute("SELECT m.*, p.username FROM mail AS m LEFT JOIN players AS p ON m.from=p.id WHERE m.to=? ORDER BY m.time DESC",
                                 array($this->player->id));
         while($mail = $mail_query->fetchrow()) {
@@ -125,7 +125,7 @@ class code_mail extends code_common {
     * @param string $message error message
     * @return string html
     */
-    private function compose($message = "") {
+    protected function compose($message = "") {
         if ($_POST['mail_to']) {
             $to = htmlentities($_POST['mail_to'],ENT_QUOTES,'UTF-8');
         } else {
@@ -147,7 +147,7 @@ class code_mail extends code_common {
     *
     * @return string html
     */
-    private function compose_submit() {
+    protected function compose_submit() {
         //Process mail info, show success message
         $to = new code_player;
         $to->db =& $this->db;
@@ -175,7 +175,7 @@ class code_mail extends code_common {
     *
     * @return string html
     */
-    private function delete_multiple() {
+    protected function delete_multiple() {
         foreach ($_POST['mail_id'] as $mail_id) {
             $delete_html .= $this->skin->mail_delete_input(intval($mail_id));
         }
@@ -189,7 +189,7 @@ class code_mail extends code_common {
     *
     * @return string html
     */
-    private function delete_multiple_confirm() {
+    protected function delete_multiple_confirm() {
         foreach ($_POST['mail_id'] as $mail_id) {
             $mail_ids .= intval($mail_id).", ";
         }

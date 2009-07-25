@@ -28,7 +28,7 @@ class code_stats extends code_common {
      *
      * @return string html
      */
-    private function stats_switch() {
+    protected function stats_switch() {
         if ($this->player->stat_points > 0) {
             $code_stats = $this->spend($_POST['stat']);
         } else {
@@ -42,7 +42,7 @@ class code_stats extends code_common {
     *
     * @return string html
     */
-    private function spend($stat) {
+    protected function spend($stat) {
         $stats = array("strength", "vitality", "agility");
         if (in_array($stat, $stats)) {
             $this->player->stat_points--;

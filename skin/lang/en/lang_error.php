@@ -124,5 +124,10 @@ class lang_error {
     // bank
     public $collect_interest_now = "You may collect your interest now.";
     public $not_enough_cash_to_deposit = "You do not have that much cash to deposit.";
+
+    // hospital
+    public $full_health = "You are already at full health.";
+    public $beyond_maximum = "That is beyond your maximum health.";
+    public $not_enough_to_heal = "You don't have enough money to heal that much.";
 }
 ?>

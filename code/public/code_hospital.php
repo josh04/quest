@@ -15,39 +15,61 @@ class code_hospital extends code_common {
     public function construct() {
         $this->initiate("skin_hospital");
 
-        $code_hospital = $this->make_hospital();
+        $code_hospital = $this->hospital_switch();
 
         parent::construct($code_hospital);
     }
 
-    public function make_hospital() {
-        if ($this->player->hp == $this->player->hp_max) {
-            $make_hospital = "You are already at full health.";
-            return $make_hospital;
-        }
-
+   /**
+    * not many options here.
+    *
+    * @return string html
+    */
+    protected function hospital_switch() {
         if ($_GET['action'] == 'heal') {
             $make_hospital = $this->heal();
             return $make_hospital;
         }
-        $full_heal = $this->player->hp_max - $this->player->hp;
-        $make_hospital = $this->skin->make_hospital($full_heal);
+
+        $make_hospital = $this->make_hospital();
         return $make_hospital;
     }
 
-    public function heal() {
+   /**
+    * makes the hospital. how generous.
+    *
+    * @param string $message error time
+    * @return string html
+    */
+    protected function make_hospital($message = "") {
+        if ($this->player->hp == $this->player->hp_max) {
+            $message .= $this->skin->error_box($this->skin->lang_error->full_health);
+            $disabled = "disabled='disabled'";
+        }
+
+        $full_heal = $this->player->hp_max - $this->player->hp;
+        $make_hospital = $this->skin->make_hospital($full_heal, $disabled, $message);
+        return $make_hospital;
+    }
+
+    protected function heal() {
+        if ($this->player->hp == $this->player->hp_max) {
+            $heal = $this->make_hospital();
+            return $heal;
+        }
+
         $heal = abs(intval($_POST['amount']));
         if ($_POST['full_heal'] == 'on') {
             $heal = $this->player->hp_max - $this->player->hp;
         }
 
         if ( $this->player->hp_max < $heal + $this->player->hp ){
-            $heal_html = "That is beyond your maximum health.";
+            $heal_html = $this->make_hospital($this->skin->error_box($this->skin->lang_error->beyond_maximum));
             return $heal_html;
         }
 
         if ($this->player->gold < $heal) {
-            $heal_html = "You don't have enough money to heal that much.";
+            $heal_html = $this->make_hospital($this->skin->error_box($this->skin->lang_error->not_enough_to_heal));
             return $heal_html;
         }
 
@@ -57,7 +79,7 @@ class code_hospital extends code_common {
         $update_player['gold'] = $this->player->gold;
         $heal_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id='.$this->player->id);
 
-        $heal_html = "You have healed yourself by ".$heal." point(s). Your health is now ".$this->player->hp.".";
+        $heal_html = $this->make_hospital($this->skin->healed($heal, $this->player->hp));
         return $heal_html;
     }
 
