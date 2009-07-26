@@ -282,7 +282,7 @@ class _code_install extends code_common {
         PRIMARY KEY  (`id`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
     
-    public $menu_insert_query = "INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enabled`, `order`, `function`) VALUES
+    public $menu_insert_query = "INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enabled`, `order`, `function`, `guest`) VALUES
         (1, 'Home', 'Game Menu', 'public', 'index', '', 1, 1, 0, 0),
         (2, 'Mail', 'Game Menu', 'public', 'mail', '', 1, 2, 1, 0),
         (3, 'Portal', 'Game Menu', 'public', 'portal', '', 1, 3, 0, 0),
