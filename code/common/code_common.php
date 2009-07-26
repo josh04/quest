@@ -1,6 +1,6 @@
 <?php
 /**
- * code_common.class.php
+ * Base class for modular design
  *
  * code_common is the base class for 90% of the other classes in the project -
  * it only handles pretty much universal concepts such as database connections,
@@ -8,25 +8,82 @@
  *
  * (TODO) general skin functions are kept in here, which is probably wrong.
  * nowhere else to keep them though :(
+ *
  * @package code_common
  * @author josh04
  */
 
 class code_common {
 
+   /**
+    * The database object. Runs queries.
+    *
+    * @var object
+    */
     public $db;
+
+   /**
+    * The current set of skin templates.
+    *
+    * @var skin_common
+    */
     public $skin;
-    public $page_title = "Quest"; //(TODO) use this
+
+   /**
+    * The current player object.
+    *
+    * @var code_player
+    */
     public $player;
+
+   /**
+    * The databate config details, from config.php
+    *
+    * @var array
+    */
     public $config;
+
+   /**
+    * The cronometer!
+    *
+    * @var code_cron
+    */
     public $cron;
+
+   /**
+    * The current section.
+    *
+    * @var string
+    */
     public $section;
+
+   /**
+    * The current page.
+    *
+    * @var string
+    */
     public $page;
+
+   /**
+    * The settings array from the database.
+    *
+    * @var array
+    */
     public $settings = array();
+
+   /**
+    * The pages array from the database.
+    *
+    * @var array
+    */
     public $pages = array();
 
    /**
-    * section name and page name
+    * The common constructor for every class which extends code_common.
+    *
+    * Accepts and sets the section name and the page name, and an optional
+    * config array. Also invokes code_database_wrapper to get the database
+    * object.
     * 
     * @param string $section name of the site chunk we're in
     * @param string $page name of our particular page
@@ -40,12 +97,12 @@ class code_common {
     }
 
    /**
-    * ERROR!
+    * The generic "oh no" error page.
     *
     * @param string $error error text
     */
     public function error_page($error) {
-
+        
         if (!$this->skin) {
             $this->make_skin();
         }
@@ -61,7 +118,9 @@ class code_common {
     }
 
    /**
-    * builds the page header
+    * Builds the page header.
+    *
+    * (TODO) Contains half-baked skin changing code.
     *
     * @return string html
     */
@@ -73,13 +132,14 @@ class code_common {
             $css = "default.css";
         }
 
-        $start_header = $this->skin->start_header($this->page_title, "default.css");
+        $start_header = $this->skin->start_header($this->settings['name'], "default.css");
         return $start_header;
     }
 
    /**
-    * constructs the player
+    * Makes the player object.
     *
+    * Makes $player a code_player object.
     */
     public function make_player() {
         // (DONE) player shirt and percentage code has moved
@@ -94,18 +154,23 @@ class code_common {
     }
 
    /**
-    * gets settings from table
+    * Constructs the settings table.
+    *
+    * A simple database call.
     */
     public function make_settings() {
         $settings_query = $this->db->execute("SELECT * FROM `settings`");
         while ($setting = $settings_query->fetchrow()) {
             $this->settings[$setting['name']] = $setting['value'];
         }
-        $this->page_title = $this->settings['name'];
+        
     }
 
    /**
-    * sets up the database.
+    * Manual database connection function.
+    *
+    * Connects to the database, if for whatever reason this failed when the
+    * class was constructed.
     *
     * @return bool success
     */
@@ -118,7 +183,10 @@ class code_common {
     }
 
    /**
-    * makes skin class - if the player has a skin, use that. needs skin selection code to be useful, tbqh
+    * Makes skin template object.
+    *
+    * If the player has a skin, use that. needs skin selection code to be
+    * useful, tbqh.
     * (DONE) skin code
     *
     * @param string $skin_name skin name
@@ -150,7 +218,9 @@ class code_common {
     }
 
    /**
-    * this happy function runs the code which assembles the side bar
+    * This happy function runs the code which assembles the side bar.
+    *
+    * Calls code_menu, lets it do all the work.
     *
     * @return string html
     */
@@ -163,7 +233,10 @@ class code_common {
     }
 
    /**
-    * is it that time again?
+    * Cronometer!
+    *
+    * Is it that time again? Makes code_cron and runs the crons which need
+    * running.
     *
     */
     public function cron() {
@@ -173,7 +246,7 @@ class code_common {
     }
 
    /**
-    * sets up db, player, etc. can't go in construct because that happens after the child class has run.
+    * Groups together all the standard constructing functions.
     *
     * @param string $skin_name name of skin file to load - if left blank, loads skin_common (not recommended)
     */
@@ -186,7 +259,10 @@ class code_common {
     }
 
    /**
-    * pieces the site together. intended to be overriden by child class to generate $page.
+    * Main page function.
+    *
+    * Pieces the site together. Intended to be overriden by child class to
+    * generate $page.
     *
     * @param string $page contains the html intended to go between the menu and the bottom.
     */
@@ -205,12 +281,15 @@ class code_common {
     /**
      * parses bbcode to return html
      * (TODO) preg_replace is sloooooow
+     *
      * @param string $code bbcode
      * @param boolean $full whether to fully parse
      * @return string html
      */
     public function bbparse($code, $full=false) {
-        if($full) $code = nl2br(htmlentities($code));
+        if ($full) {
+            $code = nl2br(htmlentities($code, ENT_QUOTES, 'utf-8'));
+        }
         $match = array (
                 "/\[b\](.*?)\[\/b\]/is",
                 "/\[i\](.*?)\[\/i\]/is",
@@ -238,7 +317,9 @@ class code_common {
     }
 
     /**
-     * updates a specific setting
+     * Updates a specific setting.
+     *
+     * (TODO) code_settings?
      *
      * @param string setting name
      * @param string setting value

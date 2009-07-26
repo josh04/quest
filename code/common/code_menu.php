@@ -142,11 +142,11 @@ class code_menu extends code_common {
     */
     public function add_menu_entry($label, $category, $section, $page, $extra, $function, $enabled, $guest) {
 
-        $menu_insert['label'] = htmlentities($label, ENT_COMPAT, 'utf-8');
-        $menu_insert['section'] = htmlentities($section, ENT_COMPAT, 'utf-8');
-        $menu_insert['page'] = htmlentities($page, ENT_COMPAT, 'utf-8');
-        $menu_insert['extra'] = htmlentities($extra, ENT_COMPAT, 'utf-8');
-        $menu_insert['category'] = htmlentities($category, ENT_COMPAT, 'utf-8');
+        $menu_insert['label'] = htmlentities($label, ENT_QUOTES, 'utf-8');
+        $menu_insert['section'] = htmlentities($section, ENT_QUOTES, 'utf-8');
+        $menu_insert['page'] = htmlentities($page, ENT_QUOTES, 'utf-8');
+        $menu_insert['extra'] = htmlentities($extra, ENT_QUOTES, 'utf-8');
+        $menu_insert['category'] = htmlentities($category, ENT_QUOTES, 'utf-8');
         $menu_insert['function'] = intval($function);
         $menu_insert['enabled'] = intval($enabled);
         $menu_insert['guest'] = intval($guest);
@@ -187,11 +187,11 @@ class code_menu extends code_common {
     */
     public function modify_menu_entry($id, $label, $category, $section, $page, $extra, $function, $enabled, $guest) {
         $menu_update['id'] = intval($id);
-        $menu_update['label'] = htmlentities($label, ENT_COMPAT, 'utf-8');
-        $menu_update['section'] = htmlentities($section, ENT_COMPAT, 'utf-8');
-        $menu_update['page'] = htmlentities($page, ENT_COMPAT, 'utf-8');
-        $menu_update['extra'] = htmlentities($extra, ENT_COMPAT, 'utf-8');
-        $menu_update['category'] = htmlentities($category, ENT_COMPAT, 'utf-8');
+        $menu_update['label'] = htmlentities($label, ENT_QUOTES, 'utf-8');
+        $menu_update['section'] = htmlentities($section, ENT_QUOTES, 'utf-8');
+        $menu_update['page'] = htmlentities($page, ENT_QUOTES, 'utf-8');
+        $menu_update['extra'] = htmlentities($extra, ENT_QUOTES, 'utf-8');
+        $menu_update['category'] = htmlentities($category, ENT_QUOTES, 'utf-8');
         $menu_update['function'] = intval($function);
         $menu_update['enabled'] = intval($enabled);
         $menu_update['guest'] = intval($guest);

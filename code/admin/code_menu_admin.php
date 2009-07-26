@@ -55,11 +55,11 @@ class code_menu_admin extends code_common {
     protected function show_menu($message = "") {
         $menu_post = array();
         if ($_GET['action'] == 'add') {
-            $menu_post['label'] = htmlentities($_POST['label'], ENT_COMPAT, 'utf-8');
-            $menu_post['section'] = htmlentities($_POST['section'], ENT_COMPAT, 'utf-8');
-            $menu_post['page'] = htmlentities($_POST['page'], ENT_COMPAT, 'utf-8');
-            $menu_post['extra'] = htmlentities($_POST['extra'], ENT_COMPAT, 'utf-8');
-            $menu_post['category'] = htmlentities($_POST['category'], ENT_COMPAT, 'utf-8');
+            $menu_post['label'] = htmlentities($_POST['label'], ENT_QUOTES, 'utf-8');
+            $menu_post['section'] = htmlentities($_POST['section'], ENT_QUOTES, 'utf-8');
+            $menu_post['page'] = htmlentities($_POST['page'], ENT_QUOTES, 'utf-8');
+            $menu_post['extra'] = htmlentities($_POST['extra'], ENT_QUOTES, 'utf-8');
+            $menu_post['category'] = htmlentities($_POST['category'], ENT_QUOTES, 'utf-8');
 
             if ($_POST['function']) {
                 $menu_post['function'] = "checked='checked'";
