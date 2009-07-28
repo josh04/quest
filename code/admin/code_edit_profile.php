@@ -92,21 +92,22 @@ class code_edit_profile extends _code_admin {
             return $update_profile;
         }
 
-        $update_player = array( 'email'         => $_POST['email'],
-                                'description'   => $_POST['description'],
-                                'gender'        => intval($_POST['gender']),
-                                'msn'           => $_POST['msn'],
-                                'aim'           => $_POST['aim'],
-                                'skype'         => $_POST['skype'],
-                                'avatar'        => $_POST['avatar'],
-                                'skin'          => $_POST['skin']   );
-        if ($_POST['show_email'] == 'on') {
-            $update_player['show_email'] = 1;
-        } else {
-            $update_player['show_email'] = 0;
-        }
-        $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$id);
+        $this->player->email         = htmlentities($_POST['email'], ENT_QUOTES, 'utf-8');
+        $this->player->description   = htmlentities($_POST['description'], ENT_QUOTEs, 'utf-8');
+        $this->player->gender        = intval($_POST['gender']);
+        $this->player->msn           = htmlentities($_POST['msn'], ENT_QUOTES, 'utf-8');
+        $this->player->aim           = htmlentities($_POST['aim'], ENT_QUOTES, 'utf-8');
+        $this->player->skype         = htmlentities($_POST['skype'], ENT_QUOTES, 'utf-8');
+        $this->player->avatar        = $_POST['avatar'];
+        $this->player->skin          = htmlentities($_POST['skin'], ENT_QUOTES, 'utf-8');
 
+        if ($_POST['show_email'] == 'on') {
+            $this->player->show_email = 1;
+        } else {
+            $this->player->show_email = 0;
+        }
+
+        $this->player->update_player();
         $update_profile = $this->edit_profile_page($id, $this->skin->success_box($this->skin->lang_error->profile_updated));
         return $update_profile;
     }

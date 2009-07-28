@@ -30,7 +30,7 @@ class skin_quest extends skin_common {
     */
     public function quest_select($quest_html, $message='') {
         return "<h2>Select a Quest</h2>
-        ".($message?"<div class='error'>".$message."</div>":"")."
+        ".$message."
         <div>You can choose a quest to embark on from below.
         When on a quest, you cannot perform various other actions, such as visit other places.</div>
         ".($quest_html!=""?$quest_html:"<div class='quest-select'>There are no quests installed!</div>");
