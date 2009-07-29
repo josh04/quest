@@ -59,7 +59,7 @@ class code_edit_profile extends code_common {
 
 
         $update_player = array( 'email'         => htmlentities($_POST['email'], ENT_QUOTES, 'utf-8'),
-                                'description'   => htmlentities($_POST['description'], ENT_QUOTEs, 'utf-8'),
+                                'description'   => htmlentities($_POST['description'], ENT_QUOTES, 'utf-8'),
                                 'gender'        => intval($_POST['gender']),
                                 'msn'           => htmlentities($_POST['msn'], ENT_QUOTES, 'utf-8'),
                                 'aim'           => htmlentities($_POST['aim'], ENT_QUOTES, 'utf-8'),

@@ -118,7 +118,7 @@ class code_player {
     * @return bool succeed/fail
     */
     public function get_player($identity) {
-        if ($identity == intval($identity)) {
+        if ($identity === intval($identity)) {
             return $this->get_player_by_id($identity);
         } else {
             return $this->get_player_by_name($identity);
