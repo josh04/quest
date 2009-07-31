@@ -28,7 +28,7 @@ class skin_fight extends skin_common {
     * @param int $exp_gain experience gained
     * @return string html
     */
-    public function gain_log($gold_shift, $exp_gain) {
+    public function gain_gold_log($gold_shift, $exp_gain) {
         $gain_log = "You gained ".$exp_gain." experience and ".$gold_shift." gold.<br />";
         return $gain_log;
     }
@@ -39,7 +39,7 @@ class skin_fight extends skin_common {
     * @param int $gold_shift gold lost
     * @return string html
     */
-    public function loss_log($gold_shift) {
+    public function loss_gold_log($gold_shift) {
         $loss_log = "You lost ".$gold_shift." gold.<br />";
         return $loss_log;
     }

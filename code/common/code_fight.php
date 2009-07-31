@@ -245,8 +245,8 @@ class code_fight extends code_common {
             }
             
             if ($this->save_gold && $this->save_xp) {
-                $victor->add_log($this->skin->victory_log($loser->id, $loser->username).$this->skin->gain_log($gold_shift, $exp_gain));
-                $loser->add_log($this->skin->loss_log($victor->id, $victor->username).$this->skin->loss_log($gold_shift));
+                $victor->add_log($this->skin->victory_log($loser->id, $loser->username).$this->skin->gain_gold_log($gold_shift, $exp_gain));
+                $loser->add_log($this->skin->loss_log($victor->id, $victor->username).$this->skin->loss_gold_log($gold_shift));
             } else {
                 $victor->add_log($this->skin->victory_log($loser->id, $loser->username));
                 $loser->add_log($this->skin->loss_log($victor->id, $victor->username));
