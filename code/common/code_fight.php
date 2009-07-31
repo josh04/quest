@@ -244,8 +244,14 @@ class code_fight extends code_common {
                 $victor->kills++;
             }
             
-            $victor->add_log($this->skin->victory_log($loser->id, $loser->username, $gold_shift, $exp_gain));
-            $loser->add_log($this->skin->loss_log($victor->id, $victor->username, $gold_shift));
+            if ($this->save_gold && $this->save_xp) {
+                $victor->add_log($this->skin->victory_log($loser->id, $loser->username).$this->skin->gain_log($gold_shift, $exp_gain));
+                $loser->add_log($this->skin->loss_log($victor->id, $victor->username).$this->skin->loss_log($gold_shift));
+            } else {
+                $victor->add_log($this->skin->victory_log($loser->id, $loser->username));
+                $loser->add_log($this->skin->loss_log($victor->id, $victor->username));
+            }
+
         } else {
             $this->player->add_log($this->skin->draw_log($this->enemy->id, $this->enemy->username));
             $this->enemy->add_log($this->skin->draw_log($this->player->id, $this->player->username));
@@ -261,7 +267,7 @@ class code_fight extends code_common {
             $this->player->add_log($this->skin->lang_error->levelled_up);
         }
 
-        if($this->type=="player") {
+        if ($this->type=="player") {
             if ($this->enemy->update_player()) {
                 $attacks[] = $this->skin->enemy_battle_row($this->enemy->username." gained a level!");
                 $this->enemy->add_log($this->skin->lang_error->levelled_up);

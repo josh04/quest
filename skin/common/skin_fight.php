@@ -14,13 +14,34 @@ class skin_fight extends skin_common {
     *
     * @param int $id loser id
     * @param string $username name of loser
+    * @return string html
+    */
+    public function victory_log($loser_id, $loser_username) {
+        $victory_log = "You fought <a href='index.php?page=profile&amp;id=".$loser_id."'>".$loser_username."</a> but you won!<br /> ";
+        return $victory_log;
+    }
+
+   /**
+    * Gained gold + xp
+    *
     * @param int $gold_shift gold gained
     * @param int $exp_gain experience gained
     * @return string html
     */
-    public function victory_log($loser_id, $loser_username, $gold_shift, $exp_gain) {
-        $victory_log = "You fought <a href='index.php?page=profile&amp;id=".$loser_id."'>".$loser_username."</a> but you won!<br /> You gained ".$exp_gain." experience and ".$gold_shift." gold.";
-        return $victory_log;
+    public function gain_log($gold_shift, $exp_gain) {
+        $gain_log = "You gained ".$exp_gain." experience and ".$gold_shift." gold.<br />";
+        return $gain_log;
+    }
+
+   /**
+    * Lost gold
+    *
+    * @param int $gold_shift gold lost
+    * @return string html
+    */
+    public function loss_log($gold_shift) {
+        $loss_log = "You lost ".$gold_shift." gold.<br />";
+        return $loss_log;
     }
     
    /**
@@ -28,11 +49,10 @@ class skin_fight extends skin_common {
     * 
     * @param int $id victor id
     * @param string $username name of victor
-    * @param int $gold_shift gold lost
     * @return string html
     */
-    public function loss_log($victor_id, $victor_username, $gold_shift) {
-        $loss_log = "You fought <a href='index.php?page=profile&amp;id=".$victor_id."'>".$victor_username."</a> and lost.<br /> You lost ".$gold_shift." gold.";
+    public function loss_log($victor_id, $victor_username) {
+        $loss_log = "You fought <a href='index.php?page=profile&amp;id=".$victor_id."'>".$victor_username."</a> and lost.<br />";
         return $loss_log;
     }
 
