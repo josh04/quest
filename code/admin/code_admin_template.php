@@ -88,6 +88,7 @@ class code_admin_template extends _code_admin {
         if ($this->page == "panel") {
             $data = array('title'=>'Admin panel','description'=>'',
                 'fields' => array(
+                    array('type'=>'text', 'name'=>'name','caption'=>'Project name'),
                     array('name'=>'admin_notes','caption'=>'Notes for administrators','lang'=>'BBCode'),
                 ),
             );
