@@ -132,7 +132,13 @@ class code_common {
             $css = "default.css";
         }
 
-        $start_header = $this->skin->start_header($this->settings['name'], "default.css");
+        if (isset($this->settings['name'])) {
+            $page_title = $this->settings['name'];
+        } else {
+            $page_title = "Quest";
+        }
+
+        $start_header = $this->skin->start_header($page_title, "default.css");
         return $start_header;
     }
 
