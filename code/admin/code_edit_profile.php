@@ -139,9 +139,7 @@ class code_edit_profile extends _code_admin {
         $profile = new code_player;
         $profile->get_player($id);
 
-        $update_password['password'] = md5($_POST['new_password'].$profile->login_salt);
-        $password_query = $this->db->AutoExecute('players', $update_password, 'UPDATE', 'id = '.$profile->id);
-
+        $profile->update_password($_POST['new_password']);
         return $update_password;
 
     }

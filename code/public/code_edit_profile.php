@@ -105,12 +105,7 @@ class code_edit_profile extends code_common {
             return $update_password;
         }
 
-        $update_password['password'] = md5($_POST['new_password'].$this->player->login_salt);
-        $password_query = $this->db->AutoExecute('players', $update_password, 'UPDATE', 'id = '.$this->player->id);
-        $this->player->password = $update_password['password'];
-        $hash = md5($this->player->id.$this->player->password.$this->player->login_rand);
-        $_SESSION['hash'] = $hash;
-        setcookie("cookie_hash", $hash, mktime()+2592000);
+        $this->player->update_password($_POST['new_password']);
         $update_password = $this->edit_profile_page($this->skin->lang_error->password_updated);
         return $update_password;
         

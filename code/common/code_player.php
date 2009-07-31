@@ -190,6 +190,7 @@ class code_player {
  
  
         if ($this->exp > $this->exp_max) {
+            
             $this->level++;
             $this->exp_max = $this->exp_max + ($this->level * 70) - 20;
             $this->stat_points = $this->stat_points + 3;
@@ -338,6 +339,7 @@ class code_player {
         $hash = md5($this->player->id.$this->player->password.$this->player->login_rand);
         $_SESSION['hash'] = $hash;
         setcookie("cookie_hash", $hash, mktime()+2592000);
+        
         if ($password_query) {
             return true;
         } else {

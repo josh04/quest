@@ -86,6 +86,7 @@ class _code_install extends code_common {
         `skype` varchar(65) NOT NULL default '',
         `login_rand` varchar(255) NOT NULL default '',
         `login_salt` varchar(255) NOT NULL default '',
+        `quest` varchar(255) NOT NULL default '',
         PRIMARY KEY  (`id`),
         KEY `rank` (`rank`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
@@ -297,7 +298,8 @@ class _code_install extends code_common {
         (12, 'Staff List', 'Other', 'public', 'members', '&amp;action=staff', 1, 3, 0, 0),
         (13, 'Menu Editor', 'Admin', 'admin', 'menu', '', 1, 4, 0, 0),
         (14, 'Quest Control', 'Admin', 'admin', 'quest', '', 1, 3, 0, 0),
-        (15, 'Control Panel', 'Admin', 'admin', 'index', '', 1, 2, 0, 0);
+        (15, 'Control Panel', 'Admin', 'admin', 'index', '', 1, 2, 0, 0),
+        (16, 'Quests', 'Game Menu', 'public', 'quest', '', 1, 7, 1, 0);
         ";
 
    /**

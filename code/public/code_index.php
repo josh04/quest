@@ -107,6 +107,21 @@ class code_index extends code_common {
         
         parent::construct($code_index);
     }
+
+   /**
+    * Static menu extension for the index.
+    *
+    * @param code_menu $menu Menu object
+    * @param string $label Text for the label
+    * @return string html
+    */
+    public static function code_index_menu(&$menu, $label) {
+        if ($menu->player->is_member) {
+            require_once("skin/public/skin_index.php");
+            $menu->top .= skin_index::player_details_menu($menu->player);
+        }
+        return $label;
+    }
 }
 
 ?>

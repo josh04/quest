@@ -72,15 +72,14 @@ class skin_quest extends skin_common {
     * 
     * @param string $enconter details
     * @param string $body main event body
-    * @param string $user current username
+    * @param string $username current username
     * @return string html
     */
-    public function encounter($encounter, $body, $user) {
-        return "<table><tr><td>".$body.($body&&$encounter['main']?"<hr />":"")."
-        " . $encounter['main'] . "<br style=\"clear:both;\" /></td>
+    public function encounter($encounter, $body, $username) {
+        return "<table><tr><td>".$body."<hr />" . $encounter['main'] . "<br style=\"clear:both;\" /></td>
         <td style=\"border-left:1px solid #333;padding:4px;width:150px;height:auto;text-align:right;\">
         <div style=\"text-align:left;\"><strong>Enemies:</strong> ".$encounter['enemies']."<br /><strong>Result:</strong> ".($encounter['success']?"Won":"Lost")."</div>
-        <br />".$this->gains($encounter['gold'],$encounter['xp'],$encounter['hp'])."</td>
+        <br />".$encounter['gains']."</td>
         </tr></table>";
     }
 
@@ -93,41 +92,12 @@ class skin_quest extends skin_common {
     * @return string html
     */
     public function challenge($challenge, $body, $user) {
-        return "<table><tr><td>".$body.($body&&$challenge?"<hr />":"")."
-        ".$challenge['main'] . "<br style=\"clear:both;\" /></td>
-        <td style=\"border-left:1px solid #333;padding:4px;width:150px;height:auto;text-align:right;\">
-        <div style=\"text-align:left;\">In a <strong>".$challenge['source']."</strong> check of ".$challenge['value'].", ".$user." got ".$challenge['result'].".</div>
-        <br />".$this->gains($challenge['gold'],$challenge['xp'],0)."</td>
-        </tr></table>";
-    }
-
-   /**
-    * a list of enemies
-    * 
-    * @param array $enemies
-    * @return string html
-    */
-    public function enemy_list($enemies) {
-        $count = count($enemies);
-        for($i=0;$i<$count;$i++) {
-                if($i==$count-1) $ret .= $enemies[$i];
-                else if($i==$count-2) $ret .= $enemies[$i] . " and ";
-                else $ret .= $enemies[$i] . ", ";
-                }
-        return $ret;
-    }
-
-   /**
-    * the rewards of an event
-    * 
-    * @param string $gold gold received
-    * @param string $xp xp earned
-    * @return string html
-    */
-    public function gains($gold=0, $xp=0, $hp=0) {
-        return ($gold>0?"+".$gold." gold".($xp>0?"<br />":""):"")."
-        ".($xp>0?"+".$xp." xp":"").($hp!=0?"<br />":"")."
-        ".($hp==0?"":$hp." hp");
+        return "<table><tr><td>".$body."<hr />".$challenge['main'] . "<br style=\"clear:both;\" /></td>
+            <td style=\"border-left:1px solid #333;padding:4px;width:150px;height:auto;text-align:right;\">
+            <div style=\"text-align:left;\">In a <strong>".$challenge['source']."
+            </strong> check of ".$challenge['value'].", ".$user." got ".$challenge['result'].".</div>
+            <br />".$challenge['gains']."</td>
+            </tr></table>";
     }
 
    /**
@@ -139,6 +109,38 @@ class skin_quest extends skin_common {
         return "<div style='text-align:center;'><a href='index.php?page=quest'>Finish quest</a></div>";
     }
 
+   /**
+    * Got gold?
+    *
+    * @param int $gold got gold?
+    * @return string html
+    */
+    public function got_gold($gold) {
+        $got_gold = "<span style='color:#00FF00;'>+".$gold." gold.</span><br />";
+        return $got_gold;
+    }
+
+   /**
+    * Got xp?
+    *
+    * @param int $xp got xp?
+    * @return string html
+    */
+    public function got_xp($xp) {
+        $got_xp = "<span style='color:#0000FF;'>+".$xp." xp.<br />";
+        return $got_xp;
+    }
+
+   /**
+    * Got hp?
+    *
+    * @param int $hp got hp?
+    * @return string html
+    */
+    public function got_hp($hp) {
+        $got_hp = "<span style='color:#FF0000;'>".$hp." hp.<br />";
+        return $got_hp;
+    }
 
 }
 ?>

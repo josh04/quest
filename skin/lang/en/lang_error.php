@@ -26,7 +26,6 @@ class lang_error {
     // battle
     public $player_not_found = "Player not found.";
     public $no_player_selected = "No player selected.";
-    public $no_players_found = "No players found.";
     public $cannot_attack_self = "You cannot attack yourself.";
     public $player_no_energy = "You do not have enough energy to attack";
     public $player_currently_incapacitated = "You are currently incapacitated.";
@@ -36,7 +35,8 @@ class lang_error {
     public $you_drew = "You drew.";
     public $levelled_up = "You gained a level!";
     public $battle_drawn = "Battle drawn.";
-    public $incorrect_enemy = "Enemy not properly formed.";
+    public $enemy_malformed = "Enemy not properly formed.";
+    public $no_players_found = "No players matched your query.";
 
     // login
     public $password_wrong = "The password entered is incorrect.";

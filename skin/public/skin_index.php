@@ -133,6 +133,26 @@ class skin_index extends skin_common {
         return $register;
     }
 
+   /**
+    * Player details menu
+    *
+    * @param code_player Player object
+    * @return string html
+    */
+    public static function player_details_menu(&$player) {
+        $player_details_menu = "<div class='left-section'>
+                    <strong>Username:</strong> <a href='index.php?page=profile&amp;id=".$player->id."'>".$player->username."</a>
+                    <ul>
+                       <li><strong>Level:</strong> ".$player->level."</li>
+                       <li><strong>EXP:</strong> ".$player->exp."/".$player->exp_max." (".$player->exp_percent."%)</li>
+                       <li><strong>Health:</strong> ".$player->hp."/".$player->hp_max."</li>
+                       <li><strong>Energy:</strong> ".$player->energy."/".$player->energy_max."</li>
+                       <li><strong>Money:</strong> &#163;".$player->gold."</li>
+                    </ul>
+                </div>";
+        return $player_details_menu;
+    }
+
 }
 
 ?>

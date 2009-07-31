@@ -157,6 +157,10 @@ class code_menu_admin extends code_common {
             return $modify;
         }
 
+        $function = 0;
+        $enabled = 0;
+        $guest = 0;
+
         if ($_POST['function']) {
             $function = 1;
         }
@@ -197,6 +201,10 @@ class code_menu_admin extends code_common {
             return $add;
         }
 
+        $function = 0;
+        $enabled = 0;
+        $guest = 0;
+
         if ($_POST['function']) {
             $function = 1;
         }
@@ -208,7 +216,6 @@ class code_menu_admin extends code_common {
         if ($_POST['guest']) {
             $guest = 1;
         }
-
         require_once("code/common/code_menu.php");
         $code_menu = new code_menu($this->db, $this->player, $this->section, $this->page, $this->pages);
         $code_menu->add_menu_entry($_POST['label'], $_POST['category'], $_POST['section'], $_POST['page'], $_POST['extra'], $function, $enabled, $guest);
@@ -247,7 +254,6 @@ class code_menu_admin extends code_common {
         }
         $this->db->execute("UPDATE `menu` SET `id`=?, `order`=? WHERE `id`=? ", $menu_queries);
 
-        print $this->db->ErrorMsg();
         $reorder = $this->show_menu($this->skin->success_box($this->skin->lang_error->menu_reordered));
         return $reorder;
 

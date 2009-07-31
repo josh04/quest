@@ -10,9 +10,18 @@
 class code_fight extends code_common {
  
   public $db;
-  protected $enemy;
+  public $enemy;
   public $player_section;
   public $player_page;
+  public $player;
+
+  public $type = 'static';
+  public $return_value = 'log';
+  public $save = true;
+  public $save_gold = true;
+  public $save_xp = true;
+  public $record_kills = true;
+  public $use_energy = true;
 
    /**
     * overrides the constructer to make the skin automatically
@@ -31,76 +40,21 @@ class code_fight extends code_common {
     }
 
    /**
-   * do battle with another player or an NPC
-   *
-   * @param object|integer $enemy all enemy details or enemy id number
-   * @param array $options 'returnval'
-   * @return success or failure
-   */
-    public function battle($enemy=null, $options=array()) {
+    * do battle with another player or an NPC
+    *
+    * @return success or failure
+    */
+    public function battle() {
 
-        $defaults = $this->default_options();
-        $options = array_merge($defaults,$options);
-
-        if($this->enemy) $id = $this->enemy->id;
-
-        if (is_object($enemy)) {
-            $this->enemy = $enemy;
-            $id = $this->enemy->id;
-        }
-
-        if (!$id && isset($_POST['id'])) {
-            $id = intval($_POST['id']);
-        }
-
-        if (is_integer($enemy)) {
-            $id = $enemy;
-        }
-
-        if (isset($id) && !is_object($enemy)) {
-            $options['type'] = 'player';
-            $this->enemy = new code_player;
-
-            if (!$this->enemy->get_player($id)) {
-                $fight = $this->skin->error_page($this->skin->lang_error->player_not_found);
-                return $fight;
-            }
-        }
-
-        if (!$id && $options['type']=="player") {
-            $fight = $this->skin->error_page($this->skin->lang_error->no_player_selected);
-            return $this->return_val($options['returnval'], array($fight), 0, $fight);
-        }
-
-        if ($id == $this->player->id) {
-            $fight = $this->skin->error_page($this->skin->lang_error->cannot_attack_self);
-            return $this->return_val($options['returnval'], array($fight), 0, $fight);
-        }
 
         if (!method_exists($this->enemy,"add_log")) {
-            $fight = $this->skin->error_page($this->skin->lang_error->incorrect_enemy);
-            return $this->return_val($options['returnval'], array($fight), 0, $fight);
+            $fight = $this->error_page($this->skin->lang_error->enemy_malformed);
+            return $fight;
         }
 
-        //Player cannot attack any more
-        if ($this->player->energy == 0) {
-            $fight = $this->skin->error_page($this->skin->lang_error->player_no_energy);
-            return $this->return_val($options['returnval'], array($fight), 0, $fight);
+        if ($this->type == "player") {
+            $this->player_combat_setup();
         }
-        
-        //Player is unconscious
-        if ($this->player->hp == 0) {
-            $fight = $this->skin->error_page($this->skin->lang_error->player_currently_incapacitated);
-            return $this->return_val($options['returnval'], array($fight), 0, $fight);
-        }
-
-        //Otherwise, check if agent has any health
-        if ($this->enemy->hp == 0) {
-            $fight = $this->skin->error_page($this->skin->lang_error->enemy_currently_incapacitated);
-            return $this->return_val($options['returnval'], array($fight), 0, $fight);
-        }
-
-        if($options['type']=="player") $this->player_combat_setup();
 
         // Get player's bonuses from equipment
         $player_attack_query = $this->db->query("SELECT blueprints.effectiveness, blueprints.name
@@ -270,13 +224,25 @@ class code_fight extends code_common {
             
 
             $loser->hp = 0;
-            if($options['save_gold']) $loser->gold = $loser->gold - $gold_shift;
-            if($options['record_kills']) $loser->deaths++;
+            if ($this->save_gold) {
+                $loser->gold = $loser->gold - $gold_shift;
+            }
             
+            if ($this->record_kills) {
+                $loser->deaths++;
+            }
             
-            if($options['save_xp']) $victor->exp = $victor->exp + $exp_gain;
-            if($options['save_gold']) $victor->gold = $victor->gold + $gold_shift;
-            if($options['record_kills']) $victor->kills++;
+            if ($this->save_xp) {
+                $victor->exp = $victor->exp + $exp_gain;
+            }
+            
+            if ($this->save_gold) {
+                $victor->gold = $victor->gold + $gold_shift;
+            }
+            
+            if ($this->record_kills) {
+                $victor->kills++;
+            }
             
             $victor->add_log($this->skin->victory_log($loser->id, $loser->username, $gold_shift, $exp_gain));
             $loser->add_log($this->skin->loss_log($victor->id, $victor->username, $gold_shift));
@@ -286,18 +252,21 @@ class code_fight extends code_common {
             $banner = $this->skin->error_box($this->skin->lang_error->you_drew);
         }
 
-        if($options['use_energy']) $this->player->energy--; // he started it!
+        if ($this->use_energy) {
+            $this->player->energy--; // he started it!
+        }
         
         if ($this->player->update_player()) {
             $attacks[] = $this->skin->player_battle_row($this->player->username." gained a level!");
             $this->player->add_log($this->skin->lang_error->levelled_up);
         }
 
-        if($options['type']=="player") {
-        if ($this->enemy->update_player()) {
-            $attacks[] = $this->skin->enemy_battle_row($this->enemy->username." gained a level!");
-            $this->enemy->add_log($this->skin->lang_error->levelled_up);
-        } }
+        if($this->type=="player") {
+            if ($this->enemy->update_player()) {
+                $attacks[] = $this->skin->enemy_battle_row($this->enemy->username." gained a level!");
+                $this->enemy->add_log($this->skin->lang_error->levelled_up);
+            } 
+        }
 
         foreach ($attacks as $attack) {
             $battle_html .= $attack;
@@ -311,7 +280,7 @@ class code_fight extends code_common {
 
         $fight = $this->skin->fight($battle_html, $banner);
 
-        return $this->return_val($options['returnval'], $attacks, $this->player->victory, $fight);
+        return $this->return_value($attacks, $this->player->victory, $fight);
     }
 
    /**
@@ -335,36 +304,32 @@ class code_fight extends code_common {
         return;
     }
 
-   /**
-   * returns default values of 'options' array
-   *
-   * @return array;
-   */
-    public function default_options() {
-        return array(
-            'type'           => 'static',
-            'returnval'      => 'log',
-            'save'           => true,
-            'save_gold'      => true,
-            'save_xp'        => true,
-            'record_kills'   => true,
-            'use_energy'     => true,
-        );
-    }
 
    /**
-   * return relevant entry from selection
-   *
-   * @param 
-   * @return class enemy;
-   */
-    public function return_val($type, $array, $boolean, $log) {
-        switch($type) {
-            case 'array': return $array; break;
-            case 'boolean': return $boolean; break;
-            case 'player': return $this->player; break;
+    * return relevant entry from selection
+    *
+    * @param array $array
+    * @param bool $boolean
+    * @param string $log
+    * @return array
+    * @return bool
+    * @return string
+    */
+    public function return_value($array, $boolean, $log) {
+        switch($this->type) {
+            case 'array': 
+                return $array; 
+                break;
+            case 'boolean': 
+                return $boolean; 
+                break;
+            case 'player': 
+                return $this->player; 
+                break;
             case 'log':
-            default: return $log; break;
+            default: 
+                return $log; 
+                break;
         }
     }
 
