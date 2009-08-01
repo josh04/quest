@@ -11,10 +11,13 @@ class skin_profile extends skin_common {
    * makes the profile page
    *
    * @param player $profile array of profile links
+   * @param string $friendlist the pre-formatted friend list
+   * @param string $message any errors that have been drawn
    * @return string html
    */
-   function make_profile($profile) {
+   function make_profile($profile, $friendlist, $message='') {
         $make_profile = "
+            ".$message."
             <img src=\"".$profile->avatar."\" alt=\"[user avatar]\" style=\"max-width:50px;max-height:50px;float:left;border:1px solid #DDD;padding:4px;margin:8px;\" />
             <h2 style='line-height:20px;'>".$profile->username."
             <a title='User is ".$profile->is_online."'><img src='../icons/status_".$profile->is_online.".png' /></a><br />
@@ -22,16 +25,15 @@ class skin_profile extends skin_common {
             <br style='clear:both;' />
             <div style='font-size:11px;'>
             ".($profile->description==""?"":"<p><i>".$profile->description."</i></p>")."
-
             <strong>Registered:</strong> ".$profile->registered."<br />
             <strong>Character age:</strong> ".$profile->age." days<br />
             <strong>Level:</strong> ".$profile->level."<br />
-            <strong>Kills/deaths:</strong> ".$profile->kills."/".$profile->deaths." (".($profile->deaths>0?number_format($profile->kills/$profile->deaths,2):"0").")<br />
+            <strong>Kills/deaths:</strong> ".$profile->kills."/".$profile->deaths." (".$profile->ratio.")<br />
             ".($profile->im_links?$profile->im_links:"")."
             <br />
 
-            <strong>Friends</strong>
-            ".(count($profile->friends)==0?"<br />".$profile->username." has no friends yet!":implode("<br />",$profile->friends))."<br /><br />
+            <strong>Friends (".$profile->friendcount.")</strong><br />
+            ".$friendlist."<br /><br />
             </div>
             <form action='index.php?page=profile&amp;id=".$profile->id."' method='post'>
             <input type='text' name='donate' />
@@ -216,5 +218,21 @@ class skin_profile extends skin_common {
         $gender = "<img src=\"../icons/user".$g[$gender][1].".png\" alt=\"".$g[$gender][0]."\" title=\"".$g[$gender][0]."\" />";
         return $gender;
     }
+
+   /**
+    * converts an array of the users' friends into a list
+    *
+    * @param array $friends friends to listify
+    * @return string html
+    */
+    public function friendlist($friends) {
+        $ret = "<ul class='friendlist'>";
+        foreach($friends as $id => $username) {
+            $ret .= "<li><a href='?page=profile&id=".$id."'>".$username."</a></li>";
+            }
+        $ret .= "</ul>";
+        return $ret;
+    }
+
 }
 ?>

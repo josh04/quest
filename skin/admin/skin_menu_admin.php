@@ -14,17 +14,15 @@ class skin_menu_admin extends skin_common {
     * @return string html
     */
     public function make_menu_entry($menu_entry) {
-        $make_menu_entry = "<tr><form action='index.php?section=admin&amp;page=menu&amp;action=modify' method='POST'>
-                <td><input type='text' size='12' name='label' value='".$menu_entry['label']."' /></td>
-                <td><input type='text' size='10' name='category' value='".$menu_entry['category']."' /></td>
-                <td><input type='text' size='8' name='section' value='".$menu_entry['section']."' /></td>
-                <td><input type='text' size='8' name='page' value='".$menu_entry['page']."' /></td>
-                <td><input type='text' size='10' name='extra' value='".$menu_entry['extra']."' /></td>
-                <td><input type='checkbox' name='function' ".$menu_entry['function']." /></td>
-                <td><input type='checkbox' name='enabled' ".$menu_entry['enabled']." /></td>
-                <td><input type='checkbox' name='guest' ".$menu_entry['guest']." /></td>
-                <td><input type='hidden' name='id' value='".$menu_entry['id']."' /><input type='submit' value='Update' /></td>
-            </form></tr>";
+        $make_menu_entry = "<tr>
+                <td style='width:80%;'>".$menu_entry['label']."</td>
+                <td>
+                    <a href='?section=admin&amp;page=menu&amp;action=edit&amp;id=".$menu_entry['id']."'><img src='images/icons/pencil.png' alt='edit' /></a>&nbsp;
+                    <a href='?section=admin&amp;page=menu&amp;action=remove&amp;id=".$menu_entry['id']."'><img src='images/icons/delete.png' alt='delete' /></a>
+                    <a href='?section=admin&amp;page=menu&amp;action=up&amp;id=".$menu_entry['id']."'><img src='images/icons/arrow_up.png' /></a>
+                    <a href='?section=admin&amp;page=menu&amp;action=down&amp;id=".$menu_entry['id']."'><img src='images/icons/arrow_down.png' /></a>
+                </td>
+            </tr>";
         return $make_menu_entry;
     }
 
@@ -36,17 +34,8 @@ class skin_menu_admin extends skin_common {
     * @return string html
     */
     public function menu_category($category_name, $category_html) {
-        $menu_category = "<tr><td><h3>".$category_name."</h3></td></tr>
-            <tr>
-                <th>Label</th>
-                <th>Category</th>
-                <th>Section</th>
-                <th>Page</th>
-                <th>Extra</th>
-                <th>Func</th>
-                <th>On</th>
-                <th>Guest</th>
-            </tr>".$category_html."";
+        $menu_category = "<tr><td colspan='2'><h3>".$category_name."</h3></td></tr>
+            ".$category_html;
         return $menu_category;
     }
 
@@ -59,130 +48,87 @@ class skin_menu_admin extends skin_common {
     * @return string html
     */
     public function menu_wrap($menu_html, $menu_entry, $message="") {
-        $menu_wrap = $message."<h3>Add New Menu Entry:</h3><table cellpadding='0' cellspacing='0'><tbody>
-            <tr>
-                <th>Label</th>
-                <th>Category</th>
-                <th>Section</th>
-                <th>Page</th>
-                <th>Extra</th>
-                <th>Func</th>
-                <th>On</th>
-                <th>Guest</th>
-            </tr>
-            <tr><form action='index.php?section=admin&amp;page=menu&amp;action=add' method='POST'>
-                <td><input type='text' size='12' name='label' value='".$menu_entry['label']."' /></td>
-                <td><input type='text' size='10' name='category' value='".$menu_entry['category']."' /></td>
-                <td><input type='text' size='8' name='section' value='".$menu_entry['section']."' /></td>
-                <td><input type='text' size='8' name='page' value='".$menu_entry['page']."' /></td>
-                <td><input type='text' size='10' name='extra' value='".$menu_entry['extra']."' /></td>
-                <td><input type='checkbox' name='function' ".$menu_entry['function']." /></td>
-                <td><input type='checkbox' name='enabled' ".$menu_entry['enabled']." /></td>
-                <td><input type='checkbox' name='guest' ".$menu_entry['guest']." /></td>
-                <td><input type='submit' value='Add' /></td>
-            </form></tr>
-            ".$menu_html."</tbody></table>";
+        $menu_wrap = "<h2>Menu editor</h2>
+            ".$message."
+            <p>You can edit the menu items below, or add a new item <a href='?section=admin&amp;page=menu&action=edit'>here</a>.</p>
+            <table>
+            ".$menu_html."
+            </table>";
         return $menu_wrap;
     }
 
    /**
-    * danger danger will robinson
+    * edit or add a menu item
     *
-    * @param string $reorder_items the set of divs with names in them
-    * @param string $reorder_javascript the javascript object declarations
-    * @param string $reorder_categories_javascript and some more of the same
+    * @param array $item the menu entry being edited
+    * @param string $button_text "Save changes" or "Add menu item"?
+    * @param string $message have they done something wrong?
     * @return string html
     */
-    public function reorder_menu($reorder_items, $reorder_javascript, $reorder_categories_javascript) {
-        $reorder_menu = "<h3>Reorder Menu</h3><form action='index.php?section=admin&amp;page=menu&amp;action=reorder' method='POST'>
-            <div id='reorder_menu_categories' class='reorder_menu_categories'>
-                ".$reorder_items."
-            </div>
-            <input type='submit' value='Reorder' /></form>
-            <script type='text/javascript'>
-            PlaceHolder = document.createElement('DIV');
-            PlaceHolder.style.backgroundColor = 'rgb(225,225,225)';
-            PlaceHolder.SourceI = null;
-            List_categories = document.getElementById('reorder_menu_categories');
+    public function edit($item, $button_text, $message='') {
+        $edit = "<h2>Menu editor</h2>
+        ".$message."
+        <form action='' method='post'><table>
+            <tr><td style='width:25%;'><label for='menu-label'>Label</label></td>
+            <td><input type='text' id='menu-label' name='menu-label' style='width:95%;' value='".$item['label']."' /></td></tr>
 
-            PlaceHolder.className = 'reorder_menu';
+            <tr><td colspan='2' class='form-explanation'>The text displayed on the menu item</td></tr>
 
-            className = 'reorder_menu';
+            <tr><td><label for='menu-category'>Category</label></td>
+            <td><input type='text' id='menu-category' name='menu-category' style='width:95%;' value='".$item['category']."' /></td></tr>
 
-            ".$reorder_categories_javascript."
-            ".$reorder_javascript."</script>";
-        return $reorder_menu;
+            <tr><td colspan='2' class='form-explanation'>The category the menu belongs to</td></tr>
+
+            <tr><td><label for='menu-section'>Section</label></td>
+            <td><input type='text' id='menu-section' name='menu-section' style='width:95%;' value='".$item['section']."' /></td></tr>
+
+            <tr><td colspan='2' class='form-explanation'>What section is the page in? \"admin\" or \"public\"?</td></tr>
+
+            <tr><td><label for='menu-page'>Page</label></td>
+            <td><input type='text' id='menu-page' name='menu-page' style='width:95%;' value='".$item['page']."' /></td></tr>
+
+            <tr><td colspan='2' class='form-explanation'>The id of the page to link to (the \"page=\" bit in the URL)</td></tr>
+
+            <tr><td><label for='menu-extra'>Extra</label></td>
+            <td><input type='text' id='menu-extra' name='menu-extra' style='width:95%;' value='".$item['extra']."' /></td></tr>
+
+            <tr><td colspan='2' class='form-explanation'>Anything to append to the link URL</td></tr>
+
+            <tr><td><label for='menu-enabled' style='margin:0;'>Enabled?</label></td>
+            <td><input type='checkbox' id='menu-enabled' name='menu-enabled' ".($item['enabled']==1?"checked='checked' ":"")."/></td></tr>
+
+            <tr><td colspan='2' class='form-explanation'></td></tr>
+
+            <tr><td><label for='menu-function' style='margin:0;'>Related function exists?</label></td>
+            <td><input type='checkbox' id='menu-function' name='menu-function' ".($item['function']==1?"checked='checked' ":"")."/></td></tr>
+
+            <tr><td colspan='2' class='form-explanation'>Is the a function to show a more detailed label?</td></tr>
+
+            <tr><td><label for='menu-guest' style='margin:0;'>Guest</label></td>
+            <td><input type='checkbox' id='menu-guest' name='menu-guest' ".($item['guest']==1?"checked='checked' ":"")."/></td></tr>
+
+            <tr><td colspan='2' class='form-explanation'>Can guests see it?</td></tr>
+
+            <tr><td colspan='2'><input type='hidden' name='menu-id' value='".$item['id']."' /><input type='submit' name='menu-submit' value='".$button_text."' /> or <a href='?section=admin&amp;page=menu'>Cancel</a></td></tr>
+        </table></form>
+        ";
+        return $edit;
     }
 
    /**
-    * one of our special divs to be dragged and dropped.
+    * I'm sorry Dave, I'm afraid I can't do that
     *
-    * @param int $id menu item id
-    * @param string $label text to be displayed
-    * @param int $order where does it come in our sequence?
-    * @param int $category_id arbitrary number assigned to categories
+    * @param array $item the menu entry being removed
     * @return string html
     */
-    public function reorder_item($id, $label, $order, $category_id) {
-        $reorder_item = "<div id='e".$id."' class='list_".$category_id."' style='height: 30px;top: 0px;left: 0px;'><input type='hidden' name='menu_id[]' value='".$id."' />".$label."</div>
-            ";
-        return $reorder_item;
-    }
-
-   /**
-    * makes a javscript object in the right form
-    *
-    * @param int $id which div?
-    * @param int $category_id arbitrary number assigned to categories
-    * @return string html
-    */
-    public function reorder_javascript($id, $category_id) {
-        $reorder_javascript = "new dragObject('e".$id."', null, null, null, itemDragBegin, itemMoved, itemDragEnd, false, 'list_".$category_id."', List_".$category_id.");
-            ";
-        return $reorder_javascript;
-    }
-
-   /**
-    * same div object, but for big category
-    *
-    * @param int $category_id arbitrary number assigned to categories
-    * @param string $category_name name of category
-    * @param string $category_html the menu item divs
-    * @param int $height how big?
-    * @return string html
-    */
-    public function reorder_category($category_id, $category_name, $category_html, $height) {
-        $reorder_category = "<div id='reorder_menu_".$category_id."' class='reorder_menu' style='height:".$height."px;top: 0px;left: 0px;'><h3>".$category_name."</h3>".$category_html."</div><br />";
-        return $reorder_category;
-    }
-
-   /**
-    * javascript setup stuff
-    *
-    * @param int $category_id arbitrary number assigned to categories
-    * @param string $category_javascript the individual object declarations
-    * @return string html
-    */
-    public function reorder_javascript_category($category_id, $category_javascript) {
-        $reorder_javascript_category = "List_".$category_id." = document.getElementById('reorder_menu_".$category_id."');
-
-            PlaceHolder.className = 'list_".$category_id."';
-
-            className = 'list_".$category_id."';
-            ".$category_javascript;
-        return $reorder_javascript_category;
-    }
-
-   /**
-    * category javascript objects
-    *
-    * @param int $category_id arbitrary number assigned to categories
-    * @return string html
-    */
-    public function reorder_categories_object($category_id) {
-        $reorder_categories_object = "new dragObject('reorder_menu_".$category_id."', null, null, null, itemDragBegin, itemMoved, itemDragEnd, false, 'reorder_menu', List_categories);
-            ";
-        return $reorder_categories_object;
+    public function remove_confirm($item) {
+        $remove = "<h2>Menu editor</h2>
+            <p>Are you sure you want to delete <em>".$item['label']."</em>?</p>
+            <p><form action='' method='post'>
+                <input type='hidden' name='menu-id' value='".$item['id']."' />
+                <input type='submit' value='Delete' /> or <a href='?section=admin&amp;page=menu'>Cancel</a>
+            </form></p>";
+        return $remove;
     }
 }
 ?>

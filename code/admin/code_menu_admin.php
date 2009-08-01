@@ -27,18 +27,18 @@ class code_menu_admin extends code_common {
     */
     protected function menu_admin_switch() {
 
-        if ($_GET['action'] == 'add') {
-            $menu_admin_switch = $this->add();
+        if ($_GET['action'] == 'edit') {
+            $menu_admin_switch = $this->edit();
             return $menu_admin_switch;
         }
 
-        if ($_GET['action'] == 'modify') {
-            $menu_admin_switch = $this->modify();
+        if ($_GET['action'] == 'remove') {
+            $menu_admin_switch = $this->remove();
             return $menu_admin_switch;
         }
 
-        if ($_GET['action'] == 'reorder') {
-            $menu_admin_switch = $this->reorder();
+        if ($_GET['action'] == 'up' || $_GET['action'] == 'down') {
+            $menu_admin_switch = $this->move();
             return $menu_admin_switch;
         }
 
@@ -53,210 +53,152 @@ class code_menu_admin extends code_common {
     * @return string html
     */
     protected function show_menu($message = "") {
-        $menu_post = array();
-        if ($_GET['action'] == 'add') {
-            $menu_post['label'] = htmlentities($_POST['label'], ENT_QUOTES, 'utf-8');
-            $menu_post['section'] = htmlentities($_POST['section'], ENT_QUOTES, 'utf-8');
-            $menu_post['page'] = htmlentities($_POST['page'], ENT_QUOTES, 'utf-8');
-            $menu_post['extra'] = htmlentities($_POST['extra'], ENT_QUOTES, 'utf-8');
-            $menu_post['category'] = htmlentities($_POST['category'], ENT_QUOTES, 'utf-8');
-
-            if ($_POST['function']) {
-                $menu_post['function'] = "checked='checked'";
-            }
-
-            if ($_POST['enabled']) {
-                $menu_post['enabled'] = "checked='checked'";
-            }
-
-            if ($_POST['guest']) {
-                $menu_post['guest'] = "checked='checked'";
-            }
-
-            if (!$menu_post['label'] && !$menu_post['section'] && !$menu_post['page']) {
-                $menu_post['enabled'] = "checked='checked'";
-            }
-        }
 
         $menu_query = $this->db->execute("SELECT * FROM `menu` ORDER BY `order` ASC");
 
-        $category_count = 0;
-
         while($menu_entry = $menu_query->fetchrow()) {
-
-            if ($menu_entry['function']) {
-                $menu_entry['function'] = "checked='checked'";
-            } else {
-                $menu_entry['function'] = '';
-            }
-
-            if ($menu_entry['enabled']) {
-                $menu_entry['enabled'] = "checked='checked'";
-            } else {
-                $menu_entry['enabled'] = '';
-            }
-
-            if ($menu_entry['guest']) {
-                $menu_entry['guest'] = "checked='checked'";
-            } else {
-                $menu_entry['guest'] = "";
-            }
-
             $menu_categories[$menu_entry['category']] .= $this->skin->make_menu_entry($menu_entry);
-
-            $menu_entry_count[$menu_entry['category']]++;
-
-            if (!$category_id[$menu_entry['category']]) {
-                $category_count++;
-                $category_id[$menu_entry['category']] = $category_count;
-            }
-            $reorder_items_category[$menu_entry['category']] .= $this->skin->reorder_item($menu_entry['id'], $menu_entry['label'], $menu_entry['order'], $category_id[$menu_entry['category']]);
-            $reorder_javascript_category[$menu_entry['category']] .= $this->skin->reorder_javascript($menu_entry['id'], $category_id[$menu_entry['category']]);
         }
-        $category_id = 0;
 
         foreach($menu_categories as $category_name => $category_html) {
-            $category_id++;
             $menu_html .= $this->skin->menu_category($category_name, $category_html);
-            $height = $menu_entry_count[$category_name] * 30 + 50;
-            $reorder_items .= $this->skin->reorder_category($category_id, $category_name, $reorder_items_category[$category_name], $height);
-            $reorder_javascript .= $this->skin->reorder_javascript_category($category_id, $reorder_javascript_category[$category_name]);
-            $reorder_categories_objects .= $this->skin->reorder_categories_object($category_id);
         }
 
+        if(isset($_GET['move_success']) && $message=="") $message = $this->skin->success_box($this->skin->lang_error->menu_moved);
+
         $show_menu = $this->skin->menu_wrap($menu_html, $menu_post, $message);
-        $reorder_menu = $this->skin->reorder_menu($reorder_items, $reorder_javascript, $reorder_categories_objects);
-        return $show_menu.$reorder_menu;
+        return $show_menu;
     }
 
    /**
-    * are we changing one?
+    * edits and adds menu items
     *
     * @return string html
     */
-    protected function modify() {
-        $id = intval($_POST['id']);
+    protected function edit() {
 
-        if (!$id) {
-            $modify = $this->show_menu($this->skin->lang_error->no_menu_entry_selected);
-            return $modify;
+        if(isset($_POST['menu-id'])) {
+            $id = $_POST['menu-id'];
+            $button_text = $_POST['menu-submit'];
+
+            // Name-value pairs
+            $item = array(
+                'label' => $_POST['menu-label'],
+                'category' => $_POST['menu-category'],
+                'section' => $_POST['menu-section'],
+                'page' => $_POST['menu-page'],
+                'extra' => $_POST['menu-extra'],
+                'enabled' => ($_POST['menu-enabled']=="on"?true:false),
+                'function' => ($_POST['menu-function']=="on"?true:false),
+                'guest' => ($_POST['menu-guest']=="on"?true:false)
+            );
+
+            // Error check
+            if (!$item['label']) {
+                $edit = $this->show_menu($this->skin->error_box($this->skin->lang_error->no_label));
+                return $edit;
+            }
+
+            if (!$item['section']) {
+                $edit = $this->show_menu($this->skin->error_box($this->skin->lang_error->no_section));
+                return $edit;
+            }
+
+            if (!$item['page']) {
+                $edit = $this->show_menu($this->skin->error_box($this->skin->lang_error->no_page));
+                return $edit;
+            }
+            // Get me the Iron Giant!
+            require_once("code/common/code_menu.php");
+            $code_menu = new code_menu($this->db, $this->player, $this->section, $this->page, $this->pages);
+
+            if($id=="-1") {
+                $code_menu->add_menu_entry($item['label'], $item['category'], $item['section'],
+                    $item['page'], $item['extra'], $item['function'], $item['enabled'], $item['guest']);
+            } else {
+                $code_menu->modify_menu_entry($id, $item['label'], $item['category'], $item['section'],
+                    $item['page'], $item['extra'], $item['function'], $item['enabled'], $item['guest']);
+            }
+            header("location:?section=admin&page=menu");
+        } else {
+            $id = intval($_GET['id']);
+            $itemq = $this->db->execute("SELECT * FROM `menu` WHERE `id`=?",array($id));
+            if($itemq->numrows()==1) {
+                $item  = $itemq->fetchrow();
+                $button_text = "Save changes";
+            } else {
+                $item = array('id'=>'-1');
+                $button_text = "Add new item";
+            }
         }
 
-         if (!$_POST['label']) {
-            $modify = $this->show_menu($this->skin->error_box($this->skin->lang_error->no_label));
-            return $modify;
-        }
-
-        if (!$_POST['section']) {
-            $modify = $this->show_menu($this->skin->error_box($this->skin->lang_error->no_section));
-            return $modify;
-        }
-
-        if (!$_POST['page']) {
-            $modify = $this->show_menu($this->skin->error_box($this->skin->lang_error->no_page));
-            return $modify;
-        }
-
-        $function = 0;
-        $enabled = 0;
-        $guest = 0;
-
-        if ($_POST['function']) {
-            $function = 1;
-        }
-
-        if ($_POST['enabled']) {
-            $enabled = 1;
-        }
-
-        if ($_POST['guest']) {
-            $guest = 1;
-        }
-
-        require_once("code/common/code_menu.php");
-        $code_menu = new code_menu($this->db, $this->player, $this->section, $this->page, $this->pages);
-        $code_menu->modify_menu_entry($id, $_POST['label'], $_POST['category'], $_POST['section'], $_POST['page'], $_POST['extra'], $function, $enabled, $guest);
-        $modify = $this->show_menu($this->skin->success_box($this->skin->lang_error->menu_entry_modified));
+        $modify = $this->skin->edit($item, $button_text, $message);
         return $modify;
     }
 
    /**
-    * A new menu thingy!
+    * we're done with this one
     *
     * @return string html
     */
-    protected function add() {
-        if (!$_POST['label']) {
-            $add = $this->show_menu($this->skin->error_box($this->skin->lang_error->no_label));
-            return $add;
-        }
+    protected function remove() {
+        $id = intval($_GET['id']);
 
-        if (!$_POST['section']) {
-            $add = $this->show_menu($this->skin->error_box($this->skin->lang_error->no_section));
-            return $add;
+        if(isset($_POST['menu-id'])) {
+            $del = $this->db->execute("DELETE FROM `menu` WHERE `id`=?",array($id));
+            if($del) {
+                $remove = $this->show_menu($this->skin->success_box($this->skin->lang_error->menu_deleted));
+            } else {
+                $remove = $this->show_menu($this->skin->error_box($this->skin->lang_error->menu_delete_no));
+            }
+        } else {
+            $itemq = $this->db->execute("SELECT * FROM `menu` WHERE `id`=?",array($id));
+            if($itemq->numrows()==1) {
+                $item = $itemq->fetchrow();
+                $remove = $this->skin->remove_confirm($item);
+                }
+            else $remove = $this->show_menu($this->skin->error_box($this->skin->lang_error->menu_not_found));
         }
-
-        if (!$_POST['page']) {
-            $add = $this->show_menu($this->skin->error_box($this->skin->lang_error->no_page));
-            return $add;
-        }
-
-        $function = 0;
-        $enabled = 0;
-        $guest = 0;
-
-        if ($_POST['function']) {
-            $function = 1;
-        }
-        
-        if ($_POST['enabled']) {
-            $enabled = 1;
-        }
-
-        if ($_POST['guest']) {
-            $guest = 1;
-        }
-        require_once("code/common/code_menu.php");
-        $code_menu = new code_menu($this->db, $this->player, $this->section, $this->page, $this->pages);
-        $code_menu->add_menu_entry($_POST['label'], $_POST['category'], $_POST['section'], $_POST['page'], $_POST['extra'], $function, $enabled, $guest);
-        $add = $this->show_menu($this->skin->success_box($this->skin->lang_error->menu_entry_added));
-        return $add;
+        return $remove;
     }
 
    /**
-    * shuffle shuffle shuffle. I should copyright this algorithm, it's nuts
+    * Shuffle these little fellas around
     *
     * @return string html
     */
-    protected function reorder() {
-        $reorder_query = $this->db->execute("SELECT * FROM `menu`");
+    protected function move() {
+        $id = intval($_GET['id']);
 
-        while ($menu_item = $reorder_query->fetchrow()) {
-            $menu_categories[$menu_item['category']][$menu_item['id']] = $menu_item;
+        $itemq = $this->db->execute("SELECT * FROM `menu`");
+        while($item = $itemq->fetchrow()) {
+            $menu[($item['category'])][($item['order'])] = $item;
+            if($item['id']==$id) $me = $item;
         }
 
-        $category_count = 0;
-        foreach ($_POST['menu_id'] as $id) {
-
-            foreach ($menu_categories as $category) {
-                if ($category[$id]) {
-                    if (!$category_counted[$category[$id]['category']]) {
-                        $category_counted[$category[$id]['category']] = 1;
-                        $category_offset[$category[$id]['category']] = $category_count;
-                        $category_count++;
-                    }
-                    $menu_orders[$category[$id]['category']]++;
-                    $order = $menu_orders[$category[$id]['category']] + $category_offset[$category[$id]['category']];
-                    $menu_queries[] = array($id, $order, $id);
-                }
-            }
-            
+        $pos = $me['order'];
+        if($_GET['action']=="up") {
+            $down = $menu[($me['category'])][($me['order']-1)];
+            $up = $me;
+        } else {
+            $up = $menu[($me['category'])][($me['order']+1)];
+            $down = $me;
         }
-        $this->db->execute("UPDATE `menu` SET `id`=?, `order`=? WHERE `id`=? ", $menu_queries);
 
-        $reorder = $this->show_menu($this->skin->success_box($this->skin->lang_error->menu_reordered));
-        return $reorder;
+        // If these both exist, we're in the money!
+        if($down && $up) {
+            $down['order']++;
+            $up['order']--;
+            $this->db->AutoExecute("menu", $down, "UPDATE", "id=".$down['id']);
+            $this->db->AutoExecute("menu", $up, "UPDATE", "id=".$up['id']);
+            header("location:?section=admin&page=menu&move_success");
+        } else {
+            $message = $this->skin->error_box($this->skin->lang_error->menu_move_no);
+        }
 
+        $move = $this->show_menu($message);
+        return $move;
     }
+
 }
 ?>
