@@ -4,15 +4,13 @@
 
 @import url('boxes.css');
 
-body
-{
+body {
 	font-family: TrebuchetMS, Verdana, Arial;
 	font-size: 12px;
 	text-align: center;
 }
 
-form, textarea
-{
+form, textarea {
 	font-weight: normal;
 	font-family: TrebuchetMS, Verdana, Arial;
 }
@@ -29,8 +27,7 @@ table {
 	width: 100%;
 }
 
-input, select, textarea
-{
+input, select, textarea {
 	border: 1px solid #999999;
 	background-color: #EEEEEE;
 	font-family: 'Trebuchet MS', 'Verdana', 'Arial';
@@ -39,8 +36,7 @@ input, select, textarea
 	font-size:12px;
 }
 
-fieldset
-{
+fieldset {
 	border-left: 6px solid rgb(175,175,175);
 	border-right: 1px solid #999999;
 	border-top: 1px solid #999999;
@@ -52,14 +48,12 @@ fieldset
 	margin: 2px;
 }
 
-legend
-{
+legend {
 	font-weight: bold;
 	font-family: 'Trebuchet MS';
 }
 
-label
-{
+label {
 	font-size: 11px;
 	font-weight: bold;
 	color: #333;
@@ -67,8 +61,7 @@ label
 	margin-top: 8px;
 }
 
-pre
-{
+pre {
 	padding: 8px;
 	border: 1px dashed #99F;
 	background-color: #EEF;
@@ -78,8 +71,7 @@ h2, h3, h4 {
 	margin: 4px 0px;
 }
 
-#wrapper
-{
+#wrapper {
 	width: 70%;
 	margin: 0 auto 0 auto;
 	border-left: 3px solid #AAAAAA;
@@ -88,8 +80,7 @@ h2, h3, h4 {
 	text-align:left;
 }
 
-#header-text
-{
+#header-text {
 	font-size: 5em;
 	color: #DD8822;
 	text-align: center;
@@ -99,24 +90,20 @@ h2, h3, h4 {
   margin: 0 auto 0 auto;
 }
 
-#left
-{
+#left {
 	width: 18%;
 	float: left;
 	border: 0px;
 	font-size: 0.9em;
 }
 
-.left-section
-{
-
+.left-section {
 	background-color: rgb(255,255,255);
 	color: rgb(50,50,50);
 	text-align: left;
 }
 
-.left-section ul
-{
+.left-section ul {
 	width: 95%;
 	padding:0;
 	margin:0;
@@ -161,16 +148,14 @@ h2, h3, h4 {
 	border-top: solid 0.1em rgb(200,200,200);
 }
 
-#right
-{
+#right {
 	width: 78%;
 	float: right;
 	padding: 5px 0px 5px 0px;
 	margin: 5px 0px 5px 0px;
 }
 
-#content
-{
+#content {
 	width: 97%;
 	padding: 5px;
 	border-left: 2px solid #AAAAAA;
@@ -178,15 +163,13 @@ h2, h3, h4 {
 }
 
 
-#footer
-{
+#footer {
 	width: 100%;
 	clear: both;
 	padding: 20px 0px 0px 0px;
 }
 
-#footer-text
-{
+#footer-text {
 	width: 100%;
 	padding: 5px;
 	background-color: rgb(220,220,220);
@@ -196,26 +179,22 @@ h2, h3, h4 {
 	font-weight: bold;
 }
 
-td
-{
+td {
 	vertical-align: top;
 	font-size: 12px;
 }
 
-.row1 td
-{
+.row1 td {
 	background-color: #EEE;
 	font-size: 10px;
 }
 
-.row2 td
-{
+.row2 td {
 	background-color: #CCC;
 	font-size: 10px;
 }
 
-th
-{
+th {
 	text-align: left;
 }
 

@@ -86,7 +86,7 @@ class code_profile extends code_common {
       if ($this->profile->id == $this->player->id) {
           $this->profile->edit = $this->skin->edit_profile_link();
       } else {
-          $this->profile->edit = "<a href='index.php?page=profile&amp;friends=add&amp;id=".$this->profile->id."'>Add to friends</a>"; // (TODO) friends, as always.
+          $this->profile->edit = $this->skin->add_friend_link($this->profile->id); // (TODO) friends, as always.
       }
 
       if ($this->profile->last_active > (time()-(60*15))) {

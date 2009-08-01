@@ -206,7 +206,10 @@ class _code_install extends code_common {
         ('portal_name', 'Campus'),
         ('portal_welcome', '<strong>Security Guard:</strong><br />\n<i>Welcome onto Campus, agent. Let me just check your ID.<br />\n...<br />\nYou have permission to enter, agent. If you follow the path to the left, you can get to the Main Building. To the right you\'ll find the training areas and accommodation. Have a good day.</i>'),
         ('portal_links', '* Main Building\r\nhospital|Hospital\r\nbank|Bank\r\nstore|Store\r\nwork|Work\r\n--\r\n* Your Room\r\nlaptop|Laptop\r\ninventory|Inventory\r\n\r\n* Dojo\r\nbattle|Combat training'),
-        ('quests_code','');";
+        ('quests_code', ''),
+        ('admin_notes', ''),
+        ('verification_method', '1'),
+        ('ban_multiple_email', '1');";
 
     public $quests_query = "CREATE TABLE IF NOT EXISTS `quests` (
         `id` int(3) NOT NULL auto_increment,

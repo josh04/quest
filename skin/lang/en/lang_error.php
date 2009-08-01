@@ -49,10 +49,16 @@ class lang_error {
     // register
     public $username_not_long_enough = "Your username must be longer than 3 characters.";
     public $username_banned_characters = "Your username may contain only alphanumerical characters.";
+    public $username_needed = "You need to enter your username.";
+    public $username_conflict = "That username has already been used.";
+    public $password_needed = "You need to enter your password.";
     public $password_not_long_enough = "Your password must be longer than 3 characters.";
+    public $email_needed = "You need to enter your email address.";
     public $no_email = "You did not enter an email address.";
     public $emails_do_not_match = "The entered emails do not match.";
+    public $email_not_long_enough = "Your email must be longer than 3 characters.";
     public $email_wrong_format = "You did not enter a valid email address.";
+    public $email_conflict = "That email has already been used. Please create only one account, creating more than one account will cause all your accounts to be deleted.";
     public $registered = "You have registered. Please Login to continue.";
     public $error_registering = "Error registering new player. ";
     public $avatar_wrong_format = "You did not ever a valid url for your avatar.";

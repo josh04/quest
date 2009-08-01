@@ -55,7 +55,7 @@ class QuestDB {
     */
     public function Connect($server = 'localhost', $username = '', $password = '', $database = '') {
         $this->_con = mysqli_init();
-        if ($ret = mysqli_real_connect($this->_con, $server, $username, $password)) {
+        if ($ret = @mysqli_real_connect($this->_con, $server, $username, $password)) {
             
             $this->config = array(
                 'username' => $username,
@@ -334,7 +334,6 @@ class QuestDB {
         $ret = false;
         if ($sql) $ret = $this->Execute($sql);
         if ($ret) $ret = true;
-
         return $ret;
     }
 

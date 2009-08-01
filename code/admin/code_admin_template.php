@@ -90,6 +90,15 @@ class code_admin_template extends _code_admin {
                 'fields' => array(
                     array('type'=>'text', 'name'=>'name','caption'=>'Project name'),
                     array('name'=>'admin_notes','caption'=>'Notes for administrators','lang'=>'BBCode'),
+                    array('type'=>'checkbox','name'=>'ban_multiple_email','caption'=>'Ban multiple accounts from one email address'),
+                    array('type'=>'radio', 'name'=>'verification_method', 'caption'=>'Verification method',
+                        'options' => array(
+                            array('value'=>'0', 'caption'=>'Disable registration'),
+                            array('value'=>'1', 'caption'=>'Don\'t verify new users'),
+                            array('value'=>'2', 'caption'=>'Require email verification'),
+                            array('value'=>'3', 'caption'=>'Require administrator verification'),
+                        ),
+                    ),
                 ),
             );
         }

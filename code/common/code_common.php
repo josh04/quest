@@ -178,12 +178,13 @@ class code_common {
     * Connects to the database, if for whatever reason this failed when the
     * class was constructed.
     *
-    * @return bool success
+    * @param bool $skipError if set, the error message isn't displayed if the connection fails
+    * @return void
     */
-    public function make_db() {
+    public function make_db($skipError = false) {
         $this->db =& code_database_wrapper::get_db($this->config);
 
-        if (!$this->db->IsConnected()) {
+        if (!$this->db->IsConnected() && !$skipError) {
             $this->error_page($this->skin->lang_error->failed_to_connect);
         }
     }
