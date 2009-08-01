@@ -67,7 +67,7 @@ class skin_index extends skin_common {
     * @return string html
     */
     public function member_online_link($id, $username) {
-        $member_online_link = "<a href='index.php?page=profile&amp;id=".$id."'>".$username."</a> ";
+        $member_online_link = "<a href='index.php?page=profile&amp;id=".$id."'>".$username."</a>";
         return $member_online_link;
 
     }

@@ -47,6 +47,8 @@ class code_user extends _code_install {
         $user_email = htmlentities($_POST['user_email'], ENT_QUOTES, "UTF-8");
         $user_email_confirm = htmlentities($_POST['user_email_confirm'], ENT_QUOTES, "UTF-8");
 
+        if($message!="") $message = $this->skin->error_box($message);
+
         $user_add_form = $this->skin->user_add_form($message, $username, $user_email, $user_email_confirm);
         return $user_add_form;
     }

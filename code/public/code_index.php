@@ -41,10 +41,10 @@ class code_index extends code_common {
 
         $online_list = "";
         while($online = $online_query->fetchrow()) {
-            $online_list .= $this->skin->member_online_link($online['id'], $online['username']);
+            $online_list[] = $this->skin->member_online_link($online['id'], $online['username']);
         }
         
-        return $online_list;
+        return implode(", ",$online_list);
     }
 
    /**
