@@ -37,7 +37,7 @@ class code_bank extends code_common {
             $disabled = "";
         }
         
-        $make_bank = $this->skin->make_bank($this->player->gold, $this->player->bank, $interest, $disabled, $tomorrow);
+        $make_bank = $this->skin->make_bank($this->player->gold, $this->player->bank, $interest, $disabled, $tomorrow, $message);
         return $make_bank;
     }
 
@@ -81,9 +81,8 @@ class code_bank extends code_common {
         $update_player['gold'] = $this->player->gold;
         $deposit_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
 
-        $deposited = $this->skin->deposited($this->player->gold, $this->player->bank);
-        $deposit_html = $this->make_bank($deposited);
-        return $deposit;
+        $deposit_html = $this->make_bank($this->skin->deposited($this->player->gold, $this->player->bank));
+        return $deposit_html;
     }
 
    /**
@@ -93,7 +92,7 @@ class code_bank extends code_common {
     */
     public function withdraw() {
         if (abs(intval($_POST['amount'])) > $this->player->bank) {
-            $withdraw = "You do not have that much cash to withdraw.";
+            $withdraw = $this->make_bank($this->skin->error_box($this->skin->lang_error->not_enough_cash_to_withdraw));
             return $withdraw;
         }
         $this->player->gold = $this->player->gold + abs(intval($_POST['amount']));
@@ -103,13 +102,13 @@ class code_bank extends code_common {
         $update_player['gold'] = $this->player->gold;
         $withdraw_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
 
-        $withdraw = "You withdrawn your money from the bank. You now have £".$this->player->gold." on you and £".$this->player->bank." in the bank.";
+        $withdraw = $this->make_bank($this->skin->withdrawn($this->player->gold, $this->player->bank));
         return $withdraw;
     }
 
     public function interest() {
         if ($this->player->interest) {
-            $interest = "You can collect your interest again tomorrow.";
+            $interest = $this->make_bank($this->skin->error_box($this->skin->lang_error->collect_interest_tomorrow));
             return $interest;
         }
 
@@ -120,7 +119,7 @@ class code_bank extends code_common {
         $update_player['interest'] = 1;
         $interest_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
 
-        $interest = "You collected your interest. You now have £".$this->player->gold." on you and £".$this->player->bank." in the bank.";
+        $interest = $this->make_bank($this->skin->interested($this->player->gold, $this->player->bank));
         return $interest;
 
     }

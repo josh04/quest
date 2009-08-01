@@ -17,15 +17,11 @@ class skin_hospital extends skin_common {
     public function make_hospital($full_heal, $disabled, $message) {
         $make_hospital = $message."
             <h2>Hospital</h2>
-            <div><b>Nurse:</b><br />
-            <i>You have been in the wars, haven't you?<br />
-            Well, to completely heal yourself will cost <b>".$full_heal."</b> tokens.<br />
-            Otherwise, you can partially heal yourself by entering the amount of hp you want to regain below.</i></div>
-
             <div>
+            <br />
             <form action='index.php?page=hospital&amp;action=heal' method='post'>
             Amount to heal: <input type='text' ".$disabled." name='amount' /><br />
-            <label for='full_heal'>Full heal: </label><input type='checkbox' ".$disabled." name='full_heal' /><br />
+            <label for='full_heal'>Full heal: <input type='checkbox' ".$disabled." name='full_heal' /></label><br />
             <input type='submit' ".$disabled." value='Heal'/>
             </form></div>";
         return $make_hospital;

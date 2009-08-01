@@ -9,6 +9,11 @@
 
 class skin_common {
 
+   /**
+    * Error strings, lots of error strings
+    *
+    * @var lang_error
+    */
     public $lang_error;
 
    /**

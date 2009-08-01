@@ -10,15 +10,16 @@ class skin_bank extends skin_common {
    /**
     * makes main bank page
     *
-    * @param integer $gold
-    * @param integer $bank
-    * @param integer $interest
-    * @param string $disabled
-    * @param string $tomorrow
+    * @param integer $gold amount in hand
+    * @param integer $bank amount in bank
+    * @param integer $interest amount of interest
+    * @param string $disabled disables the interest box
+    * @param string $tomorrow can they collect interest?
+    * @param string $message error message
     * @return string html
     */
-    public function make_bank($gold, $bank, $interest, $disabled, $tomorrow) {
-        $bank_page = "  <h2>Bank</h2>
+    public function make_bank($gold, $bank, $interest, $disabled, $tomorrow, $message="") {
+        $bank_page = $message."  <h2>Bank</h2>
                         <strong>Campus assistant:</strong>
                         <div style='font-style:italic;'>Welcome to the token bank, agent. What would you like to do?</div>
                         <br />
@@ -70,5 +71,29 @@ class skin_bank extends skin_common {
         $deposited = "<div class='success'>You deposited your money into the bank. You now have £".$gold." on you and £".$bank." in the bank.</div>";
         return $deposited;
     }
+
+   /**
+    * message for withdrawing money
+    *
+    * @param int $gold amount of carried gold
+    * @param int $bank amount of bank gold
+    * @return string html
+    */
+    public function withdrawn($gold, $bank) {
+        $withdrawn = "<div class='success'>You withdrawn your money from the bank. You now have £".$gold." on you and £".$bank." in the bank.</div>";
+        return $withdrawn;
+    }
+
+   /**
+    * message for collecting interest
+    *
+    * @param int $gold amount of carried gold
+    * @param int $bank amount of bank gold
+    * @return string html
+    */
+    public function interested($gold, $bank) {
+         $interested = "<div class='success'>You collected your interest. You now have £".$gold." on you and £".$bank." in the bank.</div>";
+         return $interested;
+   }
 }
 ?>

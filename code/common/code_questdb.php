@@ -10,7 +10,7 @@
  * to appreciate that a lot of this code is based off, or the
  * same as, their's and they deserve all the credit. Their
  * website is here: http://adodb.sourceforge.net
- * 
+ * Hmm
  * The main functions of QuestDB are Execute and AutoExecute,
  * though there are several others available, as made clear below.
  * 
@@ -146,7 +146,7 @@ class QuestDB {
     * @param array $fields an array of values to replace erotemes
     * @return mixed a record set if applicable or a success boolean
     */
-    function Query($sql, $fields = false) {
+    public function Query($sql, $fields = false) {
         return $this->execute($sql, $fields);
     }
 
@@ -157,7 +157,7 @@ class QuestDB {
     * @param array $fields an array of values to replace erotemes
     * @return mixed a record set if applicable or a success boolean
     */
-    function execute($sql, $fields = false) {
+    public function execute($sql, $fields = false) {
         if (is_array($fields[0])) {
             foreach ($fields as $fields_temp) {
                 $ret = $this->execute($sql, $fields_temp);
@@ -175,16 +175,19 @@ class QuestDB {
             while(list(, $v) = each($fields)) {
                 $sql .= $sqlbits[$i];
                 $type = gettype($v);
-
+                
                 if($type=='string')
                     $sql .= $this->qstr($v);
                 else if($type=='boolean')
                     $sql .= $v ? '1' : '0';
                 else if($type=='double')
                     $sql .= str("," , "." , $v);
-                else if ($typ == 'object') {
-                    if (method_exists($v, '__toString')) $sql .= $this->qstr($v->__toString());
-                    else $sql .= $this->qstr((string) $v);
+                else if ($type == 'object') {
+                    if (method_exists($v, '__toString')) {
+                        $sql .= $this->qstr($v->__toString());
+                    } else {
+                        $sql .= $this->qstr((string) $v);
+                    }
                 } else if($v === null)
                     $sql .= '';
                 else
@@ -220,10 +223,9 @@ class QuestDB {
     private function _execute($sql, $fields) {
         $sql .= "; ";
         mysqli_multi_query($this->_con, $sql);
-        $this->_queryID = @mysqli_store_result($this->_con);
-        print_r(mysqli_error($this->_con));
+        $this->_queryID = mysqli_store_result($this->_con);
         $this->_lastQuery = $sql;
-        
+        $this->_lastError = mysqli_error($this->_con);
         if ($this->_queryID === 1) {
             return true;
         }
@@ -252,7 +254,7 @@ class QuestDB {
     * @return integer the ID of the last inserted row
     */
     public function insertID() {
-        return @mysqli_insert_id($this->_con);
+        return mysqli_insert_id($this->_con);
     }
 
    /**
@@ -345,6 +347,7 @@ class QuestDB {
     public function GetOne($sql, $fields = false) {
         $ret = false;
         $rs = $this->execute($sql, $fields);
+        
         if($rs) {
             if ($rs->EOF) $ret = false;
             else $ret = reset($rs->fields);
@@ -594,7 +597,7 @@ class QuestDB {
     public function column_sql($action, $fname, $fnameq, $fields)  {
         $v = $fields[$fname];
         $type = gettype($v);
-
+        
         if($type=='string')
             $val .= $this->qstr($v);
         else if($type=='boolean')
@@ -661,12 +664,18 @@ class QuestDBrs {
     public function __construct(&$result, $sql) {
         $this->sql = $sql;
         $this->result =& $result;
+        
         if ($result) {
+
             $this->FieldCount = mysqli_num_fields($this->result);
             
             while ($a = mysqli_fetch_array($this->result)) {
                 $this->RecordCount++;
                 $this->_array[] = $a;
+            }
+
+            if (!$this->RecordCount) {
+                $this->EOF = true;
             }
         }
 
@@ -726,6 +735,7 @@ class QuestDBrs {
             $this->fields = false;
             return false;
         }
+        
         $this->fields = $this->_array[$this->currentRow];
         return true;
     }

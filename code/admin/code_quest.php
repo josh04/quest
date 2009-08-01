@@ -79,7 +79,7 @@ class code_quest extends _code_admin {
 
         // Then we'll copy it into our files
         $insert_id = $this->db->GetOne("SELECT `id` FROM `quests` ORDER BY `id` DESC");
-
+        
         if(!copy($url, "quests/quest-".md5($this->settings['quests_code'].$insert_id).".xml")) {
             return $this->skin->error_box($this->skin->lang_error->quest_install_no);
         }
