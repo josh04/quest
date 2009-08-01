@@ -261,7 +261,7 @@ class QuestDB {
     * @return integer the ID of the last inserted row
     */
     public function Insert_Id() {
-        return $this->insertID;
+        return $this->insertID();
     }
 
    /**
@@ -331,7 +331,6 @@ class QuestDB {
         $ret = false;
         if ($sql) $ret = $this->Execute($sql);
         if ($ret) $ret = true;
-
         return $ret;
     }
 
