@@ -42,7 +42,7 @@ class code_player {
         $player_db = $player_query->fetchrow();
  
         $check = md5($player_db['id'].$player_db['password'].$player_db['login_rand']);
- 
+        
         if ($check == $_COOKIE['cookie_hash'] || $check == $_SESSION['hash']) {
             $this->is_member = true;
             $last_active = time();
@@ -250,7 +250,6 @@ class code_player {
     * @return bool did they do it right?
     */
     public function log_in($username, $password) {
-        
         $username = htmlentities($username,ENT_QUOTES,'UTF-8');
 
         $player_exists = $this->get_player_by_name($username);
@@ -273,7 +272,7 @@ class code_player {
             $player_insert_query = $this->db->AutoExecute('players', $player_update, 'UPDATE', 'id = '.$this->id);
 
         }
-        
+
         if ($this->password == md5($password.$this->login_salt)) {
             $login_rand = substr(md5(uniqid(rand(), true)), 0, 5);
             $update_player['login_rand'] = $login_rand;
@@ -285,6 +284,7 @@ class code_player {
             $_SESSION['hash'] = $hash;
             setcookie("user_id", $this->id, mktime()+2592000);
             setcookie("cookie_hash", $hash, mktime()+2592000);
+            
             return true;
         } else {
             return false;

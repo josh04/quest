@@ -73,6 +73,7 @@ class code_login extends code_common {
 
         if (!$player_exists) {
             $log_in = $this->skin->index_guest($username, $this->skin->lang_error->password_wrong, $this->settings['welcometext']);
+            return $log_in;
         }
         
         header("Location: index.php");
@@ -152,6 +153,7 @@ class code_login extends code_common {
         $registered_player = new code_player();
         $username = htmlentities($_POST['username'], ENT_QUOTES, "utf-8");
         $email = htmlentities($_POST['email'], ENT_QUOTES, "utf-8");
+
         $success = $registered_player->create_player($username, $_POST['password'], $email);
         
         if (!$success) {
