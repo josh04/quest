@@ -38,7 +38,7 @@ class code_cron {
     * 
     */
     public function reset_energy() {
-        $player_query = $this->db->execute("UPDATE `players` SET `energy`=`maxenergy`");
+        $player_query = $this->db->execute("UPDATE `players` SET `energy`=`energy_max`");
     }
     
    /**
@@ -46,7 +46,7 @@ class code_cron {
     * 
     */
     public function recover_health() {
-        $player_query = $this->db->execute("UPDATE `players` SET `hp`=`maxhp`");
+        $player_query = $this->db->execute("UPDATE `players` SET `hp`=`hp_max`");
     }
 
    /**

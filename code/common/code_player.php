@@ -118,7 +118,7 @@ class code_player {
     * @return bool succeed/fail
     */
     public function get_player($identity) {
-        if ($identity == intval($identity)) {
+        if ($identity === intval($identity)) {
             return $this->get_player_by_id($identity);
         } else {
             return $this->get_player_by_name($identity);
@@ -278,6 +278,7 @@ class code_player {
             $login_rand = substr(md5(uniqid(rand(), true)), 0, 5);
             $update_player['login_rand'] = $login_rand;
             $update_player['last_active'] = time();
+
             $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->id);
             $hash = md5($this->id.$this->password.$login_rand);
             $_SESSION['user_id'] = $this->id;

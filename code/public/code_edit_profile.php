@@ -57,9 +57,14 @@ class code_edit_profile extends code_common {
             return $update_profile;
         }
 
+        if (!preg_match("/https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?/i", $_POST['avatar'])) {
+            $update_profile = $this->edit_profile_page($this->skin->error_box($this->skin->lang_error->avatar_wrong_format));
+            return $update_profile;
+        }
 
-        $this->player->email         = htmlentities($_POST['email'], ENT_QUOTES, 'utf-8');
-        $this->player->description   = htmlentities($_POST['description'], ENT_QUOTEs, 'utf-8');
+
+        $this->player->email         = $_POST['email'];
+        $this->player->description   = htmlentities($_POST['description'], ENT_QUOTES, 'utf-8');
         $this->player->gender        = intval($_POST['gender']);
         $this->player->msn           = htmlentities($_POST['msn'], ENT_QUOTES, 'utf-8');
         $this->player->aim           = htmlentities($_POST['aim'], ENT_QUOTES, 'utf-8');

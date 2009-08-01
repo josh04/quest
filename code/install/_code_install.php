@@ -189,7 +189,7 @@ class _code_install extends code_common {
         (20, 'blueprints', 'admin', 'blueprints'),
         (21, 'quest', 'public', 'quest'),
         (22, 'quest', 'admin', 'quest'),
-        (23, 'index', 'admin', 'index'),
+        (23, 'index_admin', 'admin', 'index'),
         (24, 'admin_template', 'admin', 'panel,portal'),
         (25, 'menu_admin', 'admin', 'menu'),
         (26, 'edit_profile', 'admin', 'profile_edit') ;";
@@ -220,35 +220,33 @@ class _code_install extends code_common {
     public $db_query = "ALTER DATABASE COLLATE utf8_general_ci; ALTER TABLE `blueprint_items` RENAME `blueprints`;";
 
     public $update_tables_query = "
-ALTER DATABASE COLLATE utf8_general_ci; ALTER TABLE `blueprint_items` RENAME `blueprints`;
+
 ALTER TABLE `blueprint_items` ADD COLUMN `type2` varchar(255) NOT NULL;
-        ALTER TABLE `items` ADD COLUMN `status2` tinyint(1) NOT NULL;
-        ALTER TABLE `mail` ADD COLUMN `status2` tinyint(1) NOT NULL;
+ALTER TABLE `items` ADD COLUMN `status2` tinyint(1) NOT NULL;
+ALTER TABLE `mail` ADD COLUMN `status2` tinyint(1) NOT NULL;
 ALTER TABLE `user_log` ADD COLUMN `status2` tinyint(1) NOT NULL;
-ALTER TABLE `players` ADD COLUMN `show_email` tinyint(3) NOT NULL default '0',
+ALTER TABLE `players` ADD COLUMN `show_email` tinyint(3) NOT NULL default '0';
 ALTER TABLE `players` ADD COLUMN `password2` text NOT NULL;
 
 
-                    ALTER TABLE `players` ADD COLUMN `avatar` varchar(255) NOT NULL default 'images/avatar.png',
-                    ALTER TABLE `players` ADD COLUMN `skin` int(3) NOT NULL default '2',
-                    ALTER TABLE `players` ADD COLUMN `gender` tinyint(1) NOT NULL default '0',
-                    ALTER TABLE `players` ADD COLUMN `msn` varchar(65) NOT NULL default '',
-                    ALTER TABLE `players` ADD COLUMN `aim` varchar(65) NOT NULL default '',
-                    ALTER TABLE `players` ADD COLUMN `skype` varchar(65) NOT NULL default '',
-                    ALTER TABLE `players` ADD COLUMN `login_rand` varchar(255) NOT NULL default '',
-                    ALTER TABLE `players` ADD COLUMN `login_salt` varchar(255) NOT NULL default '',
-                    ALTER TABLE `players` ADD COLUMN `description` text NOT NULL default '';
-                         UPDATE `blueprint_items` set `type2`='weapon' WHERE `type`='weapon';
-                        UPDATE `blueprint_items` set `type2`='armour' WHERE `type`='armour';
-                    UPDATE `items` set `status2`='1' WHERE `status`='equipped';
-                    UPDATE `items` set `status2`='0' WHERE `status`='uneqipped';
-                    UPDATE `mail` set `status2`='1' WHERE `status`='unread';
-                    UPDATE `mail` set `status2`='0' WHERE `status`='read';
-                    UPDATE `user_log` SET `status2`='1' WHERE `status`='read';
-                    UPDATE `user_log` SET `status2`='0' WHERE `status`='unread';
+ALTER TABLE `players` ADD COLUMN `avatar` varchar(255) NOT NULL default 'images/avatar.png';
+ALTER TABLE `players` ADD COLUMN `skin` int(3) NOT NULL default '2';
+ALTER TABLE `players` ADD COLUMN `gender` tinyint(1) NOT NULL default '0';
+ALTER TABLE `players` ADD COLUMN `msn` varchar(65) NOT NULL default '';
+ALTER TABLE `players` ADD COLUMN `aim` varchar(65) NOT NULL default '';
+ALTER TABLE `players` ADD COLUMN `skype` varchar(65) NOT NULL default '';
+ALTER TABLE `players` ADD COLUMN `login_rand` varchar(255) NOT NULL default '';
+ALTER TABLE `players` ADD COLUMN `login_salt` varchar(255) NOT NULL default '';
+ALTER TABLE `players` ADD COLUMN `description` text NOT NULL default '';
+UPDATE `blueprint_items` set `type2`='weapon' WHERE `type`='weapon';
+UPDATE `blueprint_items` set `type2`='armour' WHERE `type`='armour';
+UPDATE `items` set `status2`='1' WHERE `status`='equipped';
+UPDATE `items` set `status2`='0' WHERE `status`='uneqipped';
+UPDATE `mail` set `status2`='1' WHERE `status`='unread';
+UPDATE `mail` set `status2`='0' WHERE `status`='read';
+UPDATE `user_log` SET `status2`='1' WHERE `status`='read';
+UPDATE `user_log` SET `status2`='0' WHERE `status`='unread';
 UPDATE `players` SET `password2`=`password`;
-
-
 
                     
 ALTER TABLE `blueprint_items` DROP COLUMN `type`;
@@ -272,7 +270,10 @@ ALTER TABLE `blueprint_items` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general
 ALTER TABLE `items` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 ALTER TABLE `mail` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 ALTER TABLE `user_log` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
-ALTER TABLE `players` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; 
+ALTER TABLE `players` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+ALTER TABLE `blueprint_items` RENAME `blueprints`;
+ALTER DATABASE COLLATE utf8_general_ci; 
        ";
 
     public $menu_query = "CREATE TABLE IF NOT EXISTS `menu` (

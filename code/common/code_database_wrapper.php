@@ -21,23 +21,14 @@ class code_database_wrapper {
    /**
     * constructs shiz.
     *
-    * @global int $ADODB_QUOTE_FIELDNAMES adodb setting
     * @param array $config database settings
     */
     private function __construct($config) {
-        global $ADODB_QUOTE_FIELDNAMES;
-        // Set up the Database
-        $this->db = &ADONewConnection('mysqli'); //Get our database object.
-        //$this->db->debug = true;
-        ob_start(); // Do not error if the database isn't there.
-        $status = $this->db->Connect(     $config['server'],
-                                          $config['db_username'],
-                                          $config['db_password'],
-                                          $config['database']     );
-        ob_end_clean();
+	$this->db = &NewQuestDB();
 
-        $ADODB_QUOTE_FIELDNAMES = 1;
-        $this->db->SetFetchMode(ADODB_FETCH_ASSOC); //Set to fetch associative arrays
+        //ob_start(); // Do not error if the database isn't there.
+            $this->db->Connect($config['server'], $config['db_username'], $config['db_password'], $config['database']);
+        //ob_end_clean();
     }
 
    /**
