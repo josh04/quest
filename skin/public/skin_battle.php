@@ -10,10 +10,14 @@ class skin_battle extends skin_common {
    /**
     * find a player.
     *
+    * @param string $username username searched
+    * @param int $level_min Minimum level searched
+    * @param int $level_max Maximum level searched
+    * @param string $message error?
     * @return string html
     */
-    public function battle_search_page($username, $level_min, $level_max) {
-        $battle_search_page = "
+    public function battle_search_page($username, $level_min, $level_max, $message) {
+        $battle_search_page = $message."
             Search: 
             <form method='post' action='index.php?page=battle&amp;action=search'>
                 Username:

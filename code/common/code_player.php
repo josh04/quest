@@ -158,12 +158,28 @@ class code_player {
     }
  
    /**
-    * commits changes to the database - incorporates levelling up
+    * Commits player changes to the database + levels up
+    *
+    * Centralised player updating function, to ensure that if you have more than
+    * enough XP, you get levelled up by the same set of code each time.
     *
     * @return bool levelled up?
     */
     public function update_player() {
         $levelled_up = false;
+
+        // lifted from edit_profile
+        $update_player['email']         = $this->email;
+        $update_player['description']   = $this->description;
+        $update_player['gender']        = $this->gender;
+        $update_player['msn']           = $this->msn;
+        $update_player['aim']           = $this->aim;
+        $update_player['skype']         = $this->skype;
+        $update_player['avatar']        = $this->avatar;
+        $update_player['skin']          = $this->skin;
+        $update_player['show_email']    = $this->show_email;
+
+
  
         $update_player['energy'] = $this->energy;
         $update_player['exp'] = $this->exp;
@@ -174,6 +190,7 @@ class code_player {
  
  
         if ($this->exp > $this->exp_max) {
+            
             $this->level++;
             $this->exp_max = $this->exp_max + ($this->level * 70) - 20;
             $this->stat_points = $this->stat_points + 3;
@@ -261,6 +278,7 @@ class code_player {
             $login_rand = substr(md5(uniqid(rand(), true)), 0, 5);
             $update_player['login_rand'] = $login_rand;
             $update_player['last_active'] = time();
+
             $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->id);
             $hash = md5($this->id.$this->password.$login_rand);
             $_SESSION['user_id'] = $this->id;
@@ -301,6 +319,33 @@ class code_player {
         }
         
         return $player_id;
+    }
+
+   /**
+    * Changes the player password
+    *
+    * @param string $newpassword the new password!
+    * @return bool success
+    */
+    public function update_password($newpassword) {
+        $login_salt = substr(md5(uniqid(rand(), true)), 0, 5);
+
+        $update_password['password'] = md5($newpassword.$login_salt);
+        $update_password['login_salt'] = $login_salt;
+
+        $password_query = $this->db->AutoExecute('players', $update_password, 'UPDATE', 'id = '.$this->player->id);
+
+        $this->player->password = $update_password['password'];
+
+        $hash = md5($this->player->id.$this->player->password.$this->player->login_rand);
+        $_SESSION['hash'] = $hash;
+        setcookie("cookie_hash", $hash, mktime()+2592000);
+        
+        if ($password_query) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

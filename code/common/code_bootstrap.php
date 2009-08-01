@@ -15,7 +15,6 @@ class code_bootstrap {
     * Three lines, all the code.
     */
     public function bootstrap() {
-        $this->make_config();
         $this->page_setup();
         $this->page->construct();
     }
@@ -54,6 +53,7 @@ class code_bootstrap {
                             "user"              =>          "user",
                             "upgrade_database"  =>          "upgrade_database"    );
         } else {
+            $this->make_config();
             $this->db =& code_database_wrapper::get_db($this->config); // this unassuming line creates the database
 
             if (!$this->db->IsConnected()) {

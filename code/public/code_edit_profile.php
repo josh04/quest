@@ -57,22 +57,28 @@ class code_edit_profile extends code_common {
             return $update_profile;
         }
 
-
-        $update_player = array( 'email'         => htmlentities($_POST['email'], ENT_QUOTES, 'utf-8'),
-                                'description'   => htmlentities($_POST['description'], ENT_QUOTES, 'utf-8'),
-                                'gender'        => intval($_POST['gender']),
-                                'msn'           => htmlentities($_POST['msn'], ENT_QUOTES, 'utf-8'),
-                                'aim'           => htmlentities($_POST['aim'], ENT_QUOTES, 'utf-8'),
-                                'skype'         => htmlentities($_POST['skype'], ENT_QUOTES, 'utf-8'),
-                                'avatar'        => $_POST['avatar'],
-                                'skin'          => htmlentities($_POST['skin'], ENT_QUOTES, 'utf-8')   );
-        if ($_POST['show_email'] == 'on') {
-            $update_player['show_email'] = 1;
-        } else {
-            $update_player['show_email'] = 0;
+        if (!preg_match("/https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?/i", $_POST['avatar'])) {
+            $update_profile = $this->edit_profile_page($this->skin->error_box($this->skin->lang_error->avatar_wrong_format));
+            return $update_profile;
         }
-        $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
-        $this->player->make_player();
+
+
+        $this->player->email         = $_POST['email'];
+        $this->player->description   = htmlentities($_POST['description'], ENT_QUOTES, 'utf-8');
+        $this->player->gender        = intval($_POST['gender']);
+        $this->player->msn           = htmlentities($_POST['msn'], ENT_QUOTES, 'utf-8');
+        $this->player->aim           = htmlentities($_POST['aim'], ENT_QUOTES, 'utf-8');
+        $this->player->skype         = htmlentities($_POST['skype'], ENT_QUOTES, 'utf-8');
+        $this->player->avatar        = $_POST['avatar'];
+        $this->player->skin          = htmlentities($_POST['skin'], ENT_QUOTES, 'utf-8');
+
+        if ($_POST['show_email'] == 'on') {
+            $this->player->show_email = 1;
+        } else {
+            $this->player->show_email = 0;
+        }
+        
+        $this->player->update_player();
         $update_profile = $this->edit_profile_page($this->skin->success_box($this->skin->lang_error->profile_updated));
         return $update_profile;
     }
@@ -104,12 +110,7 @@ class code_edit_profile extends code_common {
             return $update_password;
         }
 
-        $update_password['password'] = md5($_POST['new_password'].$this->player->login_salt);
-        $password_query = $this->db->AutoExecute('players', $update_password, 'UPDATE', 'id = '.$this->player->id);
-        $this->player->password = $update_password['password'];
-        $hash = md5($this->player->id.$this->player->password.$this->player->login_rand);
-        $_SESSION['hash'] = $hash;
-        setcookie("cookie_hash", $hash, mktime()+2592000);
+        $this->player->update_password($_POST['new_password']);
         $update_password = $this->edit_profile_page($this->skin->lang_error->password_updated);
         return $update_password;
         

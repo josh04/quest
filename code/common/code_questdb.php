@@ -53,17 +53,22 @@ class QuestDB {
     * @return boolean whether a connection was successful
     */
     public function Connect($server = 'localhost', $username = '', $password = '', $database = '') {
-        $ret = false;
-        if($this->_con = @mysql_connect($server, $username, $password, true)) {
+        $this->_con = mysqli_init();
+        if ($ret = mysqli_real_connect($this->_con, $server, $username, $password)) {
+            
             $this->config = array(
                 'username' => $username,
                 'password' => $password,
                 'server'   => $server
             );
-            if($database!="") $this->SwitchDatabase($database);
+
+            if ($database!="") {
+                $this->SwitchDatabase($database);
+            }
             $this->isConnected = true;
-            $ret = true;
-        } else $this->CatchError($this->_langError[2].' in '.__FILE__.' on line '.__LINE__);
+        } else {
+            $this->CatchError($this->_langError[2].' in '.__FILE__.' on line '.__LINE__);
+        }
         return $ret;
     }
 
@@ -75,9 +80,11 @@ class QuestDB {
     */
     public function SwitchDatabase($database = '') {
         $ret = false;
-            if(!$database) $this->CatchError($this->_langError[1].' in '.__FILE__.' on line '.__LINE__);
-            elseif(!$this->_con) $this->CatchError($this->_langError[3].' in '.__FILE__.' on line '.__LINE__);
-            elseif(!@mysql_select_db($database, $this->_con)) {
+            if (!$database) {
+                $this->CatchError($this->_langError[1].' in '.__FILE__.' on line '.__LINE__);
+            } else if (!$this->_con) {
+                $this->CatchError($this->_langError[3].' in '.__FILE__.' on line '.__LINE__);
+            } else if (!@mysqli_select_db($this->_con, $database)) {
                 $this->CatchError($this->_langError[4].' in '.__FILE__.' on line '.__LINE__);
             } else {
                 $this->database = $database;
@@ -102,13 +109,14 @@ class QuestDB {
             $module = "CatchError";
             }
         $this->_lastError = $error;
-        $this->_capturedErrors[] = array
-        (
-            'error'     => $error,
-            'module'    => $module,
-            'lastQuery' => $this->_lastQuery
-        );
-        if($this->_showErrors) echo "<strong>QuestDB error".($module!=''?' ('.$module.')':'').":</strong> ".$error;
+        $this->_capturedErrors[] = array(
+                'error'     => $error,
+                'module'    => $module,
+                'lastQuery' => $this->_lastQuery
+            );
+        if ($this->_showErrors) {
+            echo "<strong>QuestDB error".($module!=''?' ('.$module.')':'').":</strong> ".$error;
+        }
     }
 
    /**
@@ -149,6 +157,15 @@ class QuestDB {
     * @return mixed a record set if applicable or a success boolean
     */
     function execute($sql, $fields = false) {
+        if (is_array($fields[0])) {
+            foreach ($fields as $fields_temp) {
+                $ret = $this->execute($sql, $fields_temp);
+                if (!$ret) {
+                    break;
+                }
+            }
+            return $ret;
+        }
         if($fields) {
             if(!is_array($fields)) $fields = array($fields);
             $sqlbits = explode("?",$sql);
@@ -178,9 +195,12 @@ class QuestDB {
 
             if (isset($sqlbits[$i])) {
                 $sql .= $sqlbits[$i];
-                if ($i+1 != sizeof($sqlbits)) { $this->CatchError($this->_langError[5]); return false; }
-            } else if ($i != sizeof($sqlbits))
-                {$this->CatchError( $this->_langError[5]); return false; }
+                if ($i+1 != sizeof($sqlbits)) {
+                    $this->CatchError($this->_langError[5]); return false;
+                }
+            } else if ($i != sizeof($sqlbits)) {
+                $this->CatchError( $this->_langError[5]); return false;
+            }
 
             $ret = $this->_execute($sql, $fields);
         } else {
@@ -197,16 +217,22 @@ class QuestDB {
     * @return mixed a record set if applicable or a success boolean
     */
     private function _execute($sql, $fields) {
-        $this->_queryID = @mysql_query($sql, $this->_con);
+        $sql .= "; ";
+        mysqli_multi_query($this->_con, $sql);
+        $this->_queryID = @mysqli_store_result($this->_con);
+        print_r(mysqli_error($this->_con));
         $this->_lastQuery = $sql;
-        if ($this->_queryID === true) return true;
+        
+        if ($this->_queryID === 1) {
+            return true;
+        }
 
         $this->Flush();
         $this->_lastQuery = $sql;
         $this->_Queries[] = $sql;
         $this->_QueryCount++;
 
-        $rs = new QuestDBrs ($this->_queryID, $this->_lastQuery);
+        $rs = new QuestDBrs($this->_queryID, $this->_lastQuery);
         return $rs;
     }
 
@@ -216,7 +242,7 @@ class QuestDB {
     * @return integer the number of rows affected by the last query
     */
     public function affectedRows() {
-        return @mysql_affected_rows($this->_con);
+        return @mysqli_affected_rows($this->_con);
     }
 
    /**
@@ -225,7 +251,7 @@ class QuestDB {
     * @return integer the ID of the last inserted row
     */
     public function insertID() {
-        return @mysql_insert_id($this->_con);
+        return @mysqli_insert_id($this->_con);
     }
 
    /**
@@ -247,12 +273,14 @@ class QuestDB {
     */
     public function qstr($s, $magic_quotes = false) {
         if (!$magic_quotes) {
-            if ($this->replaceQuote[0] == '\\'){
+
+            return "'".mysqli_real_escape_string($this->_con, $s)."'";
+            //if ($this->replaceQuote[0] == '\\'){
                 // only since php 4.0.5
-                $s = str_replace(array('\\',"\0"),array('\\\\',"\\\0"),$s);
+            //    $s = str_replace(array('\\',"\0"),array('\\\\',"\\\0"),$s);
                 //$s = str_replace("\0","\\\0", str_replace('\\','\\\\',$s));
-            }
-            return  "'".str_replace("'",$this->replaceQuote,$s)."'";
+            //}
+            //return  "'".str_replace("'",$this->replaceQuote,$s)."'";
         }
 
         // undo magic quotes for "
@@ -458,11 +486,12 @@ class QuestDB {
             $rs = $this->Execute("SELECT * FROM ".$tableName, false);
             if(!$rs) return false;
         }
-
+        
         if (get_class($rs) == 'QuestDBrs') {
             for ($i=0, $max=$rs->FieldCount(); $i < $max; $i++) 
                 $columns[] = $rs->FetchField($i);
             $recordSet = $rs;
+
         } else {
             $this->CatchError(7, "getInsertSQL");
             return false;
@@ -598,7 +627,7 @@ class QuestDB {
     * @return boolean whether the connection could be closed
     */
     public function Close() {
-        if(mysql_close($this->_con)) {
+        if(mysqli_close($this->_con)) {
             $this->_con = false;
             $this->isConnected = false;
             return true;
@@ -628,14 +657,16 @@ class QuestDBrs {
     * @param mysql_link $result the relevant record set
     * @param string $sql the SQL query used to generate the record set
     */
-    public function __construct($result, $sql) {
+    public function __construct(&$result, $sql) {
         $this->sql = $sql;
-        $this->result = $result;
-
-        while($a = mysql_fetch_array($this->result)) {
-        $this->FieldCount = sizeof($a)/2;
-            $this->RecordCount++;
-            $this->_array[] = $a;
+        $this->result =& $result;
+        if ($result) {
+            $this->FieldCount = mysqli_num_fields($this->result);
+            
+            while ($a = mysqli_fetch_array($this->result)) {
+                $this->RecordCount++;
+                $this->_array[] = $a;
+            }
         }
 
         $this->currentRow = 0;
@@ -681,11 +712,7 @@ class QuestDBrs {
     * @return object the data gathered
     */
     public function FetchField( $column ) {
-        $t = new stdClass;
-        $t->name = mysql_field_name($this->result, $column);
-        $t->type = mysql_field_type($this->result, $column);
-        $t->max_length = mysql_field_len($this->result, $column);
-        return $t;
+        return mysqli_fetch_field_direct($this->result, $column);
     }
 
    /**

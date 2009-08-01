@@ -86,6 +86,7 @@ class _code_install extends code_common {
         `skype` varchar(65) NOT NULL default '',
         `login_rand` varchar(255) NOT NULL default '',
         `login_salt` varchar(255) NOT NULL default '',
+        `quest` varchar(255) NOT NULL default '',
         PRIMARY KEY  (`id`),
         KEY `rank` (`rank`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
@@ -188,7 +189,7 @@ class _code_install extends code_common {
         (20, 'blueprints', 'admin', 'blueprints'),
         (21, 'quest', 'public', 'quest'),
         (22, 'quest', 'admin', 'quest'),
-        (23, 'index', 'admin', 'index'),
+        (23, 'index_admin', 'admin', 'index'),
         (24, 'admin_template', 'admin', 'panel,portal'),
         (25, 'menu_admin', 'admin', 'menu'),
         (26, 'edit_profile', 'admin', 'profile_edit') ;";
@@ -216,57 +217,64 @@ class _code_install extends code_common {
         UNIQUE KEY `title` (`title`,`author`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
 
-    public $db_query = "ALTER DATABASE COLLATE utf8_general_ci; ";
+    public $db_query = "ALTER DATABASE COLLATE utf8_general_ci; ALTER TABLE `blueprint_items` RENAME `blueprints`;";
 
-    public $blueprints_query_update = "RENAME TABLE blueprint_items TO blueprints;
-                        ALTER TABLE `blueprints` ADD COLUMN `type2` varchar(255) NOT NULL;
-                        UPDATE `blueprints` set `type2`='weapon' WHERE `type`='weapon';
-                        UPDATE `blueprints` set `type2`='armour' WHERE `type`='armour';
-                        ALTER TABLE `blueprints` DROP COLUMN `type`;
-                        ALTER TABLE `blueprints` CHANGE `type2` `type` varchar(255) NOT NULL;
-                        ALTER TABLE `blueprints` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; ";
+    public $update_tables_query = "
 
-    public $items_query_update = "ALTER TABLE `items` ADD COLUMN `status2` tinyint(1) NOT NULL;
-                    UPDATE `items` set `status2`='1' WHERE `status`='equipped';
-                    UPDATE `items` set `status2`='0' WHERE `status`='uneqipped';
-                    ALTER TABLE `items` DROP COLUMN `status`;
-                    ALTER TABLE `items` CHANGE `status2` `status` tinyint(1) NOT NULL;
-                    ALTER TABLE `items` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; ";
+ALTER TABLE `blueprint_items` ADD COLUMN `type2` varchar(255) NOT NULL;
+ALTER TABLE `items` ADD COLUMN `status2` tinyint(1) NOT NULL;
+ALTER TABLE `mail` ADD COLUMN `status2` tinyint(1) NOT NULL;
+ALTER TABLE `user_log` ADD COLUMN `status2` tinyint(1) NOT NULL;
+ALTER TABLE `players` ADD COLUMN `show_email` tinyint(3) NOT NULL default '0';
+ALTER TABLE `players` ADD COLUMN `password2` text NOT NULL;
 
-    public $mail_query_update =  "ALTER TABLE `mail` ADD COLUMN `status2` tinyint(1) NOT NULL;
-                    UPDATE `mail` set `status2`='1' WHERE `status`='equipped';
-                    UPDATE `mail` set `status2`='0' WHERE `status`='uneqipped';
-                    ALTER TABLE `mail` DROP COLUMN `status`;
-                    ALTER TABLE `mail` CHANGE `status2` `status` tinyint(1) NOT NULL;
-                    ALTER TABLE `mail` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; ";
 
-    public $players_query_update = "ALTER TABLE `players` ADD COLUMN `show_email` tinyint(3) NOT NULL default '0',
-                    ADD COLUMN `avatar` varchar(255) NOT NULL default 'images/avatar.png',
-                    ADD COLUMN `skin` int(3) NOT NULL default '2',
-                    ADD COLUMN `gender` tinyint(1) NOT NULL default '0',
-                    ADD COLUMN `msn` varchar(65) NOT NULL default '',
-                    ADD COLUMN `aim` varchar(65) NOT NULL default '',
-                    ADD COLUMN `skype` varchar(65) NOT NULL default '',
-                    ADD COLUMN `login_rand` varchar(255) NOT NULL default '',
-                    ADD COLUMN `login_salt` varchar(255) NOT NULL default '',
-                    ADD COLUMN `description` text NOT NULL default '';
+ALTER TABLE `players` ADD COLUMN `avatar` varchar(255) NOT NULL default 'images/avatar.png';
+ALTER TABLE `players` ADD COLUMN `skin` int(3) NOT NULL default '2';
+ALTER TABLE `players` ADD COLUMN `gender` tinyint(1) NOT NULL default '0';
+ALTER TABLE `players` ADD COLUMN `msn` varchar(65) NOT NULL default '';
+ALTER TABLE `players` ADD COLUMN `aim` varchar(65) NOT NULL default '';
+ALTER TABLE `players` ADD COLUMN `skype` varchar(65) NOT NULL default '';
+ALTER TABLE `players` ADD COLUMN `login_rand` varchar(255) NOT NULL default '';
+ALTER TABLE `players` ADD COLUMN `login_salt` varchar(255) NOT NULL default '';
+ALTER TABLE `players` ADD COLUMN `description` text NOT NULL default '';
+UPDATE `blueprint_items` set `type2`='weapon' WHERE `type`='weapon';
+UPDATE `blueprint_items` set `type2`='armour' WHERE `type`='armour';
+UPDATE `items` set `status2`='1' WHERE `status`='equipped';
+UPDATE `items` set `status2`='0' WHERE `status`='uneqipped';
+UPDATE `mail` set `status2`='1' WHERE `status`='unread';
+UPDATE `mail` set `status2`='0' WHERE `status`='read';
+UPDATE `user_log` SET `status2`='1' WHERE `status`='read';
+UPDATE `user_log` SET `status2`='0' WHERE `status`='unread';
+UPDATE `players` SET `password2`=`password`;
 
-                    ALTER TABLE `players` ADD COLUMN `password2` text NOT NULL;
-                    UPDATE `players` SET `password2`=`password`;
-                    ALTER TABLE `players` DROP COLUMN `password`;
+                    
+ALTER TABLE `blueprint_items` DROP COLUMN `type`;
+ALTER TABLE `items` DROP COLUMN `status`;
+ALTER TABLE `mail` DROP COLUMN `status`;
+ALTER TABLE `user_log` DROP COLUMN `status`;
+ALTER TABLE `players` DROP COLUMN `password`;
+
+
+ALTER TABLE `blueprint_items` CHANGE `type2` `type` varchar(255) NOT NULL;
+ALTER TABLE `items` CHANGE `status2` `status` tinyint(1) NOT NULL;
+ALTER TABLE `mail` CHANGE `status2` `status` tinyint(1) NOT NULL;
+ALTER TABLE `user_log` CHANGE `status2` `status` tinyint(1) NOT NULL;
+ALTER TABLE `user_log` CHANGE `msg` `message` text NOT NULL;
                     ALTER TABLE `players` CHANGE `password2` `password` text NOT NULL;
                     ALTER TABLE `players` CHANGE `maxexp` `exp_max` int(11) NOT NULL default '50';
                     ALTER TABLE `players` CHANGE `maxhp` `hp_max` int(11) NOT NULL default '60';
                     ALTER TABLE `players` CHANGE `maxenergy` `energy_max` int(11) NOT NULL default '10';
-                    ALTER TABLE `players` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; ";
 
-    public $log_query_update =    "ALTER TABLE `user_log` ADD COLUMN `status2` tinyint(1) NOT NULL;
-                    UPDATE `user_log` SET `status2`='1' WHERE `status`='read';
-                    UPDATE `user_log` SET `status2`='0' WHERE `status`='unread';
-                    ALTER TABLE `user_log` DROP COLUMN `status`;
-                    ALTER TABLE `user_log` CHANGE `status2` `status` tinyint(1) NOT NULL;
-                    ALTER TABLE `user_log` CHANGE `msg` `message` text NOT NULL;
-                    ALTER TABLE `user_log` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; ";
+ALTER TABLE `blueprint_items` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+ALTER TABLE `items` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+ALTER TABLE `mail` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+ALTER TABLE `user_log` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+ALTER TABLE `players` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+ALTER TABLE `blueprint_items` RENAME `blueprints`;
+ALTER DATABASE COLLATE utf8_general_ci; 
+       ";
 
     public $menu_query = "CREATE TABLE IF NOT EXISTS `menu` (
         `id` int(11) NOT NULL auto_increment,
@@ -282,22 +290,28 @@ class _code_install extends code_common {
         PRIMARY KEY  (`id`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
     
-    public $menu_insert_query = "INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enabled`, `order`, `function`, `guest`) VALUES
-        (1, 'Home', 'Game Menu', 'public', 'index', '', 1, 1, 0, 0),
-        (2, 'Mail', 'Game Menu', 'public', 'mail', '', 1, 2, 1, 0),
-        (3, 'Portal', 'Game Menu', 'public', 'portal', '', 1, 3, 0, 0),
-        (4, 'Player Stats', 'Game Menu', 'public', 'ranks', '', 1, 4, 0, 0),
-        (5, 'Member List', 'Game Menu', 'public', 'members', '', 1, 5, 0, 0),
-        (6, 'Edit Profile', 'Game Menu', 'public', 'profile_edit', '', 1, 6, 0, 0),
-        (7, 'Ticket Control', 'Admin', 'admin', 'ticket', '', 1, 6, 0, 0),
-        (8, 'Item Blueprints', 'Admin', 'admin', 'blueprints', '', 1, 5, 0, 0),
-        (9, 'Help', 'Other', 'public', 'help', '', 1, 4, 0, 0),
-        (10, 'Support Tickets', 'Other', 'public', 'ticket', '', 1, 5, 0, 0),
-        (11, 'Log Out', 'Other', 'public', 'login', '', 1, 6, 0, 0),
-        (12, 'Staff List', 'Other', 'public', 'members', '&amp;action=staff', 1, 3, 0, 0),
-        (13, 'Menu Editor', 'Admin', 'admin', 'menu', '', 1, 4, 0, 0),
-        (14, 'Quest Control', 'Admin', 'admin', 'quest', '', 1, 3, 0, 0),
-        (15, 'Control Panel', 'Admin', 'admin', 'index', '', 1, 2, 0, 0);
+    public $menu_insert_query = "
+INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enabled`, `order`, `function`, `guest`) VALUES
+(1, 'Home', 'Game Menu', 'public', 'index', '', 1, 1, 1, 0),
+(2, 'Mail', 'Game Menu', 'public', 'mail', '', 1, 3, 1, 0),
+(3, 'Portal', 'Game Menu', 'public', 'portal', '', 1, 4, 1, 0),
+(4, 'Player Stats', 'Game Menu', 'public', 'ranks', '', 1, 5, 0, 0),
+(5, 'Member List', 'Game Menu', 'public', 'members', '', 1, 6, 0, 0),
+(6, 'Edit Profile', 'Game Menu', 'public', 'profile_edit', '', 1, 7, 0, 0),
+(7, 'Ticket Control', 'Admin', 'admin', 'ticket', '', 1, 6, 0, 0),
+(8, 'Item Blueprints', 'Admin', 'admin', 'blueprints', '', 1, 5, 0, 0),
+(9, 'Help', 'Other', 'public', 'help', '', 1, 4, 0, 0),
+(10, 'Support Tickets', 'Other', 'public', 'ticket', '', 1, 5, 0, 0),
+(11, 'Log Out', 'Other', 'public', 'login', '', 1, 6, 0, 0),
+(12, 'Staff List', 'Other', 'public', 'members', '&amp;action=staff', 1, 3, 0, 0),
+(13, 'Menu Editor', 'Admin', 'admin', 'menu', '', 1, 4, 0, 0),
+(14, 'Quest Control', 'Admin', 'admin', 'quest', '', 1, 3, 0, 0),
+(15, 'Control Panel', 'Admin', 'admin', 'index', '', 1, 2, 0, 0),
+(16, 'Home', 'Guests', 'public', 'index', '', 1, 4, 0, 1),
+(17, 'Register', 'Guests', 'public', 'login', '&amp;action=register', 1, 5, 0, 1),
+(18, 'Player Stats', 'Guests', 'public', 'ranks', '', 1, 6, 1, 1),
+(19, 'Help', 'Guests', 'public', 'guesthelp', '', 1, 7, 0, 1),
+(23, 'Quests', 'Game Menu', 'public', 'quest', '', 1, 2, 0, 0);
         ";
 
    /**

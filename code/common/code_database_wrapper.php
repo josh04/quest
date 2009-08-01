@@ -26,9 +26,9 @@ class code_database_wrapper {
     private function __construct($config) {
 	$this->db = &NewQuestDB();
 
-        ob_start(); // Do not error if the database isn't there.
+        //ob_start(); // Do not error if the database isn't there.
             $this->db->Connect($config['server'], $config['db_username'], $config['db_password'], $config['database']);
-        ob_end_clean();
+        //ob_end_clean();
     }
 
    /**
