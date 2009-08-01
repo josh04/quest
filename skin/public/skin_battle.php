@@ -17,26 +17,35 @@ class skin_battle extends skin_common {
     * @return string html
     */
     public function battle_search_page($username, $level_min, $level_max, $message) {
-        $battle_search_page = $message."
-            Search: 
+        $battle_search_page = "<h2>Find a battle</h2>
+            ".$message."
+            <h3>Search</h3>
             <form method='post' action='index.php?page=battle&amp;action=search'>
-                Username:
-                <input type='text' name='username' value='".$username."' />
-                Level:
-                <input type='text' name='level_min' size='4' value='".$level_min."' /> to <input type='text' name='level_max' size='4' value='".$level_max."' />
-                Status:
-                <select name='alive' size='2'>
+            <table>
+                <tr><td style='width:20%;'><label for='username'>Username</label></td>
+                <td><input type='text' id='username' name='username' value='".$username."' style='width:95%;' /></td></tr>
+
+                <tr><td style='width:20%;'><label for='level_min'>Level</label></td>
+                <td><input type='text' id='level_min' name='level_min' size='4' value='".$level_min."' /> to 
+                <input type='text' id='level_max' name='level_max' size='4' value='".$level_max."' /></td></tr>
+
+                <tr><td style='width:20%;'><label for='alive'>Status</label></td>
+                <td><select size='2' id='alive' name='alive'>
                     <option value='1' selected='selected'>Conscious</option>
                     <option value='0'>Unconscious</option>
-                </select>
-                <input type='submit' value='Search' />
-            </form>
-            <br />
+                </select></td></tr>
+
+                <tr><td colspan='2'><input type='submit' value='Search' /></td></tr>
+            </table>
+            </form><br />
             
-            Attack a player<br />
+            <h3>Attack a player</h3>
             <form method='post' action='index.php?page=battle&amp;action=fight'>
-                Username: <input type='text' name='username' />
-                <input type='submit' value='Battle' />
+            <table>
+                <tr><td style='width:20%;'><label for='username'>Username</label></td>
+                <td><input type='text' id='username' name='username' value='".$username."' style='width:95%;' /></td>
+                <td><input type='submit' value='Battle' /></td></tr>
+            </table>
             </form>";
         return $battle_search_page;
     }
@@ -57,9 +66,9 @@ class skin_battle extends skin_common {
                     ".$player['level']."
                 </td>
                 <td>
-                    <form method='POST' action='index.php?page=battle&amp;action=fight'>
+                    <form method='POST' name='memberBattle".$player['id']."' action='index.php?page=battle&amp;action=fight'>
                         <input type='hidden' name='id' value='".$player['id']."' />
-                        <input type='submit' value='Attack' />
+                        <a href='#' onclick='document.memberBattle".$player['id'].".submit();return false;'>Attack</a>
                     </form>
                 </td>
             </tr>";
@@ -73,7 +82,9 @@ class skin_battle extends skin_common {
     * @return string html
     */
     public function battle_search_row_wrap($player_rows) {
-        $battle_search_row_wrap = "<table>".$player_rows."</table>";
+        $battle_search_row_wrap = "<table class='nutable' cellpadding='4' cellspacing='0'>
+            <tr style='background-color:#EEE;'><th>Username</th><th>Level</th><th></th></tr>
+            ".$player_rows."</table>";
         return $battle_search_row_wrap;
     }
 

@@ -115,7 +115,18 @@ class code_battle extends code_common {
     }
 
     public function battle() {
+
         $id = intval($_POST['id']);
+
+        if(!$id && isset($_POST['username'])) {
+            $t = new code_player;
+            $t->get_player($_POST['username']);
+            if(isset($t->id)) $id = $t->id;
+            else {
+                $fight = $this->battle_search_page($this->skin->error_box($this->skin->lang_error->no_player_selected));
+                return $fight;
+            }
+        }
 
         if (!$id) {
             $fight = $this->battle_search_page($this->skin->error_box($this->skin->lang_error->no_player_selected));
