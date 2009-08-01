@@ -312,6 +312,7 @@ class code_player {
         $player_insert['login_salt'] = $login_salt;
 
         $player_insert_query = $this->db->AutoExecute('players', $player_insert, 'INSERT');
+        
         if ($player_insert_query) {
             $player_id = $this->db->Insert_Id();
         } else {

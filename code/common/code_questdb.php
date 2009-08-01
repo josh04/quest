@@ -254,7 +254,8 @@ class QuestDB {
     * @return integer the ID of the last inserted row
     */
     public function insertID() {
-        return mysqli_insert_id($this->_con);
+        $id = mysqli_insert_id($this->_con);
+        return $id;
     }
 
    /**
@@ -263,7 +264,7 @@ class QuestDB {
     * @return integer the ID of the last inserted row
     */
     public function Insert_Id() {
-        return $this->insertID;
+        return $this->insertID();
     }
 
    /**
