@@ -26,7 +26,7 @@ class code_player {
    /**
     * Main player function. Used to generate the player who is playing.
     *
-    * (TODO) I think some of the code_login procedure should end up in here instead.
+    * (DONE) I think some of the code_login procedure should end up in here instead.
     *
     * @return bool good to go?
     */
@@ -333,11 +333,11 @@ class code_player {
         $update_password['password'] = md5($newpassword.$login_salt);
         $update_password['login_salt'] = $login_salt;
 
-        $password_query = $this->db->AutoExecute('players', $update_password, 'UPDATE', 'id = '.$this->player->id);
+        $password_query = $this->db->AutoExecute('players', $update_password, 'UPDATE', 'id = '.$this->id);
+        
+        $this->password = $update_password['password'];
 
-        $this->player->password = $update_password['password'];
-
-        $hash = md5($this->player->id.$this->player->password.$this->player->login_rand);
+        $hash = md5($this->id.$this->password.$this->login_rand);
         $_SESSION['hash'] = $hash;
         setcookie("cookie_hash", $hash, mktime()+2592000);
         

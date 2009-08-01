@@ -45,7 +45,7 @@ class code_log extends code_common {
             }
             $make_log = $this->skin->make_log($logs);
         } else {
-            $make_log = "No laptop messages.";
+            $make_log = $this->skin->error_box($this->skin->lang_error->no_laptop_message);
             return $make_log;
         }
 
@@ -63,6 +63,7 @@ class code_log extends code_common {
     public function clear_log() {
         //Clear all log messages for current user
         $log_delete_query = $this->db->execute("DELETE FROM user_log WHERE player_id=?", array($this->player->id));
+        print $this->db->ErrorMsg();
         $_POST['action'] = "";
         $clear_log = $this->make_log();
         return $clear_log;

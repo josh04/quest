@@ -69,7 +69,7 @@ class code_items extends code_common {
         $items_query = $this->db->execute("SELECT * FROM blueprints ORDER BY 'type' asc");
         
         if ($items_query->recordcount() == 0) {
-            $make_store = $this->skin->make_store("", "There are currently no items in the store.");
+            $make_store = $this->skin->make_store("", $this->skin->error_box($this->skin->lang_error->no_items_in_store));
             return $make_store;
         }
 
@@ -89,7 +89,7 @@ class code_items extends code_common {
     public function buy() {
         if (!$_POST['id']) {
             $_GET['action'] = "";
-            $buy = $this->make_store("No item selected.");
+            $buy = $this->make_store($this->skin->error_box($this->skin->lang_error->no_item_selected));
             return $buy;
         }
 
@@ -99,15 +99,14 @@ class code_items extends code_common {
         //Invalid item (it doesn't exist)
         if ($item_query->recordcount() == 0) {
             $_GET['action'] = "";
-            $buy = $this->make_store("No item selected.");
+            $buy = $this->make_store($this->skin->error_box($this->skin->lang_error->no_item_selected));
             return $buy;
         }
 
         $item = $item_query->fetchrow();
 
         if ($item['price'] > $this->player->gold) {
-            $_GET['action'] = "";
-            $buy = $this->make_store("You cannot afford that item.");
+            $buy = $this->make_store($this->skin->error_box($this->skin->lang_error->cannot_afford));
             return $buy;
         }
         $this->player->gold = $this->player->gold - $item['price'];
@@ -118,7 +117,7 @@ class code_items extends code_common {
         $insert_item['item_id'] = $item['id'];
         $insert_item_query = $this->db->AutoExecute('items', $insert_item, 'INSERT');
 
-        $buy = "Congratulations on your purchase of ".$item['name'];
+        $buy = $this->make_store($this->skin->purchased($item['name']));
         return $buy;
     }
 
@@ -130,7 +129,7 @@ class code_items extends code_common {
     public function sell() {
         if (!$_POST['id']) {
             $_GET['action'] = "";
-            $sell = $this->make_store("No item selected.");
+            $sell = $this->make_inventory($this->skin->error_box($this->skin->lang_error->no_item_selected));
             return $sell;
         }
 
@@ -140,24 +139,24 @@ class code_items extends code_common {
         //Invalid item (it doesn't exist)
         if ($item_query->recordcount() == 0) {
             $_GET['action'] = "";
-            $sell = $this->make_store("No item selected.");
+            $sell = $this->make_inventory($this->skin->error_box($this->skin->lang_error->no_item_selected));
             return $sell;
         }
 
 
 
-		$item = $item_query->fetchrow(); //Get item info
-		$this->player->gold = $this->player->gold + floor($item['price']/2);
+        $item = $item_query->fetchrow(); //Get item info
+        $this->player->gold = $this->player->gold + floor($item['price']/2);
 
-		//Delete item from database, add tokens to player's account
-		$delete_query = $this->db->execute("DELETE FROM `items` WHERE `id`=?", array($item['id']));
+        //Delete item from database, add tokens to player's account
+        $delete_query = $this->db->execute("DELETE FROM `items` WHERE `id`=?", array($item['id']));
 
         $update_player['gold'] = $this->player->gold;
 
-		$player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
+        $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
 
-		$sell = "You have sold your ".$item['name'].". We'll look after it well.";
-		return $sell;
+        $sell = $this->make_inventory($this->skin->sold($item['name']));
+        return $sell;
     }
 
    /**

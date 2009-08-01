@@ -84,5 +84,27 @@ class skin_items extends skin_common {
             </table></fieldset><br />";
         return $make_item;
     }
+
+   /**
+    * purchased an item
+    *
+    * @param string $item_name name of item
+    * @return string html
+    */
+    public function purchased($item_name) {
+        $purchased = "<div class='success'>Congratulations on your purchase of ".$item_name.".</div>";
+        return $purchased;
+    }
+
+   /**
+    * sold an item
+    *
+    * @param string $item_name name of item
+    * @return string html
+    */
+    public function sold($item_name) {
+        $sold = "<div class='success'>You have sold your ".$item_name.". We'll look after it well.</div>";
+        return $sold;
+    }
 }
 ?>

@@ -15,7 +15,7 @@ class skin_hospital extends skin_common {
     * @return string html
     */
     public function make_hospital($full_heal, $disabled, $message) {
-        $make_hospital = $message."
+        $make_hospital = $message."<br />
             <h2>Hospital</h2>
             <div>
             <br />
@@ -36,7 +36,7 @@ class skin_hospital extends skin_common {
     * @return string html
     */
     public function healed($heal, $hp) {
-        $healed = "You have healed yourself by ".$heal." point(s). Your health is now ".$hp.".";
+        $healed = "<div class='success'>You have healed yourself by ".$heal." point(s). Your health is now ".$hp.".</div>";
         return $healed;
     }
 

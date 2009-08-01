@@ -92,7 +92,12 @@ class code_edit_profile extends _code_admin {
             return $update_profile;
         }
 
-        $this->player->email         = htmlentities($_POST['email'], ENT_QUOTES, 'utf-8');
+        if (!preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\- !]+)$#iU", $_POST['avatar'])) {
+            $update_profile = $this->edit_profile_page($this->skin->error_box($this->skin->lang_error->avatar_wrong_format));
+            return $update_profile;
+        }
+
+        $this->player->email         = $_POST['email'];
         $this->player->description   = htmlentities($_POST['description'], ENT_QUOTEs, 'utf-8');
         $this->player->gender        = intval($_POST['gender']);
         $this->player->msn           = htmlentities($_POST['msn'], ENT_QUOTES, 'utf-8');

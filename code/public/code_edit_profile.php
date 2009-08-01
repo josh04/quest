@@ -57,7 +57,7 @@ class code_edit_profile extends code_common {
             return $update_profile;
         }
 
-        if (!preg_match("/https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?/i", $_POST['avatar'])) {
+        if (!preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\- !]+)$#iU", $_POST['avatar'])) {
             $update_profile = $this->edit_profile_page($this->skin->error_box($this->skin->lang_error->avatar_wrong_format));
             return $update_profile;
         }
@@ -111,7 +111,7 @@ class code_edit_profile extends code_common {
         }
 
         $this->player->update_password($_POST['new_password']);
-        $update_password = $this->edit_profile_page($this->skin->lang_error->password_updated);
+        $update_password = $this->edit_profile_page($this->skin->success_box($this->skin->lang_error->password_updated));
         return $update_password;
         
     }

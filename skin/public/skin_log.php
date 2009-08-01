@@ -14,7 +14,7 @@ class skin_log extends skin_common {
     * @return string html
     */
     public function make_log($logs) {
-        $make_log = "<h2>Log</h2><form action='index.php?page=log' method='POST'><input type='submit' name='action' value='Clear log' />".$logs;
+        $make_log = "<h2>Log</h2><form action='index.php?page=laptop' method='POST'><input type='submit' name='action' value='Clear log' />".$logs;
         return $make_log;
     }
 

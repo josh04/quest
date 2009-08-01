@@ -87,6 +87,9 @@ class lang_error {
     public $no_items = "You do not have any items in your inventory.";
     public $equip = "Equip";
     public $unequip = "Unequip";
+    public $no_items_in_store = "There are currently no items in the store.";
+    public $no_item_selected = "No item selected";
+    public $cannot_afford = "You cannot afford that item.";
 
     // stats
     public $no_stat_points = "You do not currently have any stat points to spend.";
@@ -132,5 +135,11 @@ class lang_error {
     public $full_health = "You are already at full health.";
     public $beyond_maximum = "That is beyond your maximum health.";
     public $not_enough_to_heal = "You don't have enough money to heal that much.";
+
+    // work
+    public $no_energy_to_work = "You have no energy left. You must rest a while before working.";
+
+    // laptop
+    public $no_laptop_message = "You currently do not have any laptop messages.";
 }
 ?>

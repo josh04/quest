@@ -15,32 +15,49 @@ class code_work extends code_common {
     public function construct() {
         $this->initiate("skin_work");
 
-        $code_work = $this->make_work();
+        $code_work = $this->work_switch();
 
         parent::construct($code_work);
+    }
+
+    public function work_switch() {
+        if ($this->player->energy == 0) {
+            $make_work = $this->make_work($this->skin->error_box($this->skin->lang_error->no_energy_to_work));
+            return $make_work;
+        }
+
+        if ($_POST['action'] == "Work") {
+            $work_switch = $this->work();
+            return $work_switch;
+        }
+
+        $work_switch = $this->make_work();
+        return $work_switch;
     }
 
    /**
     * handles all work
     *
+    * @param string $message error message
     * @return string html
     */
-    public function make_work() {
-        if ($this->player->energy == 0) {
-            $make_work ="You have no energy left! You must rest a while.";
-            return $make_work;
-        }
+    public function make_work($message="") {
+        $make_work = $this->skin->make_work($message);
+        return $make_work;
+    }
 
-        if ($_POST['action'] == "Work") {
-            $this->player->energy--;
-            $this->player->gold = $this->player->gold + 50 * $this->player->level;
-            $update_player['energy'] = $this->player->energy;
-            $update_player['gold'] = $this->player->gold;
-            $work_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
-            $make_work = "After a long and tiring day, you have now finished working and now have £".$this->player->gold.".";
-            return $make_work;
-        }
-        $make_work = $this->skin->make_work();
+   /**
+    * they did it
+    *
+    * @return string html
+    */
+    public function work() {
+        $this->player->energy--;
+        $this->player->gold = $this->player->gold + 50 * $this->player->level;
+        $update_player['energy'] = $this->player->energy;
+        $update_player['gold'] = $this->player->gold;
+        $work_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
+        $make_work = $this->make_work($this->skin->worked($this->player->gold));
         return $make_work;
     }
 

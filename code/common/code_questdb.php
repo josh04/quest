@@ -167,7 +167,7 @@ class QuestDB {
             }
             return $ret;
         }
-        if($fields) {
+        if ($fields) {
             if(!is_array($fields)) $fields = array($fields);
             $sqlbits = explode("?",$sql);
             $param_count = sizeof($sqlbits)-1;
@@ -181,7 +181,7 @@ class QuestDB {
                 else if($type=='boolean')
                     $sql .= $v ? '1' : '0';
                 else if($type=='double')
-                    $sql .= str("," , "." , $v);
+                    $sql .= str_replace("," , "." , $v);
                 else if ($type == 'object') {
                     if (method_exists($v, '__toString')) {
                         $sql .= $this->qstr($v->__toString());
@@ -603,7 +603,7 @@ class QuestDB {
         else if($type=='boolean')
             $val .= $v ? '1' : '0';
         else if($type=='double')
-            $val = str("," , "." , $v);
+            $val = str_replace("," , "." , $v);
         else if ($typ == 'object') {
             if (method_exists($v, '__toString')) $val = $this->qstr($v->__toString());
             else $val = $this->qstr((string) $v);
