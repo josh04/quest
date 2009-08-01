@@ -50,6 +50,16 @@ class skin_profile extends skin_common {
        return $edit_profile_link;
    }
 
+  /**
+   * add to friends link
+   * 
+   * @return string html
+   */
+   function add_friend_link($id) {
+       $add_friend_link = "| <a href='index.php?page=profile&friends=add&id=".$id."'>Add to friends</a>";
+       return $add_friend_link;
+   }
+
    /**
     * generates html for instant messenger link
     * 

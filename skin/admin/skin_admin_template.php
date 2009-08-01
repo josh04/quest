@@ -29,7 +29,7 @@ class skin_admin_template extends _skin_admin {
     }
 
    /**
-    * add a textarea field
+    * add a field
     *
     * @param array $f field details
     * @param string $lang language
@@ -40,12 +40,28 @@ class skin_admin_template extends _skin_admin {
         if($f['type']=='caption') return "<tr><td></td><td>".$f['value']."</td></tr>";
         if($f['type']=='text') $g = "<input type='".$f['type']."' id='form-".$f['name']."' name='form-".$f['name']."' style='width:95%;' value='".$f['value']."' />";
         if($f['type']=='checkbox') $g = "<input type='checkbox' id='form-".$f['name']."' name='form-".$f['name']."' ".($f['value']?" checked='checked'":"")." />";
+        if($f['type']=='radio') $g = $this->add_field_radio($f);
 
         // ...then the default
         if(!isset($g)) $g = "<textarea id='form-".$f['name']."' name='form-".$f['name']."' rows='5' style='width:95%;'>".$f['value']."</textarea>";
         return "
             <tr><td><label for='form-".$f['name']."'".($f['type']=='checkbox'?" style='margin:0;'":"").">".($f['caption']?$f['caption']:$f['name'])."</label>".$lang."</td>
             <td>".$g."</td></tr>";
+    }
+
+   /**
+    * add a set of radio buttons
+    *
+    * @param array $f field details
+    * @return string html
+    */
+    public function add_field_radio($f, $lang='') {
+        foreach($f['options'] as $a) {
+            $contents .= "
+                <input type='radio' name='form-".$f['name']."' id='form-".$f['name']."-".$a['value']."' value='".$a['value']."' ".($f['value']==$a['value']?" checked='checked'":"")."/>
+                <label for='form-".$f['name']."-".$a['value']."' style='display:inline;'>".$a['caption']."</label><br />\n";
+        }
+        return "" . $contents . "";
     }
 
 }
