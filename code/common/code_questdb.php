@@ -15,6 +15,7 @@
  * though there are several others available, as made clear below.
  * 
  * @package QuestDB
+ * @author Grego
  */
 
 class QuestDB {
