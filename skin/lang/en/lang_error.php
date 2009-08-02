@@ -114,7 +114,11 @@ class lang_error {
     public $menu_deleted = "The menu entry was successfully deleted.";
     public $menu_delete_no = "The menu entry could not be deleted.";
     public $menu_moved = "The menu entry has been moved.";
-    public $menu_move_no = "The menu entry could not be moved.";
+    public $menu_move_down_no = "That menu entry cannot be moved down.";
+    public $menu_move_up_no = "That menu entry cannot be moved up.";
+    public $category_not_found = "That category cannot be moved as it does not exist.";
+    public $category_move_down_no = "That menu entry cannot be moved down.";
+    public $category_move_up_no = "That menu entry cannot be moved up.";
 
     // quests
     public $no_quests = "There are currently no quests installed.";

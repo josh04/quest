@@ -34,7 +34,11 @@ class skin_menu_admin extends skin_common {
     * @return string html
     */
     public function menu_category($category_name, $category_html) {
-        $menu_category = "<tr><td colspan='2'><h3>".$category_name."</h3></td></tr>
+        $menu_category = "<tr><td style='width:80%'><h3>".$category_name."</h3></td>
+                <td>
+                    <a href='?section=admin&amp;page=menu&amp;action=category_up&amp;category=".$category_name."'><img src='images/icons/arrow_up.png' /></a>
+                    <a href='?section=admin&amp;page=menu&amp;action=category_down&amp;category=".$category_name."'><img src='images/icons/arrow_down.png' /></a>
+                </td></tr>
             ".$category_html;
         return $menu_category;
     }
