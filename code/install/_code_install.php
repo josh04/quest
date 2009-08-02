@@ -204,7 +204,7 @@ class _code_install extends code_common {
         ('name', 'Quest'),
         ('welcometext', '<p>Welcome to Quest. This is a default welcome message. To add your own, go to the Administration panel and click on \"Messages\".</p>'),
         ('portal_name', 'Campus'),
-        ('portal_welcome', '<strong>Security Guard:</strong><br />\n<i>Welcome onto Campus, agent. Let me just check your ID.<br />\n...<br />\nYou have permission to enter, agent. If you follow the path to the left, you can get to the Main Building. To the right you\'ll find the training areas and accommodation. Have a good day.</i>'),
+        ('portal_welcome', '[b]Security Guard:[/b]\n\n[i]Welcome onto Campus, agent. Let me just check your ID.\n\n...\n\nYou have permission to enter, agent. If you follow the path to the left, you can get to the Main Building. To the right you\'ll find the training areas and accommodation. Have a good day.[/i]'),
         ('portal_links', '* Main Building\r\nhospital|Hospital\r\nbank|Bank\r\nstore|Store\r\nwork|Work\r\n--\r\n* Your Room\r\nlaptop|Laptop\r\ninventory|Inventory\r\n\r\n* Dojo\r\nbattle|Combat training'),
         ('quests_code', ''),
         ('admin_notes', ''),
