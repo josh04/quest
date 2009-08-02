@@ -14,7 +14,7 @@ class code_player {
     public $friends = array();
     public $page = "";
 
-    /**
+   /**
     * might as well _use_ the fun features of our database class. no more =& $this->db.
     *
     * @param array $config db passwords, in case the db isn't set up yet.
@@ -349,27 +349,37 @@ class code_player {
         }
     }
 
-
 // A constant reminder that there are always more functions to add ;)
-function getfriends(){
+   /**
+    * Retrieves the player's friends
+    *
+    * @return boolean success
+    */
+    function getfriends(){
+
+        // This is a resource-expensive funciton, so let's put a circuit breaker in
+        if(!empty($this->friends)) return true;
  
-    $query = $this->db->execute("SELECT f.*, p.username
-FROM friends AS f
-LEFT JOIN players AS p
-ON f.friend_id=p.id
-WHERE f.player_id=?
-AND f.validated=1",
-                           array($this->id));
-                           
-    if ($query->recordcount() == 0) {
-   return false;
-    } else {
-   while($friend = $query->fetchrow()) {
-      $this->friends[] = $friend;
-   }
-   return true;
-   }
-}
+        $query = $this->db->execute("SELECT `id`, `username`
+    FROM `players`
+    WHERE (`id` IN (SELECT f.id2
+                   FROM friends AS f
+                   WHERE (f.id1=? OR f.id2=?) and `accepted`=1)
+    OR `id` IN (SELECT f.id1
+                FROM friends AS f
+                WHERE (f.id1=? OR f.id2=?) and `accepted`=1))
+    AND NOT `id`=?",
+                array_fill(0, 5, $this->id));
+
+        if ($query->recordcount() == 0) {
+            return false;
+        } else {
+            while($friend = $query->fetchrow()) {
+                $this->friends[($friend['id'])] = $friend['username'];
+            }
+            return true;
+        }
+    }
  
 }
 ?>

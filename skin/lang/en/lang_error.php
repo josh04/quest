@@ -110,6 +110,15 @@ class lang_error {
     public $menu_entry_modified = "Menu entry modified.";
     public $menu_reordered = "Menu reordered.";
     public $no_menu_entries = "Warning: There are currently no menu entries.";
+    public $menu_not_found = "The menu entry requested couldn't be found.";
+    public $menu_deleted = "The menu entry was successfully deleted.";
+    public $menu_delete_no = "The menu entry could not be deleted.";
+    public $menu_moved = "The menu entry has been moved.";
+    public $menu_move_down_no = "That menu entry cannot be moved down.";
+    public $menu_move_up_no = "That menu entry cannot be moved up.";
+    public $category_not_found = "That category cannot be moved as it does not exist.";
+    public $category_move_down_no = "That menu entry cannot be moved down.";
+    public $category_move_up_no = "That menu entry cannot be moved up.";
 
     // quests
     public $no_quests = "There are currently no quests installed.";
@@ -147,5 +156,12 @@ class lang_error {
 
     // laptop
     public $no_laptop_message = "You currently do not have any laptop messages.";
+
+    // friends
+    public $cant_self_friend = "You can be friends with yourself.";
+    public $already_friends = "You are already friends with ";
+    public $now_friends = "You are now friends with ";
+    public $request_sent = "You have sent a friend request to ";
+    public $awaiting_friend_response = "You have already sent a friend request.";
 }
 ?>

@@ -418,7 +418,7 @@ class QuestDB {
                         {
                             //Set the value that was given in array, so you can give both null and empty values
                             if (is_null($arrFields[$upperfname]) || $arrFields[$upperfname] === $this->null2null) {
-                                $setFields .= $field->name . " = null, ";
+                                $setFields .= $this->nameQuote.$field->name.$this->nameQuote . " = null, ";
                             } else {
                                $setFields .= $this->column_sql('U', $upperfname, $fnameq, $arrFields);
                             }
@@ -613,7 +613,7 @@ class QuestDB {
             $val = $v;
 
         if ($action == 'I') return $val . ", ";
-        return $fnameq . "=" . $val  . ", ";
+        return $this->nameQuote.$fnameq.$this->nameQuote . "=" . $val  . ", ";
     }
 
    /**

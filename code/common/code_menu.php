@@ -183,6 +183,7 @@ class code_menu extends code_common {
     * @param string $extra Anything else?
     * @param int $function Is it special?
     * @param int $enabled Is it to be shown?
+    * @param int $guest Can guests see it?
     * @return int menu id
     */
     public function modify_menu_entry($id, $label, $category, $section, $page, $extra, $function, $enabled, $guest) {

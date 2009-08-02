@@ -317,6 +317,13 @@ INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enab
 (23, 'Quests', 'Game Menu', 'public', 'quest', '', 1, 2, 0, 0);
         ";
 
+    public $friends_query = "CREATE TABLE IF NOT EXISTS `friends` (
+        `id1` int(11) NOT NULL,
+        `id2` int(11) NOT NULL,
+        `accepted` tinyint(1) NOT NULL default '0',
+        UNIQUE KEY `id1` (`id1`,`id2`)
+        ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+
    /**
     * pieces the site together. intended to be overriden by child class to generate $page.
     *
