@@ -329,9 +329,6 @@ class code_fight extends code_common {
             case 'boolean': 
                 return $boolean; 
                 break;
-            case 'player': 
-                return $this->player; 
-                break;
             case 'log':
             default: 
                 return $log; 

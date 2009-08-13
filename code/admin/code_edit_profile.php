@@ -81,7 +81,7 @@ class code_edit_profile extends _code_admin {
     * @return string html
     */
     public function update_profile($id) {
-
+        
         if ($_POST['submit'] != "Submit") { //stops you wiping your profile with GET
             $update_profile = $this->edit_profile_page($id);
             return $update_profile;
@@ -92,27 +92,30 @@ class code_edit_profile extends _code_admin {
             return $update_profile;
         }
 
-        if (!preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\- !]+)$#iU", $_POST['avatar'])) {
+        if (!preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\- !]+)$#iU", $_POST['avatar']) && $_POST['avatar']) {
             $update_profile = $this->edit_profile_page($this->skin->error_box($this->skin->lang_error->avatar_wrong_format));
             return $update_profile;
         }
 
-        $this->player->email         = $_POST['email'];
-        $this->player->description   = htmlentities($_POST['description'], ENT_QUOTEs, 'utf-8');
-        $this->player->gender        = intval($_POST['gender']);
-        $this->player->msn           = htmlentities($_POST['msn'], ENT_QUOTES, 'utf-8');
-        $this->player->aim           = htmlentities($_POST['aim'], ENT_QUOTES, 'utf-8');
-        $this->player->skype         = htmlentities($_POST['skype'], ENT_QUOTES, 'utf-8');
-        $this->player->avatar        = $_POST['avatar'];
-        $this->player->skin          = htmlentities($_POST['skin'], ENT_QUOTES, 'utf-8');
+        $profile = new code_player;
+        $profile->get_player($id);
+
+        $profile->email         = $_POST['email'];
+        $profile->description   = htmlentities($_POST['description'], ENT_QUOTES, 'utf-8');
+        $profile->gender        = intval($_POST['gender']);
+        $profile->msn           = htmlentities($_POST['msn'], ENT_QUOTES, 'utf-8');
+        $profile->aim           = htmlentities($_POST['aim'], ENT_QUOTES, 'utf-8');
+        $profile->skype         = htmlentities($_POST['skype'], ENT_QUOTES, 'utf-8');
+        $profile->avatar        = $_POST['avatar'];
+        $profile->skin          = htmlentities($_POST['skin'], ENT_QUOTES, 'utf-8');
 
         if ($_POST['show_email'] == 'on') {
-            $this->player->show_email = 1;
+            $profile->show_email = 1;
         } else {
-            $this->player->show_email = 0;
+            $profile->show_email = 0;
         }
 
-        $this->player->update_player();
+        $profile->update_player();
         $update_profile = $this->edit_profile_page($id, $this->skin->success_box($this->skin->lang_error->profile_updated));
         return $update_profile;
     }

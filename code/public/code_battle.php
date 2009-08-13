@@ -156,7 +156,7 @@ class code_battle extends code_common {
         $this->fight = new code_fight($this->section, $this->page);
         
         $this->fight->enemy = new code_player;
-
+        $this->fight->type = "player";
         if (!$this->fight->enemy->get_player($id)) {
             $fight = $this->battle_search_page($this->skin->error_box($this->skin->lang_error->player_not_found));
             return $fight;
