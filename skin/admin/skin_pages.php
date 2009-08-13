@@ -32,7 +32,7 @@ class skin_pages extends skin_common {
     * @return string html
     */
     public function section_wrapper($section_name, $section_html) {
-        $section_wrapper = "<tr>
+        $section_wrapper = "<tr></tr><td><hr /></td><tr>
                 <th>".$section_name."</th>
             </tr>
             ".$section_html;

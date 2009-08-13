@@ -29,8 +29,7 @@ class code_members extends code_common {
         $limit = ($_GET['limit']) ? intval($_GET['limit']) : 30; //Use user-selected limit of players to list
         $begin = ($_GET['begin']) ? abs(intval($_GET['begin'])) : $this->player->id - intval($limit / 2); //List players with the current player in the middle of the list
 
-        $total_players = $this->db->getone("SELECT count(ID) AS `count` FROM `players`");
-
+        $total_players = $this->db->getone("SELECT COUNT(`id`) AS `count` FROM `players`");
         $begin = ($begin >= $total_players) ? abs($total_players - $limit) : $begin; //Can't list players don't don't exist yet either
 
         $begin = ($begin < 0) ? 0 : $begin;
@@ -40,11 +39,11 @@ class code_members extends code_common {
         $previous = $begin - $limit;
         $next = $begin + $limit;
 
-        if ($_GET['action']=="staff") {
+        if ($_GET['action'] == "staff") {
             $memberlist = $this->db->execute("SELECT `id`, `username`, `level`
-                FROM `players` WHERE `rank`=? ORDER BY `level` DESC
-                LIMIT ?,?",
-                array("Admin",intval($begin), intval($limit)));
+                FROM `players` WHERE `rank`=`Admin` ORDER BY `level` DESC
+                LIMIT 0,?",
+                array(intval($limit)));
         } else {
             $memberlist = $this->db->execute("SELECT `id`, `username`, `level`
                 FROM `players` ORDER BY `level` DESC
@@ -53,10 +52,11 @@ class code_members extends code_common {
         }
 
         while($member = $memberlist->fetchrow()) {
-            $admin = "";
+
             if ($this->player->rank == "Admin") {
                 $admin = $this->skin->admin_link($member['id']);
             }
+
             $members_list .= $this->skin->member_row($member, $admin);
         }
 
