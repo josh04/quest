@@ -28,16 +28,29 @@ class code_bank extends code_common {
     * @return string html
     */
     public function make_bank($message = "") {
-        $interest = intval($this->player->bank * 0.03);
-        if ($this->player->interest) {
+
+        $bank_query = $this->db->execute("SELECT * FROM `bank` WHERE `player_id`=?", array($this->player->id));
+
+        if (!$account = $bank_query->fetchrow()) {
+            $account['player_id'] = $this->player->id;
+            $account['bank_gold_saved'] = 0;
+            $account['bank_gold_deposited'] = abs(intval($_POST['amount']));
+            $account['interest_owed'] = 0;
+            $account['last_deposited'] = time();
+
+            $this->db->AutoExecute('bank', $account, 'INSERT');
+        }
+
+        if (!$account['interest_owed']) {
             $disabled = "disabled='disabled'";
-            $tomorrow = "";
         } else {
-            $tomorrow = $this->skin->lang_error->collect_interest_now;
             $disabled = "";
         }
         
-        $make_bank = $this->skin->make_bank($this->player->gold, $this->player->bank, $interest, $disabled, $tomorrow, $message);
+        $next_interest = round($account['bank_gold_saved']*0.3);
+
+        $make_bank = $this->skin->make_bank($this->player->gold, $account['bank_gold_deposited'], $account['bank_gold_saved'],
+            intval($account['interest_owed']), $disabled, $next_interest, $message);
         return $make_bank;
     }
 
@@ -70,18 +83,29 @@ class code_bank extends code_common {
     * @return string html
     */
     public function deposit() {
+
+        $bank_query = $this->db->execute("SELECT * FROM `bank` WHERE `player_id`=?", array($this->player->id));
+
+        if (!$account = $bank_query->fetchrow()) {
+            $deposit = $this->make_bank($this->skin->error_box($this->skin->lang_error->not_enough_cash_to_deposit));
+            return $deposit;
+        }
+
         if (abs(intval($_POST['amount'])) > $this->player->gold) {
             $deposit = $this->make_bank($this->skin->error_box($this->skin->lang_error->not_enough_cash_to_deposit));
             return $deposit;
         }
+
         $this->player->gold = $this->player->gold - abs(intval($_POST['amount']));
-        $this->player->bank = $this->player->bank + abs(intval($_POST['amount']));
 
-        $update_player['bank'] = $this->player->bank;
-        $update_player['gold'] = $this->player->gold;
-        $deposit_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
+        $player_update_query['gold'] = $this->player->gold;
+        $this->db->AutoExecute('players', $player_update_query, 'UPDATE', '`id`='.$this->player->id);
 
-        $deposit_html = $this->make_bank($this->skin->deposited($this->player->gold, $this->player->bank));
+        $bank_update_query['bank_gold_deposited'] = $account['bank_gold_deposited'] + abs(intval($_POST['amount']));
+        $this->db->AutoExecute('bank', $bank_update_query, 'UPDATE', '`player_id`='.$this->player->id);
+
+
+        $deposit_html = $this->make_bank($this->skin->deposited($this->player->gold, $bank_update_query['bank_gold_deposited']));
         return $deposit_html;
     }
 
@@ -91,35 +115,62 @@ class code_bank extends code_common {
     * @return string html
     */
     public function withdraw() {
-        if (abs(intval($_POST['amount'])) > $this->player->bank) {
+
+        $bank_query = $this->db->execute("SELECT * FROM `bank` WHERE `player_id`=?", array($this->player->id));
+
+        if (!$account = $bank_query->fetchrow()) {
             $withdraw = $this->make_bank($this->skin->error_box($this->skin->lang_error->not_enough_cash_to_withdraw));
             return $withdraw;
         }
+
+        if (abs(intval($_POST['amount'])) > $account['bank_gold_saved']) {
+            $withdraw = $this->make_bank($this->skin->error_box($this->skin->lang_error->not_enough_cash_to_withdraw));
+            return $withdraw;
+        }
+
+
         $this->player->gold = $this->player->gold + abs(intval($_POST['amount']));
-        $this->player->bank = $this->player->bank - abs(intval($_POST['amount']));
 
-        $update_player['bank'] = $this->player->bank;
-        $update_player['gold'] = $this->player->gold;
-        $withdraw_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
+        $player_update_query['gold'] = $this->player->gold;
+        $this->db->AutoExecute('players', $player_update_query, 'UPDATE', '`id`='.$this->player->id);
 
-        $withdraw = $this->make_bank($this->skin->withdrawn($this->player->gold, $this->player->bank));
+
+        $bank_update_query['bank_gold_saved'] = $account['bank_gold_saved'] - abs(intval($_POST['amount']));
+        $this->db->AutoExecute('bank', $bank_update_query, 'UPDATE', '`player_id`='.$this->player->id);
+
+        $withdraw = $this->make_bank($this->skin->withdrawn($this->player->gold, $bank_update_query['bank_gold_saved']));
         return $withdraw;
     }
 
+   /**
+    * gives player interest
+    *
+    * @return string html
+    */
     public function interest() {
-        if ($this->player->interest) {
+
+        $bank_query = $this->db->execute("SELECT * FROM `bank` WHERE `player_id`=?", array($this->player->id));
+
+        if (!$account = $bank_query->fetchrow()) {
             $interest = $this->make_bank($this->skin->error_box($this->skin->lang_error->collect_interest_tomorrow));
             return $interest;
         }
 
-        $interest_rate = intval($this->player->bank * 0.03);
+        if (!$account['interest_owed']) {
+            $interest = $this->make_bank($this->skin->error_box($this->skin->lang_error->collect_interest_tomorrow));
+            return $interest;
+        }
 
-        $this->player->gold = $this->player->gold + $interest_rate;
+
+        $this->player->gold = $this->player->gold + round($account['interest_owed']);
         $update_player['gold'] = $this->player->gold;
-        $update_player['interest'] = 1;
-        $interest_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
+        $interest_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', '`id` = '.$this->player->id);
 
-        $interest = $this->make_bank($this->skin->interested($this->player->gold, $this->player->bank));
+        $bank_update_query['interest_owed'] = 0;
+
+        $this->db->AutoExecute('bank', $bank_update_query, 'UPDATE', '`player_id`='.$this->player->id);
+
+        $interest = $this->make_bank($this->skin->interested($this->player->gold));
         return $interest;
 
     }

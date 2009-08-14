@@ -61,9 +61,16 @@ class code_cron {
     * money for all
     * 
     */
-    public function interest() {
+    public function interest($repeat) {
+        $player_query_interest = $this->db->execute("UPDATE `bank` SET `interest_owed`=`interest_owed`+(`bank_gold_saved`*0.3);");
+        
+        $player_query_deposit = $this->db->execute("UPDATE `bank` SET `bank_gold_saved`=`bank_gold_saved`+`bank_gold_deposited`;");
 
-        $player_query = $this->db->execute("UPDATE `players` SET `interest`=1");
+        if ($repeat > 1) {
+            $player_query_interest = $this->db->execute("UPDATE `bank` SET `interest_owed`=`interest_owed`+(`bank_gold_saved`*0.3*".($repeat--).");");
+        }
+
+        $player_query_deposit_two = $this->db->execute("UPDATE `bank` SET `bank_gold_deposited`=0;");
     }
 }
 ?>

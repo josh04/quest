@@ -141,7 +141,6 @@ class lang_error {
         force new lines with a space ( ) and specify boxes with hypens (--)";
 
     // bank
-    public $collect_interest_now = "You may collect your interest now.";
     public $collect_interest_tomorrow = "You can collect your interest again tomorrow.";
     public $not_enough_cash_to_deposit = "You do not have that much cash to deposit.";
     public $not_enough_cash_to_withdraw = "You do not have that much cash to withdraw.";
@@ -150,6 +149,7 @@ class lang_error {
     public $full_health = "You are already at full health.";
     public $beyond_maximum = "That is beyond your maximum health.";
     public $not_enough_to_heal = "You don't have enough money to heal that much.";
+    public $no_amount_to_heal_entered = "You did not enter an amount to heal.";
 
     // work
     public $no_energy_to_work = "You have no energy left. You must rest a while before working.";

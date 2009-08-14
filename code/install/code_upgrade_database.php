@@ -84,7 +84,9 @@ class code_upgrade_database extends _code_install {
         $this->db->execute($this->help_insert_query);
         $this->db->execute($this->quests_query);
         $this->db->execute($this->friends_query);
+        $this->db->execute($this->bank_query);
         $this->db->execute($this->update_tables_query);
+        
         if (!$this->db->ErrorMsg()) {
             rename("config.php", "config.php.bak");
             $config_string = "<? \n

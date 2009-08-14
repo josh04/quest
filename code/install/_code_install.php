@@ -324,6 +324,15 @@ INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enab
         UNIQUE KEY `id1` (`id1`,`id2`)
         ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
+    public $bank_query = "CREATE TABLE IF NOT EXISTS `bank` (
+  `player_id` int(11) NOT NULL,
+  `bank_gold_saved` int(11) NOT NULL,
+  `bank_gold_deposited` int(11) NOT NULL,
+  `interest_owed` double NOT NULL,
+  `last_deposit` int(11) NOT NULL,
+  PRIMARY KEY  (`player_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+
    /**
     * pieces the site together. intended to be overriden by child class to generate $page.
     *

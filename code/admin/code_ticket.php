@@ -1,6 +1,7 @@
 <?php
 /**
  * Description of code_ticket
+ * (TODO) add time to ticket
  *
  * @author grego
  * @package code_admin
@@ -56,7 +57,8 @@ class code_ticket extends _code_admin {
         }
 
         if (isset($_POST['ticket-mail'])) {
-            $to = new code_player;
+            $to = new code_player();
+            print $_POST['to'];
             if (!$to->get_player($_POST['to'])) {
                 $message .= $this->skin->error_box($this->skin->lang_error->player_not_found);
             } else if (!$_POST['body'] || !$_POST['subject']) {
@@ -64,7 +66,8 @@ class code_ticket extends _code_admin {
             } else {
                 require_once("code/public/code_mail.php");
                 $code_mail = new code_mail();
-                $code_mail->mail_send($_POST['to'], $this->player->id, $_POST['subject'], $_POST['body']);
+                $code_mail->
+                $code_mail->mail_send($_POST['to'], $this->player->id, $_POST['body'], $_POST['subject']);
                 $message .= $this->skin->success_box($this->skin->lang_error->mail_sent);
             }
         }
