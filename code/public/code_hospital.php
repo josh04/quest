@@ -58,15 +58,18 @@ class code_hospital extends code_common {
             return $heal;
         }
 
+        if ($_POST['full_heal'] == 'on') {
+            $_POST['amount'] = $this->player->hp_max - $this->player->hp;
+        }
+
         if (!$_POST['amount']) {
             $heal = $this->make_hospital($this->skin->error_box($this->skin->lang_error->no_amount_to_heal_entered));
             return $heal;
         }
 
         $heal = abs(intval($_POST['amount']));
-        if ($_POST['full_heal'] == 'on') {
-            $heal = $this->player->hp_max - $this->player->hp;
-        }
+        
+
 
         if ( $this->player->hp_max < $heal + $this->player->hp ){
             $heal_html = $this->make_hospital($this->skin->error_box($this->skin->lang_error->beyond_maximum));

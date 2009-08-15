@@ -17,10 +17,12 @@ class code_profile extends code_common {
     public function construct() {
         $this->initiate("skin_profile");
 
+        $this->profile = new code_player;
+
         if ($_GET['name']) {
-            $success = $this->make_profile_player_name($_GET['name']);
+            $success = $this->profile->get_player($_GET['name']);
         } else {
-            $success = $this->make_profile_player_id($_GET['id']);
+            $success = $this->profile->get_player($_GET['id']);
         }
 
         if ($success) {
@@ -34,36 +36,6 @@ class code_profile extends code_common {
     }
 
    /**
-    * makes player object
-    * 
-    * @param integer $id player id
-    * @return bool success
-    */
-    public function make_profile_player_id($id) {
-        $this->profile = new code_player;
-        if ($this->profile->get_player(intval($id))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-   /**
-    * makes player object
-    *
-    * @param string $name player name
-    * @return bool success
-    */
-    public function make_profile_player_name($name) {
-        $this->profile = new code_player;
-        if ($this->profile->get_player($name)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-   /**
     * assigns html to profile object
     *
     * @param $message any error messages
@@ -74,6 +46,10 @@ class code_profile extends code_common {
         $this->profile->getFriends();
         if ($_GET['friends']=="add") {
             $message = $this->add_as_friend();
+        }
+
+        if ($_GET['action'] == "donate") {
+            $message = $this->donate();
         }
 
         if ($this->profile->msn) {
@@ -94,8 +70,9 @@ class code_profile extends code_common {
             $this->profile->edit = $this->skin->edit_profile_link();
         } else {
             $this->player->getFriends();
-            if(!in_array($this->profile->id, array_keys($this->player->friends)))
+            if(!in_array($this->profile->id, array_keys($this->player->friends))) {
                 $this->profile->edit = $this->skin->add_friend_link($this->profile->id); // (TODO) friends, as always.
+            }
         }
 
         if ($this->profile->last_active > (time()-(60*15))) {
@@ -157,6 +134,27 @@ class code_profile extends code_common {
         $this->db->execute("INSERT INTO `friends` (`id1`,`id2`,`accepted`) VALUES (?,?,?)",$inputArr);
         $message = $this->skin->success_box($this->skin->lang_error->request_sent.$this->profile->username.".");
         return $message;
+    }
+
+   /**
+    * donate cash to someone
+    *
+    * @return string html
+    */
+    public function donate() {
+        $amount = intval($_POST['donate']);
+
+        if ($amount > $this->player->gold) {
+            return $this->skin->error_box($this->skin->lang_error->not_enough_cash_to_donate);
+        }
+
+        $this->profile->gold = $this->profile->gold + $amount;
+        $this->player->gold = $this->player->gold - $amount;
+
+        $this->profile->update_player();
+        $this->player->update_player();
+
+        return $this->skin->donated($amount, $this->profile->username);
     }
 
 }

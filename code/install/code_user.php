@@ -118,7 +118,7 @@ class code_user extends _code_install {
         }
 
             $lock_string = "<? \n
-                    define('IS_INSTALLED', 1);\n
+                    define('IS_INSTALLED', true);\n
                     ?>";
             $lock_file = fopen("install.lock", 'w');
             fwrite($lock_file, $lock_string);

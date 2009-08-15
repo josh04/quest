@@ -89,12 +89,18 @@ class code_upgrade_database extends _code_install {
         
         if (!$this->db->ErrorMsg()) {
             rename("config.php", "config.php.bak");
-            $config_string = "<? \n
-                \$config['server'] = '".$config_server. "';\n
-                \$config['database'] = '".$config_database."';\n
-                \$config['db_username'] = '".$config_username."';\n
-                \$config['db_password'] = '".$config_password."';\n
-                define('IS_UPGRADE', 1);\n
+            $config_string = "<?
+                /**
+                 * config file
+                 * stores database username and password
+                 *
+                 * @package code_install
+                 */
+                \$config['server'] = '".$config_server. "';
+                \$config['database'] = '".$config_database."';
+                \$config['db_username'] = '".$config_username."';
+                \$config['db_password'] = '".$config_password."';
+                define('IS_UPGRADE', true);
                     ?>";
             $config_file = fopen("config.php", 'w');
             fwrite($config_file, $config_string);

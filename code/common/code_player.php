@@ -262,7 +262,6 @@ class code_player {
         * Sigh. sha1 fails so bad, and there's no easy way to get rid of it which doesn't suck, esp on an upgraded db.
         */
         if ($this->password == sha1($password) && IS_UPGRADE) {
-
             $this->login_salt = substr(md5(uniqid(rand(), true)), 0, 5);
             $this->password = md5($password.$this->login_salt);
 

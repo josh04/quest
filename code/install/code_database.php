@@ -134,6 +134,7 @@ class code_database extends _code_install {
                 \$config['database'] = '".$_POST['db_name']."';
                 \$config['db_username'] = '".$_POST['db_username']."';
                 \$config['db_password'] = '".$_POST['db_password']."';
+                define('IS_UPGRADE', false);
                     ?>";
             $config_file = fopen("config.php", 'w');
             fwrite($config_file, $config_string);

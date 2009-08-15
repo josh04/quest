@@ -24,7 +24,7 @@ class skin_profile extends skin_common {
             <span style='font-size:10px;font-weight:normal;'>( <a href=''>Mail</a>".($profile->edit?' '.$profile->edit:'')." )</span></h2>
             <br style='clear:both;' />
             <div style='font-size:11px;'>
-            ".($profile->description==""?"":"<p><i>".$profile->description."</i></p>")."
+            <p><i>".$profile->description."</i></p>
             <strong>Registered:</strong> ".$profile->registered."<br />
             <strong>Character age:</strong> ".$profile->age." days<br />
             <strong>Level:</strong> ".$profile->level."<br />
@@ -35,7 +35,7 @@ class skin_profile extends skin_common {
             <strong>Friends (".$profile->friendcount.")</strong><br />
             ".$friendlist."<br /><br />
             </div>
-            <form action='index.php?page=profile&amp;id=".$profile->id."' method='post'>
+            <form action='index.php?page=profile&amp;action=donate&amp;id=".$profile->id."' method='POST'>
             <input type='text' name='donate' />
             <input type='submit' accesskey='S' value='Donate to ".$profile->username."' />
             </form>";
@@ -232,6 +232,18 @@ class skin_profile extends skin_common {
             }
         $ret .= "</ul>";
         return $ret;
+    }
+
+   /**
+    * Donate to charity?
+    *
+    * @param int $amount amount donated
+    * @param string $name name of donatee
+    * @return string html
+    */
+    public function donated($amount, $name) {
+        $donated = "<div class='success'>You donated £".$amount." to ".$name.".</div>";
+        return $donated;
     }
 
 }

@@ -33,7 +33,11 @@ class code_bank extends code_common {
 
         if (!$account = $bank_query->fetchrow()) {
             $account['player_id'] = $this->player->id;
-            $account['bank_gold_saved'] = 0;
+            if (IS_UPGRADE) {
+                $account['bank_gold_saved'] = $this->player->bank;
+            } else {
+                $account['bank_gold_saved'] = 0;
+            }
             $account['bank_gold_deposited'] = abs(intval($_POST['amount']));
             $account['interest_owed'] = 0;
             $account['last_deposited'] = time();

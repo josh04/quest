@@ -144,6 +144,7 @@ class lang_error {
     public $collect_interest_tomorrow = "You can collect your interest again tomorrow.";
     public $not_enough_cash_to_deposit = "You do not have that much cash to deposit.";
     public $not_enough_cash_to_withdraw = "You do not have that much cash to withdraw.";
+    public $not_enough_cash_to_donate = "You do not have that much cash to donate.";
 
     // hospital
     public $full_health = "You are already at full health.";

@@ -44,7 +44,7 @@ class skin_bank extends skin_common {
                         <input type='submit' value='Collect' ".$disabled." />
                         </form>
                         <br />
-                        Your current compound interest is: <b>".$interest."</b>.
+                        Your current compound interest is: <b>£".$interest."</b>.
 
                         </td>
                         </tr>
