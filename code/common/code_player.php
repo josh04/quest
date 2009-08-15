@@ -118,7 +118,10 @@ class code_player {
     * @return bool succeed/fail
     */
     public function get_player($identity) {
-        if ($identity == intval($identity)) {
+
+        $ident_check = intval($identity);
+        
+        if (intval($identity)) {
             return $this->get_player_by_id($identity);
         } else {
             return $this->get_player_by_name($identity);
@@ -149,6 +152,7 @@ class code_player {
     */
     protected function get_player_by_name($name) {
         $player_query = $this->db->execute("SELECT * FROM players WHERE username=?", array($name));
+
         if ($player_query->recordcount() == 0) {
             return false;
         }

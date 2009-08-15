@@ -21,7 +21,7 @@ class skin_profile extends skin_common {
             <img src=\"".$profile->avatar."\" alt=\"[user avatar]\" style=\"max-width:50px;max-height:50px;float:left;border:1px solid #DDD;padding:4px;margin:8px;\" />
             <h2 style='line-height:20px;'>".$profile->username."
             <a title='User is ".$profile->is_online."'><img src='../icons/status_".$profile->is_online.".png' /></a><br />
-            <span style='font-size:10px;font-weight:normal;'>( <a href=''>Mail</a>".($profile->edit?' '.$profile->edit:'')." )</span></h2>
+            <span style='font-size:10px;font-weight:normal;'>( <a href='index.php?page=mail&amp;action=compose&amp;name=".$profile->username."'>Mail</a>".($profile->edit?' '.$profile->edit:'')." )</span></h2>
             <br style='clear:both;' />
             <div style='font-size:11px;'>
             <p><i>".$profile->description."</i></p>

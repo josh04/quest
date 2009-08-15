@@ -150,7 +150,7 @@ class code_mail extends code_common {
     protected function compose_submit() {
         //Process mail info, show success message
         $to = new code_player;
-        $to->db =& $this->db;
+
         if (!$to->get_player($_POST['mail_to'])) {
             $compose_submit = $this->compose($this->skin->error_box($this->skin->lang_error->player_not_found));
             return $compose_submit;
@@ -161,6 +161,15 @@ class code_mail extends code_common {
             return $compose_submit;
         }
 
+        $mail_check_query = $this->db->execute("SELECT `time` FROM `mail` WHERE `from`=? ORDER BY `time` DESC", array($this->player->id));
+
+        if ($mail_check = $mail_check_query->fetchrow()) {
+            if ((time() - $mail_check['time']) < 120) {
+                $compose_submit = $this->compose($this->skin->error_box($this->skin->lang_error->mail_send_too_soon));
+                return $compose_submit;
+            }
+        }
+        
 
         $this->mail_send($to->id, $this->player->id, $_POST['mail_body'], $_POST['mail_subject']);
 

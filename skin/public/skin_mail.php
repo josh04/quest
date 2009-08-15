@@ -99,7 +99,7 @@ class skin_mail extends skin_common {
             <a href='index.php?page=mail'>Inbox</a> | <strong>New Message</strong>
             <form method='POST' action='index.php?page=mail&amp;action=compose_submit'>
 		<table style='width:100%;margin-top:12px;'>
-                ".($message?"<tr><td colspan=\"2\"><div class=\"error\">".$message."</div></td></tr>":"")."
+                <tr><td colspan=\"2\">".$message."</td></tr>
                 <tr><td style='width:20%;'><label for='mail-to'>To</label></td><td><input type='text' id='mail-to' name='mail_to' value='".$to."' style='width:95%;' /></td></tr>
                 <tr><td><label for='mail-subject'>Subject</label></td><td><input type='text' id='mail-subject' name='mail_subject' value='".$subject."' style='width:95%;' /></td></tr>
                 <tr><td colspan='2'><textarea name='mail_body' rows='10' style='width:96%;'>".$body."</textarea></td></tr>

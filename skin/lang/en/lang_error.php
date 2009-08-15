@@ -67,6 +67,10 @@ class lang_error {
     public $ticket_not_exist = "The ticket you tried to access does not exist.";
     public $no_tickets = "No tickets have been issued";
     public $ticket_status_updated = "Ticket status updated";
+    public $ticket_send_too_soon = "You can only send one ticket every two minutes.";
+    public $no_ticket_entered = "You did not enter a message.";
+    public $ticket_submitted = "Your support ticket was submitted.";
+    public $too_many_tickets = "You have too many open tickets. Please wait until some are resolved before submitting another.";
 
     // blueprints
     public $no_blueprints = "There are currently no blueprints.";
@@ -85,6 +89,7 @@ class lang_error {
     public $messages_deleted = "Messages deleted.";
     public $mail_sent = "Mail sent.";
     public $fill_in_fields = "You must fill in all fields.";
+    public $mail_send_too_soon = "You can only send one mail every two minutes.";
 
     // items
     public $item_not_found = "The selected item does not exist.";
