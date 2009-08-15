@@ -43,6 +43,37 @@ class QuestDB {
         7 => 'Invalid record set provided',
         8 => 'Invalid error message',
     );
+    
+   /**
+    * constructor; sets defines for langError
+    * 
+    */
+    public function __construct() {
+        if (ARGUMENT_NOT_SENT != 1) {
+            define('ARGUMENT_NOT_SENT', 1);
+        }
+        if (ERROR_CONNECTING != 2) {
+            define('ERROR_CONNECTING', 2);
+        }
+        if (CONNECTION_NOT_ACTIVE != 3) {
+            define('CONNECTION_NOT_ACTIVE', 3);
+        }
+        if (UNEXPECTED_ERROR != 4) {
+            define('UNEXPECTED_ERROR', 4);
+        }
+        if (ARGUMENT_MISMATCH_ERROR != 5) {
+            define('ARGUMENT_MISMATCH_ERROR', 5);
+        }
+        if (NO_WHERE_PARAMETER != 6) {
+            define('NO_WHERE_PARAMETER', 6);
+        }
+        if (INVALID_RECORD_SET != 7) {
+            define('INVALID_RECORD_SET', 7);
+        }
+        if (INVALID_ERROR_MESSAGE != 8) {
+            define('INVALID_ERROR_MESSAGE', 8);
+        }
+    }
 
    /**
     * Connect to the database
@@ -68,7 +99,7 @@ class QuestDB {
             }
             $this->isConnected = true;
         } else {
-            $this->CatchError($this->_langError[2].' in '.__FILE__.' on line '.__LINE__);
+            $this->CatchError($this->_langError[ERROR_CONNECTING].' in '.__FILE__.' on line '.__LINE__);
         }
         return $ret;
     }
@@ -82,11 +113,11 @@ class QuestDB {
     public function SwitchDatabase($database = '') {
         $ret = false;
             if (!$database) {
-                $this->CatchError($this->_langError[1].' in '.__FILE__.' on line '.__LINE__);
+                $this->CatchError($this->_langError[ARGUMENT_NOT_SENT].' in '.__FILE__.' on line '.__LINE__);
             } else if (!$this->_con) {
-                $this->CatchError($this->_langError[3].' in '.__FILE__.' on line '.__LINE__);
+                $this->CatchError($this->_langError[CONNECTION_NOT_ACTIVE].' in '.__FILE__.' on line '.__LINE__);
             } else if (!@mysqli_select_db($this->_con, $database)) {
-                $this->CatchError($this->_langError[4].' in '.__FILE__.' on line '.__LINE__);
+                $this->CatchError($this->_langError[UNEXPECTED_ERROR].' in '.__FILE__.' on line '.__LINE__);
             } else {
                 $this->database = $database;
                 $ret = true;
@@ -106,7 +137,7 @@ class QuestDB {
         if(is_numeric($error)) $error = $this->_langError[$error];
         // For irony's sake, CatchError can call an error in itself
         if(!is_string($error)) {
-            $error = $this->_langError[8];
+            $error = $this->_langError[INVALID_ERROR_MESSAGE];
             $module = "CatchError";
             }
         $this->_lastError = $error;
@@ -137,6 +168,12 @@ class QuestDB {
     */
     public function ErrorMsg() {
         return $this->lastError();
+    }
+    
+    // Only works for INSERT, UPDATE and DELETE query's
+    function Affected_Rows() {
+      $result =  @mysqli_affected_rows($this->_con);
+      return $result;
     }
 
    /**
@@ -200,10 +237,10 @@ class QuestDB {
             if (isset($sqlbits[$i])) {
                 $sql .= $sqlbits[$i];
                 if ($i+1 != sizeof($sqlbits)) {
-                    $this->CatchError($this->_langError[5]); return false;
+                    $this->CatchError($this->_langError[ARGUMENT_MISMATCH_ERROR]); return false;
                 }
             } else if ($i != sizeof($sqlbits)) {
-                $this->CatchError( $this->_langError[5]); return false;
+                $this->CatchError( $this->_langError[ARGUMENT_MISMATCH_ERROR]); return false;
             }
 
             $ret = $this->_execute($sql, $fields);

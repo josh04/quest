@@ -366,7 +366,11 @@ div.dbox {
 	border: 1px solid #999;
 	background-color: #EEE;
 	padding: 8px;
-	margin: 2px;
+	margin: 2px 2px 6px 2px;
+}
+
+div.dbox input  {
+    background-color: #FFF;
 }
 
 ul.friendlist {

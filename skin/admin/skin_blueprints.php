@@ -26,32 +26,35 @@ class skin_blueprints extends _skin_admin {
     public function blueprint_row($blueprint, $button, $action, $remove_button, $type_list, $message="") {
         $blueprint_row = $message."<form action='index.php?section=admin&amp;page=blueprints&amp;action=".$action."' method='POST'>
             <input type='hidden' name='blueprint_id' value='".$blueprint['id']."' />
-            <table>
-                <tr>
-                    <td>Name:</td>
-                    <td><input type='text' name='blueprint_name' value='".$blueprint['name']."' /></td>
-                </tr>
-                <tr>
-                    <td>Description:</td>
-                    <td><input type='text' name='blueprint_description' value='".$blueprint['description']."' /></td>
-                </tr>
-                <tr>
-                    <td>Effectiveness:</td>
-                    <td><input type='text' name='blueprint_effectiveness' value='".$blueprint['effectiveness']."' /></td>
-                </tr>
-                <tr>
-                    <td>Price:</td>
-                    <td><input type='text' name='blueprint_price' value='".$blueprint['price']."' /></td>
-                </tr>
-                <tr>
-                    <td>Type:</td>
-                    <td>".$type_list."</td>
-                </tr>
-                <tr>
-                    <td><input type='submit' name='blueprint_submit' value='".$button."' /></td>
-                    ".$remove_button."
-                </tr>
-            </table></form>";
+            <div class='dbox'>
+                <table>
+                    <tr>
+                        <td>Name:</td>
+                        <td><input type='text' name='blueprint_name' value='".$blueprint['name']."' /></td>
+                    </tr>
+                    <tr>
+                        <td>Description:</td>
+                        <td><input type='text' name='blueprint_description' value='".$blueprint['description']."' /></td>
+                    </tr>
+                    <tr>
+                        <td>Effectiveness:</td>
+                        <td><input type='text' name='blueprint_effectiveness' value='".$blueprint['effectiveness']."' /></td>
+                    </tr>
+                    <tr>
+                        <td>Price:</td>
+                        <td><input type='text' name='blueprint_price' value='".$blueprint['price']."' /></td>
+                    </tr>
+                    <tr>
+                        <td>Type:</td>
+                        <td>".$type_list."</td>
+                    </tr>
+                    <tr>
+                        <td><input type='submit' name='blueprint_submit' value='".$button."' /></td>
+                        ".$remove_button."
+                    </tr>
+                </table>
+            </div>
+            </form>";
         return $blueprint_row;
     }
 

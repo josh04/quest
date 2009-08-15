@@ -64,7 +64,7 @@ class code_blueprints extends _code_admin {
         $blueprints_query = $this->db->execute("SELECT * FROM `blueprints` ORDER BY `name` ASC");
 
         if (!$blueprints_query->RecordCount()) {
-            $list_blueprints = $this->skin->blueprint_row(array(), $this->skin->lang_error->add, "add", $this->skin->remove_button(), $message.$this->skin->lang_error->no_blueprints);
+            $list_blueprints = $this->skin->blueprint_row(array(), $this->skin->lang_error->add, "add", $this->skin->remove_button(), $this->skin->type_list(0), $message.$this->skin->error_box($this->skin->lang_error->no_blueprints));
             return $list_blueprints;
         }
 
