@@ -209,7 +209,8 @@ class _code_install extends code_common {
         ('quests_code', ''),
         ('admin_notes', ''),
         ('verification_method', '1'),
-        ('ban_multiple_email', '1');";
+        ('ban_multiple_email', '1'),
+        ('register_ip_check', '1');";
 
     public $quests_query = "CREATE TABLE IF NOT EXISTS `quests` (
         `id` int(3) NOT NULL auto_increment,

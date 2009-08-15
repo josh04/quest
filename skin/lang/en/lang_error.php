@@ -62,6 +62,7 @@ class lang_error {
     public $registered = "You have registered. Please Login to continue.";
     public $error_registering = "Error registering new player. ";
     public $avatar_wrong_format = "You did not ever a valid url for your avatar.";
+    public $multiple_registrations = "You may not register more than one account each 30 minutes.";
 
     // ticketing
     public $ticket_not_exist = "The ticket you tried to access does not exist.";

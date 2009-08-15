@@ -150,6 +150,19 @@ class code_login extends code_common {
             }
         }
 
+        if ($this->settings['register_ip_check']) {
+            
+            $ip_query = $this->db->execute("SELECT `registered` FROM `players` WHERE `ip`=? ORDER BY `registered` DESC", array($_SERVER['REMOTE_ADDR']));
+
+            if ($account = $ip_query->fetchrow()) {
+
+                if (time() - $account['registered'] < 1800) {
+                    $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->skin->lang_error->multiple_registrations));
+                    return $register_submit;
+                }
+            }
+        }
+        
         $registered_player = new code_player();
         $username = htmlentities($_POST['username'], ENT_QUOTES, "utf-8");
         $email = htmlentities($_POST['email'], ENT_QUOTES, "utf-8");
