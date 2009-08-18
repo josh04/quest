@@ -59,7 +59,6 @@ class _code_install extends code_common {
         `rank` varchar(255) NOT NULL default 'Member',
         `registered` int(11) NOT NULL default '0',
         `last_active` int(11) NOT NULL default '0',
-        `description` text NOT NULL,
         `ip` varchar(255) NOT NULL default '',
         `level` int(11) NOT NULL default '1',
         `stat_points` int(11) NOT NULL default '5',
@@ -78,12 +77,7 @@ class _code_install extends code_common {
         `kills` int(11) NOT NULL default '0',
         `deaths` int(11) NOT NULL default '0',
         `show_email` tinyint(3) NOT NULL default '0',
-        `avatar` varchar(255) NOT NULL default 'images/avatar.png',
         `skin` int(3) NOT NULL default '2',
-        `gender` tinyint(1) NOT NULL default '0',
-        `msn` varchar(65) NOT NULL default '',
-        `aim` varchar(65) NOT NULL default '',
-        `skype` varchar(65) NOT NULL default '',
         `login_rand` varchar(255) NOT NULL default '',
         `login_salt` varchar(255) NOT NULL default '',
         `quest` varchar(255) NOT NULL default '',
@@ -335,6 +329,13 @@ INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enab
   PRIMARY KEY  (`player_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
+    public $profile_query = "
+CREATE TABLE IF NOT EXISTS `profiles` (
+  `player_id` int(11) NOT NULL,
+  `profile_string` longtext NOT NULL,
+  PRIMARY KEY  (`player_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+    
    /**
     * pieces the site together. intended to be overriden by child class to generate $page.
     *
