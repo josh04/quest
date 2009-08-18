@@ -56,7 +56,7 @@ class _code_install extends code_common {
         `username` varchar(255) NOT NULL default '',
         `password` text NOT NULL,
         `email` varchar(255) NOT NULL default '',
-        `rank` varchar(255) NOT NULL default 'Agent',
+        `rank` varchar(255) NOT NULL default 'Member',
         `registered` int(11) NOT NULL default '0',
         `last_active` int(11) NOT NULL default '0',
         `description` text NOT NULL,
@@ -210,6 +210,7 @@ class _code_install extends code_common {
         ('admin_notes', ''),
         ('verification_method', '1'),
         ('ban_multiple_email', '1'),
+        ('custom_fields', '{\"description\":\"No description.\",\"gender\":\"0\",\"msn\":\" \",\"aim\":\" \",\"skype\":\" \",\"avatar\":\"images\/avatar.png\"}'),
         ('register_ip_check', '1');";
 
     public $quests_query = "CREATE TABLE IF NOT EXISTS `quests` (

@@ -170,5 +170,9 @@ class lang_error {
     public $now_friends = "You are now friends with ";
     public $request_sent = "You have sent a friend request to ";
     public $awaiting_friend_response = "You have already sent a friend request.";
+
+    // edit_profile
+    public $not_a_rank = "That is not a valid rank.";
+    public $permissions_updated = "Permissions sucessfully updated.";
 }
 ?>

@@ -79,6 +79,13 @@ class code_common {
     public $pages = array();
 
    /**
+    * The class stored in this variable will be loaded by make_player as the player object.
+    *
+    * @var <type>
+    */
+    public $player_class = "code_player";
+
+   /**
     * The common constructor for every class which extends code_common.
     *
     * Accepts and sets the section name and the page name, and an optional
@@ -150,7 +157,11 @@ class code_common {
     public function make_player() {
         // (DONE) player shirt and percentage code has moved
         // Get our player object
-        $this->player = new code_player();
+        if ($this->player_class != "code_player") {
+            require_once("code/player/".$this->player_class.".php");
+        }
+
+        $this->player = new $this->player_class($this->settings, $this->config);
         $this->player->page = $this->page;
         //Is our player a member, or a guest?
         $allowed = $this->player->make_player();

@@ -13,14 +13,17 @@ class code_player {
     public $is_member = false;
     public $friends = array();
     public $page = "";
+    public $settings = array();
 
    /**
     * might as well _use_ the fun features of our database class. no more =& $this->db.
     *
     * @param array $config db passwords, in case the db isn't set up yet.
+    * @param array $settings settings array, for code_player_profile, basically
     */
-    public function __construct($config = array()) {
+    public function __construct($settings = array(), $config = array()) {
         $this->db =& code_database_wrapper::get_db($config);
+        $this->settings =& $settings;
     }
  
    /**
@@ -172,19 +175,11 @@ class code_player {
     public function update_player() {
         $levelled_up = false;
 
-        // lifted from edit_profile
+        $update_player['rank']          = $this->rank;
         $update_player['email']         = $this->email;
-        $update_player['description']   = $this->description;
-        $update_player['gender']        = $this->gender;
-        $update_player['msn']           = $this->msn;
-        $update_player['aim']           = $this->aim;
-        $update_player['skype']         = $this->skype;
-        $update_player['avatar']        = $this->avatar;
-        $update_player['skin']          = $this->skin;
         $update_player['show_email']    = $this->show_email;
-
-
- 
+        $update_player['skin']          = $this->skin;
+        
         $update_player['energy'] = $this->energy;
         $update_player['exp'] = $this->exp;
         $update_player['gold'] = $this->gold;

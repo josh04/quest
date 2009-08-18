@@ -9,6 +9,7 @@ class code_profile extends code_common {
 
     public $profile;
 
+
    /**
     * class override. calls parents, sends kids home.
     *
@@ -17,8 +18,10 @@ class code_profile extends code_common {
     public function construct() {
         $this->initiate("skin_profile");
 
-        $this->profile = new code_player;
-
+        require_once("code/player/code_player_profile.php");
+        $this->profile = new code_player_profile($this->settings);
+        $this->profile->settings =& $this->settings;
+        
         if ($_GET['name']) {
             $success = $this->profile->get_player($_GET['name']);
         } else {
@@ -43,6 +46,8 @@ class code_profile extends code_common {
     */
     public function make_profile($message = '') {
 
+        
+
         $this->profile->getFriends();
         if ($_GET['friends']=="add") {
             $message = $this->add_as_friend();
@@ -50,6 +55,16 @@ class code_profile extends code_common {
 
         if ($_GET['action'] == "donate") {
             $message = $this->donate();
+        }
+
+        $custom_fields = json_decode($this->settings['custom_fields'], true);
+
+        foreach ($custom_fields as $field => $default) {
+            if (in_array($field, array("msn", "aim", "skype", "description", "gender", "avatar"))) {
+                continue;
+            }
+
+            $this->profile->extras .= $field.": ".$this->profile->$field."<br />";
         }
 
         if ($this->profile->msn) {

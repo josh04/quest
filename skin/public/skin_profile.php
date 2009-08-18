@@ -29,8 +29,8 @@ class skin_profile extends skin_common {
             <strong>Character age:</strong> ".$profile->age." days<br />
             <strong>Level:</strong> ".$profile->level."<br />
             <strong>Kills/deaths:</strong> ".$profile->kills."/".$profile->deaths." (".$profile->ratio.")<br />
-            ".($profile->im_links?$profile->im_links:"")."
-            <br />
+            ".$profile->im_links."
+            <br />".$profile->extras."
 
             <strong>Friends (".$profile->friendcount.")</strong><br />
             ".$friendlist."<br /><br />
@@ -161,6 +161,45 @@ class skin_profile extends skin_common {
             </table></form>
             </div>";
         return $edit_password;
+    }
+
+   /**
+    * fer makin people admins
+    *
+    * @param string $permission_options list of options
+    * @param int $id player id
+    * @return string html
+    */
+    public function edit_permissions($permission_options, $id) {
+        $edit_permissions = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-3\",\"showhide-3-icon\");'><div class='edit-profile-header'><img id='showhide-3-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Edit Permissions</div></a>
+            <div class='edit-profile-body' id='showhide-3'><form action='index.php?section=admin&amp;page=profile_edit&amp;action=update_permissions' method='POST'>
+            <input type='hidden' name='id' value='".$id."' />
+            <table>
+                <tr><td style='width:50%;'><label for='edit-p1'>Permission Level</label></td>
+                <td style='width:50%;'><select id='edit-p1' name='rank' />
+                    ".$permission_options."
+                </td></tr>
+                <tr><td colspan='2'><input type='submit' name='submit' value='Submit'/></td></tr>
+            </table></form>
+            </div>";
+        return $edit_permissions;
+    }
+
+   /**
+    * options!
+    *
+    * @param string $current_permission
+    * @return string html
+    */
+    public function permissions_list($current_permission) {
+        $current_permission = "permission_".$current_permission;
+        $permission_Member .= "<option value='Member'";
+        $permission_Admin .= "<option value='Admin'";
+        $$current_permission .= " selected='selected'";
+        $permission_Member .= ">Member</option>";
+        $permission_Admin .= ">Admin</option>";
+        $permission_list = $permission_Member.$permission_Admin;
+        return $permission_list;
     }
 
    /**
