@@ -196,6 +196,9 @@ class code_common {
         $this->db =& code_database_wrapper::get_db($this->config);
 
         if (!$this->db->IsConnected() && !$skipError) {
+            if (!$this->skin) {
+                $this->make_skin();
+            }
             $this->error_page($this->skin->lang_error->failed_to_connect);
         }
     }
