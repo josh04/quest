@@ -18,7 +18,7 @@
     <td colspan="2" class="header-menu">
       
                         
-                                                                                                                                      		[ <a href="../classtrees_code_admin.html" class="menu">class tree: code_admin</a> ]
+                                                                                                                                                                  		[ <a href="../classtrees_code_admin.html" class="menu">class tree: code_admin</a> ]
 		[ <a href="../elementindex_code_admin.html" class="menu">index: code_admin</a> ]
             [ <a href="../elementindex.html" class="menu">all elements</a> ]
     </td>
@@ -35,7 +35,9 @@
               <a href="../li_code_admin.html">code_admin</a><br />
               <a href="../li_code_common.html">code_common</a><br />
               <a href="../li_code_install.html">code_install</a><br />
+              <a href="../li_code_player.html">code_player</a><br />
               <a href="../li_code_public.html">code_public</a><br />
+              <a href="../li_QuestDB.html">QuestDB</a><br />
               <a href="../li_skin_admin.html">skin_admin</a><br />
               <a href="../li_skin_common.html">skin_common</a><br />
               <a href="../li_skin_install.html">skin_install</a><br />
@@ -48,7 +50,8 @@
 				<span style="padding-left: 1em;"><a href="../code_admin/_code---admin---code_admin_template.php.html">code_admin_template.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_admin/_code---admin---code_blueprints.php.html">code_blueprints.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_admin/_code---admin---code_edit_profile.php.html">code_edit_profile.php</a></span><br />
-			<span style="padding-left: 1em;"><a href="../code_admin/_code---admin---code_index.php.html">code_index.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../code_admin/_code---admin---code_index_admin.php.html">code_index_admin.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../code_admin/_code---admin---code_pages.php.html">code_pages.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_admin/_code---admin---code_quest.php.html">code_quest.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_admin/_code---admin---code_ticket.php.html">code_ticket.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_admin/_code---admin---_code_admin.php.html">_code_admin.php</a></span><br />
@@ -59,7 +62,8 @@
 		    		<a href="../code_admin/code_admin_template.html">code_admin_template</a>    	 <br />
 	    		<a href="../code_admin/code_blueprints.html">code_blueprints</a>    	 <br />
 	    		<a href="../code_admin/code_edit_profile.html">code_edit_profile</a>    	 <br />
-	    		<a href="../code_admin/code_index.html">code_index</a>    	 <br />
+	    		<a href="../code_admin/code_index_admin.html">code_index_admin</a>    	 <br />
+	    		<a href="../code_admin/code_pages.html">code_pages</a>    	 <br />
 	    		<a href="../code_admin/code_quest.html">code_quest</a>    	 <br />
 	    		<a href="../code_admin/code_ticket.html">code_ticket</a>    	 <br />
 	    		<a href="../code_admin/_code_admin.html">_code_admin</a>    	 <br />
@@ -143,7 +147,7 @@ Source Location: /code/admin/_code_admin.php<br /><br />
 					<th class="class-table-header">Description</th>
 				</tr>
 								<tr>
-					<td style="padding-right: 2em"><a href="../code_admin/code_index.html">code_index</a></td>
+					<td style="padding-right: 2em"><a href="../code_admin/code_index_admin.html">code_index_admin</a></td>
 					<td>
 											Administrator index page
 										</td>
@@ -163,7 +167,7 @@ Source Location: /code/admin/_code_admin.php<br /><br />
 								<tr>
 					<td style="padding-right: 2em"><a href="../code_admin/code_ticket.html">code_ticket</a></td>
 					<td>
-											Description of code_ticket
+											Description of code_ticket  (TODO) add time to ticket
 										</td>
 				</tr>
 								<tr>
@@ -237,6 +241,12 @@ Source Location: /code/admin/_code_admin.php<br /><br />
 										</dd>
 																			<dt>
 											<span class="method-definition"><a href="../code_common/code_common.html#var$player">code_common::$player</a></span>
+										</dt>
+										<dd>
+											<span class="method-definition"></span>
+										</dd>
+																			<dt>
+											<span class="method-definition"><a href="../code_common/code_common.html#var$player_class">code_common::$player_class</a></span>
 										</dt>
 										<dd>
 											<span class="method-definition"></span>
@@ -415,7 +425,7 @@ Source Location: /code/admin/_code_admin.php<br /><br />
 		<div class="info-box-body">
 			<a name='method_detail'></a>
 <a name="method_code_admin_menu" id="_code_admin_menu"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
 	<span class="method-title">static method _code_admin_menu</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 19]</span>
@@ -466,7 +476,7 @@ $label&nbsp;
 </div>
 
 <a name="methodmake_player" id="make_player"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
 	<span class="method-title">make_player</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 10]</span>
@@ -508,7 +518,7 @@ $label&nbsp;
 
         <div class="credit">
 		    <hr class="separator" />
-		    Documentation generated on Sun, 26 Jul 2009 15:41:38 +0300 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Sat, 22 Aug 2009 01:31:14 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>

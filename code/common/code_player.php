@@ -110,7 +110,6 @@ class code_player {
             $this->$key = $value;
         }
  
-        $this->exp_percent = intval(($this->exp / $this->exp_max) * 100);
         $this->registered_date = date("l, jS F Y", $this->registered);
         $this->registered_days = intval((time() - $this->registered)/84600);
     }
@@ -180,54 +179,11 @@ class code_player {
         $update_player['show_email']    = $this->show_email;
         $update_player['skin']          = $this->skin;
         
-        $update_player['energy'] = $this->energy;
-        $update_player['exp'] = $this->exp;
         $update_player['gold'] = $this->gold;
-        $update_player['deaths'] = $this->deaths;
-        $update_player['kills'] = $this->kills;
-        $update_player['hp'] = $this->hp;
- 
- 
-        if ($this->exp > $this->exp_max) {
-            
-            $this->level++;
-            $this->exp_max = $this->exp_max + ($this->level * 70) - 20;
-            $this->stat_points = $this->stat_points + 3;
-            $this->hp_max = $this->hp_max + rand(5,15) + intval($this->vitality / 2);
-            $levelled_up = true;
-        }
-        
-        $update_player['level'] = $this->level;
-        $update_player['exp_max'] = $this->exp_max;
-        $update_player['stat_points'] = $this->stat_points;
-        $update_player['hp_max'] = $this->hp_max;
-
-        $update_player['strength'] = $this->strength;
-        $update_player['vitality'] = $this->vitality;
-        $update_player['agility'] = $this->agility;
 
         //Update victor (the loser)
         $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id='.$this->id);
-        return $levelled_up;
-    }
- 
-   /**
-    * notify the player
-    *
-    * @param string $message what to say
-    * @return bool success
-    */
-    public function add_log($message) {
-        $insert_log['player_id'] = $this->id;
-        $insert_log['message'] = $message;
-        $insert_log['time'] = time();
-        $log_query = $this->db->AutoExecute('user_log', $insert_log, 'INSERT');
-
-        if ($log_query) {
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
    /**

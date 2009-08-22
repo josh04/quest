@@ -10,7 +10,7 @@ class code_player_profile extends code_player {
    /**
     * accesses the "profiles" table.
     *
-    * @param <type> $player_db
+    * @param array $player_db the database what pull
     */
     protected function player_db_to_object($player_db) {
         $profile_query = $this->db->execute("SELECT * FROM `profiles` WHERE `player_id`=?", array($player_db['id']));
@@ -31,7 +31,10 @@ class code_player_profile extends code_player {
 
         parent::player_db_to_object($player_db);
     }
-    
+
+   /**
+    * extra db insert stuff
+    */
     public function update_player() {
         foreach (json_decode($this->settings['custom_fields']) as $field => $default) {
             $profile_array[$field] = $this->$field;

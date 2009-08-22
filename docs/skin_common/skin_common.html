@@ -17,7 +17,7 @@
   <tr>
     <td colspan="2" class="header-menu">
       
-                                                                                              
+                                                                                                                          
                                                                 		[ <a href="../classtrees_skin_common.html" class="menu">class tree: skin_common</a> ]
 		[ <a href="../elementindex_skin_common.html" class="menu">index: skin_common</a> ]
             [ <a href="../elementindex.html" class="menu">all elements</a> ]
@@ -35,7 +35,9 @@
               <a href="../li_code_admin.html">code_admin</a><br />
               <a href="../li_code_common.html">code_common</a><br />
               <a href="../li_code_install.html">code_install</a><br />
+              <a href="../li_code_player.html">code_player</a><br />
               <a href="../li_code_public.html">code_public</a><br />
+              <a href="../li_QuestDB.html">QuestDB</a><br />
               <a href="../li_skin_admin.html">skin_admin</a><br />
               <a href="../li_skin_common.html">skin_common</a><br />
               <a href="../li_skin_install.html">skin_install</a><br />
@@ -255,13 +257,19 @@ Source Location: /skin/common/skin_common.php<br /><br />
 										</td>
 				</tr>
 								<tr>
+					<td style="padding-right: 2em"><a href="../skin_admin/skin_pages.html">skin_pages</a></td>
+					<td>
+											Description of skin_pages
+										</td>
+				</tr>
+								<tr>
 					<td style="padding-right: 2em"><a href="../skin_public/_skin_admin.html">_skin_admin</a></td>
 					<td>
 											Class skin overrides for the admin section. Namely, a tiny little padlock. Aww.
 										</td>
 				</tr>
 								<tr>
-					<td style="padding-right: 2em"><a href="../skin_public/skin_menu_admin.html">skin_menu_admin</a></td>
+					<td style="padding-right: 2em"></td>
 					<td>
 											Description of skin_menu_admin
 										</td>
@@ -286,9 +294,9 @@ Source Location: /skin/common/skin_common.php<br /><br />
 			<div class="var-summary">
 			<table border="0" cellspacing="0" cellpadding="0" class="var-summary">
 																			<div class="var-title">
-					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
+					<tr><td class="var-title"><span class="var-type-summary">lang_error</span>&nbsp;&nbsp;</td>
 					<td class="var-title"><a href="#$lang_error" title="details" class="var-name-summary">$lang_error</a>&nbsp;&nbsp;</td>
-					<td class="var-summary-description"></td></tr>
+					<td class="var-summary-description">Error strings, lots of error strings</td></tr>
 				</div>
 										</table>
 			</div>
@@ -355,17 +363,19 @@ Source Location: /skin/common/skin_common.php<br /><br />
 												</div>
 		<div class="info-box-body">
 			<a name="var$lang_error" id="$lang_error"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<span class="var-title">
-			<span class="var-type">mixed</span>&nbsp;&nbsp;
+			<span class="var-type">lang_error</span>&nbsp;&nbsp;
 			<span class="var-name">$lang_error</span>
-						<span class="smalllinenumber">[line 12]</span>
+						<span class="smalllinenumber">[line 17]</span>
 		</span>
 	</div>
 
-		<strong>API Tags:</strong><br />
+	<p align="center" class="short-description"><strong>Error strings, lots of error strings
+</strong></p>
+	<strong>API Tags:</strong><br />
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
@@ -394,10 +404,10 @@ Source Location: /skin/common/skin_common.php<br /><br />
 			<a name='method_detail'></a>
 
 <a name="methoderror_box" id="error_box"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">error_box</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 92]</span>
+	<span class="method-title">error_box</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 97]</span>
 </div>
 <br />
 
@@ -442,10 +452,10 @@ $message&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methoderror_page" id="error_page"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">error_page</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 20]</span>
+	<span class="method-title">error_page</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 25]</span>
 </div>
 <br />
 
@@ -490,10 +500,10 @@ $error&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodfooter" id="footer"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">footer</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 69]</span>
+	<span class="method-title">footer</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 74]</span>
 </div>
 <br />
 
@@ -526,10 +536,10 @@ $error&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodglue" id="glue"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">glue</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 58]</span>
+	<span class="method-title">glue</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 63]</span>
 </div>
 <br />
 
@@ -582,10 +592,10 @@ $page&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodstart_header" id="start_header"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">start_header</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 34]</span>
+	<span class="method-title">start_header</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 39]</span>
 </div>
 <br />
 
@@ -644,10 +654,10 @@ $css&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodsuccess_box" id="success_box"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">success_box</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 103]</span>
+	<span class="method-title">success_box</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 108]</span>
 </div>
 <br />
 
@@ -697,7 +707,7 @@ $message&nbsp;
 
         <div class="credit">
 		    <hr class="separator" />
-		    Documentation generated on Sun, 26 Jul 2009 15:41:33 +0300 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Sat, 22 Aug 2009 01:31:07 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>

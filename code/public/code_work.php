@@ -7,6 +7,8 @@
  */
 class code_work extends code_common {
 
+    public $player_class = "code_player_rpg";
+
    /**
     * class override. calls parents, sends kids home.
     *
@@ -54,9 +56,7 @@ class code_work extends code_common {
     public function work() {
         $this->player->energy--;
         $this->player->gold = $this->player->gold + 50 * $this->player->level;
-        $update_player['energy'] = $this->player->energy;
-        $update_player['gold'] = $this->player->gold;
-        $work_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->player->id);
+        $this->player->update_player();
         $make_work = $this->make_work($this->skin->worked($this->player->gold));
         return $make_work;
     }

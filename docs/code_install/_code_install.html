@@ -18,7 +18,7 @@
     <td colspan="2" class="header-menu">
       
                                                     
-                                                                                                          		[ <a href="../classtrees_code_install.html" class="menu">class tree: code_install</a> ]
+                                                                                                                                      		[ <a href="../classtrees_code_install.html" class="menu">class tree: code_install</a> ]
 		[ <a href="../elementindex_code_install.html" class="menu">index: code_install</a> ]
             [ <a href="../elementindex.html" class="menu">all elements</a> ]
     </td>
@@ -35,7 +35,9 @@
               <a href="../li_code_admin.html">code_admin</a><br />
               <a href="../li_code_common.html">code_common</a><br />
               <a href="../li_code_install.html">code_install</a><br />
+              <a href="../li_code_player.html">code_player</a><br />
               <a href="../li_code_public.html">code_public</a><br />
+              <a href="../li_QuestDB.html">QuestDB</a><br />
               <a href="../li_skin_admin.html">skin_admin</a><br />
               <a href="../li_skin_common.html">skin_common</a><br />
               <a href="../li_skin_install.html">skin_install</a><br />
@@ -110,31 +112,30 @@ Source Location: /code/install/_code_install.php<br /><br />
 				<td valign="top" width="20%" class="class-overview">
 		<p align="center" class="short-description"><strong><a href="#sec_vars">Properties</a></strong></p>
 		<ul>
+		  		  <li><a href="../code_install/_code_install.html#var$bank_query">$bank_query</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$blueprints_query">$blueprints_query</a></li>
-		  		  <li><a href="../code_install/_code_install.html#var$blueprints_query_update">$blueprints_query_update</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$cron_insert_query">$cron_insert_query</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$cron_query">$cron_query</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$db_query">$db_query</a></li>
+		  		  <li><a href="../code_install/_code_install.html#var$friends_query">$friends_query</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$help_insert_query">$help_insert_query</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$help_query">$help_query</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$items_query">$items_query</a></li>
-		  		  <li><a href="../code_install/_code_install.html#var$items_query_update">$items_query_update</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$log_query">$log_query</a></li>
-		  		  <li><a href="../code_install/_code_install.html#var$log_query_update">$log_query_update</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$mail_query">$mail_query</a></li>
-		  		  <li><a href="../code_install/_code_install.html#var$mail_query_update">$mail_query_update</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$menu_insert_query">$menu_insert_query</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$menu_query">$menu_query</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$news_query">$news_query</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$pages_insert_query">$pages_insert_query</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$pages_query">$pages_query</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$players_query">$players_query</a></li>
-		  		  <li><a href="../code_install/_code_install.html#var$players_query_update">$players_query_update</a></li>
+		  		  <li><a href="../code_install/_code_install.html#var$profile_query">$profile_query</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$quests_query">$quests_query</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$settings_insert_query">$settings_insert_query</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$settings_query">$settings_query</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$skins_query">$skins_query</a></li>
 		  		  <li><a href="../code_install/_code_install.html#var$tickets_query">$tickets_query</a></li>
+		  		  <li><a href="../code_install/_code_install.html#var$update_tables_query">$update_tables_query</a></li>
 		  		</ul>
 		</td>
 		
@@ -251,6 +252,12 @@ Source Location: /code/install/_code_install.php<br /><br />
 										</dd>
 																			<dt>
 											<span class="method-definition"><a href="../code_common/code_common.html#var$player">code_common::$player</a></span>
+										</dt>
+										<dd>
+											<span class="method-definition"></span>
+										</dd>
+																			<dt>
+											<span class="method-definition"><a href="../code_common/code_common.html#var$player_class">code_common::$player_class</a></span>
 										</dt>
 										<dd>
 											<span class="method-definition"></span>
@@ -383,14 +390,14 @@ Source Location: /code/install/_code_install.php<br /><br />
 		<div class="info-box-body">
 			<div class="var-summary">
 			<table border="0" cellspacing="0" cellpadding="0" class="var-summary">
-																																																																																																																																																																			<div class="var-title">
+																																																																																																																																																													<div class="var-title">
 					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
-					<td class="var-title"><a href="#$blueprints_query" title="details" class="var-name-summary">$blueprints_query</a>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$bank_query" title="details" class="var-name-summary">$bank_query</a>&nbsp;&nbsp;</td>
 					<td class="var-summary-description"></td></tr>
 				</div>
 													<div class="var-title">
 					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
-					<td class="var-title"><a href="#$blueprints_query_update" title="details" class="var-name-summary">$blueprints_query_update</a>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$blueprints_query" title="details" class="var-name-summary">$blueprints_query</a>&nbsp;&nbsp;</td>
 					<td class="var-summary-description"></td></tr>
 				</div>
 													<div class="var-title">
@@ -410,6 +417,11 @@ Source Location: /code/install/_code_install.php<br /><br />
 				</div>
 													<div class="var-title">
 					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$friends_query" title="details" class="var-name-summary">$friends_query</a>&nbsp;&nbsp;</td>
+					<td class="var-summary-description"></td></tr>
+				</div>
+													<div class="var-title">
+					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
 					<td class="var-title"><a href="#$help_insert_query" title="details" class="var-name-summary">$help_insert_query</a>&nbsp;&nbsp;</td>
 					<td class="var-summary-description"></td></tr>
 				</div>
@@ -425,27 +437,12 @@ Source Location: /code/install/_code_install.php<br /><br />
 				</div>
 													<div class="var-title">
 					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
-					<td class="var-title"><a href="#$items_query_update" title="details" class="var-name-summary">$items_query_update</a>&nbsp;&nbsp;</td>
-					<td class="var-summary-description"></td></tr>
-				</div>
-													<div class="var-title">
-					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
 					<td class="var-title"><a href="#$log_query" title="details" class="var-name-summary">$log_query</a>&nbsp;&nbsp;</td>
 					<td class="var-summary-description"></td></tr>
 				</div>
 													<div class="var-title">
 					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
-					<td class="var-title"><a href="#$log_query_update" title="details" class="var-name-summary">$log_query_update</a>&nbsp;&nbsp;</td>
-					<td class="var-summary-description"></td></tr>
-				</div>
-													<div class="var-title">
-					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
 					<td class="var-title"><a href="#$mail_query" title="details" class="var-name-summary">$mail_query</a>&nbsp;&nbsp;</td>
-					<td class="var-summary-description"></td></tr>
-				</div>
-													<div class="var-title">
-					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
-					<td class="var-title"><a href="#$mail_query_update" title="details" class="var-name-summary">$mail_query_update</a>&nbsp;&nbsp;</td>
 					<td class="var-summary-description"></td></tr>
 				</div>
 													<div class="var-title">
@@ -480,7 +477,7 @@ Source Location: /code/install/_code_install.php<br /><br />
 				</div>
 													<div class="var-title">
 					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
-					<td class="var-title"><a href="#$players_query_update" title="details" class="var-name-summary">$players_query_update</a>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$profile_query" title="details" class="var-name-summary">$profile_query</a>&nbsp;&nbsp;</td>
 					<td class="var-summary-description"></td></tr>
 				</div>
 													<div class="var-title">
@@ -506,6 +503,11 @@ Source Location: /code/install/_code_install.php<br /><br />
 													<div class="var-title">
 					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
 					<td class="var-title"><a href="#$tickets_query" title="details" class="var-name-summary">$tickets_query</a>&nbsp;&nbsp;</td>
+					<td class="var-summary-description"></td></tr>
+				</div>
+													<div class="var-title">
+					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$update_tables_query" title="details" class="var-name-summary">$update_tables_query</a>&nbsp;&nbsp;</td>
 					<td class="var-summary-description"></td></tr>
 				</div>
 										</table>
@@ -559,7 +561,31 @@ Source Location: /code/install/_code_install.php<br /><br />
 															| <a href="#sec-method-summary">Method Summary</a> | <a href="#sec-methods">Methods Detail</a>
 												</div>
 		<div class="info-box-body">
-			<a name="var$blueprints_query" id="$blueprints_query"><!-- --></A>
+			<a name="var$bank_query" id="$bank_query"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>&nbsp;&nbsp;
+			<span class="var-name">$bank_query</span>
+			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `bank` (<br />  `player_id` int(11) NOT NULL,<br />  `bank_gold_saved` int(11) NOT NULL,<br />  `bank_gold_deposited` int(11) NOT NULL,<br />  `interest_owed` double NOT NULL,<br />  `last_deposit` int(11) NOT NULL,<br />  PRIMARY KEY  (`player_id`)<br />) ENGINE=MyISAM DEFAULT CHARSET=utf8;&quot;</span>			<span class="smalllinenumber">[line 323]</span>
+		</span>
+	</div>
+
+		<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="var$blueprints_query" id="$blueprints_query"><!-- --></A>
 <div class="evenrow">
 
 	<div class="var-header">
@@ -583,38 +609,14 @@ Source Location: /code/install/_code_install.php<br /><br />
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
-<a name="var$blueprints_query_update" id="$blueprints_query_update"><!-- --></A>
+<a name="var$cron_insert_query" id="$cron_insert_query"><!-- --></A>
 <div class="oddrow">
 
 	<div class="var-header">
 		<span class="var-title">
 			<span class="var-type">mixed</span>&nbsp;&nbsp;
-			<span class="var-name">$blueprints_query_update</span>
-			 = <span class="var-default"> &quot;RENAME TABLE blueprint_items TO blueprints;<br />                        ALTER TABLE `blueprints` ADD COLUMN `type2` varchar(255) NOT NULL;<br />                        UPDATE `blueprints` set `type2`='weapon' WHERE `type`='weapon';<br />                        UPDATE `blueprints` set `type2`='armour' WHERE `type`='armour';<br />                        ALTER TABLE `blueprints` DROP COLUMN `type`;<br />                        ALTER TABLE `blueprints` CHANGE `type2` `type` varchar(255) NOT NULL;<br />                        ALTER TABLE `blueprints` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; &quot;</span>			<span class="smalllinenumber">[line 221]</span>
-		</span>
-	</div>
-
-		<strong>API Tags:</strong><br />
-<table border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
-  </tr>
-</table>
-<br />
-
-
-	
-		<br />
-	<div class="top">[ <a href="#top">Top</a> ]</div>
-</div>
-<a name="var$cron_insert_query" id="$cron_insert_query"><!-- --></A>
-<div class="evenrow">
-
-	<div class="var-header">
-		<span class="var-title">
-			<span class="var-type">mixed</span>&nbsp;&nbsp;
 			<span class="var-name">$cron_insert_query</span>
-			 = <span class="var-default"> &quot;INSERT INTO `cron` (`id`, `function`, `last_active`, `period`, `enabled`) VALUES<br />        (1, 'reset_energy', 0, 7200, 1),<br />        (2, 'recover_health', 0, 7200, 1),<br />        (3, 'interest', 0, 86400, 1);&quot;</span>			<span class="smalllinenumber">[line 128]</span>
+			 = <span class="var-default"> &quot;INSERT INTO `cron` (`id`, `function`, `last_active`, `period`, `enabled`) VALUES<br />        (1, 'reset_energy', 0, 7200, 1),<br />        (2, 'recover_health', 0, 7200, 1),<br />        (3, 'interest', 0, 86400, 1);&quot;</span>			<span class="smalllinenumber">[line 123]</span>
 		</span>
 	</div>
 
@@ -632,13 +634,13 @@ Source Location: /code/install/_code_install.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$cron_query" id="$cron_query"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<span class="var-title">
 			<span class="var-type">mixed</span>&nbsp;&nbsp;
 			<span class="var-name">$cron_query</span>
-			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `cron` (<br />        `id` int(11) NOT NULL auto_increment,<br />        `function` varchar(255) NOT NULL default '',<br />        `last_active` int(11) NOT NULL default '0',<br />        `period` int(11) NOT NULL default '0',<br />        `enabled` tinyint(1) NOT NULL default '0',<br />        PRIMARY KEY  (`id`)<br />        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8; &quot;</span>			<span class="smalllinenumber">[line 119]</span>
+			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `cron` (<br />        `id` int(11) NOT NULL auto_increment,<br />        `function` varchar(255) NOT NULL default '',<br />        `last_active` int(11) NOT NULL default '0',<br />        `period` int(11) NOT NULL default '0',<br />        `enabled` tinyint(1) NOT NULL default '0',<br />        PRIMARY KEY  (`id`)<br />        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8; &quot;</span>			<span class="smalllinenumber">[line 114]</span>
 		</span>
 	</div>
 
@@ -656,13 +658,37 @@ Source Location: /code/install/_code_install.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$db_query" id="$db_query"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<span class="var-title">
 			<span class="var-type">mixed</span>&nbsp;&nbsp;
 			<span class="var-name">$db_query</span>
-			 = <span class="var-default"> &quot;ALTER DATABASE COLLATE utf8_general_ci; &quot;</span>			<span class="smalllinenumber">[line 219]</span>
+			 = <span class="var-default"> &quot;ALTER DATABASE COLLATE utf8_general_ci; ALTER TABLE `blueprint_items` RENAME `blueprints`;&quot;</span>			<span class="smalllinenumber">[line 219]</span>
+		</span>
+	</div>
+
+		<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="var$friends_query" id="$friends_query"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>&nbsp;&nbsp;
+			<span class="var-name">$friends_query</span>
+			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `friends` (<br />        `id1` int(11) NOT NULL,<br />        `id2` int(11) NOT NULL,<br />        `accepted` tinyint(1) NOT NULL default '0',<br />        UNIQUE KEY `id1` (`id1`,`id2`)<br />        ) ENGINE=MyISAM DEFAULT CHARSET=utf8;&quot;</span>			<span class="smalllinenumber">[line 316]</span>
 		</span>
 	</div>
 
@@ -686,7 +712,7 @@ Source Location: /code/install/_code_install.php<br /><br />
 		<span class="var-title">
 			<span class="var-type">mixed</span>&nbsp;&nbsp;
 			<span class="var-name">$help_insert_query</span>
-			 = <span class="var-default"> &quot;INSERT INTO `help` (`id`, `parent`, `title`, `body`) VALUES<br />          (1, 0, 'Help Home', 'Welcome to the Quest Help Section. You can use the links below to find specific help files about what you want to know. Please make good use of this feature. If your questions are not answered by the help section, please create a ticket and the administrators will get around to helping you as quickly as possible.'),<br />          (2, 1, 'General Game Queries', 'This section deals with general queries about the game. Ergo, \&quot;stuff which don''t fit in elsewhere good but still kinda useful, y''know?\&quot;'),<br />          (3, 1, 'FAQs', '&lt;i&gt;Somewhat incredibly&lt;/i&gt; we don''t have any FAQs at the moment. None. Because nobody''s asked a single question. As soon as we start getting them, however, we''ll put them up here for y''all to see.'),<br />          (4, 1, 'What is..?', 'Confused about a certain part of the game? This section explains some key concepts in Quest.'),<br />          (5, 1, 'Contact Us', 'To get in contact with staff, you''re best off using the mail system to send them a message. You can see the staff members &lt;a href=\&quot;index.php?page=members&amp;amp;action=staff\&quot;&gt;here&lt;/a&gt;.'),<br />          (6, 1, 'How do I..?', 'If you want to know how to do something in the game, this is the right section to come to. Use the links in this section to specify your question.'),<br />          (7, 2, 'Dealing with Errors and Bugs', 'Found a problem? Oh dear. Well this section is designed specifically so that you know what to do. It''s got some basic troubleshooting for common errors as well, just in case what you''re experiencing ain''t that unusual...'),<br />          (8, 2, 'Walkthrough', 'This section is designed for new users really. It contains a brief guide on how to play the game. Just a nice way to get you started so you know what you''re doing.'),<br />          (9, 4, 'What is the point of this game?', 'This game is a browser based game, and your role is as a CHERUB agent living on Campus. You can buy weapons and armour from the Equipment Store, store them in the inventory, and use them in the Combat Training Zone against your friends. There will be a ranking table so you can try and beat your friends. If you lose a match, you can go to the Hospital Wing, and you can cash your tokens in at the Token Bank.'),<br />          (10, 4, 'What is the laptop?', 'The laptop displays all your fight logs, showing who has fought you, and what the outcome was, including any of the final penalties.'),<br />          (11, 4, 'What is the inventory?', 'This section displays all of your current weapons and armour. Once an item has been bought, it will appear here. To equip yourself with it, you must first unequip your previous weapon and then equip yourself with your new one.'),<br />          (12, 4, 'What is the bank?', 'This is basically your campus piggy bank. All the tokens you win will appear here, as will everything you earn from working. You can deposit all the tokens from your pocket into the bank, and you can withdraw tokens from the bank to your pocket. You can also claim daily interest from the bank, which will appear on your pocket. You can also donate tokens to your friends by going on their profile and selecting how much you wish to donate to them.'),<br />          (13, 4, 'What is the hospital?', 'This is where you should go after losing a fight. You can be healed, and you can select how much, by paying in tokens.'),<br />          (14, 4, 'What is the combat training?', 'One of the most important parts of the game, this is the (newly refurbished) Campus training area in the Dojo. You can call up anyone on campus to fight, and battle them. The winner is determined by who has the better level, and also the best weapons and armour.'),<br />          (15, 4, 'What is the store?', 'In the campus store, there is a selection of what you can purchase, assuming you have enough tokens. To purchase it just click on the link labelled ''buy'' on the right hand side of the item under the price.'),<br />          (16, 4, 'What is the work?', 'If you are in need of urgent tokens, have no fear! Simply go to work in the canteen! It will deduct an energy point off you, and the amount of tokens you will receive depends on your level.'),<br />          (17, 4, 'What is the speed of light?', 'About 299792458 m/s, but this really isn''t the right place to be learning Physics.'),<br />          (18, 6, 'How do I change my email and password?', 'Don''t create a new account! I know desperate times call for desperate measures, but it''s really unnecessary. If you click on ''Edit Profile'' on the left menu, you can change it, as well as various other bits of information about you. Remember that if you forget your password, you will need a &lt;strong&gt;valid&lt;/strong&gt; e-mail address to retrieve it. Also, we might want to send important and interesting admin/game information to you, and you don''t want to miss out!'),<br />          (19, 6, 'How do I get new weapons?', 'From the left \&quot;Game Menu\&quot;, go to \&quot;Campus\&quot;. Then click onto \&quot;store\&quot; in the Main Building. There will be a selection of what you can purchase, assuming you have enough tokens. To purchase an item, just click on the link labelled ''buy'' on the right hand side of it (under the price).'),<br />          (20, 6, 'How do I see who''s fought me?', 'You can do this quite easily. If you go to the \&quot;Campus\&quot; on the right hand menu and follow through to your laptop, you''ll find a list of emails stating who''s fought you, added you as a friend and suchlike.'),<br />          (21, 6, 'How do I move up a level?', 'This is based on your current EXP, or Experience. To make your EXP larger (and thus to level up), you need to win fights with other agents. Also, the higher your level, the more tokens you will be able to earn through doing work on campus.'),<br />          (22, 6, 'How do I become a staff member?', 'Unfortunately, we do not need any more staff at the present time. We have all the coders, designers, database administrators and public relations staff that we need right now. However, any future vacancies will be advertised on the forum, the news and put in the newsletters sent to your email address.'),<br />          (23, 6, 'How do I get a friends list?', 'Simply go on the member list and select the person you want to be friends with. On their profile, click ''Invite to be friend''.'),<br />          (24, 6, 'How do I get my health back?', 'You can regain health in the hospital (Click on \&quot;Campus\&quot; on the left and follow through) or by waiting. Every night at midnight all the agents'' healths are restored. So, even if you have no money, you can live to fight again!');&quot;</span>			<span class="smalllinenumber">[line 133]</span>
+			 = <span class="var-default"> &quot;INSERT INTO `help` (`id`, `parent`, `title`, `body`) VALUES<br />          (1, 0, 'Help Home', 'Welcome to the Quest Help Section. You can use the links below to find specific help files about what you want to know. Please make good use of this feature. If your questions are not answered by the help section, please create a ticket and the administrators will get around to helping you as quickly as possible.'),<br />          (2, 1, 'General Game Queries', 'This section deals with general queries about the game. Ergo, \&quot;stuff which don''t fit in elsewhere good but still kinda useful, y''know?\&quot;'),<br />          (3, 1, 'FAQs', '&lt;i&gt;Somewhat incredibly&lt;/i&gt; we don''t have any FAQs at the moment. None. Because nobody''s asked a single question. As soon as we start getting them, however, we''ll put them up here for y''all to see.'),<br />          (4, 1, 'What is..?', 'Confused about a certain part of the game? This section explains some key concepts in Quest.'),<br />          (5, 1, 'Contact Us', 'To get in contact with staff, you''re best off using the mail system to send them a message. You can see the staff members &lt;a href=\&quot;index.php?page=members&amp;amp;action=staff\&quot;&gt;here&lt;/a&gt;.'),<br />          (6, 1, 'How do I..?', 'If you want to know how to do something in the game, this is the right section to come to. Use the links in this section to specify your question.'),<br />          (7, 2, 'Dealing with Errors and Bugs', 'Found a problem? Oh dear. Well this section is designed specifically so that you know what to do. It''s got some basic troubleshooting for common errors as well, just in case what you''re experiencing ain''t that unusual...'),<br />          (8, 2, 'Walkthrough', 'This section is designed for new users really. It contains a brief guide on how to play the game. Just a nice way to get you started so you know what you''re doing.'),<br />          (9, 4, 'What is the point of this game?', 'This game is a browser based game, and your role is as a CHERUB agent living on Campus. You can buy weapons and armour from the Equipment Store, store them in the inventory, and use them in the Combat Training Zone against your friends. There will be a ranking table so you can try and beat your friends. If you lose a match, you can go to the Hospital Wing, and you can cash your tokens in at the Token Bank.'),<br />          (10, 4, 'What is the laptop?', 'The laptop displays all your fight logs, showing who has fought you, and what the outcome was, including any of the final penalties.'),<br />          (11, 4, 'What is the inventory?', 'This section displays all of your current weapons and armour. Once an item has been bought, it will appear here. To equip yourself with it, you must first unequip your previous weapon and then equip yourself with your new one.'),<br />          (12, 4, 'What is the bank?', 'This is basically your campus piggy bank. All the tokens you win will appear here, as will everything you earn from working. You can deposit all the tokens from your pocket into the bank, and you can withdraw tokens from the bank to your pocket. You can also claim daily interest from the bank, which will appear on your pocket. You can also donate tokens to your friends by going on their profile and selecting how much you wish to donate to them.'),<br />          (13, 4, 'What is the hospital?', 'This is where you should go after losing a fight. You can be healed, and you can select how much, by paying in tokens.'),<br />          (14, 4, 'What is the combat training?', 'One of the most important parts of the game, this is the (newly refurbished) Campus training area in the Dojo. You can call up anyone on campus to fight, and battle them. The winner is determined by who has the better level, and also the best weapons and armour.'),<br />          (15, 4, 'What is the store?', 'In the campus store, there is a selection of what you can purchase, assuming you have enough tokens. To purchase it just click on the link labelled ''buy'' on the right hand side of the item under the price.'),<br />          (16, 4, 'What is the work?', 'If you are in need of urgent tokens, have no fear! Simply go to work in the canteen! It will deduct an energy point off you, and the amount of tokens you will receive depends on your level.'),<br />          (17, 4, 'What is the speed of light?', 'About 299792458 m/s, but this really isn''t the right place to be learning Physics.'),<br />          (18, 6, 'How do I change my email and password?', 'Don''t create a new account! I know desperate times call for desperate measures, but it''s really unnecessary. If you click on ''Edit Profile'' on the left menu, you can change it, as well as various other bits of information about you. Remember that if you forget your password, you will need a &lt;strong&gt;valid&lt;/strong&gt; e-mail address to retrieve it. Also, we might want to send important and interesting admin/game information to you, and you don''t want to miss out!'),<br />          (19, 6, 'How do I get new weapons?', 'From the left \&quot;Game Menu\&quot;, go to \&quot;Campus\&quot;. Then click onto \&quot;store\&quot; in the Main Building. There will be a selection of what you can purchase, assuming you have enough tokens. To purchase an item, just click on the link labelled ''buy'' on the right hand side of it (under the price).'),<br />          (20, 6, 'How do I see who''s fought me?', 'You can do this quite easily. If you go to the \&quot;Campus\&quot; on the right hand menu and follow through to your laptop, you''ll find a list of emails stating who''s fought you, added you as a friend and suchlike.'),<br />          (21, 6, 'How do I move up a level?', 'This is based on your current EXP, or Experience. To make your EXP larger (and thus to level up), you need to win fights with other agents. Also, the higher your level, the more tokens you will be able to earn through doing work on campus.'),<br />          (22, 6, 'How do I become a staff member?', 'Unfortunately, we do not need any more staff at the present time. We have all the coders, designers, database administrators and public relations staff that we need right now. However, any future vacancies will be advertised on the forum, the news and put in the newsletters sent to your email address.'),<br />          (23, 6, 'How do I get a friends list?', 'Simply go on the member list and select the person you want to be friends with. On their profile, click ''Invite to be friend''.'),<br />          (24, 6, 'How do I get my health back?', 'You can regain health in the hospital (Click on \&quot;Campus\&quot; on the left and follow through) or by waiting. Every night at midnight all the agents'' healths are restored. So, even if you have no money, you can live to fight again!');&quot;</span>			<span class="smalllinenumber">[line 128]</span>
 		</span>
 	</div>
 
@@ -751,62 +777,14 @@ Source Location: /code/install/_code_install.php<br /><br />
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
-<a name="var$items_query_update" id="$items_query_update"><!-- --></A>
-<div class="evenrow">
-
-	<div class="var-header">
-		<span class="var-title">
-			<span class="var-type">mixed</span>&nbsp;&nbsp;
-			<span class="var-name">$items_query_update</span>
-			 = <span class="var-default"> &quot;ALTER TABLE `items` ADD COLUMN `status2` tinyint(1) NOT NULL;<br />                    UPDATE `items` set `status2`='1' WHERE `status`='equipped';<br />                    UPDATE `items` set `status2`='0' WHERE `status`='uneqipped';<br />                    ALTER TABLE `items` DROP COLUMN `status`;<br />                    ALTER TABLE `items` CHANGE `status2` `status` tinyint(1) NOT NULL;<br />                    ALTER TABLE `items` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; &quot;</span>			<span class="smalllinenumber">[line 229]</span>
-		</span>
-	</div>
-
-		<strong>API Tags:</strong><br />
-<table border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
-  </tr>
-</table>
-<br />
-
-
-	
-		<br />
-	<div class="top">[ <a href="#top">Top</a> ]</div>
-</div>
 <a name="var$log_query" id="$log_query"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<span class="var-title">
 			<span class="var-type">mixed</span>&nbsp;&nbsp;
 			<span class="var-name">$log_query</span>
-			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `user_log` (<br />        `id` int(11) NOT NULL auto_increment,<br />        `player_id` int(11) NOT NULL default '0',<br />        `message` text NOT NULL,<br />        `status` tinyint(1) NOT NULL default '0',<br />        `time` int(11) NOT NULL default '0',<br />        PRIMARY KEY  (`id`)<br />        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;&quot;</span>			<span class="smalllinenumber">[line 110]</span>
-		</span>
-	</div>
-
-		<strong>API Tags:</strong><br />
-<table border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
-  </tr>
-</table>
-<br />
-
-
-	
-		<br />
-	<div class="top">[ <a href="#top">Top</a> ]</div>
-</div>
-<a name="var$log_query_update" id="$log_query_update"><!-- --></A>
-<div class="evenrow">
-
-	<div class="var-header">
-		<span class="var-title">
-			<span class="var-type">mixed</span>&nbsp;&nbsp;
-			<span class="var-name">$log_query_update</span>
-			 = <span class="var-default">    &quot;ALTER TABLE `user_log` ADD COLUMN `status2` tinyint(1) NOT NULL;<br />                    UPDATE `user_log` SET `status2`='1' WHERE `status`='read';<br />                    UPDATE `user_log` SET `status2`='0' WHERE `status`='unread';<br />                    ALTER TABLE `user_log` DROP COLUMN `status`;<br />                    ALTER TABLE `user_log` CHANGE `status2` `status` tinyint(1) NOT NULL;<br />                    ALTER TABLE `user_log` CHANGE `msg` `message` text NOT NULL;<br />                    ALTER TABLE `user_log` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; &quot;</span>			<span class="smalllinenumber">[line 263]</span>
+			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `user_log` (<br />        `id` int(11) NOT NULL auto_increment,<br />        `player_id` int(11) NOT NULL default '0',<br />        `message` text NOT NULL,<br />        `status` tinyint(1) NOT NULL default '0',<br />        `time` int(11) NOT NULL default '0',<br />        PRIMARY KEY  (`id`)<br />        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;&quot;</span>			<span class="smalllinenumber">[line 105]</span>
 		</span>
 	</div>
 
@@ -847,38 +825,14 @@ Source Location: /code/install/_code_install.php<br /><br />
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
-<a name="var$mail_query_update" id="$mail_query_update"><!-- --></A>
+<a name="var$menu_insert_query" id="$menu_insert_query"><!-- --></A>
 <div class="evenrow">
 
 	<div class="var-header">
 		<span class="var-title">
 			<span class="var-type">mixed</span>&nbsp;&nbsp;
-			<span class="var-name">$mail_query_update</span>
-			 = <span class="var-default">  &quot;ALTER TABLE `mail` ADD COLUMN `status2` tinyint(1) NOT NULL;<br />                    UPDATE `mail` set `status2`='1' WHERE `status`='equipped';<br />                    UPDATE `mail` set `status2`='0' WHERE `status`='uneqipped';<br />                    ALTER TABLE `mail` DROP COLUMN `status`;<br />                    ALTER TABLE `mail` CHANGE `status2` `status` tinyint(1) NOT NULL;<br />                    ALTER TABLE `mail` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; &quot;</span>			<span class="smalllinenumber">[line 236]</span>
-		</span>
-	</div>
-
-		<strong>API Tags:</strong><br />
-<table border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
-  </tr>
-</table>
-<br />
-
-
-	
-		<br />
-	<div class="top">[ <a href="#top">Top</a> ]</div>
-</div>
-<a name="var$menu_insert_query" id="$menu_insert_query"><!-- --></A>
-<div class="oddrow">
-
-	<div class="var-header">
-		<span class="var-title">
-			<span class="var-type">mixed</span>&nbsp;&nbsp;
 			<span class="var-name">$menu_insert_query</span>
-			 = <span class="var-default"> &quot;INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enabled`, `order`, `function`) VALUES<br />        (1, 'Home', 'Game Menu', 'public', 'index', '', 1, 1, 0, 0),<br />        (2, 'Mail', 'Game Menu', 'public', 'mail', '', 1, 2, 1, 0),<br />        (3, 'Portal', 'Game Menu', 'public', 'portal', '', 1, 3, 0, 0),<br />        (4, 'Player Stats', 'Game Menu', 'public', 'ranks', '', 1, 4, 0, 0),<br />        (5, 'Member List', 'Game Menu', 'public', 'members', '', 1, 5, 0, 0),<br />        (6, 'Edit Profile', 'Game Menu', 'public', 'profile_edit', '', 1, 6, 0, 0),<br />        (7, 'Ticket Control', 'Admin', 'admin', 'ticket', '', 1, 6, 0, 0),<br />        (8, 'Item Blueprints', 'Admin', 'admin', 'blueprints', '', 1, 5, 0, 0),<br />        (9, 'Help', 'Other', 'public', 'help', '', 1, 4, 0, 0),<br />        (10, 'Support Tickets', 'Other', 'public', 'ticket', '', 1, 5, 0, 0),<br />        (11, 'Log Out', 'Other', 'public', 'login', '', 1, 6, 0, 0),<br />        (12, 'Staff List', 'Other', 'public', 'members', '&amp;amp;action=staff', 1, 3, 0, 0),<br />        (13, 'Menu Editor', 'Admin', 'admin', 'menu', '', 1, 4, 0, 0),<br />        (14, 'Quest Control', 'Admin', 'admin', 'quest', '', 1, 3, 0, 0),<br />        (15, 'Control Panel', 'Admin', 'admin', 'index', '', 1, 2, 0, 0);<br />        &quot;</span>			<span class="smalllinenumber">[line 285]</span>
+			 = <span class="var-default"> &quot;<br />INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enabled`, `order`, `function`, `guest`) VALUES<br />(1, 'Home', 'Game Menu', 'public', 'index', '', 1, 1, 1, 0),<br />(2, 'Mail', 'Game Menu', 'public', 'mail', '', 1, 3, 1, 0),<br />(3, 'Portal', 'Game Menu', 'public', 'portal', '', 1, 4, 1, 0),<br />(4, 'Player Stats', 'Game Menu', 'public', 'ranks', '', 1, 5, 0, 0),<br />(5, 'Member List', 'Game Menu', 'public', 'members', '', 1, 6, 0, 0),<br />(6, 'Edit Profile', 'Game Menu', 'public', 'profile_edit', '', 1, 7, 0, 0),<br />(7, 'Ticket Control', 'Admin', 'admin', 'ticket', '', 1, 6, 0, 0),<br />(8, 'Item Blueprints', 'Admin', 'admin', 'blueprints', '', 1, 5, 0, 0),<br />(9, 'Help', 'Other', 'public', 'help', '', 1, 4, 0, 0),<br />(10, 'Support Tickets', 'Other', 'public', 'ticket', '', 1, 5, 0, 0),<br />(11, 'Log Out', 'Other', 'public', 'login', '', 1, 6, 0, 0),<br />(12, 'Staff List', 'Other', 'public', 'members', '&amp;amp;action=staff', 1, 3, 0, 0),<br />(13, 'Menu Editor', 'Admin', 'admin', 'menu', '', 1, 4, 0, 0),<br />(14, 'Quest Control', 'Admin', 'admin', 'quest', '', 1, 3, 0, 0),<br />(15, 'Control Panel', 'Admin', 'admin', 'index', '', 1, 2, 0, 0),<br />(16, 'Home', 'Guests', 'public', 'index', '', 1, 4, 0, 1),<br />(17, 'Register', 'Guests', 'public', 'login', '&amp;amp;action=register', 1, 5, 0, 1),<br />(18, 'Player Stats', 'Guests', 'public', 'ranks', '', 1, 6, 1, 1),<br />(19, 'Help', 'Guests', 'public', 'guesthelp', '', 1, 7, 0, 1),<br />(23, 'Quests', 'Game Menu', 'public', 'quest', '', 1, 2, 0, 0);<br />        &quot;</span>			<span class="smalllinenumber">[line 292]</span>
 		</span>
 	</div>
 
@@ -896,13 +850,13 @@ Source Location: /code/install/_code_install.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$menu_query" id="$menu_query"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<span class="var-title">
 			<span class="var-type">mixed</span>&nbsp;&nbsp;
 			<span class="var-name">$menu_query</span>
-			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `menu` (<br />        `id` int(11) NOT NULL auto_increment,<br />        `label` varchar(255) NOT NULL,<br />        `category` varchar(255) NOT NULL,<br />        `section` varchar(255) NOT NULL,<br />        `page` varchar(255) NOT NULL,<br />        `extra` text NOT NULL,<br />        `enabled` tinyint(1) NOT NULL,<br />        `order` int(11) NOT NULL,<br />        `function` tinyint(1) NOT NULL default '0',<br />        `guest` tinyint(1) NOT NULL default '0',<br />        PRIMARY KEY  (`id`)<br />        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;&quot;</span>			<span class="smalllinenumber">[line 271]</span>
+			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `menu` (<br />        `id` int(11) NOT NULL auto_increment,<br />        `label` varchar(255) NOT NULL,<br />        `category` varchar(255) NOT NULL,<br />        `section` varchar(255) NOT NULL,<br />        `page` varchar(255) NOT NULL,<br />        `extra` text NOT NULL,<br />        `enabled` tinyint(1) NOT NULL,<br />        `order` int(11) NOT NULL,<br />        `function` tinyint(1) NOT NULL default '0',<br />        `guest` tinyint(1) NOT NULL default '0',<br />        PRIMARY KEY  (`id`)<br />        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;&quot;</span>			<span class="smalllinenumber">[line 278]</span>
 		</span>
 	</div>
 
@@ -920,7 +874,7 @@ Source Location: /code/install/_code_install.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$news_query" id="$news_query"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<span class="var-title">
@@ -944,13 +898,13 @@ Source Location: /code/install/_code_install.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$pages_insert_query" id="$pages_insert_query"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<span class="var-title">
 			<span class="var-type">mixed</span>&nbsp;&nbsp;
 			<span class="var-name">$pages_insert_query</span>
-			 = <span class="var-default"> &quot;<br />        INSERT INTO `pages` (`id`, `name`, `section`, `redirect`) VALUES<br />        (1, 'login', 'public', 'login'),<br />        (2, 'stats', 'public', 'stats'),<br />        (3, 'log', 'public', 'laptop'),<br />        (4, 'items', 'public', 'inventory,store'),<br />        (5, 'bank', 'public', 'bank'),<br />        (6, 'hospital', 'public', 'hospital'),<br />        (7, 'work', 'public', 'work'),<br />        (8, 'help', 'public', 'help,guesthelp'),<br />        (9, 'edit_profile', 'public', 'profile_edit'),<br />        (10, 'battle', 'public', 'battle'),<br />        (11, 'profile', 'public', 'profile'),<br />        (12, 'ticket', 'public', 'ticket'),<br />        (13, 'staff', 'public', 'staff'),<br />        (14, 'mail', 'public', 'mail'),<br />        (15, 'portal', 'public', 'portal'),<br />        (16, 'ranks', 'public', 'ranks'),<br />        (17, 'index', 'public', 'index'),<br />        (18, 'members', 'public', 'members'),<br />        (19, 'ticket', 'admin', 'ticket'),<br />        (20, 'blueprints', 'admin', 'blueprints'),<br />        (21, 'quest', 'public', 'quest'),<br />        (22, 'quest', 'admin', 'quest'),<br />        (23, 'index', 'admin', 'index'),<br />        (24, 'admin_template', 'admin', 'panel,portal'),<br />        (25, 'menu_admin', 'admin', 'menu'),<br />        (26, 'edit_profile', 'admin', 'profile_edit') ;&quot;</span>			<span class="smalllinenumber">[line 167]</span>
+			 = <span class="var-default"> &quot;<br />        INSERT INTO `pages` (`id`, `name`, `section`, `redirect`) VALUES<br />        (1, 'login', 'public', 'login'),<br />        (2, 'stats', 'public', 'stats'),<br />        (3, 'log', 'public', 'laptop'),<br />        (4, 'items', 'public', 'inventory,store'),<br />        (5, 'bank', 'public', 'bank'),<br />        (6, 'hospital', 'public', 'hospital'),<br />        (7, 'work', 'public', 'work'),<br />        (8, 'help', 'public', 'help,guesthelp'),<br />        (9, 'edit_profile', 'public', 'profile_edit'),<br />        (10, 'battle', 'public', 'battle'),<br />        (11, 'profile', 'public', 'profile'),<br />        (12, 'ticket', 'public', 'ticket'),<br />        (13, 'staff', 'public', 'staff'),<br />        (14, 'mail', 'public', 'mail'),<br />        (15, 'portal', 'public', 'portal'),<br />        (16, 'ranks', 'public', 'ranks'),<br />        (17, 'index', 'public', 'index'),<br />        (18, 'members', 'public', 'members'),<br />        (19, 'ticket', 'admin', 'ticket'),<br />        (20, 'blueprints', 'admin', 'blueprints'),<br />        (21, 'quest', 'public', 'quest'),<br />        (22, 'quest', 'admin', 'quest'),<br />        (23, 'index_admin', 'admin', 'index'),<br />        (24, 'admin_template', 'admin', 'panel,portal'),<br />        (25, 'menu_admin', 'admin', 'menu'),<br />        (26, 'edit_profile', 'admin', 'profile_edit') ;&quot;</span>			<span class="smalllinenumber">[line 162]</span>
 		</span>
 	</div>
 
@@ -968,13 +922,13 @@ Source Location: /code/install/_code_install.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$pages_query" id="$pages_query"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<span class="var-title">
 			<span class="var-type">mixed</span>&nbsp;&nbsp;
 			<span class="var-name">$pages_query</span>
-			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `pages` (<br />          `id` int(11) NOT NULL auto_increment,<br />          `name` varchar(255) NOT NULL,<br />          `section` varchar(255) NOT NULL default 'public',<br />          `redirect` varchar(255) NOT NULL,<br />          PRIMARY KEY  (`id`)<br />        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;&quot;</span>			<span class="smalllinenumber">[line 159]</span>
+			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `pages` (<br />          `id` int(11) NOT NULL auto_increment,<br />          `name` varchar(255) NOT NULL,<br />          `section` varchar(255) NOT NULL default 'public',<br />          `redirect` varchar(255) NOT NULL,<br />          PRIMARY KEY  (`id`)<br />        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;&quot;</span>			<span class="smalllinenumber">[line 154]</span>
 		</span>
 	</div>
 
@@ -992,13 +946,13 @@ Source Location: /code/install/_code_install.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$players_query" id="$players_query"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<span class="var-title">
 			<span class="var-type">mixed</span>&nbsp;&nbsp;
 			<span class="var-name">$players_query</span>
-			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `players` (<br />        `id` int(11) NOT NULL auto_increment,<br />        `username` varchar(255) NOT NULL default '',<br />        `password` text NOT NULL,<br />        `email` varchar(255) NOT NULL default '',<br />        `rank` varchar(255) NOT NULL default 'Agent',<br />        `registered` int(11) NOT NULL default '0',<br />        `last_active` int(11) NOT NULL default '0',<br />        `description` text NOT NULL,<br />        `ip` varchar(255) NOT NULL default '',<br />        `level` int(11) NOT NULL default '1',<br />        `stat_points` int(11) NOT NULL default '5',<br />        `gold` int(11) NOT NULL default '200',<br />        `bank` int(11) NOT NULL default '20',<br />        `hp` int(11) NOT NULL default '60',<br />        `hp_max` int(11) NOT NULL default '60',<br />        `exp` int(11) NOT NULL default '0',<br />        `exp_max` int(11) NOT NULL default '50',<br />        `energy` int(11) NOT NULL default '10',<br />        `energy_max` int(11) NOT NULL default '10',<br />        `strength` int(11) NOT NULL default '1',<br />        `vitality` int(11) NOT NULL default '1',<br />        `agility` int(11) NOT NULL default '1',<br />        `interest` tinyint(1) NOT NULL default '0',<br />        `kills` int(11) NOT NULL default '0',<br />        `deaths` int(11) NOT NULL default '0',<br />        `show_email` tinyint(3) NOT NULL default '0',<br />        `avatar` varchar(255) NOT NULL default 'images/avatar.png',<br />        `skin` int(3) NOT NULL default '2',<br />        `gender` tinyint(1) NOT NULL default '0',<br />        `msn` varchar(65) NOT NULL default '',<br />        `aim` varchar(65) NOT NULL default '',<br />        `skype` varchar(65) NOT NULL default '',<br />        `login_rand` varchar(255) NOT NULL default '',<br />        `login_salt` varchar(255) NOT NULL default '',<br />        PRIMARY KEY  (`id`),<br />        KEY `rank` (`rank`)<br />        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;&quot;</span>			<span class="smalllinenumber">[line 54]</span>
+			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `players` (<br />        `id` int(11) NOT NULL auto_increment,<br />        `username` varchar(255) NOT NULL default '',<br />        `password` text NOT NULL,<br />        `email` varchar(255) NOT NULL default '',<br />        `rank` varchar(255) NOT NULL default 'Member',<br />        `registered` int(11) NOT NULL default '0',<br />        `last_active` int(11) NOT NULL default '0',<br />        `ip` varchar(255) NOT NULL default '',<br />        `level` int(11) NOT NULL default '1',<br />        `stat_points` int(11) NOT NULL default '5',<br />        `gold` int(11) NOT NULL default '200',<br />        `bank` int(11) NOT NULL default '20',<br />        `hp` int(11) NOT NULL default '60',<br />        `hp_max` int(11) NOT NULL default '60',<br />        `exp` int(11) NOT NULL default '0',<br />        `exp_max` int(11) NOT NULL default '50',<br />        `energy` int(11) NOT NULL default '10',<br />        `energy_max` int(11) NOT NULL default '10',<br />        `strength` int(11) NOT NULL default '1',<br />        `vitality` int(11) NOT NULL default '1',<br />        `agility` int(11) NOT NULL default '1',<br />        `interest` tinyint(1) NOT NULL default '0',<br />        `kills` int(11) NOT NULL default '0',<br />        `deaths` int(11) NOT NULL default '0',<br />        `show_email` tinyint(3) NOT NULL default '0',<br />        `skin` int(3) NOT NULL default '2',<br />        `login_rand` varchar(255) NOT NULL default '',<br />        `login_salt` varchar(255) NOT NULL default '',<br />        `quest` varchar(255) NOT NULL default '',<br />        PRIMARY KEY  (`id`),<br />        KEY `rank` (`rank`)<br />        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;&quot;</span>			<span class="smalllinenumber">[line 54]</span>
 		</span>
 	</div>
 
@@ -1015,14 +969,14 @@ Source Location: /code/install/_code_install.php<br /><br />
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
-<a name="var$players_query_update" id="$players_query_update"><!-- --></A>
-<div class="oddrow">
+<a name="var$profile_query" id="$profile_query"><!-- --></A>
+<div class="evenrow">
 
 	<div class="var-header">
 		<span class="var-title">
 			<span class="var-type">mixed</span>&nbsp;&nbsp;
-			<span class="var-name">$players_query_update</span>
-			 = <span class="var-default"> &quot;ALTER TABLE `players` ADD COLUMN `show_email` tinyint(3) NOT NULL default '0',<br />                    ADD COLUMN `avatar` varchar(255) NOT NULL default 'images/avatar.png',<br />                    ADD COLUMN `skin` int(3) NOT NULL default '2',<br />                    ADD COLUMN `gender` tinyint(1) NOT NULL default '0',<br />                    ADD COLUMN `msn` varchar(65) NOT NULL default '',<br />                    ADD COLUMN `aim` varchar(65) NOT NULL default '',<br />                    ADD COLUMN `skype` varchar(65) NOT NULL default '',<br />                    ADD COLUMN `login_rand` varchar(255) NOT NULL default '',<br />                    ADD COLUMN `login_salt` varchar(255) NOT NULL default '',<br />                    ADD COLUMN `description` text NOT NULL default '';<br /><br />                    ALTER TABLE `players` ADD COLUMN `password2` text NOT NULL;<br />                    UPDATE `players` SET `password2`=`password`;<br />                    ALTER TABLE `players` DROP COLUMN `password`;<br />                    ALTER TABLE `players` CHANGE `password2` `password` text NOT NULL;<br />                    ALTER TABLE `players` CHANGE `maxexp` `exp_max` int(11) NOT NULL default '50';<br />                    ALTER TABLE `players` CHANGE `maxhp` `hp_max` int(11) NOT NULL default '60';<br />                    ALTER TABLE `players` CHANGE `maxenergy` `energy_max` int(11) NOT NULL default '10';<br />                    ALTER TABLE `players` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci; &quot;</span>			<span class="smalllinenumber">[line 243]</span>
+			<span class="var-name">$profile_query</span>
+			 = <span class="var-default"> &quot;<br />CREATE TABLE IF NOT EXISTS `profiles` (<br />  `player_id` int(11) NOT NULL,<br />  `profile_string` longtext NOT NULL,<br />  PRIMARY KEY  (`player_id`)<br />) ENGINE=MyISAM DEFAULT CHARSET=utf8;&quot;</span>			<span class="smalllinenumber">[line 332]</span>
 		</span>
 	</div>
 
@@ -1040,7 +994,7 @@ Source Location: /code/install/_code_install.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$quests_query" id="$quests_query"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<span class="var-title">
@@ -1064,13 +1018,13 @@ Source Location: /code/install/_code_install.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$settings_insert_query" id="$settings_insert_query"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<span class="var-title">
 			<span class="var-type">mixed</span>&nbsp;&nbsp;
 			<span class="var-name">$settings_insert_query</span>
-			 = <span class="var-default"> &quot;INSERT INTO `settings` (`name`, `value`) VALUES<br />        ('name', 'Quest'),<br />        ('welcometext', '&lt;p&gt;Welcome to Quest. This is a default welcome message. To add your own, go to the Administration panel and click on \&quot;Messages\&quot;.&lt;/p&gt;'),<br />        ('portal_name', 'Campus'),<br />        ('portal_welcome', '&lt;strong&gt;Security Guard:&lt;/strong&gt;&lt;br /&gt;\n&lt;i&gt;Welcome onto Campus, agent. Let me just check your ID.&lt;br /&gt;\n...&lt;br /&gt;\nYou have permission to enter, agent. If you follow the path to the left, you can get to the Main Building. To the right you\'ll find the training areas and accommodation. Have a good day.&lt;/i&gt;'),<br />        ('portal_links', '* Main Building\r\nhospital|Hospital\r\nbank|Bank\r\nstore|Store\r\nwork|Work\r\n--\r\n* Your Room\r\nlaptop|Laptop\r\ninventory|Inventory\r\n\r\n* Dojo\r\nbattle|Combat training'),<br />        ('quests_code','');&quot;</span>			<span class="smalllinenumber">[line 202]</span>
+			 = <span class="var-default"> &quot;INSERT INTO `settings` (`name`, `value`) VALUES<br />        ('name', 'Quest'),<br />        ('welcometext', '&lt;p&gt;Welcome to Quest. This is a default welcome message. To add your own, go to the Administration panel and click on \&quot;Messages\&quot;.&lt;/p&gt;'),<br />        ('portal_name', 'Campus'),<br />        ('portal_welcome', '[b]Security Guard:[/b]\n\n[i]Welcome onto Campus, agent. Let me just check your ID.\n\n...\n\nYou have permission to enter, agent. If you follow the path to the left, you can get to the Main Building. To the right you\'ll find the training areas and accommodation. Have a good day.[/i]'),<br />        ('portal_links', '* Main Building\r\nhospital|Hospital\r\nbank|Bank\r\nstore|Store\r\nwork|Work\r\n--\r\n* Your Room\r\nlaptop|Laptop\r\ninventory|Inventory\r\n\r\n* Dojo\r\nbattle|Combat training'),<br />        ('quests_code', ''),<br />        ('admin_notes', ''),<br />        ('verification_method', '1'),<br />        ('ban_multiple_email', '1'),<br />        ('custom_fields', '{\&quot;description\&quot;:\&quot;No description.\&quot;,\&quot;gender\&quot;:\&quot;0\&quot;,\&quot;msn\&quot;:\&quot; \&quot;,\&quot;aim\&quot;:\&quot; \&quot;,\&quot;skype\&quot;:\&quot; \&quot;,\&quot;avatar\&quot;:\&quot;images\/avatar.png\&quot;}'),<br />        ('register_ip_check', '1');&quot;</span>			<span class="smalllinenumber">[line 197]</span>
 		</span>
 	</div>
 
@@ -1088,13 +1042,13 @@ Source Location: /code/install/_code_install.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$settings_query" id="$settings_query"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<span class="var-title">
 			<span class="var-type">mixed</span>&nbsp;&nbsp;
 			<span class="var-name">$settings_query</span>
-			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `settings` (<br />        `name` varchar(125) NOT NULL,<br />        `value` longtext NOT NULL,<br />        PRIMARY KEY  (`name`)<br />        ) ENGINE=MyISAM DEFAULT CHARSET=utf8;&quot;</span>			<span class="smalllinenumber">[line 196]</span>
+			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `settings` (<br />        `name` varchar(125) NOT NULL,<br />        `value` longtext NOT NULL,<br />        PRIMARY KEY  (`name`)<br />        ) ENGINE=MyISAM DEFAULT CHARSET=utf8;&quot;</span>			<span class="smalllinenumber">[line 191]</span>
 		</span>
 	</div>
 
@@ -1112,13 +1066,13 @@ Source Location: /code/install/_code_install.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$skins_query" id="$skins_query"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<span class="var-title">
 			<span class="var-type">mixed</span>&nbsp;&nbsp;
 			<span class="var-name">$skins_query</span>
-			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `skins` (<br />        `id` int(3) NOT NULL auto_increment,<br />        `name` varchar(65) NOT NULL default '',<br />        `cssfile` varchar(65) NOT NULL default '',<br />        `image` varchar(65) NOT NULL default '',<br />        PRIMARY KEY  (`id`)<br />        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;&quot;</span>			<span class="smalllinenumber">[line 93]</span>
+			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `skins` (<br />        `id` int(3) NOT NULL auto_increment,<br />        `name` varchar(65) NOT NULL default '',<br />        `cssfile` varchar(65) NOT NULL default '',<br />        `image` varchar(65) NOT NULL default '',<br />        PRIMARY KEY  (`id`)<br />        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;&quot;</span>			<span class="smalllinenumber">[line 88]</span>
 		</span>
 	</div>
 
@@ -1136,13 +1090,37 @@ Source Location: /code/install/_code_install.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$tickets_query" id="$tickets_query"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<span class="var-title">
 			<span class="var-type">mixed</span>&nbsp;&nbsp;
 			<span class="var-name">$tickets_query</span>
-			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `tickets` (<br />        `id` int(11) NOT NULL auto_increment,<br />        `player_id` int(11) NOT NULL default '0',<br />        `message` text NOT NULL,<br />        `date` int(10) NOT NULL default '0',<br />        `status` tinyint(3) NOT NULL default '0',<br />        PRIMARY KEY  (`id`)<br />        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;&quot;</span>			<span class="smalllinenumber">[line 101]</span>
+			 = <span class="var-default"> &quot;CREATE TABLE IF NOT EXISTS `tickets` (<br />        `id` int(11) NOT NULL auto_increment,<br />        `player_id` int(11) NOT NULL default '0',<br />        `message` text NOT NULL,<br />        `date` int(10) NOT NULL default '0',<br />        `status` tinyint(3) NOT NULL default '0',<br />        PRIMARY KEY  (`id`)<br />        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;&quot;</span>			<span class="smalllinenumber">[line 96]</span>
+		</span>
+	</div>
+
+		<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="var$update_tables_query" id="$update_tables_query"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>&nbsp;&nbsp;
+			<span class="var-name">$update_tables_query</span>
+			 = <span class="var-default"> &quot;<br /><br />ALTER TABLE `blueprint_items` ADD COLUMN `type2` varchar(255) NOT NULL;<br />ALTER TABLE `items` ADD COLUMN `status2` tinyint(1) NOT NULL;<br />ALTER TABLE `mail` ADD COLUMN `status2` tinyint(1) NOT NULL;<br />ALTER TABLE `user_log` ADD COLUMN `status2` tinyint(1) NOT NULL;<br />ALTER TABLE `players` ADD COLUMN `show_email` tinyint(3) NOT NULL default '0';<br />ALTER TABLE `players` ADD COLUMN `password2` text NOT NULL;<br /><br /><br />ALTER TABLE `players` ADD COLUMN `avatar` varchar(255) NOT NULL default 'images/avatar.png';<br />ALTER TABLE `players` ADD COLUMN `skin` int(3) NOT NULL default '2';<br />ALTER TABLE `players` ADD COLUMN `gender` tinyint(1) NOT NULL default '0';<br />ALTER TABLE `players` ADD COLUMN `msn` varchar(65) NOT NULL default '';<br />ALTER TABLE `players` ADD COLUMN `aim` varchar(65) NOT NULL default '';<br />ALTER TABLE `players` ADD COLUMN `skype` varchar(65) NOT NULL default '';<br />ALTER TABLE `players` ADD COLUMN `login_rand` varchar(255) NOT NULL default '';<br />ALTER TABLE `players` ADD COLUMN `login_salt` varchar(255) NOT NULL default '';<br />ALTER TABLE `players` ADD COLUMN `description` text NOT NULL default '';<br />UPDATE `blueprint_items` set `type2`='weapon' WHERE `type`='weapon';<br />UPDATE `blueprint_items` set `type2`='armour' WHERE `type`='armour';<br />UPDATE `items` set `status2`='1' WHERE `status`='equipped';<br />UPDATE `items` set `status2`='0' WHERE `status`='uneqipped';<br />UPDATE `mail` set `status2`='1' WHERE `status`='unread';<br />UPDATE `mail` set `status2`='0' WHERE `status`='read';<br />UPDATE `user_log` SET `status2`='1' WHERE `status`='read';<br />UPDATE `user_log` SET `status2`='0' WHERE `status`='unread';<br />UPDATE `players` SET `password2`=`password`;<br /><br />                    <br />ALTER TABLE `blueprint_items` DROP COLUMN `type`;<br />ALTER TABLE `items` DROP COLUMN `status`;<br />ALTER TABLE `mail` DROP COLUMN `status`;<br />ALTER TABLE `user_log` DROP COLUMN `status`;<br />ALTER TABLE `players` DROP COLUMN `password`;<br /><br /><br />ALTER TABLE `blueprint_items` CHANGE `type2` `type` varchar(255) NOT NULL;<br />ALTER TABLE `items` CHANGE `status2` `status` tinyint(1) NOT NULL;<br />ALTER TABLE `mail` CHANGE `status2` `status` tinyint(1) NOT NULL;<br />ALTER TABLE `user_log` CHANGE `status2` `status` tinyint(1) NOT NULL;<br />ALTER TABLE `user_log` CHANGE `msg` `message` text NOT NULL;<br />                    ALTER TABLE `players` CHANGE `password2` `password` text NOT NULL;<br />                    ALTER TABLE `players` CHANGE `maxexp` `exp_max` int(11) NOT NULL default '50';<br />                    ALTER TABLE `players` CHANGE `maxhp` `hp_max` int(11) NOT NULL default '60';<br />                    ALTER TABLE `players` CHANGE `maxenergy` `energy_max` int(11) NOT NULL default '10';<br /><br />ALTER TABLE `blueprint_items` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;<br />ALTER TABLE `items` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;<br />ALTER TABLE `mail` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;<br />ALTER TABLE `user_log` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;<br />ALTER TABLE `players` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;<br /><br />ALTER TABLE `blueprint_items` RENAME `blueprints`;<br />ALTER DATABASE COLLATE utf8_general_ci; <br />       &quot;</span>			<span class="smalllinenumber">[line 221]</span>
 		</span>
 	</div>
 
@@ -1179,7 +1157,7 @@ Source Location: /code/install/_code_install.php<br /><br />
 <div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">Constructor __construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 334]</span>
+	<span class="method-title">Constructor __construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 370]</span>
 </div>
 <br />
 
@@ -1244,7 +1222,7 @@ $config&nbsp;
 <div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 308]</span>
+	<span class="method-title">construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 344]</span>
 </div>
 <br />
 
@@ -1315,7 +1293,7 @@ $page&nbsp;
 <div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">initiate</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 323]</span>
+	<span class="method-title">initiate</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 359]</span>
 </div>
 <br />
 
@@ -1368,7 +1346,7 @@ $skin_name = &quot;&quot;]&nbsp;
 
         <div class="credit">
 		    <hr class="separator" />
-		    Documentation generated on Sun, 26 Jul 2009 15:41:38 +0300 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Sat, 22 Aug 2009 01:31:14 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>

@@ -17,7 +17,7 @@
   <tr>
     <td colspan="2" class="header-menu">
       
-                                                                                                                                        
+                                                                                                                                                                    
                       		[ <a href="../classtrees_skin_public.html" class="menu">class tree: skin_public</a> ]
 		[ <a href="../elementindex_skin_public.html" class="menu">index: skin_public</a> ]
             [ <a href="../elementindex.html" class="menu">all elements</a> ]
@@ -35,7 +35,9 @@
               <a href="../li_code_admin.html">code_admin</a><br />
               <a href="../li_code_common.html">code_common</a><br />
               <a href="../li_code_install.html">code_install</a><br />
+              <a href="../li_code_player.html">code_player</a><br />
               <a href="../li_code_public.html">code_public</a><br />
+              <a href="../li_QuestDB.html">QuestDB</a><br />
               <a href="../li_skin_admin.html">skin_admin</a><br />
               <a href="../li_skin_common.html">skin_common</a><br />
               <a href="../li_skin_install.html">skin_install</a><br />
@@ -45,13 +47,14 @@
       <br />
                         <b>Files:</b><br />
         <div class="package">
-				<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_admin_template.php.html">skin_admin_template.php</a></span><br />
+				<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---bk_skin_menu_admin.php.html">bk_skin_menu_admin.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_admin_template.php.html">skin_admin_template.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_bank.php.html">skin_bank.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_battle.php.html">skin_battle.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_help.php.html">skin_help.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_hospital.php.html">skin_hospital.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_index.php.html">skin_index.php</a></span><br />
-			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_index.php.html">skin_index.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_index_admin.php.html">skin_index_admin.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_items.php.html">skin_items.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_log.php.html">skin_log.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_mail.php.html">skin_mail.php</a></span><br />
@@ -59,8 +62,8 @@
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_menu_admin.php.html">skin_menu_admin.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_portal.php.html">skin_portal.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_profile.php.html">skin_profile.php</a></span><br />
-			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_quest.php.html">skin_quest.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_quest.php.html">skin_quest.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_quest.php.html">skin_quest.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_ranks.php.html">skin_ranks.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_ticket.php.html">skin_ticket.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_ticket.php.html">skin_ticket.php</a></span><br />
@@ -76,6 +79,7 @@
 	    		<a href="../skin_public/skin_help.html">skin_help</a>    	 <br />
 	    		<a href="../skin_public/skin_hospital.html">skin_hospital</a>    	 <br />
 	    		<a href="../skin_public/skin_index.html">skin_index</a>    	 <br />
+	    		<a href="../skin_public/skin_index_admin.html">skin_index_admin</a>    	 <br />
 	    		<a href="../skin_public/skin_items.html">skin_items</a>    	 <br />
 	    		<a href="../skin_public/skin_log.html">skin_log</a>    	 <br />
 	    		<a href="../skin_public/skin_mail.html">skin_mail</a>    	 <br />
@@ -336,10 +340,10 @@ Source Location: /skin/public/skin_battle.php<br /><br />
 			<a name='method_detail'></a>
 
 <a name="methodbattle_row" id="battle_row"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">battle_row</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 143]</span>
+	<span class="method-title">battle_row</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 158]</span>
 </div>
 <br />
 
@@ -384,10 +388,10 @@ $attack&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodbattle_search_page" id="battle_search_page"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">battle_search_page</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 15]</span>
+	<span class="method-title">battle_search_page</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 19]</span>
 </div>
 <br />
 
@@ -395,10 +399,11 @@ $attack&nbsp;
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
 		<code>string battle_search_page(
-
-$username, 
-$level_min, 
-$level_max&nbsp;
+string
+$username, int
+$level_min, int
+$level_max, string
+$message&nbsp;
 )</code>
     </td></tr></table>
     </td></tr></table><br /></div>
@@ -409,23 +414,29 @@ $level_max&nbsp;
 			<strong>Parameters:</strong><br />
 			<table border="0" cellspacing="0" cellpadding="0">
 					<tr><td class="indent">
-				<span class="var-type"></span>&nbsp;&nbsp;</td>
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
 				<td>
 				<span class="var-name">$username:&nbsp;</span></td>
 				<td>
-							</td></tr>
+				<span class="var-description"> username searched</span>			</td></tr>
 					<tr><td class="indent">
-				<span class="var-type"></span>&nbsp;&nbsp;</td>
+				<span class="var-type">int</span>&nbsp;&nbsp;</td>
 				<td>
 				<span class="var-name">$level_min:&nbsp;</span></td>
 				<td>
-							</td></tr>
+				<span class="var-description"> Minimum level searched</span>			</td></tr>
 					<tr><td class="indent">
-				<span class="var-type"></span>&nbsp;&nbsp;</td>
+				<span class="var-type">int</span>&nbsp;&nbsp;</td>
 				<td>
 				<span class="var-name">$level_max:&nbsp;</span></td>
 				<td>
-							</td></tr>
+				<span class="var-description"> Maximum level searched</span>			</td></tr>
+					<tr><td class="indent">
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$message:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> error?</span>			</td></tr>
 				</table>
 
 	<br />
@@ -446,10 +457,10 @@ $level_max&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodbattle_search_row" id="battle_search_row"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">battle_search_row</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 46]</span>
+	<span class="method-title">battle_search_row</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 59]</span>
 </div>
 <br />
 
@@ -494,10 +505,10 @@ $player&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodbattle_search_row_wrap" id="battle_search_row_wrap"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">battle_search_row_wrap</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 71]</span>
+	<span class="method-title">battle_search_row_wrap</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 84]</span>
 </div>
 <br />
 
@@ -542,10 +553,10 @@ $player_rows&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methoddraw_log" id="draw_log"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">draw_log</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 110]</span>
+	<span class="method-title">draw_log</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 125]</span>
 </div>
 <br />
 
@@ -597,10 +608,10 @@ $opponent_name&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodenemy_battle_row" id="enemy_battle_row"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">enemy_battle_row</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 132]</span>
+	<span class="method-title">enemy_battle_row</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 147]</span>
 </div>
 <br />
 
@@ -645,10 +656,10 @@ $attack&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodfight" id="fight"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">fight</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 153]</span>
+	<span class="method-title">fight</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 168]</span>
 </div>
 <br />
 
@@ -697,10 +708,10 @@ $banner&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodloss_log" id="loss_log"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">loss_log</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 98]</span>
+	<span class="method-title">loss_log</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 113]</span>
 </div>
 <br />
 
@@ -773,10 +784,10 @@ $username&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodplayer_battle_row" id="player_battle_row"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">player_battle_row</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 121]</span>
+	<span class="method-title">player_battle_row</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 136]</span>
 </div>
 <br />
 
@@ -821,10 +832,10 @@ $attack&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodvictory_log" id="victory_log"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">victory_log</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 85]</span>
+	<span class="method-title">victory_log</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 100]</span>
 </div>
 <br />
 
@@ -909,7 +920,7 @@ $username&nbsp;
 
         <div class="credit">
 		    <hr class="separator" />
-		    Documentation generated on Sun, 26 Jul 2009 15:41:32 +0300 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Sat, 22 Aug 2009 01:31:07 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>

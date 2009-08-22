@@ -10,6 +10,8 @@
  */
 class code_stats extends code_common {
 
+    public $player_class = "code_player_rpg";
+
    /**
     * class override. calls parents, sends kids home.
     *

@@ -17,8 +17,8 @@
   <tr>
     <td colspan="2" class="header-menu">
       
-                                                                  
-                                                                                            		[ <a href="../classtrees_code_public.html" class="menu">class tree: code_public</a> ]
+                                                                                
+                                                                                                          		[ <a href="../classtrees_code_public.html" class="menu">class tree: code_public</a> ]
 		[ <a href="../elementindex_code_public.html" class="menu">index: code_public</a> ]
             [ <a href="../elementindex.html" class="menu">all elements</a> ]
     </td>
@@ -35,7 +35,9 @@
               <a href="../li_code_admin.html">code_admin</a><br />
               <a href="../li_code_common.html">code_common</a><br />
               <a href="../li_code_install.html">code_install</a><br />
+              <a href="../li_code_player.html">code_player</a><br />
               <a href="../li_code_public.html">code_public</a><br />
+              <a href="../li_QuestDB.html">QuestDB</a><br />
               <a href="../li_skin_admin.html">skin_admin</a><br />
               <a href="../li_skin_common.html">skin_common</a><br />
               <a href="../li_skin_install.html">skin_install</a><br />
@@ -45,7 +47,8 @@
       <br />
                         <b>Files:</b><br />
         <div class="package">
-				<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_bank.php.html">code_bank.php</a></span><br />
+				<span style="padding-left: 1em;"><a href="../code_public/_code---admin---bk_code_menu_admin.php.html">bk_code_menu_admin.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_bank.php.html">code_bank.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_battle.php.html">code_battle.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_edit_profile.php.html">code_edit_profile.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_help.php.html">code_help.php</a></span><br />
@@ -57,6 +60,7 @@
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_mail.php.html">code_mail.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_members.php.html">code_members.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---admin---code_menu_admin.php.html">code_menu_admin.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../code_public/_code---player---code_player_rpg.php.php.html">code_player_rpg.php.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_portal.php.html">code_portal.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_profile.php.html">code_profile.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_quest.php.html">code_quest.php</a></span><br />
@@ -82,6 +86,7 @@
 	    		<a href="../code_public/code_mail.html">code_mail</a>    	 <br />
 	    		<a href="../code_public/code_members.html">code_members</a>    	 <br />
 	    		<a href="../code_public/code_menu_admin.html">code_menu_admin</a>    	 <br />
+	    		<a href="../code_public/code_player_rpg.html">code_player_rpg</a>    	 <br />
 	    		<a href="../code_public/code_portal.html">code_portal</a>    	 <br />
 	    		<a href="../code_public/code_profile.html">code_profile</a>    	 <br />
 	    		<a href="../code_public/code_quest.html">code_quest</a>    	 <br />
@@ -145,6 +150,8 @@ Source Location: /code/public/code_work.php<br /><br />
 		<ul>
 		  		  <li><a href="../code_public/code_work.html#methodconstruct">construct</a></li>
 		  		  <li><a href="../code_public/code_work.html#methodmake_work">make_work</a></li>
+		  		  <li><a href="../code_public/code_work.html#methodwork">work</a></li>
+		  		  <li><a href="../code_public/code_work.html#methodwork_switch">work_switch</a></li>
 		  		</ul>
 		</td>
 		
@@ -207,6 +214,12 @@ Source Location: /code/public/code_work.php<br /><br />
 										</dd>
 																			<dt>
 											<span class="method-definition"><a href="../code_common/code_common.html#var$player">code_common::$player</a></span>
+										</dt>
+										<dd>
+											<span class="method-definition"></span>
+										</dd>
+																			<dt>
+											<span class="method-definition"><a href="../code_common/code_common.html#var$player_class">code_common::$player_class</a></span>
 										</dt>
 										<dd>
 											<span class="method-definition"></span>
@@ -339,7 +352,7 @@ Source Location: /code/public/code_work.php<br /><br />
 		<div class="info-box-body">
 			<div class="method-summary">
 				<table border="0" cellspacing="0" cellpadding="0" class="method-summary">
-																																<div class="method-definition">
+																																																<div class="method-definition">
 											<tr><td class="method-definition"><span class="method-result">string</span>&nbsp;&nbsp;</td>
 										<td class="method-definition"><a href="#construct" title="details" class="method-name">construct</a>()&nbsp;&nbsp;</td>
 					<td class="method-definition">class override. calls parents, sends kids home.</td></tr>
@@ -348,6 +361,16 @@ Source Location: /code/public/code_work.php<br /><br />
 											<tr><td class="method-definition"><span class="method-result">string</span>&nbsp;&nbsp;</td>
 										<td class="method-definition"><a href="#make_work" title="details" class="method-name">make_work</a>()&nbsp;&nbsp;</td>
 					<td class="method-definition">handles all work</td></tr>
+				</div>
+																<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">string</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#work" title="details" class="method-name">work</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">they did it</td></tr>
+				</div>
+																<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">void</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#work_switch" title="details" class="method-name">work_switch</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition"></td></tr>
 				</div>
 												</table>
 			</div>
@@ -381,7 +404,7 @@ Source Location: /code/public/code_work.php<br /><br />
 			<a name='method_detail'></a>
 
 <a name="methodconstruct" id="construct"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
 	<span class="method-title">construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 15]</span>
@@ -423,10 +446,10 @@ Source Location: /code/public/code_work.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodmake_work" id="make_work"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">make_work</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 28]</span>
+	<span class="method-title">make_work</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 44]</span>
 </div>
 <br />
 
@@ -434,11 +457,59 @@ Source Location: /code/public/code_work.php<br /><br />
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
 		<code>string make_work(
+[string
+$message = &quot;&quot;]&nbsp;
 )</code>
     </td></tr></table>
     </td></tr></table><br /></div>
 
 	<p align="center" class="short-description"><strong>handles all work
+</strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$message:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> error message</span>			</td></tr>
+				</table>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Return:</strong>&nbsp;&nbsp;</td><td>html</td>
+  </tr>
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+		
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodwork" id="work"><!-- --></a>
+<div class="evenrow">
+
+<div class="method-header">
+	<span class="method-title">work</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 54]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>string work(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>they did it
 </strong></p>
 
 	<br />
@@ -458,13 +529,44 @@ Source Location: /code/public/code_work.php<br /><br />
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
+<a name="methodwork_switch" id="work_switch"><!-- --></a>
+<div class="oddrow">
+
+<div class="method-header">
+	<span class="method-title">work_switch</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 23]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>void work_switch(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+		
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
 		</div>
 	</div>
 
 
         <div class="credit">
 		    <hr class="separator" />
-		    Documentation generated on Sun, 26 Jul 2009 15:41:30 +0300 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Sat, 22 Aug 2009 01:31:04 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>

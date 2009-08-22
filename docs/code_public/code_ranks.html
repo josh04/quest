@@ -17,8 +17,8 @@
   <tr>
     <td colspan="2" class="header-menu">
       
-                                                                  
-                                                                                            		[ <a href="../classtrees_code_public.html" class="menu">class tree: code_public</a> ]
+                                                                                
+                                                                                                          		[ <a href="../classtrees_code_public.html" class="menu">class tree: code_public</a> ]
 		[ <a href="../elementindex_code_public.html" class="menu">index: code_public</a> ]
             [ <a href="../elementindex.html" class="menu">all elements</a> ]
     </td>
@@ -35,7 +35,9 @@
               <a href="../li_code_admin.html">code_admin</a><br />
               <a href="../li_code_common.html">code_common</a><br />
               <a href="../li_code_install.html">code_install</a><br />
+              <a href="../li_code_player.html">code_player</a><br />
               <a href="../li_code_public.html">code_public</a><br />
+              <a href="../li_QuestDB.html">QuestDB</a><br />
               <a href="../li_skin_admin.html">skin_admin</a><br />
               <a href="../li_skin_common.html">skin_common</a><br />
               <a href="../li_skin_install.html">skin_install</a><br />
@@ -45,7 +47,8 @@
       <br />
                         <b>Files:</b><br />
         <div class="package">
-				<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_bank.php.html">code_bank.php</a></span><br />
+				<span style="padding-left: 1em;"><a href="../code_public/_code---admin---bk_code_menu_admin.php.html">bk_code_menu_admin.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_bank.php.html">code_bank.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_battle.php.html">code_battle.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_edit_profile.php.html">code_edit_profile.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_help.php.html">code_help.php</a></span><br />
@@ -57,6 +60,7 @@
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_mail.php.html">code_mail.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_members.php.html">code_members.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---admin---code_menu_admin.php.html">code_menu_admin.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../code_public/_code---player---code_player_rpg.php.php.html">code_player_rpg.php.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_portal.php.html">code_portal.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_profile.php.html">code_profile.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_quest.php.html">code_quest.php</a></span><br />
@@ -82,6 +86,7 @@
 	    		<a href="../code_public/code_mail.html">code_mail</a>    	 <br />
 	    		<a href="../code_public/code_members.html">code_members</a>    	 <br />
 	    		<a href="../code_public/code_menu_admin.html">code_menu_admin</a>    	 <br />
+	    		<a href="../code_public/code_player_rpg.html">code_player_rpg</a>    	 <br />
 	    		<a href="../code_public/code_portal.html">code_portal</a>    	 <br />
 	    		<a href="../code_public/code_profile.html">code_profile</a>    	 <br />
 	    		<a href="../code_public/code_quest.html">code_quest</a>    	 <br />
@@ -208,6 +213,12 @@ Source Location: /code/public/code_ranks.php<br /><br />
 										</dd>
 																			<dt>
 											<span class="method-definition"><a href="../code_common/code_common.html#var$player">code_common::$player</a></span>
+										</dt>
+										<dd>
+											<span class="method-definition"></span>
+										</dd>
+																			<dt>
+											<span class="method-definition"><a href="../code_common/code_common.html#var$player_class">code_common::$player_class</a></span>
 										</dt>
 										<dd>
 											<span class="method-definition"></span>
@@ -388,7 +399,7 @@ Source Location: /code/public/code_ranks.php<br /><br />
 		<div class="info-box-body">
 			<a name='method_detail'></a>
 <a name="methodcode_ranks_menu" id="code_ranks_menu"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
 	<span class="method-title">static method code_ranks_menu</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 62]</span>
@@ -448,7 +459,7 @@ $menu&nbsp;
 </div>
 
 <a name="methodconstruct" id="construct"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
 	<span class="method-title">construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 15]</span>
@@ -490,7 +501,7 @@ $menu&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodmake_ranks" id="make_ranks"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
 	<span class="method-title">make_ranks</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 28]</span>
@@ -531,7 +542,7 @@ $menu&nbsp;
 
         <div class="credit">
 		    <hr class="separator" />
-		    Documentation generated on Sun, 26 Jul 2009 15:41:29 +0300 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Sat, 22 Aug 2009 01:31:02 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>

@@ -18,7 +18,7 @@
     <td colspan="2" class="header-menu">
       
                                                     
-                                                                                                          		[ <a href="../classtrees_code_install.html" class="menu">class tree: code_install</a> ]
+                                                                                                                                      		[ <a href="../classtrees_code_install.html" class="menu">class tree: code_install</a> ]
 		[ <a href="../elementindex_code_install.html" class="menu">index: code_install</a> ]
             [ <a href="../elementindex.html" class="menu">all elements</a> ]
     </td>
@@ -35,7 +35,9 @@
               <a href="../li_code_admin.html">code_admin</a><br />
               <a href="../li_code_common.html">code_common</a><br />
               <a href="../li_code_install.html">code_install</a><br />
+              <a href="../li_code_player.html">code_player</a><br />
               <a href="../li_code_public.html">code_public</a><br />
+              <a href="../li_QuestDB.html">QuestDB</a><br />
               <a href="../li_skin_admin.html">skin_admin</a><br />
               <a href="../li_skin_common.html">skin_common</a><br />
               <a href="../li_skin_install.html">skin_install</a><br />
@@ -144,13 +146,13 @@ Source Location: /code/install/code_start.php<br /><br />
 							<blockquote>
 								<dl>
 																			<dt>
-											<span class="method-definition"><a href="../code_install/_code_install.html#var$blueprints_query">_code_install::$blueprints_query</a></span>
+											<span class="method-definition"><a href="../code_install/_code_install.html#var$bank_query">_code_install::$bank_query</a></span>
 										</dt>
 										<dd>
 											<span class="method-definition"></span>
 										</dd>
 																			<dt>
-											<span class="method-definition"><a href="../code_install/_code_install.html#var$blueprints_query_update">_code_install::$blueprints_query_update</a></span>
+											<span class="method-definition"><a href="../code_install/_code_install.html#var$blueprints_query">_code_install::$blueprints_query</a></span>
 										</dt>
 										<dd>
 											<span class="method-definition"></span>
@@ -174,6 +176,12 @@ Source Location: /code/install/code_start.php<br /><br />
 											<span class="method-definition"></span>
 										</dd>
 																			<dt>
+											<span class="method-definition"><a href="../code_install/_code_install.html#var$friends_query">_code_install::$friends_query</a></span>
+										</dt>
+										<dd>
+											<span class="method-definition"></span>
+										</dd>
+																			<dt>
 											<span class="method-definition"><a href="../code_install/_code_install.html#var$help_insert_query">_code_install::$help_insert_query</a></span>
 										</dt>
 										<dd>
@@ -192,31 +200,13 @@ Source Location: /code/install/code_start.php<br /><br />
 											<span class="method-definition"></span>
 										</dd>
 																			<dt>
-											<span class="method-definition"><a href="../code_install/_code_install.html#var$items_query_update">_code_install::$items_query_update</a></span>
-										</dt>
-										<dd>
-											<span class="method-definition"></span>
-										</dd>
-																			<dt>
 											<span class="method-definition"><a href="../code_install/_code_install.html#var$log_query">_code_install::$log_query</a></span>
 										</dt>
 										<dd>
 											<span class="method-definition"></span>
 										</dd>
 																			<dt>
-											<span class="method-definition"><a href="../code_install/_code_install.html#var$log_query_update">_code_install::$log_query_update</a></span>
-										</dt>
-										<dd>
-											<span class="method-definition"></span>
-										</dd>
-																			<dt>
 											<span class="method-definition"><a href="../code_install/_code_install.html#var$mail_query">_code_install::$mail_query</a></span>
-										</dt>
-										<dd>
-											<span class="method-definition"></span>
-										</dd>
-																			<dt>
-											<span class="method-definition"><a href="../code_install/_code_install.html#var$mail_query_update">_code_install::$mail_query_update</a></span>
 										</dt>
 										<dd>
 											<span class="method-definition"></span>
@@ -258,7 +248,7 @@ Source Location: /code/install/code_start.php<br /><br />
 											<span class="method-definition"></span>
 										</dd>
 																			<dt>
-											<span class="method-definition"><a href="../code_install/_code_install.html#var$players_query_update">_code_install::$players_query_update</a></span>
+											<span class="method-definition"><a href="../code_install/_code_install.html#var$profile_query">_code_install::$profile_query</a></span>
 										</dt>
 										<dd>
 											<span class="method-definition"></span>
@@ -289,6 +279,12 @@ Source Location: /code/install/code_start.php<br /><br />
 										</dd>
 																			<dt>
 											<span class="method-definition"><a href="../code_install/_code_install.html#var$tickets_query">_code_install::$tickets_query</a></span>
+										</dt>
+										<dd>
+											<span class="method-definition"></span>
+										</dd>
+																			<dt>
+											<span class="method-definition"><a href="../code_install/_code_install.html#var$update_tables_query">_code_install::$update_tables_query</a></span>
 										</dt>
 										<dd>
 											<span class="method-definition"></span>
@@ -330,6 +326,12 @@ Source Location: /code/install/code_start.php<br /><br />
 										</dd>
 																			<dt>
 											<span class="method-definition"><a href="../code_common/code_common.html#var$player">code_common::$player</a></span>
+										</dt>
+										<dd>
+											<span class="method-definition"></span>
+										</dd>
+																			<dt>
+											<span class="method-definition"><a href="../code_common/code_common.html#var$player_class">code_common::$player_class</a></span>
 										</dt>
 										<dd>
 											<span class="method-definition"></span>
@@ -522,7 +524,7 @@ Source Location: /code/install/code_start.php<br /><br />
 			<a name='method_detail'></a>
 
 <a name="methodconstruct" id="construct"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
 	<span class="method-title">construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 15]</span>
@@ -569,7 +571,7 @@ Source Location: /code/install/code_start.php<br /><br />
 
         <div class="credit">
 		    <hr class="separator" />
-		    Documentation generated on Sun, 26 Jul 2009 15:41:29 +0300 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Sat, 22 Aug 2009 01:31:03 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>

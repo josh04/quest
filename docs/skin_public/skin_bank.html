@@ -17,7 +17,7 @@
   <tr>
     <td colspan="2" class="header-menu">
       
-                                                                                                                                        
+                                                                                                                                                                    
                       		[ <a href="../classtrees_skin_public.html" class="menu">class tree: skin_public</a> ]
 		[ <a href="../elementindex_skin_public.html" class="menu">index: skin_public</a> ]
             [ <a href="../elementindex.html" class="menu">all elements</a> ]
@@ -35,7 +35,9 @@
               <a href="../li_code_admin.html">code_admin</a><br />
               <a href="../li_code_common.html">code_common</a><br />
               <a href="../li_code_install.html">code_install</a><br />
+              <a href="../li_code_player.html">code_player</a><br />
               <a href="../li_code_public.html">code_public</a><br />
+              <a href="../li_QuestDB.html">QuestDB</a><br />
               <a href="../li_skin_admin.html">skin_admin</a><br />
               <a href="../li_skin_common.html">skin_common</a><br />
               <a href="../li_skin_install.html">skin_install</a><br />
@@ -45,13 +47,14 @@
       <br />
                         <b>Files:</b><br />
         <div class="package">
-				<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_admin_template.php.html">skin_admin_template.php</a></span><br />
+				<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---bk_skin_menu_admin.php.html">bk_skin_menu_admin.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_admin_template.php.html">skin_admin_template.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_bank.php.html">skin_bank.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_battle.php.html">skin_battle.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_help.php.html">skin_help.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_hospital.php.html">skin_hospital.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_index.php.html">skin_index.php</a></span><br />
-			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_index.php.html">skin_index.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_index_admin.php.html">skin_index_admin.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_items.php.html">skin_items.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_log.php.html">skin_log.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_mail.php.html">skin_mail.php</a></span><br />
@@ -59,8 +62,8 @@
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_menu_admin.php.html">skin_menu_admin.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_portal.php.html">skin_portal.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_profile.php.html">skin_profile.php</a></span><br />
-			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_quest.php.html">skin_quest.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_quest.php.html">skin_quest.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_quest.php.html">skin_quest.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_ranks.php.html">skin_ranks.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_ticket.php.html">skin_ticket.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_ticket.php.html">skin_ticket.php</a></span><br />
@@ -76,6 +79,7 @@
 	    		<a href="../skin_public/skin_help.html">skin_help</a>    	 <br />
 	    		<a href="../skin_public/skin_hospital.html">skin_hospital</a>    	 <br />
 	    		<a href="../skin_public/skin_index.html">skin_index</a>    	 <br />
+	    		<a href="../skin_public/skin_index_admin.html">skin_index_admin</a>    	 <br />
 	    		<a href="../skin_public/skin_items.html">skin_items</a>    	 <br />
 	    		<a href="../skin_public/skin_log.html">skin_log</a>    	 <br />
 	    		<a href="../skin_public/skin_mail.html">skin_mail</a>    	 <br />
@@ -141,7 +145,9 @@ Source Location: /skin/public/skin_bank.php<br /><br />
 		<p align="center" class="short-description"><strong><a href="#sec_methods">Methods</a></strong></p>
 		<ul>
 		  		  <li><a href="../skin_public/skin_bank.html#methoddeposited">deposited</a></li>
+		  		  <li><a href="../skin_public/skin_bank.html#methodinterested">interested</a></li>
 		  		  <li><a href="../skin_public/skin_bank.html#methodmake_bank">make_bank</a></li>
+		  		  <li><a href="../skin_public/skin_bank.html#methodwithdrawn">withdrawn</a></li>
 		  		</ul>
 		</td>
 		
@@ -246,15 +252,25 @@ Source Location: /skin/public/skin_bank.php<br /><br />
 		<div class="info-box-body">
 			<div class="method-summary">
 				<table border="0" cellspacing="0" cellpadding="0" class="method-summary">
-																																<div class="method-definition">
+																																																<div class="method-definition">
 											<tr><td class="method-definition"><span class="method-result">string</span>&nbsp;&nbsp;</td>
 										<td class="method-definition"><a href="#deposited" title="details" class="method-name">deposited</a>()&nbsp;&nbsp;</td>
 					<td class="method-definition">message for depositing money</td></tr>
 				</div>
 																<div class="method-definition">
 											<tr><td class="method-definition"><span class="method-result">string</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#interested" title="details" class="method-name">interested</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">message for collecting interest</td></tr>
+				</div>
+																<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">string</span>&nbsp;&nbsp;</td>
 										<td class="method-definition"><a href="#make_bank" title="details" class="method-name">make_bank</a>()&nbsp;&nbsp;</td>
 					<td class="method-definition">makes main bank page</td></tr>
+				</div>
+																<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">string</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#withdrawn" title="details" class="method-name">withdrawn</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">message for withdrawing money</td></tr>
 				</div>
 												</table>
 			</div>
@@ -288,10 +304,10 @@ Source Location: /skin/public/skin_bank.php<br /><br />
 			<a name='method_detail'></a>
 
 <a name="methoddeposited" id="deposited"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">deposited</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 69]</span>
+	<span class="method-title">deposited</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 75]</span>
 </div>
 <br />
 
@@ -342,11 +358,59 @@ $bank&nbsp;
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
+<a name="methodinterested" id="interested"><!-- --></a>
+<div class="evenrow">
+
+<div class="method-header">
+	<span class="method-title">interested</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 98]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>string interested(
+int
+$gold&nbsp;
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>message for collecting interest
+</strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">int</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$gold:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> amount of carried gold</span>			</td></tr>
+				</table>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Return:</strong>&nbsp;&nbsp;</td><td>html</td>
+  </tr>
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+		
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
 <a name="methodmake_bank" id="make_bank"><!-- --></a>
 <div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">make_bank</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 20]</span>
+	<span class="method-title">make_bank</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 22]</span>
 </div>
 <br />
 
@@ -356,10 +420,12 @@ $bank&nbsp;
 		<code>string make_bank(
 integer
 $gold, integer
-$bank, integer
+$bank_gold_deposited, integer
+$bank_gold_saved, integer
 $interest, string
 $disabled, string
-$tomorrow&nbsp;
+$next_interest, [string
+$message = &quot;&quot;]&nbsp;
 )</code>
     </td></tr></table>
     </td></tr></table><br /></div>
@@ -374,31 +440,98 @@ $tomorrow&nbsp;
 				<td>
 				<span class="var-name">$gold:&nbsp;</span></td>
 				<td>
-							</td></tr>
+				<span class="var-description"> amount in hand</span>			</td></tr>
 					<tr><td class="indent">
 				<span class="var-type">integer</span>&nbsp;&nbsp;</td>
 				<td>
-				<span class="var-name">$bank:&nbsp;</span></td>
+				<span class="var-name">$bank_gold_deposited:&nbsp;</span></td>
 				<td>
-							</td></tr>
+				<span class="var-description"> amount pending</span>			</td></tr>
+					<tr><td class="indent">
+				<span class="var-type">integer</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$bank_gold_saved:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> amount in bank</span>			</td></tr>
 					<tr><td class="indent">
 				<span class="var-type">integer</span>&nbsp;&nbsp;</td>
 				<td>
 				<span class="var-name">$interest:&nbsp;</span></td>
 				<td>
-							</td></tr>
+				<span class="var-description"> amount of interest</span>			</td></tr>
 					<tr><td class="indent">
 				<span class="var-type">string</span>&nbsp;&nbsp;</td>
 				<td>
 				<span class="var-name">$disabled:&nbsp;</span></td>
 				<td>
-							</td></tr>
+				<span class="var-description"> disables the interest box</span>			</td></tr>
 					<tr><td class="indent">
 				<span class="var-type">string</span>&nbsp;&nbsp;</td>
 				<td>
-				<span class="var-name">$tomorrow:&nbsp;</span></td>
+				<span class="var-name">$next_interest:&nbsp;</span></td>
 				<td>
-							</td></tr>
+				<span class="var-description"> how much will they gain?</span>			</td></tr>
+					<tr><td class="indent">
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$message:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> error message</span>			</td></tr>
+				</table>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Return:</strong>&nbsp;&nbsp;</td><td>html</td>
+  </tr>
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+		
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodwithdrawn" id="withdrawn"><!-- --></a>
+<div class="evenrow">
+
+<div class="method-header">
+	<span class="method-title">withdrawn</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 87]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>string withdrawn(
+int
+$gold, int
+$bank&nbsp;
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>message for withdrawing money
+</strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">int</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$gold:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> amount of carried gold</span>			</td></tr>
+					<tr><td class="indent">
+				<span class="var-type">int</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$bank:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> amount of bank gold</span>			</td></tr>
 				</table>
 
 	<br />
@@ -424,7 +557,7 @@ $tomorrow&nbsp;
 
         <div class="credit">
 		    <hr class="separator" />
-		    Documentation generated on Sun, 26 Jul 2009 15:41:32 +0300 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Sat, 22 Aug 2009 01:31:06 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>
