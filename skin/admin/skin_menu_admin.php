@@ -15,7 +15,7 @@ class skin_menu_admin extends skin_common {
     */
     public function make_menu_entry($menu_entry) {
         $make_menu_entry = "<tr>
-                <td style='width:80%;'>".$menu_entry['label']."</td>
+                <td style='width:80%;".$menu_entry['disabled']."'>".$menu_entry['label']."</td>
                 <td>
                     <a href='?section=admin&amp;page=menu&amp;action=edit&amp;id=".$menu_entry['id']."'><img src='images/icons/pencil.png' alt='edit' /></a>&nbsp;
                     <a href='?section=admin&amp;page=menu&amp;action=remove&amp;id=".$menu_entry['id']."'><img src='images/icons/delete.png' alt='delete' /></a>
@@ -133,6 +133,16 @@ class skin_menu_admin extends skin_common {
                 <input type='submit' value='Delete' /> or <a href='?section=admin&amp;page=menu'>Cancel</a>
             </form></p>";
         return $remove;
+    }
+
+   /**
+    * tiny snippet of code
+    *
+    * @return string html
+    */
+    public function disabled() {
+        $disabled = "color:#9A9A9B;";
+        return $disabled;
     }
 }
 ?>

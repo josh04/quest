@@ -122,6 +122,7 @@ class code_index extends code_common {
         if ($menu->player->is_member) {
             if (get_class($menu->player) != "code_player_rpg") { // because we no longer necessarily have the rpg data
                 $player_query = $menu->db->execute("SELECT * FROM `rpg` WHERE `player_id`=?", array($menu->player->id));
+
                 if (!$player_extra = $player_query->fetchrow()) {
                     return $label;
                 }

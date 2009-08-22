@@ -13,8 +13,9 @@ class code_player_rpg extends code_player {
     */
     public function make_player() {
         $return_value = parent::make_player("rpg");
-
-        if ($this->is_player) {
+        
+        if ($this->is_member) {
+            
             if (!isset($this->player_id)) {
 
                 // DEFAULT RPG STATS
@@ -36,7 +37,7 @@ class code_player_rpg extends code_player {
                                             'stat_points' => 3
                                             );
 
-                $rpg_array['player_id'] = $player_db['id'];
+                $rpg_array['player_id'] = $this->id;
                 $this->db->AutoExecute('rpg', $rpg_array, 'INSERT');
 
                 foreach ($rpg_array as $name => $value) {
@@ -116,7 +117,7 @@ class code_player_rpg extends code_player {
     * @return int player id
     */
     public function create_player($username, $password, $email) {
-        $rpg_array['player_id'] =parent::create_player($username, $password, $email);
+        $rpg_array['player_id'] = parent::create_player($username, $password, $email);
         $rpg_array = array( 'strength' => 1,
                             'vitality' => 1,
                             'agility' => 1,

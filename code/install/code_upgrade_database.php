@@ -69,24 +69,7 @@ class code_upgrade_database extends _code_install {
 
         $this->make_db();
 
-        $this->db->execute($this->cron_query);
-        $this->db->execute($this->help_query);
-        $this->db->execute($this->news_query);
-        $this->db->execute($this->skins_query);
-        $this->db->execute($this->tickets_query);
-        $this->db->execute($this->cron_insert_query);
-        $this->db->execute($this->pages_query);
-        $this->db->execute($this->pages_insert_query);
-        $this->db->execute($this->settings_query);
-        $this->db->execute($this->settings_insert_query);
-        $this->db->execute($this->menu_query);
-        $this->db->execute($this->menu_insert_query);
-        $this->db->execute($this->help_insert_query);
-        $this->db->execute($this->quests_query);
-        $this->db->execute($this->friends_query);
-        $this->db->execute($this->bank_query);
-        $this->db->execute($this->profile_query);
-        $this->db->execute($this->update_tables_query);
+        $this->upgrade_database();
         
         if (!$this->db->ErrorMsg()) {
             rename("config.php", "config.php.bak");

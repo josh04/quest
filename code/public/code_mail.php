@@ -229,7 +229,7 @@ class code_mail extends code_common {
             require_once("skin/public/skin_mail.php");
             while ($mail = $mail_query->fetchrow()) {
                 $mail_rows .= skin_mail::mail_row_small($mail['id'], $mail['username'], $mail['subject']);
-                $this->player->unread++;
+                $menu->player->unread++;
             }
             
             $mail = skin_mail::mail_wrap_small($mail_rows);

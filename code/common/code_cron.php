@@ -54,7 +54,7 @@ class code_cron {
     *
     */
     public function natural_heal($repeat) {
-        $player_query = $this->db->execute("UPDATE `players` SET `hp`=`hp`+".$repeat);
+        $player_query = $this->db->execute("UPDATE `players` SET `hp`=`hp`+? WHERE `hp`+? < `hp_max`", array($repeat, $repeat));
     }
 
    /**

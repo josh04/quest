@@ -29,6 +29,7 @@ class code_menu_admin extends code_common {
         switch($_GET['action']) {
             case "edit":
                 $menu_admin_switch = $this->edit();
+                break;
             case "remove":
                 $menu_admin_switch = $this->remove();
                 break;
@@ -58,6 +59,9 @@ class code_menu_admin extends code_common {
         $menu_query = $this->db->execute("SELECT * FROM `menu` ORDER BY `order` ASC");
 
         while($menu_entry = $menu_query->fetchrow()) {
+            if (!$menu_entry['enabled']) {
+                $menu_entry['disabled'] = $this->skin->disabled();
+            }
             $menu_categories[$menu_entry['category']] .= $this->skin->make_menu_entry($menu_entry);
         }
 
