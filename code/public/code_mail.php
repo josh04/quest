@@ -218,23 +218,23 @@ class code_mail extends code_common {
     * @return string html
     */
     public static function code_mail_menu(&$menu, $label) {
-        if ($menu->player->unread) {
-            require_once("skin/public/skin_mail.php");
-            $mail_query = $menu->db->execute(" SELECT m.*, p.username FROM mail AS m
-                                            LEFT JOIN players AS p ON m.from=p.id
-                                            WHERE m.to=? AND m.status=0
-                                            ORDER BY m.time DESC", array($menu->player->id));
 
-            if ($mail_query->recordcount()) {
-                while ($mail = $mail_query->fetchrow()) {
-                    $mail_rows .= skin_mail::mail_row_small($mail['id'], $mail['username'], $mail['subject']);
-                }
+        $mail_query = $menu->db->execute(" SELECT `m`.*, `p`.`username` FROM `mail` AS `m`
+                                        LEFT JOIN `players` AS `p` ON `m`.`from`=`p`.`id`
+                                        WHERE `m`.`to`=? AND `m`.`status`=0
+                                        ORDER BY `m`.`time` DESC", array($menu->player->id));
+
+
+        if ($mail_query->RecordCount()) {
+            require_once("skin/public/skin_mail.php");
+            while ($mail = $mail_query->fetchrow()) {
+                $mail_rows .= skin_mail::mail_row_small($mail['id'], $mail['username'], $mail['subject']);
+                $this->player->unread++;
             }
             
-            if ($mail_rows) {
-                $mail = skin_mail::mail_wrap_small($mail_rows);
-                $menu->top .= $mail;
-            }
+            $mail = skin_mail::mail_wrap_small($mail_rows);
+            $menu->top .= $mail;
+
         }
         $menu_entry_addition = $label." [".$menu->player->unread."]";
         return $menu_entry_addition;

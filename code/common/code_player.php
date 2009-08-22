@@ -31,16 +31,23 @@ class code_player {
     *
     * (DONE) I think some of the code_login procedure should end up in here instead.
     *
+    * @param string $join table to get extra data from
     * @return bool good to go?
     */
-    public function make_player() {
+    public function make_player($join = "") {
         if ($_COOKIE['user_id']) {
             $id = $_COOKIE['user_id'];
         } else {
             $id = $_SESSION['user_id'];
         }
- 
-        $player_query = $this->db->execute("SELECT * FROM players WHERE id=?", array(intval($id)));
+
+        if ($join) {
+            $player_query = $this->db->execute("SELECT `p`.*, `j`.* FROM `players` AS `p` LEFT JOIN `".$join."` AS `j`
+                ON `p`.`id` = `j`.`player_id`
+                WHERE `p`.`id`=?", array(intval($id)));
+        } else {
+            $player_query = $this->db->execute("SELECT * FROM `players` WHERE `id`=?", array(intval($id)));
+        }
  
         $player_db = $player_query->fetchrow();
  
@@ -49,20 +56,16 @@ class code_player {
         if ($check == $_COOKIE['cookie_hash'] || $check == $_SESSION['hash']) {
             $this->is_member = true;
             $last_active = time();
- 
-            $mail_count_query = $this->db->execute("SELECT count(*) AS c FROM mail WHERE `to`=? AND `status`=0", array($player_db['id']));
-            $mail_count = $mail_count_query->fetchrow();
-            if ($mail_count) {
-                $player_db['unread'] = $mail_count['c'];
-            } else {
-                $player_db['unread'] = 0;
-            }
-            
+             
             $player_db['last_active'] = $last_active;
  
             $this->player_db_to_object($player_db);
-            $update_player['last_active'] = $last_active;
-            $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->id);
+
+            $this->registered_date = date("l, jS F Y", $this->registered);
+            $this->registered_days = intval((time() - $this->registered)/84600);
+
+
+            $this->db->execute("UPDATE `players` SET `last_active`=? WHERE `id`=?", array ($last_active, $this->id));
           
             if ($this->halt_if_suspended()) {
                 return false;
@@ -109,9 +112,7 @@ class code_player {
         foreach($player_db as $key=>$value) { //Fill out our object.
             $this->$key = $value;
         }
- 
-        $this->registered_date = date("l, jS F Y", $this->registered);
-        $this->registered_days = intval((time() - $this->registered)/84600);
+
     }
    /**
     * wrapper for get_player_by_*

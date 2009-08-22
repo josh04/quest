@@ -10,26 +10,29 @@ class code_player_profile extends code_player {
    /**
     * accesses the "profiles" table.
     *
-    * @param array $player_db the database what pull
     */
-    protected function player_db_to_object($player_db) {
-        $profile_query = $this->db->execute("SELECT * FROM `profiles` WHERE `player_id`=?", array($player_db['id']));
-        
-        if (!$profile_data = $profile_query->fetchrow()) {
-            foreach (json_decode($this->settings['custom_fields'], true) as $field => $default) {
-                $profile_string[$field] = $default;
-            }
-            $profile_data['player_id'] = $player_db['id'];
-            $profile_data['profile_string'] = json_encode($profile_string);
-            $this->db->AutoExecute('profiles', $profile_data, 'INSERT');
-        }
-        
-        $profile_array = json_decode($profile_data['profile_string'], true);
-        foreach (json_decode($this->settings['custom_fields'], true) as $field => $default) {
-            $player_db[$field] = $profile_array[$field];
-        }
+    public function make_player() {
+        $return_value = parent::make_player("profiles");
+        if ($this->is_player) {
+            if (!isset($this->player_id)) {
+                foreach (json_decode($this->settings['custom_fields'], true) as $field => $default) {
+                    $profile_string[$field] = $default;
+                }
+                $profile_data['player_id'] = $player_db['id'];
+                $profile_data['profile_string'] = json_encode($profile_string);
+                $this->db->AutoExecute('profiles', $profile_data, 'INSERT');
 
-        parent::player_db_to_object($player_db);
+                foreach ($profile_data as $name => $value) {
+                    $this->$name = $value;
+                }
+            }
+
+            $profile_array = json_decode($this->profile_string, true);
+            foreach (json_decode($this->settings['custom_fields'], true) as $field => $default) {
+                $this->$field = $profile_array[$field];
+            }
+        }
+        return $return_value;
     }
 
    /**

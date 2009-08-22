@@ -6,7 +6,7 @@
  * @package code_common
  * @author josh04
  */
-
+ 
 session_start(); // Starts session.
 
 // ------------------------

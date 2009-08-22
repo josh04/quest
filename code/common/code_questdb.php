@@ -270,7 +270,7 @@ class QuestDB {
         $this->Flush();
         $this->_lastQuery = $sql;
         $this->_Queries[] = $sql;
-        $this->_QueryCount++;
+        $this->_queryCount++;
 
         $rs = new QuestDBrs($this->_queryID, $this->_lastQuery);
         return $rs;

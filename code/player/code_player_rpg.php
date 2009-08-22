@@ -8,42 +8,46 @@
 class code_player_rpg extends code_player {
 
    /**
-    * accesses the "profiles" table.
+    * accesses the "rpg" table.
     *
-    * @param array $player_db the database what pull
     */
-    protected function player_db_to_object($player_db) {
-        $rpg_query = $this->db->execute("SELECT * FROM `rpg` WHERE `player_id`=?", array($player_db['id']));
+    public function make_player() {
+        $return_value = parent::make_player("rpg");
 
-        if (!$rpg_array = $rpg_query->fetchrow()) {
+        if ($this->is_player) {
+            if (!isset($this->player_id)) {
 
-            // DEFAULT RPG STATS
-            $rpg_array = array(         'strength' => 1,
-                                        'vitality' => 1,
-                                        'agility' => 1,
+                // DEFAULT RPG STATS
+                $rpg_array = array(         'strength' => 1,
+                                            'vitality' => 1,
+                                            'agility' => 1,
 
-                                        'hp' => 60,
-                                        'hp_max' => 60,
-                                        'exp' => 0,
-                                        'exp_max' => 50,
-                                        'energy' => 10,
-                                        'energy_max' => 10,
+                                            'hp' => 60,
+                                            'hp_max' => 60,
+                                            'exp' => 0,
+                                            'exp_max' => 50,
+                                            'energy' => 10,
+                                            'energy_max' => 10,
 
-                                        'kills' => 0,
-                                        'deaths' => 0,
+                                            'kills' => 0,
+                                            'deaths' => 0,
 
-                                        'level' => 1,
-                                        'stat_points' => 3
-                                        );
+                                            'level' => 1,
+                                            'stat_points' => 3
+                                            );
 
-            $rpg_array['player_id'] = $player_db['id'];
-            $this->db->AutoExecute('rpg', $rpg_array, 'INSERT');
+                $rpg_array['player_id'] = $player_db['id'];
+                $this->db->AutoExecute('rpg', $rpg_array, 'INSERT');
+
+                foreach ($rpg_array as $name => $value) {
+                    $this->$name = $value;
+                }
+            }
+
+
+            $this->exp_percent = intval(($this->exp / $this->exp_max) * 100);
         }
-
-        $player_db = array_merge($player_db, $rpg_array);
-        parent::player_db_to_object($player_db);
-        
-        $this->exp_percent = intval(($this->exp / $this->exp_max) * 100);
+        return $return_value;
     }
 
    /**
