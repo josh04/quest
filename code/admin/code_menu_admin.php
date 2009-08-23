@@ -29,6 +29,7 @@ class code_menu_admin extends code_common {
         switch($_GET['action']) {
             case "edit":
                 $menu_admin_switch = $this->edit();
+                break;
             case "remove":
                 $menu_admin_switch = $this->remove();
                 break;
