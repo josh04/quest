@@ -58,11 +58,20 @@ class code_mail extends code_common {
             case 'compose_submit':
                 $mail_switch = $this->compose_submit();
                 return $mail_switch;
+            case 'multiple':
+                $mail_switch = $this->multiple();
+                return $mail_switch;
             case 'delete_multiple':
                 $mail_switch = $this->delete_multiple();
                 return $mail_switch;
             case 'delete_multiple_confirm':
                 $mail_switch = $this->delete_multiple_confirm();
+                return $mail_switch;
+            case 'mark_as_unread':
+                $mail_switch = $this->mark_as_multiple( 0 );
+                return $mail_switch;
+            case 'mark_as_read':
+                $mail_switch = $this->mark_as_multiple( 1 );
                 return $mail_switch;
             case 'read':
                 $mail_switch = $this->read();
@@ -240,6 +249,54 @@ class code_mail extends code_common {
         return $menu_entry_addition;
     }
 
+   /**
+    * mark a collection of mail items as read or unread
+    *
+    * @param boolean $read whether to mark the messages as read (true) or unread (false)
+    * @return string html
+    */
+    protected function mark_as_multiple($read) {
+        foreach ($_POST['mail_id'] as $mail_id) {
+            $mail_ids .= intval($mail_id).", ";
+        }
+
+        $mail_ids = "(".substr($mail_ids, 0, strlen($mail_ids)-2).")";
+
+        $this->db->Execute("UPDATE `mail` SET `status`=? WHERE `id` IN ".$mail_ids, array($read));
+
+        if($read) $marked = "marked_as_read";
+        else $marked = "marked_as_unread";
+        $mark_as_multiple = $this->mail_inbox($this->skin->lang_error->$marked);
+        
+        return $mark_as_multiple;
+    }
+
+   /**
+    * a switcher to perform actions to multiple posts
+    *
+    * @return string html
+    */
+    protected function multiple() {
+
+        if(empty($_POST['mail_id'])) {
+            $multiple = $this->mail_inbox( $this->skin->lang_error->no_messages_selected );
+            return $multiple;
+        }
+
+        if($_POST['multiple_action']=="mark_as_unread")
+            $multiple = $this->mark_as_multiple( 0 );
+
+        if($_POST['multiple_action']=="mark_as_read")
+            $multiple = $this->mark_as_multiple( 1 );
+
+        if($_POST['multiple_action']=="delete_multiple")
+            $multiple = $this->delete_multiple();
+
+        if(!isset($multiple))
+            $multiple = $this->mail_inbox();
+
+        return $multiple;
+    }
 
 }
 ?>

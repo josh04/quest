@@ -63,6 +63,8 @@ class code_player {
 
             $this->registered_date = date("l, jS F Y", $this->registered);
             $this->registered_days = intval((time() - $this->registered)/84600);
+            $unread_mail = $this->db->getone("SELECT COUNT(`id`) FROM `mail` WHERE `to`=? AND `status`=0",array($this->id));
+            $this->unread = $unread_mail;
 
 
             $this->db->execute("UPDATE `players` SET `last_active`=? WHERE `id`=?", array ($last_active, $this->id));
