@@ -7,6 +7,9 @@
  * @author josh04
  */
 class code_index extends code_common {
+    
+    public $player_class = "code_player_rpg";
+    
 
    /**
     * builds the logged-in index
@@ -117,8 +120,34 @@ class code_index extends code_common {
     */
     public static function code_index_menu(&$menu, $label) {
         if ($menu->player->is_member) {
+            if (get_class($menu->player) != "code_player_rpg") { // because we no longer necessarily have the rpg data
+                $player_query = $menu->db->execute("SELECT * FROM `rpg` WHERE `player_id`=?", array($menu->player->id));
+
+                if (!$player_extra = $player_query->fetchrow()) {
+                    return $label;
+                }
+            } else {
+                $player_extra['hp'] = $menu->player->hp;
+                $player_extra['strength'] = $menu->player->strength;
+                $player_extra['vitality'] = $menu->player->vitality;
+                $player_extra['agility'] = $menu->player->agility;
+
+                $player_extra['hp'] = $menu->player->hp;
+                $player_extra['hp_max'] = $menu->player->hp_max;
+                $player_extra['exp'] = $menu->player->exp;
+                $player_extra['exp_max'] = $menu->player->exp_max;
+                $player_extra['energy'] = $menu->player->energy;
+                $player_extra['energy_max'] = $menu->player->energy_max;
+
+                $player_extra['kills'] = $menu->player->kills;
+                $player_extra['deaths'] = $menu->player->deaths;
+
+                $player_extra['level'] = $menu->player->level;
+                $player_extra['stat_points'] = $menu->player->stat_points;
+            }
+
             require_once("skin/public/skin_index.php");
-            $menu->top .= skin_index::player_details_menu($menu->player);
+            $menu->top .= skin_index::player_details_menu($menu->player, $player_extra);
         }
         return $label;
     }

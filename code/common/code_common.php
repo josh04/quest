@@ -18,7 +18,7 @@ class code_common {
    /**
     * The database object. Runs queries.
     *
-    * @var object
+    * @var QuestDB
     */
     public $db;
 

@@ -17,7 +17,7 @@
   <tr>
     <td colspan="2" class="header-menu">
       
-                                                                                                                                        
+                                                                                                                                                                    
                       		[ <a href="classtrees_skin_public.html" class="menu">class tree: skin_public</a> ]
 		[ <a href="elementindex_skin_public.html" class="menu">index: skin_public</a> ]
             [ <a href="elementindex.html" class="menu">all elements</a> ]
@@ -35,7 +35,9 @@
               <a href="li_code_admin.html">code_admin</a><br />
               <a href="li_code_common.html">code_common</a><br />
               <a href="li_code_install.html">code_install</a><br />
+              <a href="li_code_player.html">code_player</a><br />
               <a href="li_code_public.html">code_public</a><br />
+              <a href="li_QuestDB.html">QuestDB</a><br />
               <a href="li_skin_admin.html">skin_admin</a><br />
               <a href="li_skin_common.html">skin_common</a><br />
               <a href="li_skin_install.html">skin_install</a><br />
@@ -48,6 +50,8 @@
       <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
 
 <a href="#Post-parsing">Post-parsing</a><br>
+<a href="#bk_skin_menu_admin.php">bk_skin_menu_admin.php</a><br>
+<a href="#code_admin_template.php">code_admin_template.php</a><br>
 <a href="#code_bank.php">code_bank.php</a><br>
 <a href="#code_battle.php">code_battle.php</a><br>
 <a href="#code_blueprints.php">code_blueprints.php</a><br>
@@ -61,6 +65,7 @@
 <a href="#code_help.php">code_help.php</a><br>
 <a href="#code_hospital.php">code_hospital.php</a><br>
 <a href="#code_index.php">code_index.php</a><br>
+<a href="#code_index_admin.php">code_index_admin.php</a><br>
 <a href="#code_items.php">code_items.php</a><br>
 <a href="#code_log.php">code_log.php</a><br>
 <a href="#code_login.php">code_login.php</a><br>
@@ -68,10 +73,14 @@
 <a href="#code_members.php">code_members.php</a><br>
 <a href="#code_menu.php">code_menu.php</a><br>
 <a href="#code_menu_admin.php">code_menu_admin.php</a><br>
+<a href="#code_pages.php">code_pages.php</a><br>
 <a href="#code_player.php">code_player.php</a><br>
+<a href="#code_player_profile.php">code_player_profile.php</a><br>
+<a href="#code_player_rpg.php.php">code_player_rpg.php.php</a><br>
 <a href="#code_portal.php">code_portal.php</a><br>
 <a href="#code_profile.php">code_profile.php</a><br>
 <a href="#code_quest.php">code_quest.php</a><br>
+<a href="#code_questdb.php">code_questdb.php</a><br>
 <a href="#code_ranks.php">code_ranks.php</a><br>
 <a href="#code_start.php">code_start.php</a><br>
 <a href="#code_stats.php">code_stats.php</a><br>
@@ -90,6 +99,7 @@
 <a href="#skin_help.php">skin_help.php</a><br>
 <a href="#skin_hospital.php">skin_hospital.php</a><br>
 <a href="#skin_index.php">skin_index.php</a><br>
+<a href="#skin_index_admin.php">skin_index_admin.php</a><br>
 <a href="#skin_install.php">skin_install.php</a><br>
 <a href="#skin_items.php">skin_items.php</a><br>
 <a href="#skin_log.php">skin_log.php</a><br>
@@ -97,6 +107,7 @@
 <a href="#skin_members.php">skin_members.php</a><br>
 <a href="#skin_menu.php">skin_menu.php</a><br>
 <a href="#skin_menu_admin.php">skin_menu_admin.php</a><br>
+<a href="#skin_pages.php">skin_pages.php</a><br>
 <a href="#skin_portal.php">skin_portal.php</a><br>
 <a href="#skin_profile.php">skin_profile.php</a><br>
 <a href="#skin_quest.php">skin_quest.php</a><br>
@@ -111,14 +122,25 @@
 <h1>Post-parsing</h1>
 <h2>Warnings:</h2><br>
 <b>Warning</b> - 
-duplicate class element "skin_index" in file /var/www/quest/skin/admin/skin_index.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - 
 duplicate class element "skin_quest" in file /var/www/quest/skin/admin/skin_quest.php will be ignored.
 Use an @ignore tag on the original if you want this case to be documented.<br>
 <b>Warning</b> - 
 duplicate class element "skin_ticket" in file /var/www/quest/skin/admin/skin_ticket.php will be ignored.
 Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate class element "skin_menu_admin" in file /var/www/quest/skin/admin/skin_menu_admin.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate class element "code_menu_admin" in file /var/www/quest/code/admin/bk_code_menu_admin.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<a name="bk_code_menu_admin.php"></a>
+<h1>bk_code_menu_admin.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 7</b> - DocBlock would be page-level, but precedes class "code_menu_admin", use another DocBlock to document the file<br>
+<a name="bk_skin_menu_admin.php"></a>
+<h1>bk_skin_menu_admin.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 7</b> - DocBlock would be page-level, but precedes class "skin_menu_admin", use another DocBlock to document the file<br>
 <a name="code_admin_template.php"></a>
 <h1>code_admin_template.php</h1>
 <h2>Warnings:</h2><br>
@@ -155,8 +177,6 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h1>code_database_wrapper.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 16</b> - DocBlock would be page-level, but precedes class "code_database_wrapper", use another DocBlock to document the file<br>
-<h2>Errors:</h2><br>
-<b>Error on line 57</b> - global variable $ADODB_QUOTE_FIELDNAMES adodb setting specified in @global tag was never found<br>
 <a name="code_edit_profile.php"></a>
 <h1>code_edit_profile.php</h1>
 <h2>Warnings:</h2><br>
@@ -167,7 +187,8 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h2>Warnings:</h2><br>
 <b>Warning on line 9</b> - DocBlock would be page-level, but precedes class "code_fight", use another DocBlock to document the file<br>
 <h2>Errors:</h2><br>
-<b>Error on line 360</b> - "@param" tag was used without any parameters, illegal<br>
+<b>Error on line 323</b> - DocBlock has multiple @return tags, illegal. ignoring additional tag "@return string "<br>
+<b>Error on line 323</b> - DocBlock has multiple @return tags, illegal. ignoring additional tag "@return bool "<br>
 <a name="code_help.php"></a>
 <h1>code_help.php</h1>
 <h2>Warnings:</h2><br>
@@ -179,8 +200,11 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <a name="code_index.php"></a>
 <h1>code_index.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 7</b> - DocBlock would be page-level, but precedes class "code_index", use another DocBlock to document the file<br>
 <b>Warning on line 8</b> - DocBlock would be page-level, but precedes class "code_index", use another DocBlock to document the file<br>
+<a name="code_index_admin.php"></a>
+<h1>code_index_admin.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 7</b> - DocBlock would be page-level, but precedes class "code_index_admin", use another DocBlock to document the file<br>
 <a name="code_items.php"></a>
 <h1>code_items.php</h1>
 <h2>Warnings:</h2><br>
@@ -209,10 +233,22 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h1>code_menu_admin.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 7</b> - DocBlock would be page-level, but precedes class "code_menu_admin", use another DocBlock to document the file<br>
+<a name="code_pages.php"></a>
+<h1>code_pages.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 7</b> - DocBlock would be page-level, but precedes class "code_pages", use another DocBlock to document the file<br>
 <a name="code_player.php"></a>
 <h1>code_player.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 9</b> - DocBlock would be page-level, but precedes class "code_player", use another DocBlock to document the file<br>
+<a name="code_player_profile.php"></a>
+<h1>code_player_profile.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 7</b> - DocBlock would be page-level, but precedes class "code_player_profile", use another DocBlock to document the file<br>
+<a name="code_player_rpg.php.php"></a>
+<h1>code_player_rpg.php.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 7</b> - DocBlock would be page-level, but precedes class "code_player_rpg", use another DocBlock to document the file<br>
 <a name="code_portal.php"></a>
 <h1>code_portal.php</h1>
 <h2>Warnings:</h2><br>
@@ -226,6 +262,11 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h2>Warnings:</h2><br>
 <b>Warning on line 7</b> - DocBlock would be page-level, but precedes class "code_quest", use another DocBlock to document the file<br>
 <b>Warning on line 7</b> - DocBlock would be page-level, but precedes class "code_quest", use another DocBlock to document the file<br>
+<a name="code_questdb.php"></a>
+<h1>code_questdb.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 20</b> - DocBlock would be page-level, but precedes class "QuestDB", use another DocBlock to document the file<br>
+<b>Warning on line 684</b> - no @package tag was used in a DocBlock for class QuestDBrs<br>
 <a name="code_ranks.php"></a>
 <h1>code_ranks.php</h1>
 <h2>Warnings:</h2><br>
@@ -241,7 +282,7 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <a name="code_ticket.php"></a>
 <h1>code_ticket.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 7</b> - DocBlock would be page-level, but precedes class "code_ticket", use another DocBlock to document the file<br>
+<b>Warning on line 8</b> - DocBlock would be page-level, but precedes class "code_ticket", use another DocBlock to document the file<br>
 <b>Warning on line 8</b> - DocBlock would be page-level, but precedes class "code_ticket", use another DocBlock to document the file<br>
 <a name="code_upgrade_database.php"></a>
 <h1>code_upgrade_database.php</h1>
@@ -258,7 +299,7 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <a name="index.php"></a>
 <h1>index.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 13</b> - Page-level DocBlock precedes "require_once 'adodb/adodb.inc.php'", use another DocBlock to document the source element<br>
+<b>Warning on line 13</b> - Page-level DocBlock precedes "require_once "code/common/code_questdb.php"", use another DocBlock to document the source element<br>
 <a name="lang_error.php"></a>
 <h1>lang_error.php</h1>
 <h2>Warnings:</h2><br>
@@ -298,8 +339,11 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <a name="skin_index.php"></a>
 <h1>skin_index.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 7</b> - DocBlock would be page-level, but precedes class "skin_index", use another DocBlock to document the file<br>
 <b>Warning on line 9</b> - DocBlock would be page-level, but precedes class "skin_index", use another DocBlock to document the file<br>
+<a name="skin_index_admin.php"></a>
+<h1>skin_index_admin.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 7</b> - DocBlock would be page-level, but precedes class "skin_index_admin", use another DocBlock to document the file<br>
 <a name="skin_install.php"></a>
 <h1>skin_install.php</h1>
 <h2>Warnings:</h2><br>
@@ -328,6 +372,10 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h1>skin_menu_admin.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 7</b> - DocBlock would be page-level, but precedes class "skin_menu_admin", use another DocBlock to document the file<br>
+<a name="skin_pages.php"></a>
+<h1>skin_pages.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 7</b> - DocBlock would be page-level, but precedes class "skin_pages", use another DocBlock to document the file<br>
 <a name="skin_portal.php"></a>
 <h1>skin_portal.php</h1>
 <h2>Warnings:</h2><br>
@@ -372,7 +420,7 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <b>Warning on line 7</b> - DocBlock would be page-level, but precedes class "_skin_admin", use another DocBlock to document the file<br>
         <div class="credit">
 		    <hr class="separator" />
-		    Documentation generated on Sun, 26 Jul 2009 15:41:38 +0300 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Sat, 22 Aug 2009 01:31:15 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>

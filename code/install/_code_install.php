@@ -335,7 +335,65 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   `profile_string` longtext NOT NULL,
   PRIMARY KEY  (`player_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+
+    public $rpg_query = "
+CREATE TABLE IF NOT EXISTS `rpg` (
+  `player_id` int(11) NOT NULL,
+  `level` int(11) NOT NULL,
+  `stat_points` int(11) NOT NULL,
+  `hp` int(11) NOT NULL,
+  `hp_max` int(11) NOT NULL,
+  `exp` int(11) NOT NULL,
+  `exp_max` int(11) NOT NULL,
+  `energy` int(11) NOT NULL,
+  `energy_max` int(11) NOT NULL,
+  `kills` int(11) NOT NULL,
+  `deaths` int(11) NOT NULL,
+  `strength` int(11) NOT NULL,
+  `vitality` int(11) NOT NULL,
+  `agility` int(11) NOT NULL,
+  PRIMARY KEY  (`player_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
     
+   /**
+    * List of commands to run here, to keep them in the same place as the variables.
+    *
+    * @return QuestDB_rs
+    */
+    public function create_database() {
+        return $this->db->execute($this->cron_query.$this->blueprints_query.$this->help_query.$this->items_query.
+            $this->mail_query.$this->news_query.$this->players_query.$this->skins_query.$this->tickets_query.$this->log_query.$this->help_insert_query.
+            $this->cron_insert_query.$this->pages_query.$this->pages_insert_query.$this->settings_query.$this->settings_insert_query.
+            $this->menu_query.$this->menu_insert_query.$this->quests_query.$this->friends_query.$this->bank_query.$this->profile_query.
+            $this->rpg_query);
+    }
+
+   /**
+    * ditto
+    */
+    public function upgrade_database() {
+        $this->db->execute($this->cron_query);
+        $this->db->execute($this->help_query);
+        $this->db->execute($this->news_query);
+        $this->db->execute($this->skins_query);
+        $this->db->execute($this->tickets_query);
+        $this->db->execute($this->cron_insert_query);
+        $this->db->execute($this->pages_query);
+        $this->db->execute($this->pages_insert_query);
+        $this->db->execute($this->settings_query);
+        $this->db->execute($this->settings_insert_query);
+        $this->db->execute($this->menu_query);
+        $this->db->execute($this->menu_insert_query);
+        $this->db->execute($this->help_insert_query);
+        $this->db->execute($this->quests_query);
+        $this->db->execute($this->friends_query);
+        $this->db->execute($this->bank_query);
+        $this->db->execute($this->profile_query);
+        $this->db->execute($this->rpg_query);
+
+        $this->db->execute($this->update_tables_query);
+    }
+
    /**
     * pieces the site together. intended to be overriden by child class to generate $page.
     *

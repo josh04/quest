@@ -17,7 +17,7 @@
   <tr>
     <td colspan="2" class="header-menu">
       
-                                                                                                                                        
+                                                                                                                                                                    
                       		[ <a href="../classtrees_skin_public.html" class="menu">class tree: skin_public</a> ]
 		[ <a href="../elementindex_skin_public.html" class="menu">index: skin_public</a> ]
             [ <a href="../elementindex.html" class="menu">all elements</a> ]
@@ -35,7 +35,9 @@
               <a href="../li_code_admin.html">code_admin</a><br />
               <a href="../li_code_common.html">code_common</a><br />
               <a href="../li_code_install.html">code_install</a><br />
+              <a href="../li_code_player.html">code_player</a><br />
               <a href="../li_code_public.html">code_public</a><br />
+              <a href="../li_QuestDB.html">QuestDB</a><br />
               <a href="../li_skin_admin.html">skin_admin</a><br />
               <a href="../li_skin_common.html">skin_common</a><br />
               <a href="../li_skin_install.html">skin_install</a><br />
@@ -45,13 +47,14 @@
       <br />
                         <b>Files:</b><br />
         <div class="package">
-				<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_admin_template.php.html">skin_admin_template.php</a></span><br />
+				<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---bk_skin_menu_admin.php.html">bk_skin_menu_admin.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_admin_template.php.html">skin_admin_template.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_bank.php.html">skin_bank.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_battle.php.html">skin_battle.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_help.php.html">skin_help.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_hospital.php.html">skin_hospital.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_index.php.html">skin_index.php</a></span><br />
-			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_index.php.html">skin_index.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_index_admin.php.html">skin_index_admin.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_items.php.html">skin_items.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_log.php.html">skin_log.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_mail.php.html">skin_mail.php</a></span><br />
@@ -59,8 +62,8 @@
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_menu_admin.php.html">skin_menu_admin.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_portal.php.html">skin_portal.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_profile.php.html">skin_profile.php</a></span><br />
-			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_quest.php.html">skin_quest.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_quest.php.html">skin_quest.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_quest.php.html">skin_quest.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_ranks.php.html">skin_ranks.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---admin---skin_ticket.php.html">skin_ticket.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../skin_public/_skin---public---skin_ticket.php.html">skin_ticket.php</a></span><br />
@@ -76,6 +79,7 @@
 	    		<a href="../skin_public/skin_help.html">skin_help</a>    	 <br />
 	    		<a href="../skin_public/skin_hospital.html">skin_hospital</a>    	 <br />
 	    		<a href="../skin_public/skin_index.html">skin_index</a>    	 <br />
+	    		<a href="../skin_public/skin_index_admin.html">skin_index_admin</a>    	 <br />
 	    		<a href="../skin_public/skin_items.html">skin_items</a>    	 <br />
 	    		<a href="../skin_public/skin_log.html">skin_log</a>    	 <br />
 	    		<a href="../skin_public/skin_mail.html">skin_mail</a>    	 <br />
@@ -141,6 +145,7 @@ Source Location: /skin/public/skin_work.php<br /><br />
 		<p align="center" class="short-description"><strong><a href="#sec_methods">Methods</a></strong></p>
 		<ul>
 		  		  <li><a href="../skin_public/skin_work.html#methodmake_work">make_work</a></li>
+		  		  <li><a href="../skin_public/skin_work.html#methodworked">worked</a></li>
 		  		</ul>
 		</td>
 		
@@ -245,10 +250,15 @@ Source Location: /skin/public/skin_work.php<br /><br />
 		<div class="info-box-body">
 			<div class="method-summary">
 				<table border="0" cellspacing="0" cellpadding="0" class="method-summary">
-																								<div class="method-definition">
+																																<div class="method-definition">
 											<tr><td class="method-definition"><span class="method-result">string</span>&nbsp;&nbsp;</td>
 										<td class="method-definition"><a href="#make_work" title="details" class="method-name">make_work</a>()&nbsp;&nbsp;</td>
 					<td class="method-definition">work page</td></tr>
+				</div>
+																<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">string</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#worked" title="details" class="method-name">worked</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Worked?</td></tr>
 				</div>
 												</table>
 			</div>
@@ -285,7 +295,7 @@ Source Location: /skin/public/skin_work.php<br /><br />
 <div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">make_work</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 15]</span>
+	<span class="method-title">make_work</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 16]</span>
 </div>
 <br />
 
@@ -293,12 +303,72 @@ Source Location: /skin/public/skin_work.php<br /><br />
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
 		<code>string make_work(
+[string
+$message = &quot;&quot;]&nbsp;
 )</code>
     </td></tr></table>
     </td></tr></table><br /></div>
 
 	<p align="center" class="short-description"><strong>work page
 </strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$message:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> error message</span>			</td></tr>
+				</table>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Return:</strong>&nbsp;&nbsp;</td><td>html</td>
+  </tr>
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+		
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodworked" id="worked"><!-- --></a>
+<div class="evenrow">
+
+<div class="method-header">
+	<span class="method-title">worked</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 46]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>string worked(
+int
+$gold&nbsp;
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Worked?
+</strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">int</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$gold:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> amount of gold now</span>			</td></tr>
+				</table>
 
 	<br />
 	<strong>API Tags:</strong><br />
@@ -323,7 +393,7 @@ Source Location: /skin/public/skin_work.php<br /><br />
 
         <div class="credit">
 		    <hr class="separator" />
-		    Documentation generated on Sun, 26 Jul 2009 15:41:38 +0300 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Sat, 22 Aug 2009 01:31:14 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>

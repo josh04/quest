@@ -31,16 +31,23 @@ class code_player {
     *
     * (DONE) I think some of the code_login procedure should end up in here instead.
     *
+    * @param string $join table to get extra data from
     * @return bool good to go?
     */
-    public function make_player() {
+    public function make_player($join = "") {
         if ($_COOKIE['user_id']) {
             $id = $_COOKIE['user_id'];
         } else {
             $id = $_SESSION['user_id'];
         }
- 
-        $player_query = $this->db->execute("SELECT * FROM players WHERE id=?", array(intval($id)));
+
+        if ($join) {
+            $player_query = $this->db->execute("SELECT `p`.*, `j`.* FROM `players` AS `p` LEFT JOIN `".$join."` AS `j`
+                ON `p`.`id` = `j`.`player_id`
+                WHERE `p`.`id`=?", array(intval($id)));
+        } else {
+            $player_query = $this->db->execute("SELECT * FROM `players` WHERE `id`=?", array(intval($id)));
+        }
  
         $player_db = $player_query->fetchrow();
  
@@ -49,20 +56,16 @@ class code_player {
         if ($check == $_COOKIE['cookie_hash'] || $check == $_SESSION['hash']) {
             $this->is_member = true;
             $last_active = time();
- 
-            $mail_count_query = $this->db->execute("SELECT count(*) AS c FROM mail WHERE `to`=? AND `status`=0", array($player_db['id']));
-            $mail_count = $mail_count_query->fetchrow();
-            if ($mail_count) {
-                $player_db['unread'] = $mail_count['c'];
-            } else {
-                $player_db['unread'] = 0;
-            }
-            
+             
             $player_db['last_active'] = $last_active;
  
             $this->player_db_to_object($player_db);
-            $update_player['last_active'] = $last_active;
-            $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->id);
+
+            $this->registered_date = date("l, jS F Y", $this->registered);
+            $this->registered_days = intval((time() - $this->registered)/84600);
+
+
+            $this->db->execute("UPDATE `players` SET `last_active`=? WHERE `id`=?", array ($last_active, $this->id));
           
             if ($this->halt_if_suspended()) {
                 return false;
@@ -109,10 +112,7 @@ class code_player {
         foreach($player_db as $key=>$value) { //Fill out our object.
             $this->$key = $value;
         }
- 
-        $this->exp_percent = intval(($this->exp / $this->exp_max) * 100);
-        $this->registered_date = date("l, jS F Y", $this->registered);
-        $this->registered_days = intval((time() - $this->registered)/84600);
+
     }
    /**
     * wrapper for get_player_by_*
@@ -180,54 +180,11 @@ class code_player {
         $update_player['show_email']    = $this->show_email;
         $update_player['skin']          = $this->skin;
         
-        $update_player['energy'] = $this->energy;
-        $update_player['exp'] = $this->exp;
         $update_player['gold'] = $this->gold;
-        $update_player['deaths'] = $this->deaths;
-        $update_player['kills'] = $this->kills;
-        $update_player['hp'] = $this->hp;
- 
- 
-        if ($this->exp > $this->exp_max) {
-            
-            $this->level++;
-            $this->exp_max = $this->exp_max + ($this->level * 70) - 20;
-            $this->stat_points = $this->stat_points + 3;
-            $this->hp_max = $this->hp_max + rand(5,15) + intval($this->vitality / 2);
-            $levelled_up = true;
-        }
-        
-        $update_player['level'] = $this->level;
-        $update_player['exp_max'] = $this->exp_max;
-        $update_player['stat_points'] = $this->stat_points;
-        $update_player['hp_max'] = $this->hp_max;
-
-        $update_player['strength'] = $this->strength;
-        $update_player['vitality'] = $this->vitality;
-        $update_player['agility'] = $this->agility;
 
         //Update victor (the loser)
         $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id='.$this->id);
-        return $levelled_up;
-    }
- 
-   /**
-    * notify the player
-    *
-    * @param string $message what to say
-    * @return bool success
-    */
-    public function add_log($message) {
-        $insert_log['player_id'] = $this->id;
-        $insert_log['message'] = $message;
-        $insert_log['time'] = time();
-        $log_query = $this->db->AutoExecute('user_log', $insert_log, 'INSERT');
-
-        if ($log_query) {
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
    /**

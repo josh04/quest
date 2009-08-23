@@ -17,8 +17,8 @@
   <tr>
     <td colspan="2" class="header-menu">
       
-                                                                  
-                                                                                            		[ <a href="../classtrees_code_public.html" class="menu">class tree: code_public</a> ]
+                                                                                
+                                                                                                          		[ <a href="../classtrees_code_public.html" class="menu">class tree: code_public</a> ]
 		[ <a href="../elementindex_code_public.html" class="menu">index: code_public</a> ]
             [ <a href="../elementindex.html" class="menu">all elements</a> ]
     </td>
@@ -35,7 +35,9 @@
               <a href="../li_code_admin.html">code_admin</a><br />
               <a href="../li_code_common.html">code_common</a><br />
               <a href="../li_code_install.html">code_install</a><br />
+              <a href="../li_code_player.html">code_player</a><br />
               <a href="../li_code_public.html">code_public</a><br />
+              <a href="../li_QuestDB.html">QuestDB</a><br />
               <a href="../li_skin_admin.html">skin_admin</a><br />
               <a href="../li_skin_common.html">skin_common</a><br />
               <a href="../li_skin_install.html">skin_install</a><br />
@@ -45,7 +47,8 @@
       <br />
                         <b>Files:</b><br />
         <div class="package">
-				<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_bank.php.html">code_bank.php</a></span><br />
+				<span style="padding-left: 1em;"><a href="../code_public/_code---admin---bk_code_menu_admin.php.html">bk_code_menu_admin.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_bank.php.html">code_bank.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_battle.php.html">code_battle.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_edit_profile.php.html">code_edit_profile.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_help.php.html">code_help.php</a></span><br />
@@ -57,6 +60,7 @@
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_mail.php.html">code_mail.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_members.php.html">code_members.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---admin---code_menu_admin.php.html">code_menu_admin.php</a></span><br />
+			<span style="padding-left: 1em;"><a href="../code_public/_code---player---code_player_rpg.php.php.html">code_player_rpg.php.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_portal.php.html">code_portal.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_profile.php.html">code_profile.php</a></span><br />
 			<span style="padding-left: 1em;"><a href="../code_public/_code---public---code_quest.php.html">code_quest.php</a></span><br />
@@ -82,6 +86,7 @@
 	    		<a href="../code_public/code_mail.html">code_mail</a>    	 <br />
 	    		<a href="../code_public/code_members.html">code_members</a>    	 <br />
 	    		<a href="../code_public/code_menu_admin.html">code_menu_admin</a>    	 <br />
+	    		<a href="../code_public/code_player_rpg.html">code_player_rpg</a>    	 <br />
 	    		<a href="../code_public/code_portal.html">code_portal</a>    	 <br />
 	    		<a href="../code_public/code_profile.html">code_profile</a>    	 <br />
 	    		<a href="../code_public/code_quest.html">code_quest</a>    	 <br />
@@ -215,6 +220,12 @@ Source Location: /code/public/code_mail.php<br /><br />
 										</dd>
 																			<dt>
 											<span class="method-definition"><a href="../code_common/code_common.html#var$player">code_common::$player</a></span>
+										</dt>
+										<dd>
+											<span class="method-definition"></span>
+										</dd>
+																			<dt>
+											<span class="method-definition"><a href="../code_common/code_common.html#var$player_class">code_common::$player_class</a></span>
 										</dt>
 										<dd>
 											<span class="method-definition"></span>
@@ -430,10 +441,10 @@ Source Location: /code/public/code_mail.php<br /><br />
 		<div class="info-box-body">
 			<a name='method_detail'></a>
 <a name="methodcode_mail_menu" id="code_mail_menu"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">static method code_mail_menu</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 211]</span>
+	<span class="method-title">static method code_mail_menu</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 220]</span>
 </div>
 <br />
 
@@ -493,7 +504,7 @@ $menu&nbsp;
 </div>
 
 <a name="methodcompose" id="compose"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
 	<span class="method-title">compose</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 128]</span>
@@ -541,7 +552,7 @@ $message = &quot;&quot;]&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodcompose_submit" id="compose_submit"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
 	<span class="method-title">compose_submit</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 150]</span>
@@ -577,7 +588,7 @@ $message = &quot;&quot;]&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodconstruct" id="construct"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
 	<span class="method-title">construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 15]</span>
@@ -619,10 +630,10 @@ $message = &quot;&quot;]&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methoddelete_multiple" id="delete_multiple"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">delete_multiple</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 178]</span>
+	<span class="method-title">delete_multiple</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 187]</span>
 </div>
 <br />
 
@@ -655,10 +666,10 @@ $message = &quot;&quot;]&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methoddelete_multiple_confirm" id="delete_multiple_confirm"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">delete_multiple_confirm</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 192]</span>
+	<span class="method-title">delete_multiple_confirm</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 201]</span>
 </div>
 <br />
 
@@ -691,7 +702,7 @@ $message = &quot;&quot;]&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodmail_inbox" id="mail_inbox"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
 	<span class="method-title">mail_inbox</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 111]</span>
@@ -739,7 +750,7 @@ $message = &quot;&quot;]&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodmail_send" id="mail_send"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
 	<span class="method-title">mail_send</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 33]</span>
@@ -808,7 +819,7 @@ $subject&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodmail_switch" id="mail_switch"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
 	<span class="method-title">mail_switch</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 53]</span>
@@ -844,7 +855,7 @@ $subject&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodread" id="read"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
 	<span class="method-title">read</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 81]</span>
@@ -885,7 +896,7 @@ $subject&nbsp;
 
         <div class="credit">
 		    <hr class="separator" />
-		    Documentation generated on Sun, 26 Jul 2009 15:41:26 +0300 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Sat, 22 Aug 2009 01:30:57 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>

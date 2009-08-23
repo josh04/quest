@@ -18,7 +18,7 @@
     <td colspan="2" class="header-menu">
       
                                       
-                                                                                                                        		[ <a href="../classtrees_code_common.html" class="menu">class tree: code_common</a> ]
+                                                                                                                                                    		[ <a href="../classtrees_code_common.html" class="menu">class tree: code_common</a> ]
 		[ <a href="../elementindex_code_common.html" class="menu">index: code_common</a> ]
             [ <a href="../elementindex.html" class="menu">all elements</a> ]
     </td>
@@ -35,7 +35,9 @@
               <a href="../li_code_admin.html">code_admin</a><br />
               <a href="../li_code_common.html">code_common</a><br />
               <a href="../li_code_install.html">code_install</a><br />
+              <a href="../li_code_player.html">code_player</a><br />
               <a href="../li_code_public.html">code_public</a><br />
+              <a href="../li_QuestDB.html">QuestDB</a><br />
               <a href="../li_skin_admin.html">skin_admin</a><br />
               <a href="../li_skin_common.html">skin_common</a><br />
               <a href="../li_skin_install.html">skin_install</a><br />
@@ -120,6 +122,7 @@ Source Location: /code/common/code_common.php<br /><br />
 		  		  <li><a href="../code_common/code_common.html#var$page">$page</a></li>
 		  		  <li><a href="../code_common/code_common.html#var$pages">$pages</a></li>
 		  		  <li><a href="../code_common/code_common.html#var$player">$player</a></li>
+		  		  <li><a href="../code_common/code_common.html#var$player_class">$player_class</a></li>
 		  		  <li><a href="../code_common/code_common.html#var$section">$section</a></li>
 		  		  <li><a href="../code_common/code_common.html#var$settings">$settings</a></li>
 		  		  <li><a href="../code_common/code_common.html#var$skin">$skin</a></li>
@@ -292,9 +295,15 @@ Source Location: /code/common/code_common.php<br /><br />
 										</td>
 				</tr>
 								<tr>
-					<td style="padding-right: 2em"><a href="../code_public/code_menu_admin.html">code_menu_admin</a></td>
+					<td style="padding-right: 2em"></td>
 					<td>
 											Interface for adding/removing/moving menu items.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../code_admin/code_pages.html">code_pages</a></td>
+					<td>
+											Description of code_pages.php
 										</td>
 				</tr>
 								<tr>
@@ -322,7 +331,7 @@ Source Location: /code/common/code_common.php<br /><br />
 		<div class="info-box-body">
 			<div class="var-summary">
 			<table border="0" cellspacing="0" cellpadding="0" class="var-summary">
-																																																																			<div class="var-title">
+																																																																									<div class="var-title">
 					<tr><td class="var-title"><span class="var-type-summary">array</span>&nbsp;&nbsp;</td>
 					<td class="var-title"><a href="#$config" title="details" class="var-name-summary">$config</a>&nbsp;&nbsp;</td>
 					<td class="var-summary-description">The databate config details, from config.php</td></tr>
@@ -351,6 +360,11 @@ Source Location: /code/common/code_common.php<br /><br />
 					<tr><td class="var-title"><span class="var-type-summary"><a href="../code_common/code_player.html">code_player</a></span>&nbsp;&nbsp;</td>
 					<td class="var-title"><a href="#$player" title="details" class="var-name-summary">$player</a>&nbsp;&nbsp;</td>
 					<td class="var-summary-description">The current player object.</td></tr>
+				</div>
+													<div class="var-title">
+					<tr><td class="var-title"><span class="var-type-summary"><type></span>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$player_class" title="details" class="var-name-summary">$player_class</a>&nbsp;&nbsp;</td>
+					<td class="var-summary-description">The class stored in this variable will be loaded by make_player as the player object.</td></tr>
 				</div>
 													<div class="var-title">
 					<tr><td class="var-title"><span class="var-type-summary">string</span>&nbsp;&nbsp;</td>
@@ -416,7 +430,7 @@ Source Location: /code/common/code_common.php<br /><br />
 					<td class="method-definition">Groups together all the standard constructing functions.</td></tr>
 				</div>
 																<div class="method-definition">
-											<tr><td class="method-definition"><span class="method-result">bool</span>&nbsp;&nbsp;</td>
+											<tr><td class="method-definition"><span class="method-result">void</span>&nbsp;&nbsp;</td>
 										<td class="method-definition"><a href="#make_db" title="details" class="method-name">make_db</a>()&nbsp;&nbsp;</td>
 					<td class="method-definition">Manual database connection function.</td></tr>
 				</div>
@@ -633,11 +647,51 @@ Source Location: /code/common/code_common.php<br /><br />
 
 
 	
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../code_common/code_fight.html#var$player">code_fight::$player</a>
+							</li>
+				</ul>
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="var$player_class" id="$player_class"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type"><type></span>&nbsp;&nbsp;
+			<span class="var-name">$player_class</span>
+			 = <span class="var-default"> &quot;code_player&quot;</span>			<span class="smalllinenumber">[line 86]</span>
+		</span>
+	</div>
+
+	<p align="center" class="short-description"><strong>The class stored in this variable will be loaded by make_player as the player object.
+</strong></p>
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../code_public/code_edit_profile.html#var$player_class">code_edit_profile::$player_class</a>
+							</li>
+				</ul>
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$section" id="$section"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<span class="var-title">
@@ -670,7 +724,7 @@ Source Location: /code/common/code_common.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$settings" id="$settings"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<span class="var-title">
@@ -696,7 +750,7 @@ Source Location: /code/common/code_common.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$skin" id="$skin"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<span class="var-title">
@@ -737,10 +791,10 @@ Source Location: /code/common/code_common.php<br /><br />
 			<a name='method_detail'></a>
 
 <a name="method__construct" id="__construct"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">Constructor __construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 92]</span>
+	<span class="method-title">Constructor __construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 99]</span>
 </div>
 <br />
 
@@ -812,10 +866,10 @@ $config = array()]&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodbbparse" id="bbparse"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">bbparse</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 289]</span>
+	<span class="method-title">bbparse</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 307]</span>
 </div>
 <br />
 
@@ -867,10 +921,10 @@ $full = false]&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodconstruct" id="construct"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 269]</span>
+	<span class="method-title">construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 287]</span>
 </div>
 <br />
 
@@ -1008,7 +1062,11 @@ $page&nbsp;
 								: class override. calls parents, sends kids home.
 							</li>
 					<li>
-				<a href="../code_admin/code_index.html#methodconstruct">code_index::construct()</a>
+				<a href="../code_admin/code_pages.html#methodconstruct">code_pages::construct()</a>
+								: class override. calls parents, sends kids home.
+							</li>
+					<li>
+				<a href="../code_admin/code_index_admin.html#methodconstruct">code_index_admin::construct()</a>
 								: class override. calls parents, sends kids home.
 							</li>
 					<li>
@@ -1036,10 +1094,10 @@ $page&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodcron" id="cron"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">cron</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 242]</span>
+	<span class="method-title">cron</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 260]</span>
 </div>
 <br />
 
@@ -1069,10 +1127,10 @@ $page&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methoderror_page" id="error_page"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">error_page</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 104]</span>
+	<span class="method-title">error_page</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 111]</span>
 </div>
 <br />
 
@@ -1114,10 +1172,10 @@ $error&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodinitiate" id="initiate"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">initiate</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 253]</span>
+	<span class="method-title">initiate</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 271]</span>
 </div>
 <br />
 
@@ -1167,17 +1225,19 @@ $skin_name = &quot;&quot;]&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodmake_db" id="make_db"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">make_db</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 177]</span>
+	<span class="method-title">make_db</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 195]</span>
 </div>
 <br />
 
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
-		<code>bool make_db(
+		<code>void make_db(
+[bool
+$skipError = false]&nbsp;
 )</code>
     </td></tr></table>
     </td></tr></table><br /></div>
@@ -1185,12 +1245,19 @@ $skin_name = &quot;&quot;]&nbsp;
 	<p align="center" class="short-description"><strong>Manual database connection function.
 </strong></p>
 <span class="description"><p>Connects to the database, if for whatever reason this failed when the  class was constructed.</p></span>
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">bool</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$skipError:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> if set, the error message isn't displayed if the connection fails</span>			</td></tr>
+				</table>
+
 	<br />
 	<strong>API Tags:</strong><br />
 <table border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="indent"><strong>Return:</strong>&nbsp;&nbsp;</td><td>success</td>
-  </tr>
   <tr>
     <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
   </tr>
@@ -1203,10 +1270,10 @@ $skin_name = &quot;&quot;]&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodmake_menu" id="make_menu"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">make_menu</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 227]</span>
+	<span class="method-title">make_menu</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 245]</span>
 </div>
 <br />
 
@@ -1247,10 +1314,10 @@ $skin_name = &quot;&quot;]&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodmake_player" id="make_player"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">make_player</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 144]</span>
+	<span class="method-title">make_player</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 157]</span>
 </div>
 <br />
 
@@ -1287,10 +1354,10 @@ $skin_name = &quot;&quot;]&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodmake_settings" id="make_settings"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">make_settings</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 161]</span>
+	<span class="method-title">make_settings</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 178]</span>
 </div>
 <br />
 
@@ -1320,10 +1387,10 @@ $skin_name = &quot;&quot;]&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodmake_skin" id="make_skin"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">make_skin</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 194]</span>
+	<span class="method-title">make_skin</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 212]</span>
 </div>
 <br />
 
@@ -1365,10 +1432,10 @@ $skin_name = &quot;&quot;]&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodsetting_update" id="setting_update"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">setting_update</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 326]</span>
+	<span class="method-title">setting_update</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 346]</span>
 </div>
 <br />
 
@@ -1420,10 +1487,10 @@ $value&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodstart_header" id="start_header"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">start_header</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 127]</span>
+	<span class="method-title">start_header</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 134]</span>
 </div>
 <br />
 
@@ -1461,7 +1528,7 @@ $value&nbsp;
 
         <div class="credit">
 		    <hr class="separator" />
-		    Documentation generated on Sun, 26 Jul 2009 15:41:22 +0300 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Sat, 22 Aug 2009 01:30:53 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>

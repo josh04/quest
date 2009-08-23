@@ -192,7 +192,7 @@ class QuestDB {
     * 
     * @param string $sql the SQL to be executed
     * @param array $fields an array of values to replace erotemes
-    * @return mixed a record set if applicable or a success boolean
+    * @return QuestDBrs a record set if applicable or a success boolean
     */
     public function execute($sql, $fields = false) {
         if (is_array($fields[0])) {
@@ -255,7 +255,7 @@ class QuestDB {
     * 
     * @param string $sql the SQL to be executed
     * @param array $fields an array of values that were introduced in execute()
-    * @return mixed a record set if applicable or a success boolean
+    * @return QuestDBrs a record set if applicable or a success boolean
     */
     private function _execute($sql, $fields) {
         $sql .= "; ";
@@ -270,7 +270,7 @@ class QuestDB {
         $this->Flush();
         $this->_lastQuery = $sql;
         $this->_Queries[] = $sql;
-        $this->_QueryCount++;
+        $this->_queryCount++;
 
         $rs = new QuestDBrs($this->_queryID, $this->_lastQuery);
         return $rs;

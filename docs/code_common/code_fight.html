@@ -18,7 +18,7 @@
     <td colspan="2" class="header-menu">
       
                                       
-                                                                                                                        		[ <a href="../classtrees_code_common.html" class="menu">class tree: code_common</a> ]
+                                                                                                                                                    		[ <a href="../classtrees_code_common.html" class="menu">class tree: code_common</a> ]
 		[ <a href="../elementindex_code_common.html" class="menu">index: code_common</a> ]
             [ <a href="../elementindex.html" class="menu">all elements</a> ]
     </td>
@@ -35,7 +35,9 @@
               <a href="../li_code_admin.html">code_admin</a><br />
               <a href="../li_code_common.html">code_common</a><br />
               <a href="../li_code_install.html">code_install</a><br />
+              <a href="../li_code_player.html">code_player</a><br />
               <a href="../li_code_public.html">code_public</a><br />
+              <a href="../li_QuestDB.html">QuestDB</a><br />
               <a href="../li_skin_admin.html">skin_admin</a><br />
               <a href="../li_skin_common.html">skin_common</a><br />
               <a href="../li_skin_install.html">skin_install</a><br />
@@ -118,8 +120,16 @@ Source Location: /code/common/code_fight.php<br /><br />
 		<ul>
 		  		  <li><a href="../code_common/code_fight.html#var$db">$db</a></li>
 		  		  <li><a href="../code_common/code_fight.html#var$enemy">$enemy</a></li>
+		  		  <li><a href="../code_common/code_fight.html#var$player">$player</a></li>
 		  		  <li><a href="../code_common/code_fight.html#var$player_page">$player_page</a></li>
 		  		  <li><a href="../code_common/code_fight.html#var$player_section">$player_section</a></li>
+		  		  <li><a href="../code_common/code_fight.html#var$record_kills">$record_kills</a></li>
+		  		  <li><a href="../code_common/code_fight.html#var$return_value">$return_value</a></li>
+		  		  <li><a href="../code_common/code_fight.html#var$save">$save</a></li>
+		  		  <li><a href="../code_common/code_fight.html#var$save_gold">$save_gold</a></li>
+		  		  <li><a href="../code_common/code_fight.html#var$save_xp">$save_xp</a></li>
+		  		  <li><a href="../code_common/code_fight.html#var$type">$type</a></li>
+		  		  <li><a href="../code_common/code_fight.html#var$use_energy">$use_energy</a></li>
 		  		</ul>
 		</td>
 		
@@ -129,9 +139,8 @@ Source Location: /code/common/code_fight.php<br /><br />
 		  		  <li><a href="../code_common/code_fight.html#method__construct">__construct</a></li>
 		  		  <li><a href="../code_common/code_fight.html#methodbattle">battle</a></li>
 		  		  <li><a href="../code_common/code_fight.html#methodcreate_enemy">create_enemy</a></li>
-		  		  <li><a href="../code_common/code_fight.html#methoddefault_options">default_options</a></li>
 		  		  <li><a href="../code_common/code_fight.html#methodplayer_combat_setup">player_combat_setup</a></li>
-		  		  <li><a href="../code_common/code_fight.html#methodreturn_val">return_val</a></li>
+		  		  <li><a href="../code_common/code_fight.html#methodreturn_value">return_value</a></li>
 		  		</ul>
 		</td>
 		
@@ -187,7 +196,7 @@ Source Location: /code/common/code_fight.php<br /><br />
 											<span class="method-definition"></span>
 										</dd>
 																			<dt>
-											<span class="method-definition"><a href="../code_common/code_common.html#var$player">code_common::$player</a></span>
+											<span class="method-definition"><a href="../code_common/code_common.html#var$player_class">code_common::$player_class</a></span>
 										</dt>
 										<dd>
 											<span class="method-definition"></span>
@@ -319,7 +328,7 @@ Source Location: /code/common/code_fight.php<br /><br />
 		<div class="info-box-body">
 			<div class="var-summary">
 			<table border="0" cellspacing="0" cellpadding="0" class="var-summary">
-																																					<div class="var-title">
+																																																																																					<div class="var-title">
 					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
 					<td class="var-title"><a href="#$db" title="details" class="var-name-summary">$db</a>&nbsp;&nbsp;</td>
 					<td class="var-summary-description"></td></tr>
@@ -331,12 +340,52 @@ Source Location: /code/common/code_fight.php<br /><br />
 				</div>
 													<div class="var-title">
 					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$player" title="details" class="var-name-summary">$player</a>&nbsp;&nbsp;</td>
+					<td class="var-summary-description"></td></tr>
+				</div>
+													<div class="var-title">
+					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
 					<td class="var-title"><a href="#$player_page" title="details" class="var-name-summary">$player_page</a>&nbsp;&nbsp;</td>
 					<td class="var-summary-description"></td></tr>
 				</div>
 													<div class="var-title">
 					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
 					<td class="var-title"><a href="#$player_section" title="details" class="var-name-summary">$player_section</a>&nbsp;&nbsp;</td>
+					<td class="var-summary-description"></td></tr>
+				</div>
+													<div class="var-title">
+					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$record_kills" title="details" class="var-name-summary">$record_kills</a>&nbsp;&nbsp;</td>
+					<td class="var-summary-description"></td></tr>
+				</div>
+													<div class="var-title">
+					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$return_value" title="details" class="var-name-summary">$return_value</a>&nbsp;&nbsp;</td>
+					<td class="var-summary-description"></td></tr>
+				</div>
+													<div class="var-title">
+					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$save" title="details" class="var-name-summary">$save</a>&nbsp;&nbsp;</td>
+					<td class="var-summary-description"></td></tr>
+				</div>
+													<div class="var-title">
+					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$save_gold" title="details" class="var-name-summary">$save_gold</a>&nbsp;&nbsp;</td>
+					<td class="var-summary-description"></td></tr>
+				</div>
+													<div class="var-title">
+					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$save_xp" title="details" class="var-name-summary">$save_xp</a>&nbsp;&nbsp;</td>
+					<td class="var-summary-description"></td></tr>
+				</div>
+													<div class="var-title">
+					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$type" title="details" class="var-name-summary">$type</a>&nbsp;&nbsp;</td>
+					<td class="var-summary-description"></td></tr>
+				</div>
+													<div class="var-title">
+					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$use_energy" title="details" class="var-name-summary">$use_energy</a>&nbsp;&nbsp;</td>
 					<td class="var-summary-description"></td></tr>
 				</div>
 										</table>
@@ -357,7 +406,7 @@ Source Location: /code/common/code_fight.php<br /><br />
 		<div class="info-box-body">
 			<div class="method-summary">
 				<table border="0" cellspacing="0" cellpadding="0" class="method-summary">
-																																																																<div class="method-definition">
+																																																								<div class="method-definition">
 											<tr><td class="method-definition"><span class="method-result">code_fight</span>&nbsp;&nbsp;</td>
 										<td class="method-definition"><a href="#__construct" title="details" class="method-name">__construct</a>()&nbsp;&nbsp;</td>
 					<td class="method-definition">overrides the constructer to make the skin automatically</td></tr>
@@ -373,18 +422,13 @@ Source Location: /code/common/code_fight.php<br /><br />
 					<td class="method-definition">spawn enemy</td></tr>
 				</div>
 																<div class="method-definition">
-											<tr><td class="method-definition"><span class="method-result">array;</span>&nbsp;&nbsp;</td>
-										<td class="method-definition"><a href="#default_options" title="details" class="method-name">default_options</a>()&nbsp;&nbsp;</td>
-					<td class="method-definition">returns default values of 'options' array</td></tr>
-				</div>
-																<div class="method-definition">
 											<tr><td class="method-definition"><span class="method-result">void;</span>&nbsp;&nbsp;</td>
 										<td class="method-definition"><a href="#player_combat_setup" title="details" class="method-name">player_combat_setup</a>()&nbsp;&nbsp;</td>
 					<td class="method-definition">setup enemy bits</td></tr>
 				</div>
 																<div class="method-definition">
-											<tr><td class="method-definition"><span class="method-result">class</span>&nbsp;&nbsp;</td>
-										<td class="method-definition"><a href="#return_val" title="details" class="method-name">return_val</a>()&nbsp;&nbsp;</td>
+											<tr><td class="method-definition"><span class="method-result">array</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#return_value" title="details" class="method-name">return_value</a>()&nbsp;&nbsp;</td>
 					<td class="method-definition">return relevant entry from selection</td></tr>
 				</div>
 												</table>
@@ -404,7 +448,7 @@ Source Location: /code/common/code_fight.php<br /><br />
 												</div>
 		<div class="info-box-body">
 			<a name="var$db" id="$db"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<span class="var-title">
@@ -434,7 +478,7 @@ Source Location: /code/common/code_fight.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$enemy" id="$enemy"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<span class="var-title">
@@ -447,12 +491,42 @@ Source Location: /code/common/code_fight.php<br /><br />
 		<strong>API Tags:</strong><br />
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>protected</td>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
   </tr>
 </table>
 <br />
 
 
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="var$player" id="$player"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>&nbsp;&nbsp;
+			<span class="var-name">$player</span>
+						<span class="smalllinenumber">[line 16]</span>
+		</span>
+	</div>
+
+		<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../code_common/code_common.html#var$player">code_common::$player</a></dt>
+						<dd>The current player object.</dd>
+					</dl>
 	
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
@@ -505,6 +579,174 @@ Source Location: /code/common/code_fight.php<br /><br />
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
+<a name="var$record_kills" id="$record_kills"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>&nbsp;&nbsp;
+			<span class="var-name">$record_kills</span>
+			 = <span class="var-default"> true</span>			<span class="smalllinenumber">[line 23]</span>
+		</span>
+	</div>
+
+		<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="var$return_value" id="$return_value"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>&nbsp;&nbsp;
+			<span class="var-name">$return_value</span>
+			 = <span class="var-default"> 'log'</span>			<span class="smalllinenumber">[line 19]</span>
+		</span>
+	</div>
+
+		<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="var$save" id="$save"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>&nbsp;&nbsp;
+			<span class="var-name">$save</span>
+			 = <span class="var-default"> true</span>			<span class="smalllinenumber">[line 20]</span>
+		</span>
+	</div>
+
+		<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="var$save_gold" id="$save_gold"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>&nbsp;&nbsp;
+			<span class="var-name">$save_gold</span>
+			 = <span class="var-default"> true</span>			<span class="smalllinenumber">[line 21]</span>
+		</span>
+	</div>
+
+		<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="var$save_xp" id="$save_xp"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>&nbsp;&nbsp;
+			<span class="var-name">$save_xp</span>
+			 = <span class="var-default"> true</span>			<span class="smalllinenumber">[line 22]</span>
+		</span>
+	</div>
+
+		<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="var$type" id="$type"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>&nbsp;&nbsp;
+			<span class="var-name">$type</span>
+			 = <span class="var-default"> 'static'</span>			<span class="smalllinenumber">[line 18]</span>
+		</span>
+	</div>
+
+		<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="var$use_energy" id="$use_energy"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>&nbsp;&nbsp;
+			<span class="var-name">$use_energy</span>
+			 = <span class="var-default"> true</span>			<span class="smalllinenumber">[line 24]</span>
+		</span>
+	</div>
+
+		<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
 		</div>
 	</div>
 
@@ -521,10 +763,10 @@ Source Location: /code/common/code_fight.php<br /><br />
 			<a name='method_detail'></a>
 
 <a name="method__construct" id="__construct"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">Constructor __construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 24]</span>
+	<span class="method-title">Constructor __construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 33]</span>
 </div>
 <br />
 
@@ -586,10 +828,10 @@ $config = array()]&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodbattle" id="battle"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">battle</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 40]</span>
+	<span class="method-title">battle</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 47]</span>
 </div>
 <br />
 
@@ -597,31 +839,12 @@ $config = array()]&nbsp;
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
 		<code>success battle(
-[object|integer
-$enemy = null], [array
-$options = array()]&nbsp;
 )</code>
     </td></tr></table>
     </td></tr></table><br /></div>
 
 	<p align="center" class="short-description"><strong>do battle with another player or an NPC
 </strong></p>
-
-			<strong>Parameters:</strong><br />
-			<table border="0" cellspacing="0" cellpadding="0">
-					<tr><td class="indent">
-				<span class="var-type">object|integer</span>&nbsp;&nbsp;</td>
-				<td>
-				<span class="var-name">$enemy:&nbsp;</span></td>
-				<td>
-				<span class="var-description"> all enemy details or enemy id number</span>			</td></tr>
-					<tr><td class="indent">
-				<span class="var-type">array</span>&nbsp;&nbsp;</td>
-				<td>
-				<span class="var-name">$options:&nbsp;</span></td>
-				<td>
-				<span class="var-description"> 'returnval'</span>			</td></tr>
-				</table>
 
 	<br />
 	<strong>API Tags:</strong><br />
@@ -641,10 +864,10 @@ $options = array()]&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodcreate_enemy" id="create_enemy"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">create_enemy</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 376]</span>
+	<span class="method-title">create_enemy</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 344]</span>
 </div>
 <br />
 
@@ -673,44 +896,11 @@ $options = array()]&nbsp;
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
-<a name="methoddefault_options" id="default_options"><!-- --></a>
-<div class="oddrow">
-
-<div class="method-header">
-	<span class="method-title">default_options</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 343]</span>
-</div>
-<br />
-
-	<div class="function">
-    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
-    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
-		<code>array; default_options(
-)</code>
-    </td></tr></table>
-    </td></tr></table><br /></div>
-
-	<p align="center" class="short-description"><strong>returns default values of 'options' array
-</strong></p>
-
-	<br />
-	<strong>API Tags:</strong><br />
-<table border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
-  </tr>
-</table>
-<br />
-
-
-		
-		<br />
-	<div class="top">[ <a href="#top">Top</a> ]</div>
-</div>
 <a name="methodplayer_combat_setup" id="player_combat_setup"><!-- --></a>
 <div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">player_combat_setup</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 322]</span>
+	<span class="method-title">player_combat_setup</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 297]</span>
 </div>
 <br />
 
@@ -739,22 +929,21 @@ $options = array()]&nbsp;
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
-<a name="methodreturn_val" id="return_val"><!-- --></a>
+<a name="methodreturn_value" id="return_value"><!-- --></a>
 <div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">return_val</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 361]</span>
+	<span class="method-title">return_value</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 324]</span>
 </div>
 <br />
 
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
-		<code>class return_val(
-
-$type, 
-$array, 
-$boolean, 
+		<code>array return_value(
+array
+$array, bool
+$boolean, string
 $log&nbsp;
 )</code>
     </td></tr></table>
@@ -766,25 +955,19 @@ $log&nbsp;
 			<strong>Parameters:</strong><br />
 			<table border="0" cellspacing="0" cellpadding="0">
 					<tr><td class="indent">
-				<span class="var-type"></span>&nbsp;&nbsp;</td>
-				<td>
-				<span class="var-name">$type:&nbsp;</span></td>
-				<td>
-							</td></tr>
-					<tr><td class="indent">
-				<span class="var-type"></span>&nbsp;&nbsp;</td>
+				<span class="var-type">array</span>&nbsp;&nbsp;</td>
 				<td>
 				<span class="var-name">$array:&nbsp;</span></td>
 				<td>
 							</td></tr>
 					<tr><td class="indent">
-				<span class="var-type"></span>&nbsp;&nbsp;</td>
+				<span class="var-type">bool</span>&nbsp;&nbsp;</td>
 				<td>
 				<span class="var-name">$boolean:&nbsp;</span></td>
 				<td>
 							</td></tr>
 					<tr><td class="indent">
-				<span class="var-type"></span>&nbsp;&nbsp;</td>
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
 				<td>
 				<span class="var-name">$log:&nbsp;</span></td>
 				<td>
@@ -794,9 +977,6 @@ $log&nbsp;
 	<br />
 	<strong>API Tags:</strong><br />
 <table border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td class="indent"><strong>Return:</strong>&nbsp;&nbsp;</td><td>enemy;</td>
-  </tr>
   <tr>
     <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
   </tr>
@@ -814,7 +994,7 @@ $log&nbsp;
 
         <div class="credit">
 		    <hr class="separator" />
-		    Documentation generated on Sun, 26 Jul 2009 15:41:24 +0300 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Sat, 22 Aug 2009 01:30:55 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>

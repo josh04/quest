@@ -8,6 +8,7 @@
 class code_battle extends code_common {
 
     public $enemy;
+    public $player_class = "code_player_rpg";
 
    /**
     * class override. calls parents, sends kids home.
@@ -51,40 +52,42 @@ class code_battle extends code_common {
     public function battle_search() {
 		
 	//Construct query
-        $player_query_construct = "SELECT id, username, hp, hp_max, level
-            FROM players
-            WHERE id != ? ";
+        $player_query_construct = "SELECT `r`.`player_id`, `p`.`username`, `r`.`hp`, `r`.`hp_max`, `r`.`level`
+            FROM `rpg` AS `r`
+            LEFT JOIN `players` AS `p`
+            ON `r`.`player_id`=`p`.`id`
+            WHERE `r`.`player_id` != ? ";
         $player_query_values = array($this->player->id);
 
         if ($_POST['username']) {
-            $player_query_construct .= " AND username LIKE ? ";
+            $player_query_construct .= " AND `p`.`username` LIKE ? ";
             $player_query_values[] = "%".trim($_POST['username'])."%";
         }
         
         //Add level range for search
         if ($_POST['level_min']) {
-            $player_query_construct .= " AND level >= ? ";
+            $player_query_construct .= " AND `r`.`level` >= ? ";
             $player_query_values[] = intval($_POST['level_min']);
         }
         
         if ($_POST['level_max']) {
-            $player_query_construct .= " AND level <= ? ";
+            $player_query_construct .= " AND `r`.`level` <= ? ";
             $player_query_values[] = intval($_POST['level_max']);
         }
         
         switch($_POST['alive']) {
             case 0:
-                $player_query_construct .= " AND hp = 0 ";
+                $player_query_construct .= " AND `r`.`hp` = 0 ";
                 break;
             case 1:
-                $player_query_construct .= " AND hp > 0 ";
+                $player_query_construct .= " AND `r`.`hp` > 0 ";
                 break;
         }
 
         $player_query_construct .= "LIMIT 0,20";
 
 	$player_query = $this->db->execute($player_query_construct, $player_query_values); //Search!
-
+print $this->db->errormsg();
         if ($player_query->recordcount()) {
             while ($player = $player_query->fetchrow()) {
                 $player_rows .= $this->skin->battle_search_row($player);

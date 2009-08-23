@@ -17,7 +17,7 @@
   <tr>
     <td colspan="2" class="header-menu">
       
-                                                                                              
+                                                                                                                          
                                                                 		[ <a href="../classtrees_skin_common.html" class="menu">class tree: skin_common</a> ]
 		[ <a href="../elementindex_skin_common.html" class="menu">index: skin_common</a> ]
             [ <a href="../elementindex.html" class="menu">all elements</a> ]
@@ -35,7 +35,9 @@
               <a href="../li_code_admin.html">code_admin</a><br />
               <a href="../li_code_common.html">code_common</a><br />
               <a href="../li_code_install.html">code_install</a><br />
+              <a href="../li_code_player.html">code_player</a><br />
               <a href="../li_code_public.html">code_public</a><br />
+              <a href="../li_QuestDB.html">QuestDB</a><br />
               <a href="../li_skin_admin.html">skin_admin</a><br />
               <a href="../li_skin_common.html">skin_common</a><br />
               <a href="../li_skin_install.html">skin_install</a><br />
@@ -111,6 +113,8 @@ Source Location: /skin/common/skin_fight.php<br /><br />
 		  		  <li><a href="../skin_common/skin_fight.html#methoddraw_log">draw_log</a></li>
 		  		  <li><a href="../skin_common/skin_fight.html#methodenemy_battle_row">enemy_battle_row</a></li>
 		  		  <li><a href="../skin_common/skin_fight.html#methodfight">fight</a></li>
+		  		  <li><a href="../skin_common/skin_fight.html#methodgain_gold_log">gain_gold_log</a></li>
+		  		  <li><a href="../skin_common/skin_fight.html#methodloss_gold_log">loss_gold_log</a></li>
 		  		  <li><a href="../skin_common/skin_fight.html#methodloss_log">loss_log</a></li>
 		  		  <li><a href="../skin_common/skin_fight.html#methodplayer_battle_row">player_battle_row</a></li>
 		  		  <li><a href="../skin_common/skin_fight.html#methodvictory_log">victory_log</a></li>
@@ -218,7 +222,7 @@ Source Location: /skin/common/skin_fight.php<br /><br />
 		<div class="info-box-body">
 			<div class="method-summary">
 				<table border="0" cellspacing="0" cellpadding="0" class="method-summary">
-																																																																								<div class="method-definition">
+																																																																																								<div class="method-definition">
 											<tr><td class="method-definition"><span class="method-result">string</span>&nbsp;&nbsp;</td>
 										<td class="method-definition"><a href="#battle_row" title="details" class="method-name">battle_row</a>()&nbsp;&nbsp;</td>
 					<td class="method-definition">draws the fight - misc</td></tr>
@@ -237,6 +241,16 @@ Source Location: /skin/common/skin_fight.php<br /><br />
 											<tr><td class="method-definition"><span class="method-result">void</span>&nbsp;&nbsp;</td>
 										<td class="method-definition"><a href="#fight" title="details" class="method-name">fight</a>()&nbsp;&nbsp;</td>
 					<td class="method-definition">there was a fight</td></tr>
+				</div>
+																<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">string</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#gain_gold_log" title="details" class="method-name">gain_gold_log</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Gained gold + xp</td></tr>
+				</div>
+																<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">string</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#loss_gold_log" title="details" class="method-name">loss_gold_log</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Lost gold</td></tr>
 				</div>
 																<div class="method-definition">
 											<tr><td class="method-definition"><span class="method-result">string</span>&nbsp;&nbsp;</td>
@@ -285,10 +299,10 @@ Source Location: /skin/common/skin_fight.php<br /><br />
 			<a name='method_detail'></a>
 
 <a name="methodbattle_row" id="battle_row"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">battle_row</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 79]</span>
+	<span class="method-title">battle_row</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 99]</span>
 </div>
 <br />
 
@@ -333,10 +347,10 @@ $attack&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methoddraw_log" id="draw_log"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">draw_log</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 46]</span>
+	<span class="method-title">draw_log</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 66]</span>
 </div>
 <br />
 
@@ -388,10 +402,10 @@ $opponent_name&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodenemy_battle_row" id="enemy_battle_row"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">enemy_battle_row</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 68]</span>
+	<span class="method-title">enemy_battle_row</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 88]</span>
 </div>
 <br />
 
@@ -436,10 +450,10 @@ $attack&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodfight" id="fight"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">fight</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 90]</span>
+	<span class="method-title">fight</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 110]</span>
 </div>
 <br />
 
@@ -487,11 +501,114 @@ $banner&nbsp;
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
-<a name="methodloss_log" id="loss_log"><!-- --></a>
+<a name="methodgain_gold_log" id="gain_gold_log"><!-- --></a>
+<div class="oddrow">
+
+<div class="method-header">
+	<span class="method-title">gain_gold_log</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 31]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>string gain_gold_log(
+int
+$gold_shift, int
+$exp_gain&nbsp;
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Gained gold + xp
+</strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">int</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$gold_shift:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> gold gained</span>			</td></tr>
+					<tr><td class="indent">
+				<span class="var-type">int</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$exp_gain:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> experience gained</span>			</td></tr>
+				</table>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Return:</strong>&nbsp;&nbsp;</td><td>html</td>
+  </tr>
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+		
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodloss_gold_log" id="loss_gold_log"><!-- --></a>
 <div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">loss_log</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 34]</span>
+	<span class="method-title">loss_gold_log</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 42]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>string loss_gold_log(
+int
+$gold_shift&nbsp;
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Lost gold
+</strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">int</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$gold_shift:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> gold lost</span>			</td></tr>
+				</table>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Return:</strong>&nbsp;&nbsp;</td><td>html</td>
+  </tr>
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+		
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodloss_log" id="loss_log"><!-- --></a>
+<div class="oddrow">
+
+<div class="method-header">
+	<span class="method-title">loss_log</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 54]</span>
 </div>
 <br />
 
@@ -502,7 +619,6 @@ $banner&nbsp;
 
 $victor_id, 
 $victor_username, int
-$gold_shift, int
 $id, string
 $username&nbsp;
 )</code>
@@ -526,12 +642,6 @@ $username&nbsp;
 				<span class="var-name">$username:&nbsp;</span></td>
 				<td>
 				<span class="var-description"> name of victor</span>			</td></tr>
-					<tr><td class="indent">
-				<span class="var-type">int</span>&nbsp;&nbsp;</td>
-				<td>
-				<span class="var-name">$gold_shift:&nbsp;</span></td>
-				<td>
-				<span class="var-description"> gold lost</span>			</td></tr>
 					<tr><td class="indent">
 				<span class="var-type"></span>&nbsp;&nbsp;</td>
 				<td>
@@ -564,10 +674,10 @@ $username&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodplayer_battle_row" id="player_battle_row"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">player_battle_row</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 57]</span>
+	<span class="method-title">player_battle_row</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 77]</span>
 </div>
 <br />
 
@@ -612,10 +722,10 @@ $attack&nbsp;
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodvictory_log" id="victory_log"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">victory_log</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 21]</span>
+	<span class="method-title">victory_log</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 19]</span>
 </div>
 <br />
 
@@ -626,8 +736,6 @@ $attack&nbsp;
 
 $loser_id, 
 $loser_username, int
-$gold_shift, int
-$exp_gain, int
 $id, string
 $username&nbsp;
 )</code>
@@ -651,18 +759,6 @@ $username&nbsp;
 				<span class="var-name">$username:&nbsp;</span></td>
 				<td>
 				<span class="var-description"> name of loser</span>			</td></tr>
-					<tr><td class="indent">
-				<span class="var-type">int</span>&nbsp;&nbsp;</td>
-				<td>
-				<span class="var-name">$gold_shift:&nbsp;</span></td>
-				<td>
-				<span class="var-description"> gold gained</span>			</td></tr>
-					<tr><td class="indent">
-				<span class="var-type">int</span>&nbsp;&nbsp;</td>
-				<td>
-				<span class="var-name">$exp_gain:&nbsp;</span></td>
-				<td>
-				<span class="var-description"> experience gained</span>			</td></tr>
 					<tr><td class="indent">
 				<span class="var-type"></span>&nbsp;&nbsp;</td>
 				<td>
@@ -700,7 +796,7 @@ $username&nbsp;
 
         <div class="credit">
 		    <hr class="separator" />
-		    Documentation generated on Sun, 26 Jul 2009 15:41:33 +0300 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Sat, 22 Aug 2009 01:31:08 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>

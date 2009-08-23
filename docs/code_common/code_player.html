@@ -18,7 +18,7 @@
     <td colspan="2" class="header-menu">
       
                                       
-                                                                                                                        		[ <a href="../classtrees_code_common.html" class="menu">class tree: code_common</a> ]
+                                                                                                                                                    		[ <a href="../classtrees_code_common.html" class="menu">class tree: code_common</a> ]
 		[ <a href="../elementindex_code_common.html" class="menu">index: code_common</a> ]
             [ <a href="../elementindex.html" class="menu">all elements</a> ]
     </td>
@@ -35,7 +35,9 @@
               <a href="../li_code_admin.html">code_admin</a><br />
               <a href="../li_code_common.html">code_common</a><br />
               <a href="../li_code_install.html">code_install</a><br />
+              <a href="../li_code_player.html">code_player</a><br />
               <a href="../li_code_public.html">code_public</a><br />
+              <a href="../li_QuestDB.html">QuestDB</a><br />
               <a href="../li_skin_admin.html">skin_admin</a><br />
               <a href="../li_skin_common.html">skin_common</a><br />
               <a href="../li_skin_install.html">skin_install</a><br />
@@ -80,7 +82,8 @@ Source Location: /code/common/code_player.php<br /><br />
 	<div class="info-box-title">Class Overview</div>
 	<div class="nav-bar">
 					<span class="disabled">Class Overview</span>
-						
+							| <a href="#sec-descendants">Descendants</a>
+				
 											| <a href="#sec-var-summary">Property Summary</a> | <a href="#sec-vars">Properties Detail</a>
 														| <a href="#sec-method-summary">Method Summary</a> | <a href="#sec-methods">Methods Detail</a>
 								</div>
@@ -117,6 +120,7 @@ Source Location: /code/common/code_player.php<br /><br />
 		  		  <li><a href="../code_common/code_player.html#var$friends">$friends</a></li>
 		  		  <li><a href="../code_common/code_player.html#var$is_member">$is_member</a></li>
 		  		  <li><a href="../code_common/code_player.html#var$page">$page</a></li>
+		  		  <li><a href="../code_common/code_player.html#var$settings">$settings</a></li>
 		  		</ul>
 		</td>
 		
@@ -136,6 +140,7 @@ Source Location: /code/common/code_player.php<br /><br />
 		  		  <li><a href="../code_common/code_player.html#methodlog_out">log_out</a></li>
 		  		  <li><a href="../code_common/code_player.html#methodmake_player">make_player</a></li>
 		  		  <li><a href="../code_common/code_player.html#methodplayer_db_to_object">player_db_to_object</a></li>
+		  		  <li><a href="../code_common/code_player.html#methodupdate_password">update_password</a></li>
 		  		  <li><a href="../code_common/code_player.html#methodupdate_player">update_player</a></li>
 		  		</ul>
 		</td>
@@ -145,6 +150,37 @@ Source Location: /code/common/code_player.php<br /><br />
 	</div>
 </div>
 
+	<a name="sec-descendants"></a>
+	<div class="info-box">
+		<div class="info-box-title">Descendants</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Class Overview</a>
+							| <span class="disabled">Descendants</span>
+															| <a href="#sec-var-summary">Property Summary</a> | <a href="#sec-vars">Properties Detail</a>
+														| <a href="#sec-method-summary">Method Summary</a> | <a href="#sec-methods">Methods Detail</a>
+									</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Child Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../code_public/code_player_rpg.html">code_player_rpg</a></td>
+					<td>
+											A simple rpg stats module
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../code_player/code_player_profile.html">code_player_profile</a></td>
+					<td>
+											Description of code_player_profile,php
+										</td>
+				</tr>
+							</table>
+			<br /><div class="top">[ <a href="#top">Top</a> ]</div>
+		</div>
+	</div>
 
 
 
@@ -153,13 +189,14 @@ Source Location: /code/common/code_player.php<br /><br />
 		<div class="info-box-title">Property Summary</span></div>
 		<div class="nav-bar">
 			<a href="#sec-description">Class Overview</a>
+							| <a href="#sec-descendants">Descendants</a>
 									| <span class="disabled">Property Summary</span> | <a href="#sec-vars">Properties Detail</a>
 												| <a href="#sec-method-summary">Method Summary</a> | <a href="#sec-methods">Methods Detail</a>
 							    				</div>
 		<div class="info-box-body">
 			<div class="var-summary">
 			<table border="0" cellspacing="0" cellpadding="0" class="var-summary">
-																																					<div class="var-title">
+																																											<div class="var-title">
 					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
 					<td class="var-title"><a href="#$db" title="details" class="var-name-summary">$db</a>&nbsp;&nbsp;</td>
 					<td class="var-summary-description"></td></tr>
@@ -179,6 +216,11 @@ Source Location: /code/common/code_player.php<br /><br />
 					<td class="var-title"><a href="#$page" title="details" class="var-name-summary">$page</a>&nbsp;&nbsp;</td>
 					<td class="var-summary-description"></td></tr>
 				</div>
+													<div class="var-title">
+					<tr><td class="var-title"><span class="var-type-summary">mixed</span>&nbsp;&nbsp;</td>
+					<td class="var-title"><a href="#$settings" title="details" class="var-name-summary">$settings</a>&nbsp;&nbsp;</td>
+					<td class="var-summary-description"></td></tr>
+				</div>
 										</table>
 			</div>
 			<br /><div class="top">[ <a href="#top">Top</a> ]</div>
@@ -190,13 +232,14 @@ Source Location: /code/common/code_player.php<br /><br />
 		<div class="info-box-title">Method Summary</span></div>
 		<div class="nav-bar">
 			<a href="#sec-description">Class Overview</a>
+							| <a href="#sec-descendants">Descendants</a>
 																		| <a href="#sec-var-summary">Property Summary</a> | <a href="#sec-vars">Properties Detail</a>
 							    					| <span class="disabled">Method Summary</span> | <a href="#sec-methods">Methods Detail</a>
 		</div>
 		<div class="info-box-body">
 			<div class="method-summary">
 				<table border="0" cellspacing="0" cellpadding="0" class="method-summary">
-																																																																																																																																<div class="method-definition">
+																																																																																																																																								<div class="method-definition">
 											<tr><td class="method-definition"><span class="method-result">code_player</span>&nbsp;&nbsp;</td>
 										<td class="method-definition"><a href="#__construct" title="details" class="method-name">__construct</a>()&nbsp;&nbsp;</td>
 					<td class="method-definition">might as well _use_ the fun features of our database class. no more =&amp; $this-&gt;db.</td></tr>
@@ -212,9 +255,9 @@ Source Location: /code/common/code_player.php<br /><br />
 					<td class="method-definition">fer makin' a player</td></tr>
 				</div>
 																<div class="method-definition">
-											<tr><td class="method-definition"><span class="method-result">void</span>&nbsp;&nbsp;</td>
+											<tr><td class="method-definition"><span class="method-result">boolean</span>&nbsp;&nbsp;</td>
 										<td class="method-definition"><a href="#getfriends" title="details" class="method-name">getfriends</a>()&nbsp;&nbsp;</td>
-					<td class="method-definition"></td></tr>
+					<td class="method-definition">Retrieves the player's friends</td></tr>
 				</div>
 																<div class="method-definition">
 											<tr><td class="method-definition"><span class="method-result">bool</span>&nbsp;&nbsp;</td>
@@ -263,8 +306,13 @@ Source Location: /code/common/code_player.php<br /><br />
 				</div>
 																<div class="method-definition">
 											<tr><td class="method-definition"><span class="method-result">bool</span>&nbsp;&nbsp;</td>
+										<td class="method-definition"><a href="#update_password" title="details" class="method-name">update_password</a>()&nbsp;&nbsp;</td>
+					<td class="method-definition">Changes the player password</td></tr>
+				</div>
+																<div class="method-definition">
+											<tr><td class="method-definition"><span class="method-result">bool</span>&nbsp;&nbsp;</td>
 										<td class="method-definition"><a href="#update_player" title="details" class="method-name">update_player</a>()&nbsp;&nbsp;</td>
-					<td class="method-definition">commits changes to the database - incorporates levelling up</td></tr>
+					<td class="method-definition">Commits player changes to the database + levels up</td></tr>
 				</div>
 												</table>
 			</div>
@@ -277,12 +325,13 @@ Source Location: /code/common/code_player.php<br /><br />
 		<div class="info-box-title">Properties</div>
 		<div class="nav-bar">
 			<a href="#sec-description">Class Overview</a>
+							| <a href="#sec-descendants">Descendants</a>
 													| <a href="#sec-var-summary">Property Summary</a> | <span class="disabled">Properties Detail</span>
 															| <a href="#sec-method-summary">Method Summary</a> | <a href="#sec-methods">Methods Detail</a>
 												</div>
 		<div class="info-box-body">
 			<a name="var$db" id="$db"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<span class="var-title">
@@ -306,7 +355,7 @@ Source Location: /code/common/code_player.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$friends" id="$friends"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<span class="var-title">
@@ -330,7 +379,7 @@ Source Location: /code/common/code_player.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$is_member" id="$is_member"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<span class="var-title">
@@ -354,13 +403,37 @@ Source Location: /code/common/code_player.php<br /><br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="var$page" id="$page"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<span class="var-title">
 			<span class="var-type">mixed</span>&nbsp;&nbsp;
 			<span class="var-name">$page</span>
 			 = <span class="var-default"> &quot;&quot;</span>			<span class="smalllinenumber">[line 15]</span>
+		</span>
+	</div>
+
+		<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+	
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="var$settings" id="$settings"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>&nbsp;&nbsp;
+			<span class="var-name">$settings</span>
+			 = <span class="var-default">array()</span>			<span class="smalllinenumber">[line 16]</span>
 		</span>
 	</div>
 
@@ -385,6 +458,7 @@ Source Location: /code/common/code_player.php<br /><br />
 		<div class="info-box-title">Methods</div>
 		<div class="nav-bar">
 			<a href="#sec-description">Class Overview</a>
+							| <a href="#sec-descendants">Descendants</a>
 																		| <a href="#sec-var-summary">Property Summary</a> | <a href="#sec-vars">Properties Detail</a>
 																	| <a href="#sec-method-summary">Method Summary</a> | <span class="disabled">Methods Detail</span>
 					</div>
@@ -395,7 +469,7 @@ Source Location: /code/common/code_player.php<br /><br />
 <div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">Constructor __construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 22]</span>
+	<span class="method-title">Constructor __construct</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 24]</span>
 </div>
 <br />
 
@@ -404,6 +478,7 @@ Source Location: /code/common/code_player.php<br /><br />
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
 		<code>code_player __construct(
 [array
+$settings = array()], [array
 $config = array()]&nbsp;
 )</code>
     </td></tr></table>
@@ -420,6 +495,12 @@ $config = array()]&nbsp;
 				<span class="var-name">$config:&nbsp;</span></td>
 				<td>
 				<span class="var-description"> db passwords, in case the db isn't set up yet.</span>			</td></tr>
+					<tr><td class="indent">
+				<span class="var-type">array</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$settings:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> settings array, for code_player_profile, basically</span>			</td></tr>
 				</table>
 
 	<br />
@@ -440,7 +521,7 @@ $config = array()]&nbsp;
 <div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">add_log</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 204]</span>
+	<span class="method-title">add_log</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 220]</span>
 </div>
 <br />
 
@@ -488,7 +569,7 @@ $message&nbsp;
 <div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">create_player</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 284]</span>
+	<span class="method-title">create_player</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 300]</span>
 </div>
 <br />
 
@@ -550,21 +631,30 @@ $email&nbsp;
 <div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">getfriends</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 308]</span>
+	<span class="method-title">getfriends</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 356]</span>
 </div>
 <br />
 
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
-		<code>void getfriends(
+		<code>boolean getfriends(
 )</code>
     </td></tr></table>
     </td></tr></table><br /></div>
 
-	
+	<p align="center" class="short-description"><strong>Retrieves the player's friends
+</strong></p>
+
 	<br />
-	
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Return:</strong>&nbsp;&nbsp;</td><td>success</td>
+  </tr>
+</table>
+<br />
+
 
 		
 		<br />
@@ -574,7 +664,7 @@ $email&nbsp;
 <div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">get_player</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 120]</span>
+	<span class="method-title">get_player</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 123]</span>
 </div>
 <br />
 
@@ -622,7 +712,7 @@ $identity&nbsp;
 <div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">get_player_by_id</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 134]</span>
+	<span class="method-title">get_player_by_id</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 140]</span>
 </div>
 <br />
 
@@ -670,7 +760,7 @@ $id&nbsp;
 <div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">get_player_by_name</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 150]</span>
+	<span class="method-title">get_player_by_name</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 156]</span>
 </div>
 <br />
 
@@ -725,7 +815,7 @@ $id&nbsp;
 <div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">halt_if_guest</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 92]</span>
+	<span class="method-title">halt_if_guest</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 95]</span>
 </div>
 <br />
 
@@ -773,7 +863,7 @@ $page&nbsp;
 <div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">halt_if_suspended</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 78]</span>
+	<span class="method-title">halt_if_suspended</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 81]</span>
 </div>
 <br />
 
@@ -809,7 +899,7 @@ $page&nbsp;
 <div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">log_in</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 235]</span>
+	<span class="method-title">log_in</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 251]</span>
 </div>
 <br />
 
@@ -864,7 +954,7 @@ $password&nbsp;
 <div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">log_out</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 221]</span>
+	<span class="method-title">log_out</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 237]</span>
 </div>
 <br />
 
@@ -897,7 +987,7 @@ $password&nbsp;
 <div class="evenrow">
 
 <div class="method-header">
-	<span class="method-title">make_player</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 33]</span>
+	<span class="method-title">make_player</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 36]</span>
 </div>
 <br />
 
@@ -911,7 +1001,7 @@ $password&nbsp;
 
 	<p align="center" class="short-description"><strong>Main player function. Used to generate the player who is playing.
 </strong></p>
-<span class="description"><p>(TODO) I think some of the code_login procedure should end up in here instead.</p></span>
+<span class="description"><p>(DONE) I think some of the code_login procedure should end up in here instead.</p></span>
 	<br />
 	<strong>API Tags:</strong><br />
 <table border="0" cellspacing="0" cellpadding="0">
@@ -933,7 +1023,7 @@ $password&nbsp;
 <div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">player_db_to_object</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 105]</span>
+	<span class="method-title">player_db_to_object</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 108]</span>
 </div>
 <br />
 
@@ -971,14 +1061,74 @@ $player_db&nbsp;
 
 
 		
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../code_public/code_player_rpg.html#methodplayer_db_to_object">code_player_rpg::player_db_to_object()</a>
+								: accesses the &quot;profiles&quot; table.
+							</li>
+					<li>
+				<a href="../code_player/code_player_profile.html#methodplayer_db_to_object">code_player_profile::player_db_to_object()</a>
+								: accesses the &quot;profiles&quot; table.
+							</li>
+				</ul>
+		<br />
+	<div class="top">[ <a href="#top">Top</a> ]</div>
+</div>
+<a name="methodupdate_password" id="update_password"><!-- --></a>
+<div class="evenrow">
+
+<div class="method-header">
+	<span class="method-title">update_password</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 329]</span>
+</div>
+<br />
+
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code-border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">&nbsp;
+		<code>bool update_password(
+string
+$newpassword&nbsp;
+)</code>
+    </td></tr></table>
+    </td></tr></table><br /></div>
+
+	<p align="center" class="short-description"><strong>Changes the player password
+</strong></p>
+
+			<strong>Parameters:</strong><br />
+			<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td class="indent">
+				<span class="var-type">string</span>&nbsp;&nbsp;</td>
+				<td>
+				<span class="var-name">$newpassword:&nbsp;</span></td>
+				<td>
+				<span class="var-description"> the new password!</span>			</td></tr>
+				</table>
+
+	<br />
+	<strong>API Tags:</strong><br />
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="indent"><strong>Return:</strong>&nbsp;&nbsp;</td><td>success</td>
+  </tr>
+  <tr>
+    <td class="indent"><strong>Access:</strong>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+<br />
+
+
+		
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
 <a name="methodupdate_player" id="update_player"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
 <div class="method-header">
-	<span class="method-title">update_player</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 165]</span>
+	<span class="method-title">update_player</span>&nbsp;&nbsp;<span class="smalllinenumber">[line 175]</span>
 </div>
 <br />
 
@@ -990,9 +1140,9 @@ $player_db&nbsp;
     </td></tr></table>
     </td></tr></table><br /></div>
 
-	<p align="center" class="short-description"><strong>commits changes to the database - incorporates levelling up
+	<p align="center" class="short-description"><strong>Commits player changes to the database + levels up
 </strong></p>
-
+<span class="description"><p>Centralised player updating function, to ensure that if you have more than  enough XP, you get levelled up by the same set of code each time.</p></span>
 	<br />
 	<strong>API Tags:</strong><br />
 <table border="0" cellspacing="0" cellpadding="0">
@@ -1007,6 +1157,16 @@ $player_db&nbsp;
 
 
 		
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../code_public/code_player_rpg.html#methodupdate_player">code_player_rpg::update_player()</a>
+							</li>
+					<li>
+				<a href="../code_player/code_player_profile.html#methodupdate_player">code_player_profile::update_player()</a>
+							</li>
+				</ul>
 		<br />
 	<div class="top">[ <a href="#top">Top</a> ]</div>
 </div>
@@ -1016,7 +1176,7 @@ $player_db&nbsp;
 
         <div class="credit">
 		    <hr class="separator" />
-		    Documentation generated on Sun, 26 Jul 2009 15:41:27 +0300 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Sat, 22 Aug 2009 01:30:59 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>
