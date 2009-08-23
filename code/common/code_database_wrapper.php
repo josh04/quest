@@ -15,7 +15,18 @@
  * @package code_common
  */
 class code_database_wrapper {
+   /**
+    * Persisting class instance
+    *
+    * @var code_database_wrapper
+    */
     private static $instance;
+
+   /**
+    * And the persisting database object which goes with it
+    *
+    * @var QuestDB
+    */
     public $db;
 
    /**
@@ -27,15 +38,15 @@ class code_database_wrapper {
 	$this->db = &NewQuestDB();
 
         ob_start(); // Do not error if the database isn't there.
-            $this->db->Connect($config['server'], $config['db_username'], $config['db_password'], $config['database']);
-        ob_end_clean();
+        $this->db->Connect($config['server'], $config['db_username'], $config['db_password'], $config['database']);
+        $this->db->_output_buffer = ob_get_clean();
     }
 
    /**
     * gets the current database object
     *
     * @param array $config database settings
-    * @return object database
+    * @return QuestDB database
     */
     public static function &get_db($config = array()) {
         if (!self::$instance) {

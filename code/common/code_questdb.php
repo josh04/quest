@@ -26,6 +26,7 @@ class QuestDB {
     public $_Queries = array();
     public $_showErrors = true;
     public $_lastError = '';
+    public $_output_buffer = '';
     public $_capturedErrors = array();
     public $replaceQuote = "\\'";
     public $nameQuote = '`';

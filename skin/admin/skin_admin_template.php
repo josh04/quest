@@ -20,7 +20,7 @@ class skin_admin_template extends _skin_admin {
         <h2>".$data['title']."</h2>
         ".$message."
         ".($data['description']?"<div class='explanation' style='margin:12px 0px;'>".$data['description']."</div>":"")."
-        <form action='' method='post'><table>
+        <form action='index.php?section=admin&amp;page=".$data['page']."' method='post'><table>
             <tr><td style='width:20%;'></td><td></td></tr>
 ".$html."
             <tr><td></td><td><input type='submit' value='Save changes' /></td></tr>

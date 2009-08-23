@@ -17,10 +17,10 @@ class skin_menu_admin extends skin_common {
         $make_menu_entry = "<tr>
                 <td style='width:80%;".$menu_entry['disabled']."'>".$menu_entry['label']."</td>
                 <td>
-                    <a href='?section=admin&amp;page=menu&amp;action=edit&amp;id=".$menu_entry['id']."'><img src='images/icons/pencil.png' alt='edit' /></a>&nbsp;
-                    <a href='?section=admin&amp;page=menu&amp;action=remove&amp;id=".$menu_entry['id']."'><img src='images/icons/delete.png' alt='delete' /></a>
-                    <a href='?section=admin&amp;page=menu&amp;action=up&amp;id=".$menu_entry['id']."'><img src='images/icons/arrow_up.png' /></a>
-                    <a href='?section=admin&amp;page=menu&amp;action=down&amp;id=".$menu_entry['id']."'><img src='images/icons/arrow_down.png' /></a>
+                    <a href='index.php?section=admin&amp;page=menu&amp;action=edit&amp;id=".$menu_entry['id']."'><img src='images/icons/pencil.png' alt='edit' /></a>&nbsp;
+                    <a href='index.php?section=admin&amp;page=menu&amp;action=remove&amp;id=".$menu_entry['id']."'><img src='images/icons/delete.png' alt='delete' /></a>
+                    <a href='index.php?section=admin&amp;page=menu&amp;action=up&amp;id=".$menu_entry['id']."'><img src='images/icons/arrow_up.png' /></a>
+                    <a href='index.php?section=admin&amp;page=menu&amp;action=down&amp;id=".$menu_entry['id']."'><img src='images/icons/arrow_down.png' /></a>
                 </td>
             </tr>";
         return $make_menu_entry;
@@ -36,8 +36,8 @@ class skin_menu_admin extends skin_common {
     public function menu_category($category_name, $category_html) {
         $menu_category = "<tr><td style='width:80%'><h3>".$category_name."</h3></td>
                 <td>
-                    <a href='?section=admin&amp;page=menu&amp;action=category_up&amp;category=".$category_name."'><img src='images/icons/arrow_up.png' /></a>
-                    <a href='?section=admin&amp;page=menu&amp;action=category_down&amp;category=".$category_name."'><img src='images/icons/arrow_down.png' /></a>
+                    <a href='index.php?section=admin&amp;page=menu&amp;action=category_up&amp;category=".$category_name."'><img src='images/icons/arrow_up.png' /></a>
+                    <a href='index.php?section=admin&amp;page=menu&amp;action=category_down&amp;category=".$category_name."'><img src='images/icons/arrow_down.png' /></a>
                 </td></tr>
             ".$category_html;
         return $menu_category;
@@ -54,7 +54,7 @@ class skin_menu_admin extends skin_common {
     public function menu_wrap($menu_html, $menu_entry, $message="") {
         $menu_wrap = "<h2>Menu editor</h2>
             ".$message."
-            <p>You can edit the menu items below, or add a new item <a href='?section=admin&amp;page=menu&action=edit'>here</a>.</p>
+            <p>You can edit the menu items below, or add a new item <a href='index.php?section=admin&amp;page=menu&action=edit'>here</a>.</p>
             <table>
             ".$menu_html."
             </table>";
@@ -72,7 +72,7 @@ class skin_menu_admin extends skin_common {
     public function edit($item, $button_text, $message='') {
         $edit = "<h2>Menu editor</h2>
         ".$message."
-        <form action='' method='post'><table>
+        <form action='index.php?section=admin&amp;page=menu' method='post'><table>
             <tr><td style='width:25%;'><label for='menu-label'>Label</label></td>
             <td><input type='text' id='menu-label' name='menu-label' style='width:95%;' value='".$item['label']."' /></td></tr>
 
@@ -130,7 +130,7 @@ class skin_menu_admin extends skin_common {
             <p>Are you sure you want to delete <em>".$item['label']."</em>?</p>
             <p><form action='' method='post'>
                 <input type='hidden' name='menu-id' value='".$item['id']."' />
-                <input type='submit' value='Delete' /> or <a href='?section=admin&amp;page=menu'>Cancel</a>
+                <input type='submit' value='Delete' /> or <a href='index.php?section=admin&amp;page=menu'>Cancel</a>
             </form></p>";
         return $remove;
     }
