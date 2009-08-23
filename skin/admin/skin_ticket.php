@@ -25,7 +25,9 @@ class skin_ticket extends _skin_admin {
     */
     public function ticket_row($ticket) {
         $ticket_row = "<tr class='row' style='background-color:#".$this->ticket_colour[$ticket['status']].";'>
-                <td><img src='".$this->ticket_icon[$ticket['status']]."' alt='' /></td><td>".$ticket['id']."</td><td><a href='index.php?page=profile&id=".$ticket['player_id']."'>".$ticket['username']."</a></td>
+                <td><img src='".$this->ticket_icon[$ticket['status']]."' alt='' /></td>
+                <td>".$ticket['id']."</td>
+                <td><a href='index.php?page=ticket&section=admin&id=".$ticket['id']."' style='color:#555;text-decoration:none;'>".$ticket['username']."</a></td>
                 <td><a href='index.php?page=ticket&section=admin&id=".$ticket['id']."' style='color:#555;text-decoration:none;'>".$ticket['message_short']."</td></tr>
                 ";
         return $ticket_row;
