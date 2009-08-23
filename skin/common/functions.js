@@ -9,6 +9,24 @@ if(el.style.display=="none") {
 return false;
 }
 
+// Update multiple checkboxes at once
+function update_multiple(name, checked) {
+    d = document.getElementsByName(name+'[]');
+    for(i=0;i<d.length;i++) {
+        d[i].checked = checked;
+    }
+}
+
+// Update parent of multiple checkboxes
+function update_multiple_parent(parent, children) {
+    el = document.getElementById(parent);
+    d = document.getElementsByName(children+'[]');
+    for(i=0;i<d.length;i++) {
+        if(d[i].checked==false) { el.checked = false; return false; }
+    }
+    el.checked = true;
+}
+
 function Position(x, y)
 {
   this.X = x;

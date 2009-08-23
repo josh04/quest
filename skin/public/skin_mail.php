@@ -14,7 +14,7 @@ class skin_mail extends skin_common {
     */
     public function mail_row($mail) {
         $mail_row = "<tr class=\"mail-".($mail['status']==0?"un":"")."read\">
-				<td width='5%'><input type='checkbox' name='mail_id[]' value='".$mail['id']."' /></td>
+				<td width='5%'><input type='checkbox' name='mail_id[]' onchange='update_multiple_parent(\"mail_check_all\", \"mail_id\");' value='".$mail['id']."' /></td>
 				<td width='20%'>
 				<a href='index.php?page=profile&amp;id=".$mail['from']."'>".$mail['username']."</a>
 				</td>
@@ -31,6 +31,7 @@ class skin_mail extends skin_common {
     * displays a single message
     *
     * @param array $mail message detail
+    * @param string $username
     */
     public function read($mail, $username) {
         $read = "
@@ -50,6 +51,10 @@ class skin_mail extends skin_common {
 			<input type='hidden' name='mail_subject' value='".$mail['pre'].$mail['subject']."' />
 			<input type='submit' name='reply' value='Reply' />
 			</form>
+			<form method='POST' action='index.php?page=mail&amp;action=mark_as_unread' style='display:inline;'>
+			<input type='hidden' name='mail_id[]' value='".$mail['id']."' />
+			<input type='submit' name='mark_as_unread' value='Mark as unread' />
+			</form>
 			<form method='post' action='index.php?page=mail&amp;action=delete_multiple' style='display:inline;'>
 			<input type='hidden' name='mail_id[]' value='".$mail['id']."' />
 			<input type='submit' name='delete' value='Delete' />
@@ -67,19 +72,24 @@ class skin_mail extends skin_common {
     public function mail_wrap($mail_html, $message = "") {
         $mail_wrap = "
         <h2>Mail</h2>
-        <strong>Inbox</strong> | <a href='index.php?page=mail&amp;action=compose'>New Message</a>
-        <form method='POST' action='index.php?page=mail&amp;action=delete_multiple' name='inbox'>
+        <div style='margin-bottom:6px;'><strong>Inbox</strong> | <a href='index.php?page=mail&amp;action=compose'>New Message</a></div>
+        <form method='POST' action='index.php?page=mail&amp;action=multiple' name='inbox'>
         ".($message?"<div class=\"success\">".$message."</div>":"")."
-            <table class='nutable' cellspacing='0' cellpadding='4'>
+            <table class='nutable' cellspacing='0' cellpadding='4' style='margin-top:6px;'>
                 <tr style='background-color:#EEE;'>
-                    <th width='5%'><input type='checkbox' name='check_all' /></th>
+                    <th width='5%'><input type='checkbox' name='check_all' id='mail_check_all' onchange='update_multiple(\"mail_id\",this.checked);' /></th>
                     <th width='20%'>From</th>
                     <th width='40%'>Subject</th>
                     <th width='35%'>Date</th>
                 </tr>
                 ".$mail_html."
             </table>
-            With selected: <input type='submit' name='delete_multiple' value='Delete' />
+            With selected: <select name='multiple_action' onchange='this.form.submit()'>
+                    <option selected='selected'>Select an action from below</option>
+                    <option value='mark_as_unread'>Mark as unread</option>
+                    <option value='mark_as_read'>Mark as read</option>
+                    <option value='delete_multiple'>Delete</option>
+                </select>
 		</form>";
         return $mail_wrap;
     }

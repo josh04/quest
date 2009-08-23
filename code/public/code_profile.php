@@ -28,6 +28,11 @@ class code_profile extends code_common {
             $success = $this->profile->get_player($_GET['id']);
         }
 
+        // No ID or name? Show the user's profile.
+        if (!isset($_GET['name']) && !isset($_GET['id'])) {
+            $success = $this->profile->get_player($this->player->id);
+        }
+
         if ($success) {
             $code_profile = $this->make_profile($message);
         } else {
@@ -170,6 +175,17 @@ class code_profile extends code_common {
         $this->player->update_player();
 
         return $this->skin->donated($amount, $this->profile->username);
+    }
+
+   /**
+    * static menu function
+    *
+    * @param code_menu $menu the current menu object, allows adding of top/bottom and db etc
+    * @param string $label The text label
+    * @return string html
+    */
+    public function code_profile_menu(&$menu, $label) {
+        return $this->player->username;
     }
 
 }

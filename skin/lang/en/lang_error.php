@@ -91,6 +91,9 @@ class lang_error {
     public $mail_sent = "Mail sent.";
     public $fill_in_fields = "You must fill in all fields.";
     public $mail_send_too_soon = "You can only send one mail every two minutes.";
+    public $marked_as_read = "Messages marked as read";
+    public $marked_as_unread = "Messages marked as unread";
+    public $no_messages_selected = "You did not select any messages";
 
     // items
     public $item_not_found = "The selected item does not exist.";

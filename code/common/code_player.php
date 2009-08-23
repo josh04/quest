@@ -48,7 +48,7 @@ class code_player {
         } else {
             $player_query = $this->db->execute("SELECT * FROM `players` WHERE `id`=?", array(intval($id)));
         }
- 
+
         $player_db = $player_query->fetchrow();
  
         $check = md5($player_db['id'].$player_db['password'].$player_db['login_rand']);
@@ -63,7 +63,6 @@ class code_player {
 
             $this->registered_date = date("l, jS F Y", $this->registered);
             $this->registered_days = intval((time() - $this->registered)/84600);
-
 
             $this->db->execute("UPDATE `players` SET `last_active`=? WHERE `id`=?", array ($last_active, $this->id));
           
