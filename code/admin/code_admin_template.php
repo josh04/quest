@@ -60,7 +60,7 @@ class code_admin_template extends _code_admin {
             $html .= $this->skin->add_field($data_field, $lang);
         }
 
-        $this->data->page = $this->page;
+        $this->data['page'] = $this->page;
         $index = $this->skin->general_wrapper($this->data, $html, $message);
         return $index;
     }

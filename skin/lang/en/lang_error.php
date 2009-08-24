@@ -177,5 +177,9 @@ class lang_error {
     // edit_profile
     public $not_a_rank = "That is not a valid rank.";
     public $permissions_updated = "Permissions sucessfully updated.";
+
+    // cron
+    public $no_cron_selected = "You did not select a cron to edit.";
+    public $cron_updated = "You have successfully updated the cron timer.";
 }
 ?>
