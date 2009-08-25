@@ -26,6 +26,7 @@ class QuestDB {
     public $_Queries = array();
     public $_showErrors = true;
     public $_lastError = '';
+    public $_output_buffer = '';
     public $_capturedErrors = array();
     public $replaceQuote = "\\'";
     public $nameQuote = '`';
@@ -263,6 +264,7 @@ class QuestDB {
         $this->_queryID = mysqli_store_result($this->_con);
         $this->_lastQuery = $sql;
         $this->_lastError = mysqli_error($this->_con);
+        $this->_output_buffer .= $this->_lastError;
         if ($this->_queryID === 1) {
             return true;
         }

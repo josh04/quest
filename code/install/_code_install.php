@@ -60,27 +60,11 @@ class _code_install extends code_common {
         `registered` int(11) NOT NULL default '0',
         `last_active` int(11) NOT NULL default '0',
         `ip` varchar(255) NOT NULL default '',
-        `level` int(11) NOT NULL default '1',
-        `stat_points` int(11) NOT NULL default '5',
         `gold` int(11) NOT NULL default '200',
-        `bank` int(11) NOT NULL default '20',
-        `hp` int(11) NOT NULL default '60',
-        `hp_max` int(11) NOT NULL default '60',
-        `exp` int(11) NOT NULL default '0',
-        `exp_max` int(11) NOT NULL default '50',
-        `energy` int(11) NOT NULL default '10',
-        `energy_max` int(11) NOT NULL default '10',
-        `strength` int(11) NOT NULL default '1',
-        `vitality` int(11) NOT NULL default '1',
-        `agility` int(11) NOT NULL default '1',
-        `interest` tinyint(1) NOT NULL default '0',
-        `kills` int(11) NOT NULL default '0',
-        `deaths` int(11) NOT NULL default '0',
         `show_email` tinyint(3) NOT NULL default '0',
         `skin` int(3) NOT NULL default '2',
         `login_rand` varchar(255) NOT NULL default '',
         `login_salt` varchar(255) NOT NULL default '',
-        `quest` varchar(255) NOT NULL default '',
         PRIMARY KEY  (`id`),
         KEY `rank` (`rank`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
@@ -187,7 +171,8 @@ class _code_install extends code_common {
         (24, 'admin_template', 'admin', 'panel,portal'),
         (25, 'menu_admin', 'admin', 'menu'),
         (26, 'edit_profile', 'admin', 'profile_edit'),
-        (31, 'messages', 'admin', 'messages') ;";
+        (27, 'messages', 'admin', 'messages'),
+        (29, 'cron_admin', 'admin', 'cron') ;";
 
     public $settings_query = "CREATE TABLE IF NOT EXISTS `settings` (
         `name` varchar(125) NOT NULL,
@@ -206,7 +191,8 @@ class _code_install extends code_common {
         ('verification_method', '1'),
         ('ban_multiple_email', '1'),
         ('custom_fields', '{\"description\":\"No description.\",\"gender\":\"0\",\"msn\":\" \",\"aim\":\" \",\"skype\":\" \",\"avatar\":\"images\/avatar.png\"}'),
-        ('register_ip_check', '1');";
+        ('register_ip_check', '1'),
+        ('database_report_error', '0');";
 
     public $quests_query = "CREATE TABLE IF NOT EXISTS `quests` (
         `id` int(3) NOT NULL auto_increment,
@@ -311,7 +297,8 @@ INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enab
 (17, 'Register', 'Guests', 'public', 'login', '&amp;action=register', 1, 5, 0, 1),
 (18, 'Player Stats', 'Guests', 'public', 'ranks', '', 1, 6, 1, 1),
 (19, 'Help', 'Guests', 'public', 'guesthelp', '', 1, 7, 0, 1),
-(23, 'Quests', 'Game Menu', 'public', 'quest', '', 1, 2, 0, 0);
+(23, 'Quests', 'Game Menu', 'public', 'quest', '', 1, 2, 0, 0),
+(24, 'Cron Editor', 'Admin', 'admin', 'cron', '', 1, 7, 0, 0);
         ";
 
     public $friends_query = "CREATE TABLE IF NOT EXISTS `friends` (
@@ -342,6 +329,7 @@ CREATE TABLE IF NOT EXISTS `rpg` (
   `player_id` int(11) NOT NULL,
   `level` int(11) NOT NULL,
   `stat_points` int(11) NOT NULL,
+  `quest` text NOT NULL,
   `hp` int(11) NOT NULL,
   `hp_max` int(11) NOT NULL,
   `exp` int(11) NOT NULL,
@@ -371,6 +359,7 @@ CREATE TABLE IF NOT EXISTS `rpg` (
 
    /**
     * ditto
+    * (TODO) update the upgrade. lol.
     */
     public function upgrade_database() {
         $this->db->execute($this->cron_query);

@@ -292,7 +292,10 @@ class code_common {
         $output = $this->start_header();
  
         $output .= $this->make_menu();
-
+        
+        if ($this->settings['database_report_error'] && $this->db->_output_buffer) {
+            $page = $this->skin->error_box($this->db->_output_buffer).$page;
+        }
         $output .= $this->skin->glue($page);
         $output .= $this->skin->footer();
 

@@ -381,3 +381,10 @@ ul.friendlist {
 ul.friendlist li {
 	padding: 2px 0px;
 }
+
+ul.cron-form  li{
+    border-bottom: 1px solid #DDD;
+    margin:0;
+    list-style-type:none;
+    padding-bottom: 5px;
+}
