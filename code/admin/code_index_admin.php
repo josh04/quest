@@ -30,7 +30,8 @@ class code_index_admin extends _code_admin {
             array( 'ticket', 'Tickets', 'Read, organise and respond to tickets' ),
             array( 'blueprints', 'Item Blueprints', 'Add, remove and organise items' ),
             array( 'quest', 'Quests', 'Add, remove and organise quests' ),
-            array( 'portal', 'Portal', 'Control the portal' )
+            array( 'portal', 'Portal', 'Control the portal' ),
+            array( 'messages', 'Messages', 'Edit specific in-game messages to your choosing.')
         );
         $i = 0;
         foreach($boxes as $box) {

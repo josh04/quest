@@ -66,6 +66,7 @@ class code_admin_template extends _code_admin {
 
    /**
     * get settings to be used in page
+    * (TODO): There must be a better place for these phat arrays [GT]
     *
     * @return string html
     */
@@ -102,7 +103,6 @@ class code_admin_template extends _code_admin {
                 ),
             );
         }
-
         return $data;
     }
 

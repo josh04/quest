@@ -42,7 +42,7 @@ class code_ticket extends code_common {
     * @param string $message error what
     * @return string html
     */
-    public function ticket_list($message) {
+    public function ticket_list($message='') {
         $ticket_query = $this->db->execute("SELECT * FROM tickets WHERE player_id=? AND status=0 ORDER BY date DESC", array($this->player->id));
 
         while($ticket = $ticket_query->fetchrow()) {
@@ -57,9 +57,11 @@ class code_ticket extends code_common {
         }
 
         if ($ticket_query->numrows() > 1) {
-            $plural = "s. They are";
+            $plural = "s. They are shown below.";
+        } elseif($ticket_query->numrows()==0) {
+            $plural = "s.";
         } else {
-            $plural = ". It is";
+            $plural = ". It is shown below.";
         }
 
         $ticket_list = $this->skin->ticket_wrap($ticket_header, $ticket_query->numrows(), $plural, $ticket_draft, $message);

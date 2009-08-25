@@ -50,8 +50,7 @@ class code_log extends code_common {
         }
 
         //Update the status of the messages because now they have been read
-        $update_log['status'] = 1;
-        $log_update_query = $this->db->AutoExecute('user_log', $update_log, 'UPDATE', 'player_id = '.$this->player->id);
+        $log_update_query = $this->db->Execute('UPDATE `user_log` SET `status`=1 WHERE `player_id`=?',array($this->player->id));
         return $make_log;
     }
 

@@ -19,7 +19,7 @@ class skin_portal extends skin_common {
     public function portal($username, $unread_log, $portal_caption, $portal_welcome, $portal_links) {
         $portal = "
         <h2>".$portal_caption."</h2>
-        ".$portal_welcome."
+        <div style='padding:8px;'>".$portal_welcome."</div>
 
         <div class='gbox'><table><tr><td>
         ".$portal_links."

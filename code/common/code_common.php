@@ -275,6 +275,7 @@ class code_common {
         $this->make_db();
         $this->make_settings();
         $this->cron();
+        $this->make_skin($skin_name);
         $this->make_player();
         $this->make_skin($skin_name);
     }
@@ -308,8 +309,9 @@ class code_common {
      * @return string html
      */
     public function bbparse($code, $full=false) {
+        $code = htmlentities($code, ENT_QUOTES, 'utf-8');
         if ($full) {
-            $code = nl2br(htmlentities($code, ENT_QUOTES, 'utf-8'));
+            $code = nl2br($code);
         }
         $match = array (
                 "/\[b\](.*?)\[\/b\]/is",
