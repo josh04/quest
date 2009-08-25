@@ -38,7 +38,7 @@ class skin_ticket extends skin_common {
                         <textarea rows='5' cols='80' name='message'>".$ticket_draft."</textarea>
                         <input type='submit' value='Submit Ticket' />
                         </form></p>
-                        <h3>Your tickets</h3><p>You currently have <strong>".$tickets."</strong> open ticket".$plural." shown below.</p>
+                        <h3>Your tickets</h3><p>You currently have <strong>".$tickets."</strong> open ticket".$plural."</p>
                         ".$tickets_html;
         return $ticket_wrap;
     }

@@ -19,14 +19,35 @@ class skin_index extends skin_common {
     * @param string $quest current quest html
     * @return string html
     */
-    public function index_player($player, $stats, $news, $online_list, $quest) {
+    public function index_player($player, $stats, $news, $online_list, $quest, $log, $mail) {
         $index_player = "
                 <h2>Welcome, ".$player->username."</h2>
             ".$quest."
+            <table><tr><td style=\"width:50%;padding:8px;\">
+            <strong>Level:</strong> ".$player->level."<br />
+            <strong>XP:</strong> ".$player->exp." (".($player->exp_max-$player->exp)." to next level)<br />
+            <strong>HP:</strong> ".$player->hp." (".($player->hp/$player->hp_max)."%)<br />
+            <strong>Energy:</strong> ".$player->energy." (".($player->energy/$player->energy_max)."%)<br />
+            <strong>Registered:</strong> ".$player->registered_date."<br />
+            <strong>Last active:</strong> ".date("jS M, h:i A",$player->last_active)."
+            </td><td style=\"width:50%;\">
             ".$stats."
+            </td></tr></table>
 
             <h4>Users online</h4>
             <div class=\"success\" style=\"margin: 8px;\">".$online_list."</div>
+
+            <div style=\"width:45%;float:left;\">
+            <h4>Your log (<a href=\"?page=laptop\">more</a>)</h4>
+            ".$log."
+            </div>
+
+            <div style=\"width:45%;float:right;\">
+            <h4>Recent mail (<a href=\"?page=mail\">more</a>)</h4>
+            ".$mail."
+            </div>
+            <br style=\"clear:both;\" />
+
             ".($news?"<h4>Latest news</h4>".$news:"");
         return $index_player;
     }
@@ -83,6 +104,30 @@ class skin_index extends skin_common {
     public function news_entry($id, $username, $message) {
         $news_entry = "<div>".$message."<br /> - <a href='index.php?page=profile&amp;id=".$id."'>".$username."</a></div>";
       return $news_entry;
+    }
+
+   /**
+    * returns a log entry
+    *
+    * @param string $message the content of the log entry
+    * @param integer $status the status of the log entry (read or unread)
+    * @return string html
+    */
+    public function log_entry($message, $status) {
+        $log_entry = "<div style='border:1px solid #CCC;margin:4px;padding:4px;".($status==0?"background-color:#FCC;":"")."'>".$message."</div>";
+        return $log_entry;
+    }
+
+   /**
+    * returns a mail message
+    *
+    * @param array $message the details of the message
+    * @return string html
+    */
+    public function mail_entry($message) {
+        $mail_entry = "<em><a href=\"?page=mail&amp;action=read&amp;id=".$message['id']."\">" . $message['subject'] . "</a></em><br />From: ".$message['username'];
+        $mail_entry = $this->log_entry($mail_entry, $message['status']);
+        return $mail_entry;
     }
 
    /**

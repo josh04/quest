@@ -148,6 +148,8 @@ class lang_error {
     public $admin_portal_home = "The portal allows players to easily travel between areas of the game. You can configure it below.";
     public $admin_link_syntax = "Put each entry on a new line, add an asterisk (*) at the start for bold, link to pages with pipe syntax (bank|Bank),
         force new lines with a space ( ) and specify boxes with hypens (--)";
+    public $couldnt_find_message = "The message you submitted could not be found.";
+    public $message_saved = "Message saved.";
 
     // bank
     public $collect_interest_tomorrow = "You can collect your interest again tomorrow.";
