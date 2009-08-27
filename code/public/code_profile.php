@@ -45,13 +45,13 @@ class code_profile extends code_common {
 
    /**
     * assigns html to profile object
+    * (TODO) Donate needs to splintered off into a seperate page
+    *        Add a hook-in system for mods to add interact links
     *
     * @param $message any error messages
     * @return string html
     */
     public function make_profile($message = '') {
-
-        
 
         $this->profile->getFriends();
         if ($_GET['friends']=="add") {
@@ -69,29 +69,31 @@ class code_profile extends code_common {
                 continue;
             }
 
-            $this->profile->extras .= $field.": ".$this->profile->$field."<br />";
+            $this->profile->extras .= $this->skin->extra_link($field, $this->profile->$field);
         }
 
         if ($this->profile->msn) {
-            $this->profile->im_links .= $this->skin->im_link('MSN', $this->profile->msn);
+            $this->profile->im_links .= $this->skin->extra_link('MSN', $this->profile->msn);
         }
         if ($this->profile->aim) {
-            $this->profile->im_links .= $this->skin->im_link('AIM', $this->profile->aim);
+            $this->profile->im_links .= $this->skin->extra_link('AIM', $this->profile->aim);
         }
         if ($this->profile->skype) {
-            $this->profile->im_links .= $this->skin->im_link('Skype', $this->profile->skype);
+            $this->profile->im_links .= $this->skin->extra_link('Skype', $this->profile->skype);
         }
 
         $this->profile->age = intval(((time() - $this->profile->registered) / 3600) / 24);
 
         $this->profile->registered = date('F j, Y', $this->profile->registered);
 
+        $interaction .= $this->skin->add_interact_link("index.php?page=mail&amp;action=compose&amp;to=".$this->profile->username,"Mail");
+
         if ($this->profile->id == $this->player->id) {
-            $this->profile->edit = $this->skin->edit_profile_link();
+            $interaction .= $this->skin->add_interact_link("index.php?page=profile_edit","Edit your profile");
         } else {
-            $this->player->getFriends();
+            $interaction .= $this->skin->add_battle_link($this->profile->id);
             if(!in_array($this->profile->id, array_keys($this->player->friends))) {
-                $this->profile->edit = $this->skin->add_friend_link($this->profile->id); // (TODO) friends, as always.
+                $interaction .= $this->skin->add_interact_link("index.php?page=profile&amp;id=".$this->profile->id."&amp;friends=add", "Add as friend");
             }
         }
 
@@ -107,10 +109,15 @@ class code_profile extends code_common {
         if($this->profile->friendcount==0) {
             $friendlist = $this->profile->username." has no friends yet!";
         } else {
-            $friendlist = $this->skin->friendlist($this->profile->friends);
+            foreach($this->profile->friends as $friend) {
+                $friendlist .= $this->skin->friend_entry($friend);
+            }
         }
 
-        $make_profile = $this->skin->make_profile($this->profile, $friendlist, $message);
+        $custom_fields = json_decode($this->settings['custom_fields'], true);
+        if(empty($this->profile->description)) $this->profile->description = $custom_fields['description'];
+
+        $make_profile = $this->skin->make_profile($this->profile, $friendlist, $interaction, $message);
         return $make_profile;
       
     }

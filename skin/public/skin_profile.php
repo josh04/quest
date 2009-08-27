@@ -15,61 +15,81 @@ class skin_profile extends skin_common {
    * @param string $message any errors that have been drawn
    * @return string html
    */
-   function make_profile($profile, $friendlist, $message='') {
+   function make_profile($profile, $friendlist, $interaction, $message='') {
         $make_profile = "
             ".$message."
-            <img src=\"".$profile->avatar."\" alt=\"[user avatar]\" style=\"max-width:50px;max-height:50px;float:left;border:1px solid #DDD;padding:4px;margin:8px;\" />
-            <h2 style='line-height:20px;'>".$profile->username."
-            <a title='User is ".$profile->is_online."'><img src='../icons/status_".$profile->is_online.".png' /></a><br />
-            <span style='font-size:10px;font-weight:normal;'>( <a href='index.php?page=mail&amp;action=compose&amp;name=".$profile->username."'>Mail</a>".($profile->edit?' '.$profile->edit:'')." )</span></h2>
-            <br style='clear:both;' />
-            <div style='font-size:11px;'>
-            <p><i>".$profile->description."</i></p>
-            <strong>Registered:</strong> ".$profile->registered."<br />
-            <strong>Character age:</strong> ".$profile->age." days<br />
-            <strong>Level:</strong> ".$profile->level."<br />
-            <strong>Kills/deaths:</strong> ".$profile->kills."/".$profile->deaths." (".$profile->ratio.")<br />
-            ".$profile->im_links."
-            <br />".$profile->extras."
 
-            <strong>Friends (".$profile->friendcount.")</strong><br />
-            ".$friendlist."<br /><br />
+            <img src='".$profile->avatar."' alt='[user avatar]' class='avatar' style='margin:8px;float:left;' />
+            <h1 style='margin-bottom:8px;'><img src='images/icons/status_".$profile->is_online.".png' style='padding:0px 4px;' alt='' />".$profile->username."</h1>
+
+            <span style='font-size:10px;'>Joined ".$profile->registered."</span>
+            <table><tr><td style='width:50%;'><div class='gbox'><h3>Level: ".$profile->level."</h3></div></td><td style='width:50%;'><div class='bbox'><h3>Kill/Death ratio: ".$profile->ratio."</h3></div></td></tr>
+
+            <tr><td rowspan='2'>
+            <h3>Stats</h3>
+            <label>Registered:</label> ".$profile->registered."
+            <label>Character age:</label> ".$profile->age." days
+            <label>Level:</label> ".$profile->level."
+            <label>Kills/deaths:</label> ".$profile->kills."/".$profile->deaths." (".$profile->ratio.")
+            ".$profile->im_links."
+            ".$profile->extras."
+
+            </td><td>
+            <h3>Description</h3>
+            ".$profile->description."
+            </td></tr>
+
+            <tr><td class='profile-interact'>
+            <h3>Interact</h3>
+            <a href=''>Donate</a>
+            ".$interaction."
+            </td></tr>
+
+            <tr><td colspan='2'>
+            <h3>Friends (".$profile->friendcount.")</h3>
+            <div class='friendwrapper'>
+            ".$friendlist."
             </div>
-            <form action='index.php?page=profile&amp;action=donate&amp;id=".$profile->id."' method='POST'>
-            <input type='text' name='donate' />
-            <input type='submit' accesskey='S' value='Donate to ".$profile->username."' />
-            </form>";
+            </td></tr>
+            </table>";
          return $make_profile;
    }
 
   /**
-   * edit profile link
+   * add an interaction link
    * 
+   * @param string $link where to go to
+   * @param string $caption the text of the link
    * @return string html
    */
-   function edit_profile_link() {
-       $edit_profile_link = "| <a href='index.php?page=profile_edit'>Edit Profile</a>";
-       return $edit_profile_link;
+   function add_interact_link($link, $caption) {
+       $add_interact_link = "<a href='".$link."'>".$caption."</a>";
+       return $add_interact_link;
    }
 
   /**
-   * add to friends link
+   * add a link to battle 'em
    * 
+   * @param integer $id the id of the player we're fighting
    * @return string html
    */
-   function add_friend_link($id) {
-       $add_friend_link = "| <a href='index.php?page=profile&friends=add&id=".$id."'>Add to friends</a>";
-       return $add_friend_link;
+   function add_battle_link($id) {
+       $add_interact_link = "<form action='index.php?page=battle&amp;action=fight' name='profileBattleLink' method='post'>
+           <input type='hidden' name='id' value='".$id."' />
+           <a href='#' onclick='document.profileBattleLink.submit();'>Battle</a></form>";
+       return $add_interact_link;
    }
 
    /**
-    * generates html for instant messenger link
+    * adds a new field to the stats
     * 
+    * @param string $field the field name
+    * @param string $value the field value
     * @return string html
     */
-    function im_link($im, $address) {
-        $im_link = "<strong>".$im."</strong>: ".$address."<br />";
-        return $im_link;
+    function extra_link($field, $value) {
+        $extra_link = "<label>".$field.":</label> ".$value;
+        return $extra_link;
     }
 
    /**
@@ -265,12 +285,24 @@ class skin_profile extends skin_common {
     * @return string html
     */
     public function friendlist($friends) {
-        $ret = "<ul class='friendlist'>";
         foreach($friends as $id => $username) {
             $ret .= "<li><a href='?page=profile&id=".$id."'>".$username."</a></li>";
             }
-        $ret .= "</ul>";
         return $ret;
+    }
+
+   /**
+    * an friend entry in a friend list
+    *
+    * @param array $friend friend to listify
+    * @return string html
+    */
+    public function friend_entry($friend) {
+        $friend_entry .= "<div class='friendentry'>
+                    <img src='".$friend['avatar']."' alt='[user avatar]' class='avatar' /><br />
+                    <a href='index.php?page=profile&amp;id=3'>".$friend['username']."</a><br />
+                </div>";
+        return $friend_entry;
     }
 
    /**

@@ -50,7 +50,7 @@ class code_player {
         }
 
         $player_db = $player_query->fetchrow();
- 
+
         $check = md5($player_db['id'].$player_db['password'].$player_db['login_rand']);
         
         if ($check == $_COOKIE['cookie_hash'] || $check == $_SESSION['hash']) {
@@ -326,8 +326,9 @@ class code_player {
         // This is a resource-expensive funciton, so let's put a circuit breaker in
         if(!empty($this->friends)) return true;
  
-        $query = $this->db->execute("SELECT `id`, `username`
-    FROM `players`
+        $query = $this->db->execute("SELECT `p`.`id`, `p`.`username`, `j`.`profile_string`
+    FROM `players` AS `p`
+    LEFT JOIN `profiles` AS `j` ON `j`.`player_id` = `p`.`id`
     WHERE (`id` IN (SELECT f.id2
                    FROM friends AS f
                    WHERE (f.id1=? OR f.id2=?) and `accepted`=1)
@@ -341,7 +342,8 @@ class code_player {
             return false;
         } else {
             while($friend = $query->fetchrow()) {
-                $this->friends[($friend['id'])] = $friend['username'];
+                $custom_fields = json_decode($friend['profile_string'], true);
+                $this->friends[($friend['id'])] = array('username'=>$friend['username'], 'avatar'=>$custom_fields['avatar']);
             }
             return true;
         }

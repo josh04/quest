@@ -8,6 +8,9 @@ body {
 	font-family: TrebuchetMS, Verdana, Arial;
 	font-size: 12px;
 	text-align: center;
+
+/* Sneaky stuff to stop page resizing with scrollbar appear/disappear */
+	overflow-y: scroll;
 }
 
 form, textarea {
@@ -387,4 +390,36 @@ ul.cron-form  li{
     margin:0;
     list-style-type:none;
     padding-bottom: 5px;
+}
+
+.profile-interact a {
+	display: block;
+	padding: 4px 4px 2px 4px;
+	color: #339;
+	text-decoration: none;
+	border-bottom: 1px solid #CCC;
+}
+
+img.avatar {
+	border: 1px solid rgb(221, 221, 221);
+	margin-bottom: 8px;
+	padding: 4px;
+	max-width: 50px;
+	max-height: 50px;
+}
+
+
+.friendwrapper {
+	display: table;
+	width: 100%;
+	border: 1px dashed #CCC;
+	border-width: 1px 0px;
+	padding: 10px 0px;"
+}
+
+.friendentry {
+	display: table-cell;
+	width: 100px;
+	height: 25px;
+	text-align: center;
 }
