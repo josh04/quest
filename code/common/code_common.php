@@ -290,7 +290,7 @@ class code_common {
     */
     public function construct($page) {
         $output = $this->start_header();
- 
+
         $output .= $this->make_menu();
         
         if ($this->settings['database_report_error'] && $this->db->_output_buffer) {

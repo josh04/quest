@@ -262,8 +262,13 @@ class code_player {
         $player_insert['registered'] = time();
         $player_insert['last_active'] = time();
         $player_insert['ip'] = $_SERVER['REMOTE_ADDR'];
-        $player_insert['verified'] = 1;
         $player_insert['login_salt'] = $login_salt;
+
+        if($this->settings['verification_method']==1) {
+            $player_insert['verified'] = 1;
+        } else {
+            $player_insert['verified'] = 0;
+        }
 
         $player_insert_query = $this->db->AutoExecute('players', $player_insert, 'INSERT');
         
@@ -273,6 +278,13 @@ class code_player {
             $player_id = 0;
         }
         
+        if($this->settings['verification_method']==3) {
+            $to = 1;
+            $body = $username . " has just registered an account. You can approve it [url=?section=admin&page=profile_edit&action=approve&id=".$player_id."]here[/url].";
+            $subject = "New account";
+            $this->db->execute("INSERT INTO `mail` (`to`,`from`,`subject`,`body`,`time`,`status`) VALUES (?,?,?,?,?,?)",array($to, 1, $subject, $body, time(), 0));
+        }
+
         return $player_id;
     }
 

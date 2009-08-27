@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Description of skin_profile
  *
@@ -283,6 +283,23 @@ class skin_profile extends skin_common {
     public function donated($amount, $name) {
         $donated = "<div class='success'>You donated £".$amount." to ".$name.".</div>";
         return $donated;
+    }
+
+   /**
+    * Admin approval form
+    *
+    * @param array $user player details
+    * @param string $message anything wrong?
+    * @return string html
+    */
+    public function approve_user($player, $message='') {
+        $approve_user = "<form action='' method='post'>
+            <div style='border:1px solid #CCC;padding:8px;'><h3>".$player['username']."</h3>
+            <strong>Registered: </strong>".$player['registered']."<br />
+            <strong>Email address: </strong>".$player['email']."
+            <p><input type='submit' name='approve' value='Approve user' /></p>
+            </div></form>";
+        return $approve_user;
     }
 
 }

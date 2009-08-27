@@ -77,6 +77,12 @@ class code_login extends code_common {
             $log_in = $this->skin->index_guest($username, $this->skin->lang_error->password_wrong, $this->settings['welcometext']);
             return $log_in;
         }
+
+        if ($player->verified==0) {
+            $player->log_out();
+            $log_in = $this->skin->success_box($this->skin->lang_error->player_not_approved);
+            return $log_in;
+        }
         
         header("Location: index.php");
         exit;
@@ -176,7 +182,7 @@ class code_login extends code_common {
             }
         }
         
-        $registered_player = new code_player();
+        $registered_player = new code_player($this->settings);
         $username = htmlentities($_POST['username'], ENT_QUOTES, "utf-8");
         $email = htmlentities($_POST['email'], ENT_QUOTES, "utf-8");
 

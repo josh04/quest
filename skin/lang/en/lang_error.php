@@ -46,6 +46,7 @@ class lang_error {
     public $please_enter_password = "Please enter your password.";
     public $please_enter_username = "Please enter a username.";
     public $registration_disabled = "Registration is currently disabled.";
+    public $player_not_approved = "The site's administrators have opted to approve all new accounts.<br /><br />Yours has not been approved yet.";
 
     // register
     public $username_not_long_enough = "Your username must be longer than 3 characters.";
@@ -64,6 +65,8 @@ class lang_error {
     public $error_registering = "Error registering new player. ";
     public $avatar_wrong_format = "You did not ever a valid url for your avatar.";
     public $multiple_registrations = "You may not register more than one account each 30 minutes.";
+    public $player_already_approved = "This player has already been approved.";
+    public $player_approved = "Player successfully approved.";
 
     // ticketing
     public $ticket_not_exist = "The ticket you tried to access does not exist.";
