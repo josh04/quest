@@ -45,6 +45,7 @@ class lang_error {
     public $logged_out = "You have been logged out.";
     public $please_enter_password = "Please enter your password.";
     public $please_enter_username = "Please enter a username.";
+    public $registration_disabled = "Registration is currently disabled.";
 
     // register
     public $username_not_long_enough = "Your username must be longer than 3 characters.";

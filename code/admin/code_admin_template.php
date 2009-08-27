@@ -1,7 +1,6 @@
 <?php
 /**
  * Automatic administation page generation
- * (TODO) Implement this for portal + more
  *
  * @author grego
  * @package code_admin
@@ -67,7 +66,7 @@ class code_admin_template extends _code_admin {
 
    /**
     * get settings to be used in page
-    * (TODO): There must be a better place for these phat arrays [GT]
+    * (TODO) There must be a better place for these phat arrays [GT]
     *
     * @return string html
     */

@@ -89,6 +89,12 @@ class code_login extends code_common {
     * @return string html
     */
     public function register() {
+
+        if($this->settings['verification_method']==0) {
+            $register_submit = $this->skin->index_guest("", $this->skin->lang_error->registration_disabled, $this->settings['welcometext']);
+            return $register_submit;
+        }
+
         $register = $this->skin->register("", "", "");
         return $register;
     }
@@ -99,6 +105,11 @@ class code_login extends code_common {
     * @return string html
     */
     public function register_submit() {
+
+        if($this->settings['verification_method']==0) {
+            $register_submit = $this->skin->index_guest("", $this->skin->lang_error->registration_disabled, $this->settings['welcometext']);
+            return $register_submit;
+        }
 
         $username = htmlentities($_POST['username'],ENT_QUOTES,'UTF-8');
         $email = htmlentities($_POST['email'],ENT_QUOTES,'UTF-8');
