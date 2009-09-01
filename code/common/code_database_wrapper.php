@@ -39,7 +39,10 @@ class code_database_wrapper {
 
         ob_start(); // Do not error if the database isn't there.
         $this->db->Connect($config['server'], $config['db_username'], $config['db_password'], $config['database']);
-        $this->db->_output_buffer = ob_get_clean();
+
+        $this->db->_output_buffer = ob_get_contents();
+        ob_end_clean();
+        
     }
 
    /**

@@ -13,7 +13,15 @@ class code_player_profile extends code_player {
     */
     public function make_player() {
         $return_value = parent::make_player("profiles");
-        if ($this->is_player) {
+        if ($this->is_player) $this->custom_fields();
+        return $return_value;
+    }
+
+   /**
+    * add some custom fields to the record
+    *
+    */
+    public function custom_fields() {
             if (!isset($this->player_id)) {
                 foreach (json_decode($this->settings['custom_fields'], true) as $field => $default) {
                     $profile_string[$field] = $default;
@@ -31,7 +39,13 @@ class code_player_profile extends code_player {
             foreach (json_decode($this->settings['custom_fields'], true) as $field => $default) {
                 $this->$field = $profile_array[$field];
             }
-        }
+    }
+
+    public function get_player($by) {
+        $return_value = parent::get_player($by);
+        $profile_query = $this->db->Execute("SELECT * FROM `profiles` WHERE `player_id`=?",array($this->id));
+        if($profile_query->numrows()==1) parent::player_db_to_object($profile_query->fetchrow());
+        $this->custom_fields();
         return $return_value;
     }
 

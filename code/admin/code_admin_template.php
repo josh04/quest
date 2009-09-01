@@ -1,7 +1,6 @@
 <?php
 /**
  * Automatic administation page generation
- * (TODO) Implement this for portal + more
  *
  * @author grego
  * @package code_admin
@@ -60,14 +59,14 @@ class code_admin_template extends _code_admin {
             $html .= $this->skin->add_field($data_field, $lang);
         }
 
-        $this->data->page = $this->page;
+        $this->data['page'] = $this->page;
         $index = $this->skin->general_wrapper($this->data, $html, $message);
         return $index;
     }
 
    /**
     * get settings to be used in page
-    * (TODO): There must be a better place for these phat arrays [GT]
+    * (TODO) There must be a better place for these phat arrays [GT]
     *
     * @return string html
     */
@@ -93,12 +92,13 @@ class code_admin_template extends _code_admin {
                     array('type'=>'text', 'name'=>'name','caption'=>'Project name'),
                     array('name'=>'admin_notes','caption'=>'Notes for administrators','lang'=>'BBCode'),
                     array('type'=>'checkbox','name'=>'ban_multiple_email','caption'=>'Ban multiple accounts from one email address'),
+                    array('type'=>'checkbox','name'=>'register_ip_check','caption'=>'Registration 30 minute cool-off period?'),
                     array('type'=>'radio', 'name'=>'verification_method', 'caption'=>'Verification method',
                         'options' => array(
                             array('value'=>'0', 'caption'=>'Disable registration'),
                             array('value'=>'1', 'caption'=>'Don\'t verify new users'),
                             array('value'=>'2', 'caption'=>'Require email verification'),
-                            array('value'=>'3', 'caption'=>'Require administrator verification'),
+                            array('value'=>'3', 'caption'=>'Require administrator approval'),
                         ),
                     ),
                 ),

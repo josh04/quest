@@ -101,8 +101,8 @@ class code_mail extends code_common {
         }
 
         $mail['time'] = date("F j, Y, g:i a", $mail['time']);
-        $mail['body'] = $this->bbparse(nl2br(stripslashes($mail['body'])));
-        $mail['subject'] = nl2br(stripslashes($mail['subject']));
+        $mail['body'] = $this->bbparse(nl2br($mail['body']));
+        $mail['subject'] = nl2br($mail['subject']);
 
         if (substr($mail['subject'],0,3) != "RE:") {
             $mail['pre'] = "RE: ";
@@ -122,7 +122,6 @@ class code_mail extends code_common {
                                 array($this->player->id));
         while($mail = $mail_query->fetchrow()) {
             $mail['time'] = date("F j, Y, g:i a", $mail['time']);
-            $mail['subject'] = stripslashes($mail['subject']);
             $mail_html .= $this->skin->mail_row($mail);
         }
         $mail_list = $this->skin->mail_wrap($mail_html, $message);
@@ -240,7 +239,6 @@ class code_mail extends code_common {
         if ($mail_query->RecordCount()) {
             require_once("skin/public/skin_mail.php");
             while ($mail = $mail_query->fetchrow()) {
-                $mail['subject'] = stripslashes($mail['subject']);
                 $mail_rows .= skin_mail::mail_row_small($mail['id'], $mail['username'], $mail['subject']);
                 $menu->player->unread++;
             }

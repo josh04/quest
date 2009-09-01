@@ -50,7 +50,7 @@ class code_player {
         }
 
         $player_db = $player_query->fetchrow();
- 
+
         $check = md5($player_db['id'].$player_db['password'].$player_db['login_rand']);
         
         if ($check == $_COOKIE['cookie_hash'] || $check == $_SESSION['hash']) {
@@ -262,8 +262,13 @@ class code_player {
         $player_insert['registered'] = time();
         $player_insert['last_active'] = time();
         $player_insert['ip'] = $_SERVER['REMOTE_ADDR'];
-        $player_insert['verified'] = 1;
         $player_insert['login_salt'] = $login_salt;
+
+        if($this->settings['verification_method']==1) {
+            $player_insert['verified'] = 1;
+        } else {
+            $player_insert['verified'] = 0;
+        }
 
         $player_insert_query = $this->db->AutoExecute('players', $player_insert, 'INSERT');
         
@@ -273,6 +278,13 @@ class code_player {
             $player_id = 0;
         }
         
+        if($this->settings['verification_method']==3) {
+            $to = 1;
+            $body = $username . " has just registered an account. You can approve it [url=?section=admin&page=profile_edit&action=approve&id=".$player_id."]here[/url].";
+            $subject = "New account";
+            $this->db->execute("INSERT INTO `mail` (`to`,`from`,`subject`,`body`,`time`,`status`) VALUES (?,?,?,?,?,?)",array($to, 1, $subject, $body, time(), 0));
+        }
+
         return $player_id;
     }
 
@@ -314,8 +326,9 @@ class code_player {
         // This is a resource-expensive funciton, so let's put a circuit breaker in
         if(!empty($this->friends)) return true;
  
-        $query = $this->db->execute("SELECT `id`, `username`
-    FROM `players`
+        $query = $this->db->execute("SELECT `p`.`id`, `p`.`username`, `j`.`profile_string`
+    FROM `players` AS `p`
+    LEFT JOIN `profiles` AS `j` ON `j`.`player_id` = `p`.`id`
     WHERE (`id` IN (SELECT f.id2
                    FROM friends AS f
                    WHERE (f.id1=? OR f.id2=?) and `accepted`=1)
@@ -329,7 +342,8 @@ class code_player {
             return false;
         } else {
             while($friend = $query->fetchrow()) {
-                $this->friends[($friend['id'])] = $friend['username'];
+                $custom_fields = json_decode($friend['profile_string'], true);
+                $this->friends[($friend['id'])] = array('username'=>$friend['username'], 'avatar'=>$custom_fields['avatar']);
             }
             return true;
         }

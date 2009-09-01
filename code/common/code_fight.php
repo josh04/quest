@@ -22,6 +22,7 @@ class code_fight extends code_common {
   public $save_xp = true;
   public $record_kills = true;
   public $use_energy = true;
+  public $player_class = "code_player_rpg";
 
    /**
     * overrides the constructer to make the skin automatically

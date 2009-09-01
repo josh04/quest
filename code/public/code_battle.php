@@ -52,7 +52,7 @@ class code_battle extends code_common {
     public function battle_search() {
 		
 	//Construct query
-        $player_query_construct = "SELECT `r`.`player_id`, `p`.`username`, `r`.`hp`, `r`.`hp_max`, `r`.`level`
+        $player_query_construct = "SELECT `p`.`id`, `p`.`username`, `r`.`hp`, `r`.`hp_max`, `r`.`level`
             FROM `rpg` AS `r`
             LEFT JOIN `players` AS `p`
             ON `r`.`player_id`=`p`.`id`
@@ -87,7 +87,7 @@ class code_battle extends code_common {
         $player_query_construct .= "LIMIT 0,20";
 
 	$player_query = $this->db->execute($player_query_construct, $player_query_values); //Search!
-print $this->db->errormsg();
+
         if ($player_query->recordcount()) {
             while ($player = $player_query->fetchrow()) {
                 $player_rows .= $this->skin->battle_search_row($player);
@@ -158,7 +158,7 @@ print $this->db->errormsg();
         require_once("code/common/code_fight.php");
         $this->fight = new code_fight($this->section, $this->page);
         
-        $this->fight->enemy = new code_player;
+        $this->fight->enemy = new code_player_rpg;
         $this->fight->type = "player";
         if (!$this->fight->enemy->get_player($id)) {
             $fight = $this->battle_search_page($this->skin->error_box($this->skin->lang_error->player_not_found));

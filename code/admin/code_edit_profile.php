@@ -43,6 +43,9 @@ class code_edit_profile extends _code_admin {
             case 'update_permissions':
                 $edit_profile_switch = $this->update_permissions(intval($_POST['id']));
                 break;
+            case 'approve':
+                $edit_profile_switch = $this->approve_user(intval($_GET['id']));
+                break;
             default:
                 $edit_profile_switch = $this->edit_profile_page(intval($_GET['id']));
         }
@@ -179,6 +182,39 @@ class code_edit_profile extends _code_admin {
 
         $profile->update_password($_POST['new_password']);
         return $update_password;
+
+    }
+
+   /**
+    * allows admins to approve new users
+    * 
+    * @param int $id player id
+    * @return string html
+    */
+    public function approve_user($id) {
+
+        $player_query = $this->db->Execute("SELECT `id`,`username`,`registered`,`email` FROM `players` WHERE `id`=?", array($id));
+
+        if($player_query->numrows() != 1) {
+            $approve_user = $this->skin->error_box($this->skin->lang_error->player_not_found);
+            return $approve_user;
+        } else {
+            $player = $player_query->fetchrow();
+            $player['registered'] = date("d/m/Y H:i", $player['registered']);
+        }
+
+        if($player['verified']==1) {
+            $approve_user = $this->skin->error_box($this->skin->lang_error->player_already_approved);
+            return $approve_user;
+        }
+
+        if(isset($_POST['approve'])) {
+            $this->db->Execute("UPDATE `players` SET `verified`=1 WHERE `id`=?", array($id));
+            $approve_user = $this->skin->success_box($this->skin->lang_error->player_approved);
+        } else {
+            $approve_user = $this->skin->approve_user($player);
+        }
+        return $approve_user;
 
     }
 }

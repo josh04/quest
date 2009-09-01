@@ -40,6 +40,7 @@ class code_ticket extends _code_admin {
             if (strlen($ticket['message']) > 30) {
                 $ticket['message_short'] .= "...";
             }
+            $ticket['date'] = date("d/m/y H:i", $ticket['date']);
             $ticket_html .= $this->skin->ticket_row($ticket);
         }
 
@@ -77,6 +78,7 @@ class code_ticket extends _code_admin {
             return $this->skin->error_page($this->skin->lang_error->ticket_not_exist);
         }
         $ticket = $ticket_query->fetchrow();
+        $ticket['date'] = date("d/m/y H:i", $ticket['date']);
         $status_array[$ticket['status']] = " selected=\"selected\"";
         $ticket_display = $this->skin->single_ticket($ticket, "Uncategorized", $status_array, $message);
         return $ticket_display;

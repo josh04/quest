@@ -171,7 +171,8 @@ class _code_install extends code_common {
         (24, 'admin_template', 'admin', 'panel,portal'),
         (25, 'menu_admin', 'admin', 'menu'),
         (26, 'edit_profile', 'admin', 'profile_edit'),
-        (31, 'messages', 'admin', 'messages') ;";
+        (27, 'messages', 'admin', 'messages'),
+        (29, 'cron_admin', 'admin', 'cron') ;";
 
     public $settings_query = "CREATE TABLE IF NOT EXISTS `settings` (
         `name` varchar(125) NOT NULL,
@@ -296,7 +297,8 @@ INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enab
 (17, 'Register', 'Guests', 'public', 'login', '&amp;action=register', 1, 5, 0, 1),
 (18, 'Player Stats', 'Guests', 'public', 'ranks', '', 1, 6, 1, 1),
 (19, 'Help', 'Guests', 'public', 'guesthelp', '', 1, 7, 0, 1),
-(23, 'Quests', 'Game Menu', 'public', 'quest', '', 1, 2, 0, 0);
+(23, 'Quests', 'Game Menu', 'public', 'quest', '', 1, 2, 0, 0),
+(24, 'Cron Editor', 'Admin', 'admin', 'cron', '', 1, 7, 0, 0);
         ";
 
     public $friends_query = "CREATE TABLE IF NOT EXISTS `friends` (
