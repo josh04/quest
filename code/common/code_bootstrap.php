@@ -15,8 +15,26 @@ class code_bootstrap {
     * Three lines, all the code.
     */
     public function bootstrap() {
+        if (get_magic_quotes_gpc()) {
+
+
+            $_POST = array_map('stripslashes_deep', $_POST);
+            $_GET = array_map('stripslashes_deep', $_GET);
+            $_COOKIE = array_map('stripslashes_deep', $_COOKIE);
+            $_REQUEST = array_map('stripslashes_deep', $_REQUEST);
+        }
         $this->page_setup();
         $this->page->construct();
+    }
+    //unfin
+    public static function stripslashes_deep($value) {
+        if (is_array($value)) {
+            $value = array_map('stripslashes_deep', $value);
+        } else {
+            $value = stripslashes($value);
+        }
+
+        return $value;
     }
 
    /**

@@ -188,6 +188,7 @@ class code_index extends code_common {
                 $player_extra['hp_max'] = $menu->player->hp_max;
                 $player_extra['exp'] = $menu->player->exp;
                 $player_extra['exp_max'] = $menu->player->exp_max;
+                $player_extra['exp_diff'] = $menu->player->exp_max - $menu->player->exp;
                 $player_extra['energy'] = $menu->player->energy;
                 $player_extra['energy_max'] = $menu->player->energy_max;
 

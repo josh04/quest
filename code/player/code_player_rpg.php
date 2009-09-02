@@ -44,9 +44,8 @@ class code_player_rpg extends code_player {
                     $this->$name = $value;
                 }
             }
-
-
-            $this->exp_percent = intval(($this->exp / $this->exp_max) * 100);
+            $this->hp_percent = intval(($this->hp / $this->hp_max) * 100);
+            $this->exp_diff = ($this->exp - $this->exp_max);
         }
         return $return_value;
     }
