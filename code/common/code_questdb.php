@@ -264,7 +264,9 @@ class QuestDB {
         $this->_queryID = mysqli_store_result($this->_con);
         $this->_lastQuery = $sql;
         $this->_lastError = mysqli_error($this->_con);
-        $this->_output_buffer .= $this->_lastError;
+        if ($this->_lastError) {
+            $this->_output_buffer .= $this->_lastError."<br />";
+        }
         if ($this->_queryID === 1) {
             return true;
         }

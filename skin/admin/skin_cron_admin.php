@@ -5,7 +5,7 @@
  * @author josh04
  * @package skin_admin
  */
-class skin_cron_admin extends skin_common {
+class skin_cron_admin extends _skin_admin {
    /**
     * one for each cron function
     *

@@ -98,6 +98,7 @@ class lang_error {
     public $marked_as_read = "Messages marked as read";
     public $marked_as_unread = "Messages marked as unread";
     public $no_messages_selected = "You did not select any messages";
+    public $error_getting_mail = "Error retrieving your mail.";
 
     // items
     public $item_not_found = "The selected item does not exist.";
@@ -172,6 +173,7 @@ class lang_error {
 
     // laptop
     public $no_laptop_message = "You currently do not have any laptop messages.";
+    public $error_getting_log = "Error retrieving from your log.";
 
     // friends
     public $cant_self_friend = "You can be friends with yourself.";

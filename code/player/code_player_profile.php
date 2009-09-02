@@ -13,20 +13,23 @@ class code_player_profile extends code_player {
     */
     public function make_player() {
         $return_value = parent::make_player("profiles");
-        if ($this->is_player) $this->custom_fields();
+        if ($this->is_player) {
+            $this->custom_fields();
+        }
         return $return_value;
     }
 
    /**
     * add some custom fields to the record
-    *
+    * 
     */
     public function custom_fields() {
             if (!isset($this->player_id)) {
                 foreach (json_decode($this->settings['custom_fields'], true) as $field => $default) {
                     $profile_string[$field] = $default;
                 }
-                $profile_data['player_id'] = $player_db['id'];
+                
+                $profile_data['player_id'] = $this->id;
                 $profile_data['profile_string'] = json_encode($profile_string);
                 $this->db->AutoExecute('profiles', $profile_data, 'INSERT');
 
@@ -41,10 +44,14 @@ class code_player_profile extends code_player {
             }
     }
 
-    public function get_player($by) {
-        $return_value = parent::get_player($by);
-        $profile_query = $this->db->Execute("SELECT * FROM `profiles` WHERE `player_id`=?",array($this->id));
-        if($profile_query->numrows()==1) parent::player_db_to_object($profile_query->fetchrow());
+   /**
+    * adds custom fields
+    *
+    * @param string $identity id or name
+    * @return bool success
+    */
+    public function get_player($identity) {
+        $return_value = parent::get_player($identity, "profiles");
         $this->custom_fields();
         return $return_value;
     }
@@ -62,6 +69,40 @@ class code_player_profile extends code_player {
         $this->db->AutoExecute('profiles', $profile_update_query, 'UPDATE', '`player_id`='.$this->id);
         
         parent::update_player();
+    }
+
+// A constant reminder that there are always more functions to add ;)
+   /**
+    * Retrieves the player's friends
+    *
+    * @return boolean success
+    */
+    function getfriends(){
+
+        // This is a resource-expensive funciton, so let's put a circuit breaker in
+        if(!empty($this->friends)) return true;
+
+        $query = $this->db->execute("SELECT `p`.`id`, `p`.`username`, `j`.`profile_string`
+    FROM `players` AS `p`
+    LEFT JOIN `profiles` AS `j` ON `j`.`player_id` = `p`.`id`
+    WHERE (`id` IN (SELECT f.id2
+                   FROM friends AS f
+                   WHERE (f.id1=? OR f.id2=?) and `accepted`=1)
+    OR `id` IN (SELECT f.id1
+                FROM friends AS f
+                WHERE (f.id1=? OR f.id2=?) and `accepted`=1))
+    AND NOT `id`=?",
+                array_fill(0, 5, $this->id));
+
+        if ($query->recordcount() == 0) {
+            return false;
+        } else {
+            while($friend = $query->fetchrow()) {
+                $custom_fields = json_decode($friend['profile_string'], true);
+                $this->friends[($friend['id'])] = array('username'=>$friend['username'], 'avatar'=>$custom_fields['avatar']);
+            }
+            return true;
+        }
     }
 
 }

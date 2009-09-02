@@ -117,16 +117,15 @@ class code_player {
     * wrapper for get_player_by_*
     * 
     * @param string $identity name or id
+    * @param string $join table to join on
     * @return bool succeed/fail
     */
-    public function get_player($identity) {
-
-        $ident_check = intval($identity);
+    public function get_player($identity, $join="") {
         
-        if (intval($identity)) {
-            return $this->get_player_by_id($identity);
+        if (is_int($identity)) {
+            return $this->get_player_by_id($identity, $join);
         } else {
-            return $this->get_player_by_name($identity);
+            return $this->get_player_by_name($identity, $join);
         }
     }
 
@@ -134,10 +133,18 @@ class code_player {
     * get user by id
     *
     * @param integer $id player id
+    * @param string $join table to join on
     * @return bool succeed/fail
     */
-    protected function get_player_by_id($id) {
-        $player_query = $this->db->execute("SELECT * FROM `players` WHERE id=?", array(intval($id)));
+    protected function get_player_by_id($id, $join) {
+        if ($join) {
+            $player_query = $this->db->execute("SELECT `p`.*, `j`.* FROM `players` AS `p` LEFT JOIN `".$join."` AS `j`
+                ON `p`.`id` = `j`.`player_id`
+                WHERE `p`.`id`=?", array(intval($id)));
+        } else {
+            $player_query = $this->db->execute("SELECT * FROM `players` WHERE `id`=?", array(intval($id)));
+        }
+        
         if ($player_query->recordcount() == 0) {
             return false;
         }
@@ -150,10 +157,17 @@ class code_player {
     * get user by id
     *
     * @param integer $id player id
+    * @param string $join table to join on
     * @return bool succeed/fail
     */
-    protected function get_player_by_name($name) {
-        $player_query = $this->db->execute("SELECT * FROM players WHERE username=?", array($name));
+    protected function get_player_by_name($name, $join) {
+        if ($join) {
+            $player_query = $this->db->execute("SELECT `p`.*, `j`.* FROM `players` AS `p` LEFT JOIN `".$join."` AS `j`
+                ON `p`.`id` = `j`.`player_id`
+                WHERE `p`.`username`=?", array($name));
+        } else {
+            $player_query = $this->db->execute("SELECT * FROM `players` WHERE `username`=?", array($name));
+        }
 
         if ($player_query->recordcount() == 0) {
             return false;
@@ -274,15 +288,21 @@ class code_player {
         
         if ($player_insert_query) {
             $player_id = $this->db->Insert_Id();
+
+            if ( $this->settings['verification_method']==3 ) {
+                $to = 1; // must implement bulk mail by membership group
+                $from = $player_id;
+                $body = $username . " has just registered an account. You can approve it [url=index.php?section=admin&amp;page=profile_edit&amp;action=approve&amp;id=".$player_id."]here[/url].";
+                $subject = "New account";
+
+                require_once("code/public/code_mail.php");
+
+                $mail = new code_mail();
+                $mail->mail_send($from, $from, $body, $subject);
+            }
+
         } else {
             $player_id = 0;
-        }
-        
-        if($this->settings['verification_method']==3) {
-            $to = 1;
-            $body = $username . " has just registered an account. You can approve it [url=?section=admin&page=profile_edit&action=approve&id=".$player_id."]here[/url].";
-            $subject = "New account";
-            $this->db->execute("INSERT INTO `mail` (`to`,`from`,`subject`,`body`,`time`,`status`) VALUES (?,?,?,?,?,?)",array($to, 1, $subject, $body, time(), 0));
         }
 
         return $player_id;
@@ -312,40 +332,6 @@ class code_player {
             return true;
         } else {
             return false;
-        }
-    }
-
-// A constant reminder that there are always more functions to add ;)
-   /**
-    * Retrieves the player's friends
-    *
-    * @return boolean success
-    */
-    function getfriends(){
-
-        // This is a resource-expensive funciton, so let's put a circuit breaker in
-        if(!empty($this->friends)) return true;
- 
-        $query = $this->db->execute("SELECT `p`.`id`, `p`.`username`, `j`.`profile_string`
-    FROM `players` AS `p`
-    LEFT JOIN `profiles` AS `j` ON `j`.`player_id` = `p`.`id`
-    WHERE (`id` IN (SELECT f.id2
-                   FROM friends AS f
-                   WHERE (f.id1=? OR f.id2=?) and `accepted`=1)
-    OR `id` IN (SELECT f.id1
-                FROM friends AS f
-                WHERE (f.id1=? OR f.id2=?) and `accepted`=1))
-    AND NOT `id`=?",
-                array_fill(0, 5, $this->id));
-
-        if ($query->recordcount() == 0) {
-            return false;
-        } else {
-            while($friend = $query->fetchrow()) {
-                $custom_fields = json_decode($friend['profile_string'], true);
-                $this->friends[($friend['id'])] = array('username'=>$friend['username'], 'avatar'=>$custom_fields['avatar']);
-            }
-            return true;
         }
     }
  

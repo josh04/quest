@@ -25,7 +25,7 @@ class code_profile extends code_common {
         if ($_GET['name']) {
             $success = $this->profile->get_player($_GET['name']);
         } else {
-            $success = $this->profile->get_player($_GET['id']);
+            $success = $this->profile->get_player((int) $_GET['id']); //important
         }
 
         // No ID or name? Show the user's profile.

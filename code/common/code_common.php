@@ -275,7 +275,6 @@ class code_common {
         $this->make_db();
         $this->make_settings();
         $this->cron();
-        $this->make_skin($skin_name);
         $this->make_player();
         $this->make_skin($skin_name);
     }

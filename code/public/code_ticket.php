@@ -58,7 +58,7 @@ class code_ticket extends code_common {
 
         if ($ticket_query->numrows() > 1) {
             $plural = "s. They are shown below.";
-        } elseif($ticket_query->numrows()==0) {
+        } else if ($ticket_query->numrows()==0) {
             $plural = "s.";
         } else {
             $plural = ". It is shown below.";

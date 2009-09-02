@@ -3,7 +3,7 @@
  * Description of skin_ticket
  *
  * @author grego
- * @package skin_public
+ * @package skin_admin
  */
 class skin_messages extends _skin_admin {
     

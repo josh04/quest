@@ -91,8 +91,14 @@ class code_index extends code_common {
     */
     public function log() {
         $log_query = $this->db->execute("SELECT `message`, `status` FROM `user_log` WHERE `player_id`=? ORDER BY `time` DESC LIMIT 5",array($this->player->id));
-        $log = ($log_query) ? "" : $this->skin->log_entry("Error retrieving from your log.", 0);
-        if($log_query->numrows()==0) $log = $this->skin->log_entry($this->skin->lang_error->no_laptop_message, 0);
+
+        if (!$log_query) {
+            $log = $this->skin->log_entry($this->skin->lang_error->error_getting_log, 0);
+        }
+        
+        if ($log_query->numrows() == 0) {
+            $log = $this->skin->log_entry($this->skin->lang_error->no_laptop_message, 0);
+        }
 
         while($log_entry = $log_query->fetchrow()) {
             $log .= $this->skin->log_entry($log_entry['message'], $log_entry['status']);
@@ -111,11 +117,17 @@ class code_index extends code_common {
                           FROM `mail`
                           INNER JOIN `players` ON `players`.`id` = `mail`.`from`
                           WHERE `to`=? ORDER BY `time` DESC LIMIT 5",array($this->player->id));
-        $mail = ($mail_query) ? "" : $this->skin->log_entry("Error retrieving your mail.", 0);
-        if($mail_query->numrows()==0) $mail = $this->skin->log_entry($this->skin->lang_error->no_laptop_message, 0);
+
+        if (!$mail_query) {
+            $this->skin->log_entry($this->skin->lang_error->error_getting_mail, 0);
+        }
+
+        if ($mail_query->numrows()==0) {
+            $mail = $this->skin->log_entry($this->skin->lang_error->no_laptop_message, 0);
+        }
 
         while($mail_row = $mail_query->fetchrow()) {
-            $mail_row['subject'] = stripslashes(str_replace(array("<",">"),array("&lt;","&gt;"),$mail_row['subject']));
+            $mail_row['subject'] = str_replace(array("<",">"),array("&lt;","&gt;"),$mail_row['subject']);
             $mail .= $this->skin->mail_entry($mail_row);
         }
 

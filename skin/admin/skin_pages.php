@@ -5,7 +5,7 @@
  * @author josh04
  * @package skin_admin
  */
-class skin_pages extends skin_common {
+class skin_pages extends _skin_admin {
    /**
     * A single page details.
     *

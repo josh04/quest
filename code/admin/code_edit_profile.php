@@ -195,7 +195,7 @@ class code_edit_profile extends _code_admin {
 
         $player_query = $this->db->Execute("SELECT `id`,`username`,`registered`,`email` FROM `players` WHERE `id`=?", array($id));
 
-        if($player_query->numrows() != 1) {
+        if ($player_query->numrows() == 0) {
             $approve_user = $this->skin->error_box($this->skin->lang_error->player_not_found);
             return $approve_user;
         } else {
@@ -203,7 +203,7 @@ class code_edit_profile extends _code_admin {
             $player['registered'] = date("d/m/Y H:i", $player['registered']);
         }
 
-        if($player['verified']==1) {
+        if ($player['verified'] == 1) {
             $approve_user = $this->skin->error_box($this->skin->lang_error->player_already_approved);
             return $approve_user;
         }

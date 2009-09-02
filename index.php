@@ -6,7 +6,7 @@
  * @package code_common
  * @author josh04
  */
- 
+ $time = microtime(true);
 session_start(); // Starts session.
 
 // ------------------------
@@ -23,4 +23,6 @@ include("install.lock");
 
 $bootstrap = new code_bootstrap;
 $bootstrap->bootstrap();
+$newtime = microtime(true);
+//print ($newtime-$time);
 ?>
