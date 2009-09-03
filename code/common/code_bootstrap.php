@@ -81,7 +81,7 @@ class code_bootstrap {
             if (!$this->db->IsConnected()) {
                 $this->page = new code_common;
                 $this->page->initiate();
-                $this->page->error_page($this->skin->lang_error->failed_to_connect);
+                $this->page->error_page($this->page->skin->lang_error->failed_to_connect);
             }
             
             $page_query = $this->db->execute("SELECT * FROM `pages`");

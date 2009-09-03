@@ -20,6 +20,13 @@ class code_messages extends _code_admin {
     }
 
     public function messages_switch() {
+
+        if ($_GET['action'] == 'delete') {
+            $id = intval($_POST['override']);
+            $messages_switch = $this->delete_override($id);
+            return $messages_switch;
+        }
+
         if ($_GET['id']) {
             $messages_switch = $this->single( $_GET['id'] );
         } else {
@@ -30,40 +37,81 @@ class code_messages extends _code_admin {
 
     public function search($message = "") {
 
-        if($_GET['q']) {
-            foreach($this->skin->lang_error as $a=>$l) {
-                if(substr_count($a, $_GET['q']) || substr_count($l, $_GET['q']))
-                    $search_html .= $this->skin->search_row($a, $l);
+        if($_GET['search']) {
+            $search = htmlentities($_GET['search'], ENT_QUOTES, 'utf-8');
+
+            foreach($this->skin->lang_error as $key => $value) {
+                if (substr_count($key, $search) || substr_count($value, $search)) {
+                    $search_html .= $this->skin->search_row($key, $value);
+                }
             }
-            $search_string = "You searched for <strong>".$_GET['q']."</strong>.";
+
+            $search_string = $this->skin->searched($search);
+            if (empty($search_html)) {
+                $search_html = $this->skin->no_results();
+            }
         }
-        if(empty($search_html))
-            $search_html = "<tr><td colspan='3'><h3>No results</h3></td></tr>";
+
+        if (empty($search_html)) {
+
+            $message_query = $this->db->execute('SELECT * FROM `message_override`');
+
+            while ($override = $message_query->fetchrow()) {
+                $search_html .= $this->skin->override_row($override['name'], $override['override'], $override['id']);
+            }
+        }
 
         $search = $this->skin->search($search_html, $search_string, $message);
         return $search;
     }
 
     public function single($id) {
-
-        if(!isset($this->skin->lang_error->$_POST['name'])) {
+        $id = htmlentities($id, ENT_QUOTES, 'utf-8');
+        if(!isset($this->skin->lang_error->$id)) {
             $message = $this->skin->error_box($this->skin->lang_error->couldnt_find_message);
-            $search = $this->skin->search("<tr><td colspan='3'><h3>No results</h3></td></tr>", "", $message);
+            $search = $this->skin->search($this->skin->no_results(), "", $message);
             return $search;
         }
 
 
         if($_POST['name']!="" && isset($_POST['value'])) {
-            if(!isset($this->skin->lang_error->$_POST['name'])) {
+            $name = htmlentities($_POST['name'], ENT_QUOTES, 'utf-8');
+            if(!isset($this->skin->lang_error->$name)) {
                 $message = $this->skin->error_box($this->skin->lang_error->couldnt_find_message);
             } else {
-                // Save it
-                $message = $this->skin->error_box($this->skin->lang_error->message_saved);
+                $check_query = $this->db->execute("SELECT * FROM `message_override` WHERE `name`=?", array($name));
+                if ($old_message = $check_query->fetchrow()) {
+                    $message_update_query['override'] = $_POST['value'];
+                    $this->db->AutoExecute('message_override', $message_update_query, 'UPDATE', '`id`='.intval($old_message['id']));
+                } else {
+                    $message_insert_query['name'] = $name;
+                    $message_insert_query['override'] = $_POST['value'];
+                    $this->db->AutoExecute('message_override', $message_insert_query, 'INSERT');
+                }
+                $message = $this->skin->success_box($this->skin->lang_error->message_saved);
             }
         }
 
-        $single = $this->skin->single_message($id, $this->skin->lang_error->$id, $message);
+        $single = $this->skin->single_message(htmlentities($id, ENT_QUOTES, 'utf-8'), htmlentities($this->skin->lang_error->$id, ENT_QUOTES, 'utf-8'), $message);
         return $single;
+    }
+
+   /**
+    * Deletes a message override
+    *
+    * @param int $id id of override to delete
+    * @return string html
+    */
+    public function delete_override($id) {
+        $override_query = $this->db->execute("SELECT * FROM `message_override` WHERE `id`=?", array(intval($id)));
+
+        if ($override_query->numrows() > 0) {
+            $this->db->execute("DELETE FROM `message_override` WHERE `id`=?", array($id));
+            $delete_override = $this->search($this->skin->success_box($this->skin->lang_error->override_deleted));
+        } else {
+            $delete_override = $this->search($this->skin->error_box($this->skin->lang_error->no_such_override));
+        }
+        return $delete_override;
     }
 }
 ?>

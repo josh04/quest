@@ -63,6 +63,7 @@ class code_user extends _code_install {
 
         $username = htmlentities($_POST['username'],ENT_QUOTES,'UTF-8');
         $email = htmlentities($_POST['email'],ENT_QUOTES,'UTF-8');
+        $username_query = $this->db->execute("SELECT * FROM `players` WHERE `username`=?", array($username)); //upgrade
 
         if ($username == "") {
             $register_submit = $this->user_add_form($this->skin->lang_error->no_database_username);
@@ -72,6 +73,9 @@ class code_user extends _code_install {
             return $register_submit;
         } else if (!preg_match("/^[-_a-zA-Z0-9]+$/", $_POST['username'])) {
             $register_submit = $this->user_add_form($this->skin->lang_error->username_banned_characters);
+            return $register_submit;
+        } else if ($username_query->numrows() > 0) {
+            $register_submit = $this->user_add_form($this->skin->lang_error->username_conflict);
             return $register_submit;
         }
 

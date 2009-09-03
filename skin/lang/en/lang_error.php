@@ -189,5 +189,9 @@ class lang_error {
     // cron
     public $no_cron_selected = "You did not select a cron to edit.";
     public $cron_updated = "You have successfully updated the cron timer.";
+
+    // message overrides
+    public $override_deleted = "The message has been restored to it's original content.";
+    public $no_such_override = "Message id not found.";
 }
 ?>
