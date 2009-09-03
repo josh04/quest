@@ -179,6 +179,17 @@ class skin_index extends skin_common {
     }
 
    /**
+    * Not what?
+    *
+    * @return string html
+    */
+    public function player_not_approved() {
+        $player_not_approved = "<div class='success'><p>The site's administrators have opted to approve all new accounts.</p>
+                                <p>Yours has not been approved yet.</p></div>";
+        return $player_not_approved;
+    }
+
+   /**
     * Player details menu
     *
     * @param code_player $player Player object

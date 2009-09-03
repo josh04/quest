@@ -80,7 +80,7 @@ class code_login extends code_common {
 
         if ($player->verified==0) {
             $player->log_out();
-            $log_in = $this->skin->success_box($this->lang->player_not_approved);
+            $log_in = $this->skin->player_not_approved();
             return $log_in;
         }
         
