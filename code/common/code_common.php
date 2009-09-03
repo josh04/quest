@@ -311,7 +311,7 @@ class code_common {
      * @return string html
      */
     public function bbparse($code, $full=false) {
-        $code = htmlentities($code, ENT_QUOTES, 'utf-8');
+        $code = htmlentities($code, ENT_QUOTES, 'utf-8', false); //things should be htmlentitised _before_ they go into the DB - you shouldn't do it twice
         if ($full) {
             $code = nl2br($code);
         }

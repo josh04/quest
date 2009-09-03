@@ -33,12 +33,26 @@ class code_index_admin extends _code_admin {
             array( 'portal', 'Portal', 'Control the portal' ),
             array( 'messages', 'Messages', 'Edit specific in-game messages to your choosing.')
         );
+        
         $i = 0;
         foreach($boxes as $box) {
             $i++;
-            $boxes_html .= $this->skin->admin_box($box, ($i%2==0));
+            if ($box[0]!='') {
+                $box[1] = $this->skin->admin_box_link($box[0], $box[1]);
+
+            }
+            $boxes_html .= $this->skin->admin_box($box[1], $box[2]);
+            if ($i%2==0) {
+                $boxes_html .= $this->skin->admin_box_join();
+            }
         }
-        $index = $this->skin->index_wrapper($boxes_html, $this->bbparse($this->settings['admin_notes'],true));
+
+        if (get_magic_quotes_gpc()) {
+            $warning = $this->skin->magic_quotes_enabled();
+        }
+        
+        $index = $this->skin->index_wrapper($boxes_html, $this->bbparse($this->settings['admin_notes'],true), $warning);
+
         return $index;
     }
 
