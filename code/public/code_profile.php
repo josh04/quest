@@ -36,7 +36,7 @@ class code_profile extends code_common {
         if ($success) {
             $code_profile = $this->make_profile($message);
         } else {
-            $code_profile = $this->skin->error_page($this->skin->lang_error->player_not_found);
+            $code_profile = $this->skin->error_page($this->lang->player_not_found);
         }
 
 
@@ -129,14 +129,14 @@ class code_profile extends code_common {
     */
     public function add_as_friend() {
         if($this->player->id == $this->profile->id) {
-            $message = $this->skin->error_box($this->skin->lang_error->cant_self_friend);
+            $message = $this->skin->error_box($this->lang->cant_self_friend);
             return $message;
         }
 
         $this->player->getFriends();
 
         if(in_array($this->profile->id, array_keys($this->player->friends))) {
-            $message = $this->skin->error_box($this->skin->lang_error->already_friends.$this->profile->username.".");
+            $message = $this->skin->error_box($this->lang->already_friends.$this->profile->username.".");
             return $message;
         }
 
@@ -146,20 +146,20 @@ class code_profile extends code_common {
         if($fq->numrows()==1) {
             $f = $fq->fetchrow();
             if($f['id1']==$this->player->id) {
-                $message = $this->skin->error_box($this->skin->lang_error->awaiting_friend_response);
+                $message = $this->skin->error_box($this->lang->awaiting_friend_response);
                 return $message;
             } else {
                 // Accepting request!
                 $inputArr = array($this->profile->id, $this->player->id);
                 $this->db->execute("UPDATE `friends` SET `accepted`=1 WHERE `id1`=? AND `id2`=?",$inputArr);
-                $message = $this->skin->success_box($this->skin->lang_error->now_friends.$this->profile->username.".");
+                $message = $this->skin->success_box($this->lang->now_friends.$this->profile->username.".");
                 return $message;
             }
         }
         // All else has failed, let's send a request
         $inputArr = array($this->player->id, $this->profile->id, false);
         $this->db->execute("INSERT INTO `friends` (`id1`,`id2`,`accepted`) VALUES (?,?,?)",$inputArr);
-        $message = $this->skin->success_box($this->skin->lang_error->request_sent.$this->profile->username.".");
+        $message = $this->skin->success_box($this->lang->request_sent.$this->profile->username.".");
         return $message;
     }
 
@@ -172,7 +172,7 @@ class code_profile extends code_common {
         $amount = intval($_POST['donate']);
 
         if ($amount > $this->player->gold) {
-            return $this->skin->error_box($this->skin->lang_error->not_enough_cash_to_donate);
+            return $this->skin->error_box($this->lang->not_enough_cash_to_donate);
         }
 
         $this->profile->gold = $this->profile->gold + $amount;

@@ -55,12 +55,12 @@ class code_edit_profile extends code_common {
             return $update_profile;
         }
         if (!preg_match("/^[-!#$%&\'*+\\.\/0-9=?A-Z^_`{|}~]+@([-0-9A-Z]+\.)+([0-9A-Z]){2,4}$/i", $_POST['email'])) {
-            $update_profile = $this->edit_profile_page($this->skin->error_box($this->skin->lang_error->email_wrong_format));
+            $update_profile = $this->edit_profile_page($this->skin->error_box($this->lang->email_wrong_format));
             return $update_profile;
         }
 
         if (!preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\- !]+)$#iU", $_POST['avatar']) && $_POST['avatar']) {
-            $update_profile = $this->edit_profile_page($this->skin->error_box($this->skin->lang_error->avatar_wrong_format));
+            $update_profile = $this->edit_profile_page($this->skin->error_box($this->lang->avatar_wrong_format));
             return $update_profile;
         }
 
@@ -84,7 +84,7 @@ class code_edit_profile extends code_common {
         }
         
         $this->player->update_player();
-        $update_profile = $this->edit_profile_page($this->skin->success_box($this->skin->lang_error->profile_updated));
+        $update_profile = $this->edit_profile_page($this->skin->success_box($this->lang->profile_updated));
         return $update_profile;
     }
 
@@ -101,22 +101,22 @@ class code_edit_profile extends code_common {
         }
 
         if ($_POST['new_password'] == "" || $_POST['confirm_password'] == "") { //stops you wiping your profile with GET
-            $update_password = $this->edit_profile_page($this->skin->lang_error->no_password);
+            $update_password = $this->edit_profile_page($this->lang->no_password);
             return $update_password;
         }
 
         if ($_POST['new_password'] != $_POST['confirm_password']) {
-            $update_password = $this->edit_profile_page($this->skin->lang_error->passwords_do_not_match);
+            $update_password = $this->edit_profile_page($this->lang->passwords_do_not_match);
             return $update_password;
         }
 
         if (md5($_POST['current_password'].$this->player->login_salt) != $this->player->password) {
-            $update_password = $this->edit_profile_page($this->skin->lang_error->password_wrong);
+            $update_password = $this->edit_profile_page($this->lang->password_wrong);
             return $update_password;
         }
 
         $this->player->update_password($_POST['new_password']);
-        $update_password = $this->edit_profile_page($this->skin->success_box($this->skin->lang_error->password_updated));
+        $update_password = $this->edit_profile_page($this->skin->success_box($this->lang->password_updated));
         return $update_password;
         
     }

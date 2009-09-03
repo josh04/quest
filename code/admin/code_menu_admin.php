@@ -71,7 +71,7 @@ class code_menu_admin extends code_common {
         }
 
         if (isset($_GET['move_success']) && $message=="") {
-            $message = $this->skin->success_box($this->skin->lang_error->menu_moved);
+            $message = $this->skin->success_box($this->lang->menu_moved);
         }
 
         $show_menu = $this->skin->menu_wrap($menu_html, $menu_post, $message);
@@ -103,17 +103,17 @@ class code_menu_admin extends code_common {
 
             // Error check
             if (!$item['label']) {
-                $edit = $this->show_menu($this->skin->error_box($this->skin->lang_error->no_label));
+                $edit = $this->show_menu($this->skin->error_box($this->lang->no_label));
                 return $edit;
             }
 
             if (!$item['section']) {
-                $edit = $this->show_menu($this->skin->error_box($this->skin->lang_error->no_section));
+                $edit = $this->show_menu($this->skin->error_box($this->lang->no_section));
                 return $edit;
             }
 
             if (!$item['page']) {
-                $edit = $this->show_menu($this->skin->error_box($this->skin->lang_error->no_page));
+                $edit = $this->show_menu($this->skin->error_box($this->lang->no_page));
                 return $edit;
             }
             // Get me the Iron Giant!
@@ -156,9 +156,9 @@ class code_menu_admin extends code_common {
             $item_delete_query = $this->db->execute("DELETE FROM `menu` WHERE `id`=?",array($id));
             
             if($item_delete_query) {
-                $remove = $this->show_menu($this->skin->success_box($this->skin->lang_error->menu_deleted));
+                $remove = $this->show_menu($this->skin->success_box($this->lang->menu_deleted));
             } else {
-                $remove = $this->show_menu($this->skin->error_box($this->skin->lang_error->menu_delete_no));
+                $remove = $this->show_menu($this->skin->error_box($this->lang->menu_delete_no));
             }
         } else {
             $item_query  = $this->db->execute("SELECT * FROM `menu` WHERE `id`=?",array($id));
@@ -166,7 +166,7 @@ class code_menu_admin extends code_common {
                 $item = $item_query->fetchrow();
                 $remove = $this->skin->remove_confirm($item);
                 } else {
-                    $remove = $this->show_menu($this->skin->error_box($this->skin->lang_error->menu_not_found));
+                    $remove = $this->show_menu($this->skin->error_box($this->lang->menu_not_found));
                 }
         }
         return $remove;
@@ -190,11 +190,11 @@ class code_menu_admin extends code_common {
         if ( $_GET['action'] == "up" ) {
             $down = $menu[($me['category'])][($me['order']-1)];
             $up = $me;
-            $message = $this->skin->lang_error->menu_move_up_no;
+            $message = $this->lang->menu_move_up_no;
         } else {
             $up = $menu[($me['category'])][($me['order']+1)];
             $down = $me;
-            $message = $this->skin->lang_error->menu_move_down_no;
+            $message = $this->lang->menu_move_down_no;
         }
 
         // If these both exist, we're in the money!
@@ -222,7 +222,7 @@ class code_menu_admin extends code_common {
         }
 
         if (!is_array($menu_categories[$move_category_name])) {
-            $category_move = $this->show_menu($this->skin->error_box($this->skin->lang_error->category_not_found));
+            $category_move = $this->show_menu($this->skin->error_box($this->lang->category_not_found));
             return $category_move;
         }
         
@@ -264,19 +264,19 @@ class code_menu_admin extends code_common {
         
         if(!$do_done) {
             if ($_GET['action'] == 'category_down') {
-                $category_move = $this->show_menu($this->skin->error_box($this->skin->lang_error->category_move_down_no));
+                $category_move = $this->show_menu($this->skin->error_box($this->lang->category_move_down_no));
                 return $category_move;
             }
 
             if ($_GET['action'] == 'category_up') {
-                $category_move = $this->show_menu($this->skin->error_box($this->skin->lang_error->category_move_up_no));
+                $category_move = $this->show_menu($this->skin->error_box($this->lang->category_move_up_no));
                 return $category_move;
             }
         }
 
         $this->db->execute("UPDATE `menu` SET `id`=?, `order`=? WHERE `id`=? ", $menu_queries);
 
-        $reorder = $this->show_menu($this->skin->success_box($this->skin->lang_error->menu_reordered));
+        $reorder = $this->show_menu($this->skin->success_box($this->lang->menu_reordered));
         return $reorder;
     }
 

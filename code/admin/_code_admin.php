@@ -12,7 +12,7 @@ class _code_admin extends code_common {
 
         if ($this->player->rank != "Admin") { // yeah, I know, poor implementation of permissions
             parent::make_skin();
-            $this->error_page($this->skin->lang_error->access_denied);
+            $this->error_page($this->lang->access_denied);
         }
     }
 

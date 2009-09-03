@@ -57,7 +57,7 @@ class code_upgrade_database extends _code_install {
         require("config.php");
 
         if (!$db) {
-            $message = $this->skin->lang_error->upgrade_no_db_object;
+            $message = $this->lang->upgrade_no_db_object;
             $upgrade = $this->upgrade_page($message);
             return $upgrade;
         }
@@ -93,7 +93,7 @@ class code_upgrade_database extends _code_install {
             $upgrade = $this->setup_database_complete();
             return $upgrade;
         } else {
-            $message = $this->skin->lang_error->database_create_error;
+            $message = $this->lang->database_create_error;
             $upgrade = $message." ".$this->db->ErrorMsg();
             return $upgrade;
         }

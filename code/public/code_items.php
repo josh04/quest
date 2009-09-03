@@ -50,7 +50,7 @@ class code_items extends code_common {
                 $items_switch = $this->make_inventory();
                 break;
             default:
-                $this->error_page($this->skin->lang_error->page_not_found);
+                $this->error_page($this->lang->page_not_found);
         }
 
         return $items_switch;
@@ -69,7 +69,7 @@ class code_items extends code_common {
         $items_query = $this->db->execute("SELECT * FROM blueprints ORDER BY 'type' asc");
         
         if ($items_query->recordcount() == 0) {
-            $make_store = $this->skin->make_store("", $this->skin->error_box($this->skin->lang_error->no_items_in_store));
+            $make_store = $this->skin->make_store("", $this->skin->error_box($this->lang->no_items_in_store));
             return $make_store;
         }
 
@@ -89,7 +89,7 @@ class code_items extends code_common {
     public function buy() {
         if (!$_POST['id']) {
             $_GET['action'] = "";
-            $buy = $this->make_store($this->skin->error_box($this->skin->lang_error->no_item_selected));
+            $buy = $this->make_store($this->skin->error_box($this->lang->no_item_selected));
             return $buy;
         }
 
@@ -99,14 +99,14 @@ class code_items extends code_common {
         //Invalid item (it doesn't exist)
         if ($item_query->recordcount() == 0) {
             $_GET['action'] = "";
-            $buy = $this->make_store($this->skin->error_box($this->skin->lang_error->no_item_selected));
+            $buy = $this->make_store($this->skin->error_box($this->lang->no_item_selected));
             return $buy;
         }
 
         $item = $item_query->fetchrow();
 
         if ($item['price'] > $this->player->gold) {
-            $buy = $this->make_store($this->skin->error_box($this->skin->lang_error->cannot_afford));
+            $buy = $this->make_store($this->skin->error_box($this->lang->cannot_afford));
             return $buy;
         }
         $this->player->gold = $this->player->gold - $item['price'];
@@ -129,7 +129,7 @@ class code_items extends code_common {
     public function sell() {
         if (!$_POST['id']) {
             $_GET['action'] = "";
-            $sell = $this->make_inventory($this->skin->error_box($this->skin->lang_error->no_item_selected));
+            $sell = $this->make_inventory($this->skin->error_box($this->lang->no_item_selected));
             return $sell;
         }
 
@@ -139,7 +139,7 @@ class code_items extends code_common {
         //Invalid item (it doesn't exist)
         if ($item_query->recordcount() == 0) {
             $_GET['action'] = "";
-            $sell = $this->make_inventory($this->skin->error_box($this->skin->lang_error->no_item_selected));
+            $sell = $this->make_inventory($this->skin->error_box($this->lang->no_item_selected));
             return $sell;
         }
 
@@ -178,15 +178,15 @@ class code_items extends code_common {
                                 array($this->player->id));
 
         if ($item_query->recordcount() == 0) {
-            $make_inventory = $this->skin->error_box($this->skin->lang_error->no_items);
+            $make_inventory = $this->skin->error_box($this->lang->no_items);
             return $make_inventory;
         }
 
         while ($item = $item_query->fetchrow()) {
             if ($item['status']) {
-                $equip = $this->skin->lang_error->unequip;
+                $equip = $this->lang->unequip;
             } else {
-                $equip = $this->skin->lang_error->equip;
+                $equip = $this->lang->equip;
             }
             $items_html .= $this->skin->inventory_item_row($item, $equip);
         }
@@ -208,7 +208,7 @@ class code_items extends code_common {
                                     array(intval($_POST['id']), $this->player->id));
 
         if ($item_query->recordcount() == 0) {
-            $equip_item = $this->make_inventory($this->skin->error_box($this->skin->lang_error->item_not_found));
+            $equip_item = $this->make_inventory($this->skin->error_box($this->lang->item_not_found));
             return $equip_item;
         }
 
@@ -216,7 +216,7 @@ class code_items extends code_common {
         if ($item['status']) {
             $update_item['status'] = 0;
             $unequip_query = $this->db->AutoExecute('items', $update_item, 'UPDATE', 'id = '.intval($item['id']));
-            $message = $this->skin->lang_error->item_unequipped;
+            $message = $this->lang->item_unequipped;
         } else {
             $equipped_query = $this->db->execute("SELECT i.id, b.type FROM `items` AS i
                                             LEFT JOIN `blueprints` AS b
@@ -232,7 +232,7 @@ class code_items extends code_common {
             $update_item['status'] = 1;
             //Equip the selected item
             $equip_query = $this->db->AutoExecute('items', $update_item, 'UPDATE', 'id = '.intval($item['id']));
-            $message = $this->skin->lang_error->item_equipped;
+            $message = $this->lang->item_equipped;
         }
         
         $equip_item = $this->make_inventory($this->skin->success_box($message));

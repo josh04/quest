@@ -18,7 +18,7 @@ class skin_index_admin extends _skin_admin {
         $index_wrap = "
         <h2>Administration</h2>
         ".$message."
-        <div class='explanation' style='margin:12px 0px;'>".$this->lang_error->admin_home."</div>
+        <div class='explanation' style='margin:12px 0px;'>".$this->lang->admin_home."</div>
         <div class='dbox'><strong>Administrator notes:</strong><br />
             <div style='margin:8px 20px;font-family:\"Courier New\";'>".$notes."</div>
             Edit them <a href='index.php?section=admin&amp;page=panel'>here</a>

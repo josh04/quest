@@ -411,6 +411,7 @@ CREATE TABLE IF NOT EXISTS `rpg` (
     * @param string $skin_name name of skin file to load - if left blank, loads skin_common (not recommended)
     */
     public function initiate($skin_name = "") {
+        $this->make_lang();
         $this->make_skin($skin_name);
     }
 

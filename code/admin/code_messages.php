@@ -40,7 +40,7 @@ class code_messages extends _code_admin {
         if($_GET['search']) {
             $search = htmlentities($_GET['search'], ENT_QUOTES, 'utf-8');
 
-            foreach($this->skin->lang_error as $key => $value) {
+            foreach($this->lang as $key => $value) {
                 if (substr_count($key, $search) || substr_count($value, $search)) {
                     $search_html .= $this->skin->search_row($key, $value);
                 }
@@ -54,7 +54,7 @@ class code_messages extends _code_admin {
 
         if (empty($search_html)) {
 
-            $message_query = $this->db->execute('SELECT * FROM `message_override`');
+            $message_query = $this->db->execute('SELECT * FROM `lang`');
 
             while ($override = $message_query->fetchrow()) {
                 $search_html .= $this->skin->override_row($override['name'], $override['override'], $override['id']);
@@ -67,8 +67,8 @@ class code_messages extends _code_admin {
 
     public function single($id) {
         $id = htmlentities($id, ENT_QUOTES, 'utf-8');
-        if(!isset($this->skin->lang_error->$id)) {
-            $message = $this->skin->error_box($this->skin->lang_error->couldnt_find_message);
+        if(!isset($this->lang->$id)) {
+            $message = $this->skin->error_box($this->lang->couldnt_find_message);
             $search = $this->skin->search($this->skin->no_results(), "", $message);
             return $search;
         }
@@ -76,23 +76,23 @@ class code_messages extends _code_admin {
 
         if($_POST['name']!="" && isset($_POST['value'])) {
             $name = htmlentities($_POST['name'], ENT_QUOTES, 'utf-8');
-            if(!isset($this->skin->lang_error->$name)) {
-                $message = $this->skin->error_box($this->skin->lang_error->couldnt_find_message);
+            if(!isset($this->lang->$name)) {
+                $message = $this->skin->error_box($this->lang->couldnt_find_message);
             } else {
-                $check_query = $this->db->execute("SELECT * FROM `message_override` WHERE `name`=?", array($name));
+                $check_query = $this->db->execute("SELECT * FROM `lang` WHERE `name`=?", array($name));
                 if ($old_message = $check_query->fetchrow()) {
                     $message_update_query['override'] = $_POST['value'];
-                    $this->db->AutoExecute('message_override', $message_update_query, 'UPDATE', '`id`='.intval($old_message['id']));
+                    $this->db->AutoExecute('lang', $message_update_query, 'UPDATE', '`id`='.intval($old_message['id']));
                 } else {
                     $message_insert_query['name'] = $name;
                     $message_insert_query['override'] = $_POST['value'];
-                    $this->db->AutoExecute('message_override', $message_insert_query, 'INSERT');
+                    $this->db->AutoExecute('lang', $message_insert_query, 'INSERT');
                 }
-                $message = $this->skin->success_box($this->skin->lang_error->message_saved);
+                $message = $this->skin->success_box($this->lang->message_saved);
             }
         }
 
-        $single = $this->skin->single_message(htmlentities($id, ENT_QUOTES, 'utf-8'), htmlentities($this->skin->lang_error->$id, ENT_QUOTES, 'utf-8'), $message);
+        $single = $this->skin->single_message(htmlentities($id, ENT_QUOTES, 'utf-8'), htmlentities($this->lang->$id, ENT_QUOTES, 'utf-8'), $message);
         return $single;
     }
 
@@ -103,13 +103,13 @@ class code_messages extends _code_admin {
     * @return string html
     */
     public function delete_override($id) {
-        $override_query = $this->db->execute("SELECT * FROM `message_override` WHERE `id`=?", array(intval($id)));
+        $override_query = $this->db->execute("SELECT * FROM `lang` WHERE `id`=?", array(intval($id)));
 
         if ($override_query->numrows() > 0) {
-            $this->db->execute("DELETE FROM `message_override` WHERE `id`=?", array($id));
-            $delete_override = $this->search($this->skin->success_box($this->skin->lang_error->override_deleted));
+            $this->db->execute("DELETE FROM `lang` WHERE `id`=?", array($id));
+            $delete_override = $this->search($this->skin->success_box($this->lang->override_deleted));
         } else {
-            $delete_override = $this->search($this->skin->error_box($this->skin->lang_error->no_such_override));
+            $delete_override = $this->search($this->skin->error_box($this->lang->no_such_override));
         }
         return $delete_override;
     }

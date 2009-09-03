@@ -29,7 +29,7 @@ class code_edit_profile extends _code_admin {
     public function edit_profile_switch() {
 
         if (!$_POST['id'] && !$_GET['id']) {
-            $edit_profile_page = $this->skin->error_page($this->skin->lang_error->no_player_selected);
+            $edit_profile_page = $this->skin->error_page($this->lang->no_player_selected);
             return $edit_profile_page;
         }
 
@@ -89,7 +89,7 @@ class code_edit_profile extends _code_admin {
     */
     public function update_permissions($id) {
         if (!($_POST['rank'] == "Admin" || $_POST['rank'] == "Member")) { //stops you wiping your profile with GET
-            $update_permissions = $this->edit_profile_page($id, $this->skin->error_box($this->skin->lang_error->not_a_rank));
+            $update_permissions = $this->edit_profile_page($id, $this->skin->error_box($this->lang->not_a_rank));
             return $update_permissions;
         }
         
@@ -99,7 +99,7 @@ class code_edit_profile extends _code_admin {
         $profile->rank = $_POST['rank'];
 
         $profile->update_player();
-        $update_permissions = $this->edit_profile_page($profile->id, $this->skin->success_box($this->skin->lang_error->permissions_updated));
+        $update_permissions = $this->edit_profile_page($profile->id, $this->skin->success_box($this->lang->permissions_updated));
         return $update_permissions;
     }
 
@@ -115,12 +115,12 @@ class code_edit_profile extends _code_admin {
     public function update_profile($id) {
 
         if (!preg_match("/^[-!#$%&\'*+\\.\/0-9=?A-Z^_`{|}~]+@([-0-9A-Z]+\.)+([0-9A-Z]){2,4}$/i", $_POST['email'])) {
-            $update_profile = $this->edit_profile_page($id, $this->skin->error_box($this->skin->lang_error->email_wrong_format));
+            $update_profile = $this->edit_profile_page($id, $this->skin->error_box($this->lang->email_wrong_format));
             return $update_profile;
         }
 
         if (!preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\- !]+)$#iU", $_POST['avatar']) && $_POST['avatar']) {
-            $update_profile = $this->edit_profile_page($id, $this->skin->error_box($this->skin->lang_error->avatar_wrong_format));
+            $update_profile = $this->edit_profile_page($id, $this->skin->error_box($this->lang->avatar_wrong_format));
             return $update_profile;
         }
 
@@ -148,7 +148,7 @@ class code_edit_profile extends _code_admin {
         }
 
         $profile->update_player();
-        $update_profile = $this->edit_profile_page($profile->id, $this->skin->success_box($this->skin->lang_error->profile_updated));
+        $update_profile = $this->edit_profile_page($profile->id, $this->skin->success_box($this->lang->profile_updated));
         return $update_profile;
     }
 
@@ -162,7 +162,7 @@ class code_edit_profile extends _code_admin {
     public function update_password($id) {
 
         if ($_POST['new_password'] == "" || $_POST['confirm_password'] == "") { //stops you wiping your profile with GET
-            $update_password = $this->edit_profile_page($id, $this->skin->lang_error->no_password);
+            $update_password = $this->edit_profile_page($id, $this->lang->no_password);
             return $update_password;
         }
 
@@ -172,7 +172,7 @@ class code_edit_profile extends _code_admin {
         }
 
         if ($_POST['new_password'] != $_POST['confirm_password']) {
-            $update_password = $this->edit_profile_page($id, $this->skin->lang_error->passwords_do_not_match);
+            $update_password = $this->edit_profile_page($id, $this->lang->passwords_do_not_match);
             return $update_password;
         }
         
@@ -196,7 +196,7 @@ class code_edit_profile extends _code_admin {
         $player_query = $this->db->Execute("SELECT `id`,`username`,`registered`,`email` FROM `players` WHERE `id`=?", array($id));
 
         if ($player_query->numrows() == 0) {
-            $approve_user = $this->skin->error_box($this->skin->lang_error->player_not_found);
+            $approve_user = $this->skin->error_box($this->lang->player_not_found);
             return $approve_user;
         } else {
             $player = $player_query->fetchrow();
@@ -204,13 +204,13 @@ class code_edit_profile extends _code_admin {
         }
 
         if ($player['verified'] == 1) {
-            $approve_user = $this->skin->error_box($this->skin->lang_error->player_already_approved);
+            $approve_user = $this->skin->error_box($this->lang->player_already_approved);
             return $approve_user;
         }
 
         if(isset($_POST['approve'])) {
             $this->db->Execute("UPDATE `players` SET `verified`=1 WHERE `id`=?", array($id));
-            $approve_user = $this->skin->success_box($this->skin->lang_error->player_approved);
+            $approve_user = $this->skin->success_box($this->lang->player_approved);
         } else {
             $approve_user = $this->skin->approve_user($player);
         }

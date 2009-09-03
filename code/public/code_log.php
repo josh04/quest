@@ -45,7 +45,7 @@ class code_log extends code_common {
             }
             $make_log = $this->skin->make_log($logs);
         } else {
-            $make_log = $this->skin->error_box($this->skin->lang_error->no_laptop_message);
+            $make_log = $this->skin->error_box($this->lang->no_laptop_message);
             return $make_log;
         }
 

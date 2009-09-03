@@ -49,7 +49,7 @@ class code_fight extends code_common {
 
 
         if (!method_exists($this->enemy,"add_log")) {
-            $fight = $this->error_page($this->skin->lang_error->enemy_malformed);
+            $fight = $this->error_page($this->lang->enemy_malformed);
             return $fight;
         }
 
@@ -175,7 +175,7 @@ class code_fight extends code_common {
                 $battle_rounds--;
 
                 if ($battle_rounds <= 0) {
-                    $attacks[] = $this->skin->battle_row($this->skin->lang_error->battle_drawn);
+                    $attacks[] = $this->skin->battle_row($this->lang->battle_drawn);
                     break 2; //Break out of for and while loop, battle is over!
                 }
             }
@@ -205,7 +205,7 @@ class code_fight extends code_common {
                 $battle_rounds--;
 
                 if ($battle_rounds <= 0) {
-                    $attacks[] = $this->skin->battle_row($this->skin->lang_error->battle_drawn);
+                    $attacks[] = $this->skin->battle_row($this->lang->battle_drawn);
                     break 2; //Break out of for and while loop, battle is over!
                 }
             }
@@ -256,7 +256,7 @@ class code_fight extends code_common {
         } else {
             $this->player->add_log($this->skin->draw_log($this->enemy->id, $this->enemy->username));
             $this->enemy->add_log($this->skin->draw_log($this->player->id, $this->player->username));
-            $banner = $this->skin->error_box($this->skin->lang_error->you_drew);
+            $banner = $this->skin->error_box($this->lang->you_drew);
         }
 
         if ($this->use_energy) {
@@ -265,13 +265,13 @@ class code_fight extends code_common {
         
         if ($this->player->update_player()) {
             $attacks[] = $this->skin->player_battle_row($this->player->username." gained a level!");
-            $this->player->add_log($this->skin->lang_error->levelled_up);
+            $this->player->add_log($this->lang->levelled_up);
         }
 
         if ($this->type=="player") {
             if ($this->enemy->update_player()) {
                 $attacks[] = $this->skin->enemy_battle_row($this->enemy->username." gained a level!");
-                $this->enemy->add_log($this->skin->lang_error->levelled_up);
+                $this->enemy->add_log($this->lang->levelled_up);
             } 
         }
 
@@ -280,9 +280,9 @@ class code_fight extends code_common {
         }
 
         if ($this->player->victory) {
-            $banner = $this->skin->success_box($this->skin->lang_error->you_won);
+            $banner = $this->skin->success_box($this->lang->you_won);
         } else if (!$banner) {
-            $banner = $this->skin->error_box($this->skin->lang_error->you_lost);
+            $banner = $this->skin->error_box($this->lang->you_lost);
         }
 
         $fight = $this->skin->fight($battle_html, $banner);

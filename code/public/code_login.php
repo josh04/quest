@@ -61,12 +61,12 @@ class code_login extends code_common {
     public function log_in() {
 
         if ($_POST['username'] == "") {
-            $log_in = $this->skin->index_guest($username, $this->skin->lang_error->please_enter_username, $this->settings['welcometext']);
+            $log_in = $this->skin->index_guest($username, $this->lang->please_enter_username, $this->settings['welcometext']);
             return $log_in;
         }
 
         if ($_POST['password'] == "") {
-            $log_in = $this->skin->index_guest($username, $this->skin->lang_error->please_enter_password, $this->settings['welcometext']);
+            $log_in = $this->skin->index_guest($username, $this->lang->please_enter_password, $this->settings['welcometext']);
             return $log_in;
         }
 
@@ -74,13 +74,13 @@ class code_login extends code_common {
         $player_exists = $player->log_in($_POST['username'], $_POST['password']);
 
         if (!$player_exists) {
-            $log_in = $this->skin->index_guest($username, $this->skin->lang_error->password_wrong, $this->settings['welcometext']);
+            $log_in = $this->skin->index_guest($username, $this->lang->password_wrong, $this->settings['welcometext']);
             return $log_in;
         }
 
         if ($player->verified==0) {
             $player->log_out();
-            $log_in = $this->skin->success_box($this->skin->lang_error->player_not_approved);
+            $log_in = $this->skin->success_box($this->lang->player_not_approved);
             return $log_in;
         }
         
@@ -97,7 +97,7 @@ class code_login extends code_common {
     public function register() {
 
         if($this->settings['verification_method']==0) {
-            $register_submit = $this->skin->index_guest("", $this->skin->lang_error->registration_disabled, $this->settings['welcometext']);
+            $register_submit = $this->skin->index_guest("", $this->lang->registration_disabled, $this->settings['welcometext']);
             return $register_submit;
         }
 
@@ -113,7 +113,7 @@ class code_login extends code_common {
     public function register_submit() {
 
         if($this->settings['verification_method']==0) {
-            $register_submit = $this->skin->index_guest("", $this->skin->lang_error->registration_disabled, $this->settings['welcometext']);
+            $register_submit = $this->skin->index_guest("", $this->lang->registration_disabled, $this->settings['welcometext']);
             return $register_submit;
         }
 
@@ -123,40 +123,40 @@ class code_login extends code_common {
         $player_query = $this->db->execute("SELECT id FROM players WHERE username=?", array($_POST['username']));
 
         if ($username == "") {
-            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->skin->lang_error->username_needed));
+            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->lang->username_needed));
             return $register_submit;
         } else if (strlen($_POST['username']) < 3) {
-            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->skin->lang_error->username_not_long_enough));
+            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->lang->username_not_long_enough));
             return $register_submit;
         } else if (!preg_match("/^[-_a-zA-Z0-9]+$/", $_POST['username'])) {
-            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->skin->lang_error->username_banned_characters));
+            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->lang->username_banned_characters));
             return $register_submit;
         } else if ($player_query->recordcount() > 0) {
-            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->skin->lang_error->username_conflict));
+            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->lang->username_conflict));
             return $register_submit;
         }
 
 
         if (!$_POST['password']) {
-            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->skin->lang_error->password_needed));
+            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->lang->password_needed));
             return $register_submit;
         } else if ($_POST['password'] != $_POST['password_confirm']) {
-            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->skin->lang_error->passwords_do_not_match));
+            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->lang->passwords_do_not_match));
             return $register_submit;
         } else if (strlen($_POST['password']) < 3) {
-            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->skin->lang_error->password_not_long_enough));
+            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->lang->password_not_long_enough));
             return $register_submit;
         }
 
         //Check email
         if (!$_POST['email']) {
-            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->skin->lang_error->email_needed));
+            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->lang->email_needed));
             return $register_submit;
         } else if ($_POST['email'] != $_POST['email_confirm']) {
-            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->skin->lang_error->emails_do_not_match));
+            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->lang->emails_do_not_match));
             return $register_submit;
         } else if (strlen($_POST['email']) < 3) {
-            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->skin->lang_error->email_not_long_enough));
+            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->lang->email_not_long_enough));
             return $register_submit;
         } else if (!preg_match("/^[-!#$%&\'*+\\.\/0-9=?A-Z^_`{|}~]+@([-0-9A-Z]+\.)+([0-9A-Z]){2,4}$/i", $_POST['email'])) {
             $register_submit = $this->skin->register($username, $email, email_wrong_format);
@@ -164,7 +164,7 @@ class code_login extends code_common {
         } else {
             $email_query = $this->db->execute("select `id` from `players` where `email`=?", array($_POST['email']));
             if ($email_query->recordcount() > 0 && $this->settings['ban_multiple_email']) {
-                $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->skin->lang_error->email_conflict));
+                $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->lang->email_conflict));
                 return $register_submit;
             }
         }
@@ -176,7 +176,7 @@ class code_login extends code_common {
             if ($account = $ip_query->fetchrow()) {
 
                 if (time() - $account['registered'] < 1800) {
-                    $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->skin->lang_error->multiple_registrations));
+                    $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->lang->multiple_registrations));
                     return $register_submit;
                 }
             }
@@ -189,7 +189,7 @@ class code_login extends code_common {
         $success = $registered_player->create_player($username, $_POST['password'], $email);
         
         if (!$success) {
-            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->skin->lang_error->error_registering));
+            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->lang->error_registering));
             return $register_submit;
         }
         
@@ -216,7 +216,7 @@ class code_login extends code_common {
 
         <p>But above all, have fun!</p>";
 
-        $register_submit = $this->skin->index_guest($username, $this->skin->lang_error->registered, $this->settings['welcometext']);
+        $register_submit = $this->skin->index_guest($username, $this->lang->registered, $this->settings['welcometext']);
         return $register_submit;
 
     }

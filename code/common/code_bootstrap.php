@@ -80,8 +80,9 @@ class code_bootstrap {
 
             if (!$this->db->IsConnected()) {
                 $this->page = new code_common;
-                $this->page->initiate();
-                $this->page->error_page($this->page->skin->lang_error->failed_to_connect);
+                $this->page->make_default_lang();
+                $this->page->make_skin();
+                $this->page->error_page($this->page->lang->failed_to_connect);
             }
             
             $page_query = $this->db->execute("SELECT * FROM `pages`");
@@ -99,8 +100,9 @@ class code_bootstrap {
         
         if (!$pages[$section][$page]) {
             $this->page = new code_common;
+            $this->page->make_default_lang();
             $this->page->make_skin();
-            $this->page->error_page($this->page->skin->lang_error->page_not_exist);
+            $this->page->error_page($this->page->lang->page_not_exist);
         }
 
         if (file_exists("code/".$section."/"."_code_".$section.".php")) {

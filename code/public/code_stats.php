@@ -34,7 +34,7 @@ class code_stats extends code_common {
         if ($this->player->stat_points > 0) {
             $code_stats = $this->spend($_POST['stat']);
         } else {
-            $code_stats = $this->skin->error_box($this->skin->lang_error->no_stat_points);
+            $code_stats = $this->skin->error_box($this->lang->no_stat_points);
         }
         return $code_stats;
     }
@@ -52,7 +52,7 @@ class code_stats extends code_common {
             $this->player->update_player();
             $spend = $this->skin->stat_increased($stat, $this->player->$stat);
         } else {
-            $spend = $this->skin->error_box($this->skin->lang_error->not_a_stat);
+            $spend = $this->skin->error_box($this->lang->not_a_stat);
         }
         require_once("code/public/code_index.php");
         $code_index = new code_index($this->section, $this->page);

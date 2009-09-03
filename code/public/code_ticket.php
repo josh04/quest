@@ -75,19 +75,19 @@ class code_ticket extends code_common {
     */
     public function ticket_submit() {
 	if ($_POST['message']=="" || !isset($_POST['message'])) {
-            return $this->ticket_list($this->skin->error_box($this->skin->lang_error->no_ticket_entered));
+            return $this->ticket_list($this->skin->error_box($this->lang->no_ticket_entered));
         }
 
         $ticket_check_query = $this->db->execute("SELECT `date` FROM `tickets` WHERE `player_id`=? ORDER BY `date` DESC", array($this->player->id));
 
         if ($ticket_check_query->RecordCount() >= 20) {
-            $ticket_submit = $this->ticket_list($this->skin->error_box($this->skin->lang_error->too_many_tickets));
+            $ticket_submit = $this->ticket_list($this->skin->error_box($this->lang->too_many_tickets));
             return $ticket_submit;
         }
 
         if ($ticket_check = $ticket_check_query->fetchrow()) {
             if ((time() - $ticket_check['date']) < 120) {
-                $ticket_submit = $this->ticket_list($this->skin->error_box($this->skin->lang_error->ticket_send_too_soon));
+                $ticket_submit = $this->ticket_list($this->skin->error_box($this->lang->ticket_send_too_soon));
                 return $ticket_submit;
             }
         }
@@ -98,7 +98,7 @@ class code_ticket extends code_common {
 
         $ticket_insert_query = $this->db->AutoExecute('tickets', $insert_ticket, 'INSERT');
 
-        $ticket_submit = $this->ticket_list($this->skin->success_box($this->skin->lang_error->ticket_submitted));
+        $ticket_submit = $this->ticket_list($this->skin->success_box($this->lang->ticket_submitted));
         return $ticket_submit;
     }
 

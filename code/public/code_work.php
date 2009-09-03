@@ -24,7 +24,7 @@ class code_work extends code_common {
 
     public function work_switch() {
         if ($this->player->energy == 0) {
-            $make_work = $this->make_work($this->skin->error_box($this->skin->lang_error->no_energy_to_work));
+            $make_work = $this->make_work($this->skin->error_box($this->lang->no_energy_to_work));
             return $make_work;
         }
 

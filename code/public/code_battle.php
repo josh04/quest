@@ -94,7 +94,7 @@ class code_battle extends code_common {
             }
             $player_html = $this->skin->battle_search_row_wrap($player_rows);
         } else {
-            $player_html = $this->skin->error_box($this->skin->lang_error->no_players_found);
+            $player_html = $this->skin->error_box($this->lang->no_players_found);
         }
 
         $battle_search_page = $this->battle_search_page();
@@ -126,30 +126,30 @@ class code_battle extends code_common {
             $t->get_player($_POST['username']);
             if(isset($t->id)) $id = $t->id;
             else {
-                $fight = $this->battle_search_page($this->skin->error_box($this->skin->lang_error->no_player_selected));
+                $fight = $this->battle_search_page($this->skin->error_box($this->lang->no_player_selected));
                 return $fight;
             }
         }
 
         if (!$id) {
-            $fight = $this->battle_search_page($this->skin->error_box($this->skin->lang_error->no_player_selected));
+            $fight = $this->battle_search_page($this->skin->error_box($this->lang->no_player_selected));
             return $fight;
         }
 
         if ($id == $this->player->id) {
-            $fight = $this->battle_search_page($this->skin->error_box($this->skin->lang_error->cannot_attack_self));
+            $fight = $this->battle_search_page($this->skin->error_box($this->lang->cannot_attack_self));
             return $fight;
         }
 
         //Player cannot attack any more
         if ($this->player->energy == 0) {
-            $fight = $this->battle_search_page($this->skin->error_box($this->skin->lang_error->player_no_energy));
+            $fight = $this->battle_search_page($this->skin->error_box($this->lang->player_no_energy));
             return $fight;
         }
 
         //Player is unconscious
         if ($this->player->hp == 0) {
-            $fight = $this->battle_search_page($this->skin->error_box($this->skin->lang_error->player_currently_incapacitated));
+            $fight = $this->battle_search_page($this->skin->error_box($this->lang->player_currently_incapacitated));
             return $fight;
         }
 
@@ -161,13 +161,13 @@ class code_battle extends code_common {
         $this->fight->enemy = new code_player_rpg;
         $this->fight->type = "player";
         if (!$this->fight->enemy->get_player($id)) {
-            $fight = $this->battle_search_page($this->skin->error_box($this->skin->lang_error->player_not_found));
+            $fight = $this->battle_search_page($this->skin->error_box($this->lang->player_not_found));
             return $fight;
         }
 
         //Otherwise, check if agent has any health
         if ($this->fight->enemy->hp == 0) {
-            $fight = $this->battle_search_page($this->skin->error_box($this->skin->lang_error->enemy_currently_incapacitated));
+            $fight = $this->battle_search_page($this->skin->error_box($this->lang->enemy_currently_incapacitated));
             return $fight;
         }
         
