@@ -11,15 +11,16 @@ class skin_pages extends _skin_admin {
     *
     * @param string $page page code name
     * @param string $redirect page aliases
-    * @param string $section_name
+    * @param string $mod
     * @return string html
     */
-    public function page_row($page, $redirect, $section_name) {
-
+    public function page_row($page, $redirect, $mod, $id) {
         $page_row = "<tr>
                 <td>".$page."</td>
                 <td>".$redirect."</td>
-                <td>".$section_name."</td>
+                <td>".$mod."</td>
+                <td><a href='index.php?section=admin&amp;page=pages&amp;action=mod&amp;id=".$id."' />
+                    <img src='images/icons/pencil.png' alt='Edit' name='Edit' /></a></td>
             </tr>";
         return $page_row;
     }
@@ -32,10 +33,17 @@ class skin_pages extends _skin_admin {
     * @return string html
     */
     public function section_wrapper($section_name, $section_html) {
-        $section_wrapper = "<tr></tr><td><hr /></td><tr>
-                <th>".$section_name."</th>
-            </tr>
-            ".$section_html;
+        $section_wrapper = "
+                <h2>".$section_name."</h2>
+            <table class='nutable'>
+                <tbody>
+                    <tr>
+                        <th>Page</th>
+                        <th>Redirects</th>
+                        <th>Mod loaded</th>
+                        <th>Edit</th>
+                    </tr>
+            ".$section_html."</tbody></table>";
         return $section_wrapper;
     }
 
@@ -44,11 +52,71 @@ class skin_pages extends _skin_admin {
     *
     * @param string $pages_html the pages in their sections.
     * @param string $message error message.
-    * @return <type>
+    * @return string html
     */
     public function pages_wrapper($pages_html, $message) {
-        $pages_list = "<table>".$pages_html."</table>";
+        $pages_list = $message.$pages_html;
         return $pages_list;
+    }
+
+   /**
+    * Makes the "Edit your shit" page
+    *
+    * @param string $page name of the page
+    * @param string $section name of the section
+    * @param string $mod name of the mod currently in use (?!)
+    * @param int $id id of the page
+    * @param string $options mods available
+    * @param string $current what's picked now?
+    * @return string html
+    */
+    public function mod_edit_page($page, $section, $mod, $id, $options, $current="") {
+        $mod_edit_page = "<h2>Edit Mod</h2>
+            <div>You are attempting to override class <strong>code_".$page."</strong>, located at:
+            <p style='padding-left:20px;'><strong>'code/".$section."/code_".$page.".php'</strong></p></div>
+            ".$current."
+            <div><form action='index.php?section=admin&amp;page=pages&amp;action=mod_submit' method='POST'>
+            <input type='hidden' name='id' value='".$id."' />
+            Class name to override with:
+            <select name='mod'>
+            <option value='0'>None.</option>
+            ".$options."
+            </select>
+            <input type='submit' value='Submit' /></form></div>";
+        return $mod_edit_page;
+    }
+
+   /**
+    * the current line
+    *
+    * @param string $mod name of the mod
+    * @return string html
+    */
+    public function current_mod($mod) {
+        $current_mod = "<div>The class is currently overridden by the class
+            <strong>".$mod."</strong>, located at: <p style='padding-left:20px;'><strong>'mod/".$mod.".php'</strong></p></div>";
+        return $current_mod;
+    }
+
+   /**
+    * An option
+    *
+    * @param string $filename name of the file
+    * @return string html
+    */
+    public function mod_option($filename) {
+        $mod_option = "<option value='".$filename."'>".$filename."</option>";
+        return $mod_option;
+    }
+
+   /**
+    * what if there are none?
+    *
+    * @return string html
+    */
+    public function no_options() {
+        $no_options = "<option value='0'>None available.</option>";
+        return $no_options;
     }
 }
 ?>

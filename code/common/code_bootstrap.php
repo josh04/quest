@@ -1,7 +1,10 @@
 <?php
 /**
  * boot boot boot boots on the other foot now
- * handles stuff which needs to be done _before_ we know what we're doing.
+ *
+ * The bootstrap assembles all the bits needed to create our common page object,
+ * which then takes the reigns. Chooses which section and page to load, sets up
+ * the database connection, assuming we're installed.
  *
  * @author josh04
  * @package code_common
@@ -57,9 +60,16 @@ class code_bootstrap {
     *
     */
     public function page_setup() {
+       /**
+        * Default page and section
+        * (TODO) make these customisable?
+        */
         $section = "public";
         $page = "index";
 
+       /**
+        * Gets sections, by reading the folder names from 'code'
+        */
         $sections = $this->get_sections();
 
         $test = strtolower($_GET['section']);
@@ -68,12 +78,16 @@ class code_bootstrap {
             $section = strtolower($_GET['section']);
         }
 
+       /**
+        * Check if we're meant to be running the installer. If not, proceed to
+        * load up the database
+        */
         if (!IS_INSTALLED) {
             $section = "install";
-            $pages[$section] = array( "index"             =>          "start",
-                            "database"          =>          "database",
-                            "user"              =>          "user",
-                            "upgrade_database"  =>          "upgrade_database"    );
+            $pages[$section] = array(   "index"             =>          "start",
+                                        "database"          =>          "database",
+                                        "user"              =>          "user",
+                                        "upgrade_database"  =>          "upgrade_database"    );
         } else {
             $this->make_config();
             $this->db =& code_database_wrapper::get_db($this->config); // this unassuming line creates the database
@@ -91,13 +105,22 @@ class code_bootstrap {
                 foreach (explode(",", $page_row['redirect']) as $redirect) {
                     $pages[$page_row['section']][$redirect] = $page_row['name'];
                 }
+                if ($page_row['mod']) {
+                    $mods[$page_row['name']] = $page_row['mod'];
+                }
             }
         }
 
+       /**
+        * If the page exists, take it.
+        */
         if ($pages[$section][$_GET['page']]) {
             $page = $_GET['page'];
         }
-        
+
+       /**
+        * Else; shit the bed.
+        */
         if (!$pages[$section][$page]) {
             $this->page = new code_common;
             $this->page->make_default_lang();
@@ -110,11 +133,26 @@ class code_bootstrap {
           *If there is, for example, a _code_install which makes universal adjustments to code_common
           * then load it.
           */
-            require("code/".$section."/"."_code_".$section.".php");
+            require_once("code/".$section."/"."_code_".$section.".php");
         }
-        
-        require_once("code/".$section."/code_".$pages[$section][$page].".php"); //Include whichever php file we want.
-        $class_name = "code_".$pages[$section][$page];
+
+       /**
+        * The main code_whatever.php page is required here
+        */
+        require_once("code/".$section."/code_".$pages[$section][$page].".php");
+
+       /**
+        * Our delightful hook override system thingy! If there's a 'mod', load
+        * that. Otherwise, take the default class name.
+        */
+
+        if (isset($mods[$page])) {
+            require_once("mods/".$mods[$page].".php");
+            $class_name = $mods[$page];
+        } else {
+            $class_name = "code_".$pages[$section][$page];
+        }
+
         $this->page = new $class_name($section, $page, $this->config);
         $this->page->pages = $pages;
     }

@@ -193,5 +193,9 @@ class lang_error {
     // message overrides
     public $override_deleted = "The message has been restored to it's original content.";
     public $no_such_override = "Message id not found.";
+
+    // pages
+    public $no_page_selected = "You did not select a page.";
+    public $mod_updated = "The mod for that page has been updated.";
 }
 ?>
