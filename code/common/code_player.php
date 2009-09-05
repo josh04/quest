@@ -221,7 +221,7 @@ class code_player {
     public function log_in($username, $password) {
         $username = htmlentities($username,ENT_QUOTES,'UTF-8');
 
-        $player_exists = $this->get_player_by_name($username);
+        $player_exists = $this->get_player_by_name($username, "");
         
         if (!$player_exists) {
             return false;

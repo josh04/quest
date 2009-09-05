@@ -28,17 +28,23 @@ class code_help extends code_common {
     public function help() {
 	if(isset($_GET['id']) && is_numeric($_GET['id'])) $help_id = $_GET['id']; else $help_id = 1;
 
-        $helpq = $this->db->execute("SELECT * FROM `help` WHERE `id`=?",array($help_id));
-        while($helpr = $helpq->fetchrow()) {
-                $help_html .= $this->skin->help_row($helpr, $help_id, $this->page);
+        $help_query = $this->db->execute("SELECT * FROM `help` WHERE `id`=?",array($help_id));
+        if($help_query->numrows()==0) {
+            $help = $this->skin->error_box($this->lang->help_not_found);
+            return $help;
+        }
+        $help_row = $help_query->fetchrow();
+
+        $child_query = $this->db->execute("SELECT * FROM `help` WHERE `parent`=? ORDER BY `order` ASC",array($help_id));
+        while($child_row = $child_query->fetchrow()) {
+                $help_children .= $this->skin->help_row($child_row);
         }
 
-        $helpq = $this->db->execute("SELECT * FROM `help` WHERE `parent`=?",array($help_id));
-        while($helpr = $helpq->fetchrow()) {
-                $help_children .= $this->skin->help_row($helpr, $help_id, $this->page);
+        if($child_query->numrows()==0) {
+            $help = $this->skin->help_single($help_row);
+        } else {
+            $help = $this->skin->help_navigation($help_children, $help_row['title']);
         }
-
-        $help = $this->skin->help($help_html, $help_children);
 
         return $help;
     }

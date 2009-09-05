@@ -72,7 +72,7 @@ class skin_menu_admin extends skin_common {
     public function edit($item, $button_text, $message='') {
         $edit = "<h2>Menu editor</h2>
         ".$message."
-        <form action='index.php?section=admin&amp;page=menu' method='post'><table>
+        <form action='index.php?section=admin&amp;page=menu&amp;action=edit&amp;id=".$item['id']."' method='post'><table>
             <tr><td style='width:25%;'><label for='menu-label'>Label</label></td>
             <td><input type='text' id='menu-label' name='menu-label' style='width:95%;' value='".$item['label']."' /></td></tr>
 

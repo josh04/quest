@@ -21,6 +21,7 @@ class _code_install extends code_common {
         `parent` int(3) NOT NULL,
         `title` varchar(65) NOT NULL default '',
         `body` longtext NOT NULL,
+        `order` int(3) NOT NULL,
         PRIMARY KEY  (`id`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
 

@@ -35,7 +35,7 @@ class code_database_wrapper {
     * @param array $config database settings
     */
     private function __construct($config) {
-	$this->db = &NewQuestDB();
+        $this->db = &NewQuestDB();
 
         ob_start(); // Do not error if the database isn't there.
         $this->db->Connect($config['server'], $config['db_username'], $config['db_password'], $config['database']);
