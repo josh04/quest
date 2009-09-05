@@ -6,16 +6,6 @@
  * @package code_install
  */
 class _code_install extends code_common {
-    public $blueprints_query = "CREATE TABLE IF NOT EXISTS `blueprints` (
-        `id` int(11) NOT NULL auto_increment,
-        `name` varchar(255) NOT NULL default '',
-        `description` text NOT NULL,
-        `type` tinyint(1) NOT NULL default '0',
-        `effectiveness` int(11) NOT NULL default '0',
-        `price` int(11) NOT NULL default '0',
-        PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
-
     public $help_query = "CREATE TABLE IF NOT EXISTS `help` (
         `id` int(3) NOT NULL auto_increment,
         `parent` int(3) NOT NULL,
@@ -25,13 +15,6 @@ class _code_install extends code_common {
         PRIMARY KEY  (`id`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
 
-    public $items_query = "CREATE TABLE IF NOT EXISTS `items` (
-        `id` int(11) NOT NULL auto_increment,
-        `player_id` int(11) NOT NULL default '0',
-        `item_id` int(11) NOT NULL default '0',
-        `status` tinyint(1) NOT NULL default '0',
-        PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
 
     public $mail_query = "CREATE TABLE IF NOT EXISTS `mail` (
         `id` int(11) NOT NULL auto_increment,
@@ -44,14 +27,6 @@ class _code_install extends code_common {
         PRIMARY KEY  (`id`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
 
-    public $news_query = "CREATE TABLE IF NOT EXISTS `news` (
-        `id` int(11) NOT NULL auto_increment,
-        `message` text NOT NULL,
-        `player_id` int(11) NOT NULL default '0',
-        `date` int(10) NOT NULL default '0',
-        PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
-
     public $players_query = "CREATE TABLE IF NOT EXISTS `players` (
         `id` int(11) NOT NULL auto_increment,
         `username` varchar(255) NOT NULL default '',
@@ -61,7 +36,6 @@ class _code_install extends code_common {
         `registered` int(11) NOT NULL default '0',
         `last_active` int(11) NOT NULL default '0',
         `ip` varchar(255) NOT NULL default '',
-        `gold` int(11) NOT NULL default '200',
         `show_email` tinyint(3) NOT NULL default '0',
         `skin` int(3) NOT NULL default '2',
         `login_rand` varchar(255) NOT NULL default '',
@@ -85,15 +59,6 @@ class _code_install extends code_common {
         `message` text NOT NULL,
         `date` int(10) NOT NULL default '0',
         `status` tinyint(3) NOT NULL default '0',
-        PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
-
-    public $log_query = "CREATE TABLE IF NOT EXISTS `user_log` (
-        `id` int(11) NOT NULL auto_increment,
-        `player_id` int(11) NOT NULL default '0',
-        `message` text NOT NULL,
-        `status` tinyint(1) NOT NULL default '0',
-        `time` int(11) NOT NULL default '0',
         PRIMARY KEY  (`id`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
 
@@ -149,27 +114,14 @@ class _code_install extends code_common {
     public $pages_insert_query = "
         INSERT INTO `pages` (`id`, `name`, `section`, `redirect`) VALUES
         (1, 'login', 'public', 'login'),
-        (2, 'stats', 'public', 'stats'),
-        (3, 'log', 'public', 'laptop'),
-        (4, 'items', 'public', 'inventory,store'),
-        (5, 'bank', 'public', 'bank'),
-        (6, 'hospital', 'public', 'hospital'),
-        (7, 'work', 'public', 'work'),
         (8, 'help', 'public', 'help,guesthelp'),
         (9, 'edit_profile', 'public', 'profile_edit'),
-        (10, 'battle', 'public', 'battle'),
         (11, 'profile', 'public', 'profile'),
         (12, 'ticket', 'public', 'ticket'),
-        (13, 'staff', 'public', 'staff'),
         (14, 'mail', 'public', 'mail'),
-        (15, 'portal', 'public', 'portal'),
-        (16, 'ranks', 'public', 'ranks'),
         (17, 'index', 'public', 'index'),
         (18, 'members', 'public', 'members'),
         (19, 'ticket', 'admin', 'ticket'),
-        (20, 'blueprints', 'admin', 'blueprints'),
-        (21, 'quest', 'public', 'quest'),
-        (22, 'quest', 'admin', 'quest'),
         (23, 'index_admin', 'admin', 'index'),
         (24, 'admin_template', 'admin', 'panel,portal'),
         (25, 'menu_admin', 'admin', 'menu'),
@@ -187,9 +139,6 @@ class _code_install extends code_common {
     public $settings_insert_query = "INSERT INTO `settings` (`name`, `value`) VALUES
         ('name', 'Quest'),
         ('welcometext', '<p>Welcome to Quest. This is a default welcome message. To add your own, go to the Administration panel and click on \"Messages\".</p>'),
-        ('portal_name', 'Campus'),
-        ('portal_welcome', '[b]Security Guard:[/b]\n\n[i]Welcome onto Campus, agent. Let me just check your ID.\n\n...\n\nYou have permission to enter, agent. If you follow the path to the left, you can get to the Main Building. To the right you\'ll find the training areas and accommodation. Have a good day.[/i]'),
-        ('portal_links', '* Main Building\r\nhospital|Hospital\r\nbank|Bank\r\nstore|Store\r\nwork|Work\r\n--\r\n* Your Room\r\nlaptop|Laptop\r\ninventory|Inventory\r\n\r\n* Dojo\r\nbattle|Combat training'),
         ('quests_code', ''),
         ('admin_notes', ''),
         ('verification_method', '1'),
@@ -197,68 +146,6 @@ class _code_install extends code_common {
         ('custom_fields', '{\"description\":\"No description.\",\"gender\":\"0\",\"msn\":\" \",\"aim\":\" \",\"skype\":\" \",\"avatar\":\"images\/avatar.png\"}'),
         ('register_ip_check', '1'),
         ('database_report_error', '0');";
-
-    public $quests_query = "CREATE TABLE IF NOT EXISTS `quests` (
-        `id` int(3) NOT NULL auto_increment,
-        `title` varchar(125) NOT NULL,
-        `description` longtext NOT NULL,
-        `author` varchar(125) NOT NULL,
-        PRIMARY KEY  (`id`),
-        UNIQUE KEY `title` (`title`,`author`)
-        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
-
-    public $db_query = "ALTER DATABASE COLLATE utf8_general_ci; ALTER TABLE `blueprint_items` RENAME `blueprints`;";
-
-    public $update_tables_query = "
-
-ALTER TABLE `blueprint_items` ADD COLUMN `type2` varchar(255) NOT NULL;
-ALTER TABLE `items` ADD COLUMN `status2` tinyint(1) NOT NULL;
-ALTER TABLE `mail` ADD COLUMN `status2` tinyint(1) NOT NULL;
-ALTER TABLE `user_log` ADD COLUMN `status2` tinyint(1) NOT NULL;
-ALTER TABLE `players` ADD COLUMN `show_email` tinyint(3) NOT NULL default '0';
-ALTER TABLE `players` ADD COLUMN `password2` text NOT NULL;
-
-ALTER TABLE `players` ADD COLUMN `skin` int(3) NOT NULL default '2';
-ALTER TABLE `players` ADD COLUMN `login_rand` varchar(255) NOT NULL default '';
-ALTER TABLE `players` ADD COLUMN `login_salt` varchar(255) NOT NULL default '';
-ALTER TABLE `players` ADD COLUMN `verified` text NOT NULL default '';
-UPDATE `blueprint_items` set `type2`='weapon' WHERE `type`='weapon';
-UPDATE `blueprint_items` set `type2`='armour' WHERE `type`='armour';
-UPDATE `items` set `status2`='1' WHERE `status`='equipped';
-UPDATE `items` set `status2`='0' WHERE `status`='uneqipped';
-UPDATE `mail` set `status2`='1' WHERE `status`='unread';
-UPDATE `mail` set `status2`='0' WHERE `status`='read';
-UPDATE `user_log` SET `status2`='1' WHERE `status`='read';
-UPDATE `user_log` SET `status2`='0' WHERE `status`='unread';
-UPDATE `players` SET `password2`=`password`;
-
-                    
-ALTER TABLE `blueprint_items` DROP COLUMN `type`;
-ALTER TABLE `items` DROP COLUMN `status`;
-ALTER TABLE `mail` DROP COLUMN `status`;
-ALTER TABLE `user_log` DROP COLUMN `status`;
-ALTER TABLE `players` DROP COLUMN `password`;
-
-
-ALTER TABLE `blueprint_items` CHANGE `type2` `type` varchar(255) NOT NULL;
-ALTER TABLE `items` CHANGE `status2` `status` tinyint(1) NOT NULL;
-ALTER TABLE `mail` CHANGE `status2` `status` tinyint(1) NOT NULL;
-ALTER TABLE `user_log` CHANGE `status2` `status` tinyint(1) NOT NULL;
-ALTER TABLE `user_log` CHANGE `msg` `message` text NOT NULL;
-                    ALTER TABLE `players` CHANGE `password2` `password` text NOT NULL;
-                    ALTER TABLE `players` CHANGE `maxexp` `exp_max` int(11) NOT NULL default '50';
-                    ALTER TABLE `players` CHANGE `maxhp` `hp_max` int(11) NOT NULL default '60';
-                    ALTER TABLE `players` CHANGE `maxenergy` `energy_max` int(11) NOT NULL default '10';
-
-ALTER TABLE `blueprint_items` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
-ALTER TABLE `items` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
-ALTER TABLE `mail` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
-ALTER TABLE `user_log` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
-ALTER TABLE `players` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-ALTER TABLE `blueprint_items` RENAME `blueprints`;
-ALTER DATABASE COLLATE utf8_general_ci; 
-       ";
 
     public $menu_query = "CREATE TABLE IF NOT EXISTS `menu` (
         `id` int(11) NOT NULL auto_increment,
@@ -278,24 +165,18 @@ ALTER DATABASE COLLATE utf8_general_ci;
 INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enabled`, `order`, `function`, `guest`) VALUES
 (1, 'Home', 'Game Menu', 'public', 'index', '', 1, 1, 1, 0),
 (2, 'Mail', 'Game Menu', 'public', 'mail', '', 1, 3, 1, 0),
-(3, 'Portal', 'Game Menu', 'public', 'portal', '', 1, 4, 1, 0),
 (4, 'Player Stats', 'Game Menu', 'public', 'ranks', '', 1, 5, 0, 0),
 (5, 'Member List', 'Game Menu', 'public', 'members', '', 1, 6, 0, 0),
 (6, 'Edit Profile', 'Game Menu', 'public', 'profile_edit', '', 1, 7, 0, 0),
 (7, 'Ticket Control', 'Admin', 'admin', 'ticket', '', 1, 6, 0, 0),
-(8, 'Item Blueprints', 'Admin', 'admin', 'blueprints', '', 1, 5, 0, 0),
 (9, 'Help', 'Other', 'public', 'help', '', 1, 4, 0, 0),
 (10, 'Support Tickets', 'Other', 'public', 'ticket', '', 1, 5, 0, 0),
 (11, 'Log Out', 'Other', 'public', 'login', '', 1, 6, 0, 0),
-(12, 'Staff List', 'Other', 'public', 'members', '&amp;action=staff', 1, 3, 0, 0),
 (13, 'Menu Editor', 'Admin', 'admin', 'menu', '', 1, 4, 0, 0),
-(14, 'Quest Control', 'Admin', 'admin', 'quest', '', 1, 3, 0, 0),
 (15, 'Control Panel', 'Admin', 'admin', 'index', '', 1, 2, 0, 0),
 (16, 'Home', 'Guests', 'public', 'index', '', 1, 4, 0, 1),
 (17, 'Register', 'Guests', 'public', 'login', '&amp;action=register', 1, 5, 0, 1),
-(18, 'Player Stats', 'Guests', 'public', 'ranks', '', 1, 6, 1, 1),
 (19, 'Help', 'Guests', 'public', 'guesthelp', '', 1, 7, 0, 1),
-(23, 'Quests', 'Game Menu', 'public', 'quest', '', 1, 2, 0, 0),
 (24, 'Cron Editor', 'Admin', 'admin', 'cron', '', 1, 7, 0, 0),
 (25, 'Mod Loader', 'Admin', 'admin', 'pages', '', 1, 8, 0, 0);
         ";
@@ -307,39 +188,10 @@ INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enab
         UNIQUE KEY `id1` (`id1`,`id2`)
         ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
-    public $bank_query = "CREATE TABLE IF NOT EXISTS `bank` (
-  `player_id` int(11) NOT NULL,
-  `bank_gold_saved` int(11) NOT NULL,
-  `bank_gold_deposited` int(11) NOT NULL,
-  `interest_owed` double NOT NULL,
-  `last_deposit` int(11) NOT NULL,
-  PRIMARY KEY  (`player_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
-
     public $profile_query = "
 CREATE TABLE IF NOT EXISTS `profiles` (
   `player_id` int(11) NOT NULL,
   `profile_string` longtext NOT NULL,
-  PRIMARY KEY  (`player_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
-
-    public $rpg_query = "
-CREATE TABLE IF NOT EXISTS `rpg` (
-  `player_id` int(11) NOT NULL,
-  `level` int(11) NOT NULL,
-  `stat_points` int(11) NOT NULL,
-  `quest` text NOT NULL,
-  `hp` int(11) NOT NULL,
-  `hp_max` int(11) NOT NULL,
-  `exp` int(11) NOT NULL,
-  `exp_max` int(11) NOT NULL,
-  `energy` int(11) NOT NULL,
-  `energy_max` int(11) NOT NULL,
-  `kills` int(11) NOT NULL,
-  `deaths` int(11) NOT NULL,
-  `strength` int(11) NOT NULL,
-  `vitality` int(11) NOT NULL,
-  `agility` int(11) NOT NULL,
   PRIMARY KEY  (`player_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
@@ -359,50 +211,11 @@ CREATE TABLE IF NOT EXISTS `rpg` (
     * @return QuestDB_rs
     */
     public function create_database() {
-        return $this->db->execute($this->cron_query.$this->blueprints_query.$this->help_query.$this->items_query.
-            $this->mail_query.$this->news_query.$this->players_query.$this->skins_query.$this->tickets_query.$this->log_query.$this->help_insert_query.
+        return $this->db->execute($this->cron_query.$this->help_query.
+            $this->mail_query.$this->players_query.$this->skins_query.$this->tickets_query.$this->help_insert_query.
             $this->cron_insert_query.$this->pages_query.$this->pages_insert_query.$this->settings_query.$this->settings_insert_query.
-            $this->menu_query.$this->menu_insert_query.$this->quests_query.$this->friends_query.$this->bank_query.$this->profile_query.
-            $this->rpg_query.$this->lang_query);
-    }
-
-   /**
-    * ditto
-    * (TODO) update the upgrade. lol.
-    */
-    public function upgrade_database() {
-        $this->db->execute($this->cron_query);
-        $this->db->execute($this->help_query);
-        $this->db->execute($this->news_query);
-        $this->db->execute($this->skins_query);
-        $this->db->execute($this->tickets_query);
-        $this->db->execute($this->cron_insert_query);
-        $this->db->execute($this->pages_query);
-        $this->db->execute($this->pages_insert_query);
-        $this->db->execute($this->settings_query);
-        $this->db->execute($this->settings_insert_query);
-        $this->db->execute($this->menu_query);
-        $this->db->execute($this->menu_insert_query);
-        $this->db->execute($this->help_insert_query);
-        $this->db->execute($this->quests_query);
-        $this->db->execute($this->friends_query);
-        $this->db->execute($this->bank_query);
-        $this->db->execute($this->profile_query);
-        $this->db->execute($this->rpg_query);
-        $this->db->execute($this->lang_query);
-        $player_query = $this->db->execute("SELECT * FROM `players`");
-
-        while ($player = $player_query->fetchrow()) {
-            $player['player_id'] = $player['id'];
-            $player['hp_max'] = $player['maxhp'];
-            $player['energy_max'] = $player['maxenergy'];
-            $player['exp_max'] = $player['maxexp'];
-            $this->db->AutoExecute('profiles', $player, 'INSERT'); // so so cheap and dirty
-            $this->db->AutoExecute('rpg', $player, 'INSERT');
-        }
-        $this->db->execute($this->update_tables_query);
-
-
+            $this->menu_query.$this->menu_insert_query.$this->friends_query.$this->profile_query.
+            $this->lang_query);
     }
 
    /**
