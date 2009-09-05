@@ -42,3 +42,25 @@ function questCountdown() {
 function popup_help(id) {
     window.open('popup_help.php?id='+id, 'popup_help', 'width=400,height=300');
 }
+
+function help_move(dir, id) {
+    d = document.getElementById('help_order_'+id);
+
+    if(dir=='up')
+        nuVal= parseInt(d.value) - 1;
+    else
+        nuVal = parseInt(d.value) + 1;
+
+    coll = document.getElementsByTagName('input');
+
+    for(i=0;i<coll.length;i++) {
+        if(coll[i].name.substr(0,11) != 'help_order[') continue;
+        if(coll[i].value == nuVal) {
+            coll[i].value = d.value;
+            d.value = nuVal;
+            hold = d.parentNode.innerHTML;
+            d.parentNode.innerHTML = coll[i].parentNode.innerHTML;
+            coll[i].parentNode.innerHTML = hold;
+        }
+    }
+}

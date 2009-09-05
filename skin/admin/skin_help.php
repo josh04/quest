@@ -13,9 +13,15 @@ class skin_help extends skin_common {
     * @param array $help_topic help topic from database
     * @return string html
     */
-    public function help_row($help_topic){
+    public function help_row($help_topic) {
         $help_row = "
-        <div class='help-item'><img src='images/icons/help.png' alt='' />
+        <div class='help-item'>
+        <div style='float:right;'>
+            <a href='#' onclick='help_move(\"up\", ".$help_topic['id'].");return false;'><img src='images/icons/arrow_up.png' alt='Up' /></a>
+            <a href='#' onclick='help_move(\"down\", ".$help_topic['id'].");return false;'><img src='images/icons/arrow_down.png' alt='Down' /></a>
+        </div>
+        <img src='images/icons/help.png' alt='' />
+        <input type='hidden' name='help_order[".$help_topic['id']."]' id='help_order_".$help_topic['id']."' value='".$help_topic['order']."' />
         <input type='text' name='help_title[".$help_topic['id']."]' value='".$help_topic['title']."' />
         <a href='index.php?section=admin&amp;page=help&amp;id=".$help_topic['id']."'>".$help_topic['title']."</a>
         </div>

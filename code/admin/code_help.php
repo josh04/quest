@@ -66,7 +66,8 @@ class code_help extends _code_admin {
     */
     public function help_nav_save() {
         foreach($_POST['help_title'] as $id=>$title) {
-           $t = $this->db->Execute("UPDATE `help` SET `title`=? WHERE `id`=?", array($title, $id));
+           $t = $this->db->Execute("UPDATE `help` SET `title`=?, `order`=? WHERE `id`=?",
+               array($title, $_POST['help_order'][$id], $id));
            if(!$t) $error = true;
         }
         if($error)
@@ -121,7 +122,7 @@ class code_help extends _code_admin {
         $help_row = $help_query->fetchrow();
         if($help_row['parent']==0) $help_row['parent'] = 1;
 
-        $child_query = $this->db->execute("SELECT * FROM `help` WHERE `parent`=?",array($help_id));
+        $child_query = $this->db->execute("SELECT * FROM `help` WHERE `parent`=? ORDER BY `order` ASC",array($help_id));
         while($child_row = $child_query->fetchrow()) {
                 $help_children .= $this->skin->help_row($child_row);
         }

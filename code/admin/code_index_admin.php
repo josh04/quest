@@ -27,13 +27,17 @@ class code_index_admin extends _code_admin {
     public function index_wrapper() {
         $boxes = array(
             array( 'panel', 'General administration', 'Your administration panel is your home - design it to your tastes' ),
-            array( 'ticket', 'Tickets', 'Read, organise and respond to tickets' ),
+            array( 'index', 'Configuration', array(
+                array( 'cron', 'Scheduled tasks' ),
+                array( 'pages', 'Page controls' ),
+                array( 'help', 'Help files' ),
+            ) ),
             array( 'index', 'Gameplay', array(
                 array( 'blueprints', 'Item blueprints' ),
                 array( 'quest', 'Quests' ),
                 array( 'portal', 'Portal' ),
-                array( 'help', 'Help files' ),
             ) ),
+            array( 'ticket', 'Tickets', 'Read, organise and respond to tickets' ),
             array( 'messages', 'Messages', 'Edit specific in-game messages to your choosing.')
         );
         
@@ -45,6 +49,7 @@ class code_index_admin extends _code_admin {
             }
 
             if(is_array($box[2])) {
+                $temp = '';
                 foreach($box[2] as $item) {
                     $temp .= $this->skin->admin_inner_link($item[0], $item[1]);
                 }
