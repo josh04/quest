@@ -69,7 +69,7 @@ class skin_menu_admin extends skin_common {
     * @param string $message have they done something wrong?
     * @return string html
     */
-    public function edit($item, $button_text, $message='') {
+    public function edit($item, $button_text, $sections, $pages, $message='') {
         $edit = "<h2>Menu editor</h2>
         ".$message."
         <form action='index.php?section=admin&amp;page=menu&amp;action=edit' method='post'><table>
@@ -84,14 +84,22 @@ class skin_menu_admin extends skin_common {
             <tr><td colspan='2' class='form-explanation'>The category the menu belongs to</td></tr>
 
             <tr><td><label for='menu-section'>Section</label></td>
-            <td><input type='text' id='menu-section' name='menu-section' style='width:95%;' value='".$item['section']."' /></td></tr>
+            <td>
+            <select name='menu-section' id='menu-section' style='width:95%;'>
+                ".$sections."
+            </select>
+            </td></tr>
 
-            <tr><td colspan='2' class='form-explanation'>What section is the page in? \"admin\" or \"public\"?</td></tr>
+            <tr><td colspan='2' class='form-explanation'>What section is the page in? (the \"section=\" bit in the URL)</td></tr>
 
             <tr><td><label for='menu-page'>Page</label></td>
-            <td><input type='text' id='menu-page' name='menu-page' style='width:95%;' value='".$item['page']."' /></td></tr>
+            <td>
+            <select name='menu-page' id='menu-page' style='width:95%;'>
+                ".$pages."
+            </select>
+            </td></tr>
 
-            <tr><td colspan='2' class='form-explanation'>The id of the page to link to (the \"page=\" bit in the URL)</td></tr>
+            <tr><td colspan='2' class='form-explanation'>The id of the page to link to? (the \"page=\" bit in the URL)</td></tr>
 
             <tr><td><label for='menu-extra'>Extra</label></td>
             <td><input type='text' id='menu-extra' name='menu-extra' style='width:95%;' value='".$item['extra']."' /></td></tr>
@@ -143,6 +151,50 @@ class skin_menu_admin extends skin_common {
     public function disabled() {
         $disabled = "color:#9A9A9B;";
         return $disabled;
+    }
+
+   /*
+    * selected section
+    *
+    * @param string $section name of section
+    * @return string html
+    */
+    public function section_selected($section) {
+        $section_selected = "<option value='".$section."' selected='selected'>".$section."</option>";
+        return $section_selected;
+    }
+
+   /*
+    * section
+    *
+    * @param string $section name of section
+    * @return string html
+    */
+    public function section($section) {
+        $section_selected = "<option value='".$section."'>".$section."</option>";
+        return $section_selected;
+    }
+
+   /*
+    * selected page
+    *
+    * @param string $page name of page
+    * @return string html
+    */
+    public function page_selected($page) {
+        $page_selected = "<option value='".$page."' selected='selected'>".$page."</option>";
+        return $page_selected;
+    }
+
+   /*
+    * page
+    *
+    * @param string $page name of page
+    * @return string html
+    */
+    public function page($page) {
+        $page_selected = "<option value='".$page."'>".$page."</option>";
+        return $page_selected;
     }
 }
 ?>

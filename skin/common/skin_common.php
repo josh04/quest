@@ -17,6 +17,13 @@ class skin_common {
     public $lang_error;
 
    /**
+    * Title of the page, for the header
+    *
+    * @var string
+    */
+    public $title;
+
+   /**
     * displays error; needs skinning
     *
     * @param string $error error text
@@ -28,15 +35,27 @@ class skin_common {
 			";
         return $error_page;
     }
+
+   /**
+    * Makes the top title
+    *
+    * @param string $site_name the site name
+    * @return string the title
+    */
+    public function title($site_name) {
+        $title = $site_name." - ".$this->title;
+        return $title;
+    }
     
-    /**
+   /**
     * return the static start of the skin
     *
     * @param string $title page title
+    * @param string $site_name name of the site
     * @param string $css name of css file
     * @return string html
     */
-    public function start_header($title, $skin) {
+    public function start_header($title, $site_name, $skin) {
         
         $start_header = "
                     <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'> 
@@ -49,7 +68,7 @@ class skin_common {
                     </head>
                     <body>
                     <div id='wrapper'>
-                    <div id='header-text'>".$title."</div>
+                    <div id='header-text'>".$site_name."</div>
                     ";
         
         return $start_header;

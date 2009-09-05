@@ -140,12 +140,18 @@ class code_common {
         }
 
         if (isset($this->settings['name'])) {
-            $page_title = $this->settings['name'];
+            $site_name = $this->settings['name'];
         } else {
-            $page_title = "Quest";
+            $site_name = "Quest";
         }
 
-        $start_header = $this->skin->start_header($page_title, "default.css");
+        if ($this->skin->title) {
+            $page_title = $this->skin->title($site_name);
+        } else {
+            $page_title = $site_name;
+        }
+
+        $start_header = $this->skin->start_header($page_title, $site_name, "default.css");
         return $start_header;
     }
 

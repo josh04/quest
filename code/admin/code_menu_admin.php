@@ -128,19 +128,46 @@ class code_menu_admin extends code_common {
                     $item['page'], $item['extra'], $item['function'], $item['enabled'], $item['guest']);
             }
             header("location:?section=admin&page=menu");
+        }
+
+        $id = intval($_GET['id']);
+        $item_query = $this->db->execute("SELECT * FROM `menu` WHERE `id`=?", array($id));
+
+        if ($item_query->numrows()==1) {
+            $item  = $item_query->fetchrow();
+            $button_text = "Save changes";
         } else {
-            $id = intval($_GET['id']);
-            $item_query = $this->db->execute("SELECT * FROM `menu` WHERE `id`=?",array($id));
-            if($item_query->numrows()==1) {
-                $item  = $item_query->fetchrow();
-                $button_text = "Save changes";
+            $item = array('id'=>'-1');
+            $button_text = "Add new item";
+        }
+
+        $sections = code_bootstrap::get_sections();
+
+        foreach ($sections as $section) {
+            $section = htmlentities($section, ENT_QUOTES, 'utf-8'); // coming from folder names; folder names can be funky
+            if ($item['section'] == $section) {
+                $section_options .= $this->skin->section_selected($section);
             } else {
-                $item = array('id'=>'-1');
-                $button_text = "Add new item";
+                $section_options .= $this->skin->section($section);
             }
         }
 
-        $modify = $this->skin->edit($item, $button_text, $message);
+        $done = array();
+        foreach ($this->pages as $section_array) {
+            foreach ($section_array as $page) {
+                if (in_array($page, $done)) {
+                    continue; // prevent duplicates
+                }
+                $done[] = $page;
+                if ($item['page'] == $page) {
+                    $page_options .= $this->skin->page_selected($page);
+                } else {
+                    $page_options .= $this->skin->page($page);
+                }
+            }
+        }
+
+        $modify = $this->skin->edit($item, $button_text, $section_options, $page_options, $message);
         return $modify;
     }
 

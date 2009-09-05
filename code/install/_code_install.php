@@ -341,6 +341,16 @@ CREATE TABLE IF NOT EXISTS `rpg` (
   `agility` int(11) NOT NULL,
   PRIMARY KEY  (`player_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+
+   public $lang_query = "CREATE TABLE IF NOT EXISTS `lang` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL,
+  `override` text NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+";
     
    /**
     * List of commands to run here, to keep them in the same place as the variables.
@@ -352,7 +362,7 @@ CREATE TABLE IF NOT EXISTS `rpg` (
             $this->mail_query.$this->news_query.$this->players_query.$this->skins_query.$this->tickets_query.$this->log_query.$this->help_insert_query.
             $this->cron_insert_query.$this->pages_query.$this->pages_insert_query.$this->settings_query.$this->settings_insert_query.
             $this->menu_query.$this->menu_insert_query.$this->quests_query.$this->friends_query.$this->bank_query.$this->profile_query.
-            $this->rpg_query);
+            $this->rpg_query.$this->lang_query);
     }
 
    /**
@@ -378,6 +388,7 @@ CREATE TABLE IF NOT EXISTS `rpg` (
         $this->db->execute($this->bank_query);
         $this->db->execute($this->profile_query);
         $this->db->execute($this->rpg_query);
+        $this->db->execute($this->lang_query);
         $player_query = $this->db->execute("SELECT * FROM `players`");
 
         while ($player = $player_query->fetchrow()) {

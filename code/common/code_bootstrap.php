@@ -13,6 +13,7 @@ class code_bootstrap {
 
     public $config;
     public $db;
+    public static $sections;
 
    /**
     * Three lines, all the code.
@@ -70,7 +71,7 @@ class code_bootstrap {
        /**
         * Gets sections, by reading the folder names from 'code'
         */
-        $sections = $this->get_sections();
+        $sections = code_bootstrap::get_sections();
 
         $test = strtolower($_GET['section']);
 
@@ -162,9 +163,20 @@ class code_bootstrap {
     * 
     * @return array $sections array of names of folders
     */
-    public function get_sections() {
-        $sections = array_slice(scandir("code"), 2);
-        return $sections;
+    public static function get_sections() {
+        if (is_array(code_bootstrap::$sections)) {
+            return code_bootstrap::$sections;
+        } else {
+            $folder = opendir("code");
+            while ($file = readdir($folder)) {
+                if (is_dir("code/".$file) && $file != ".." && $file != ".") {
+                    $sections[] = $file;
+                }
+            }
+            closedir($folder);
+            code_bootstrap::$sections = $sections;
+            return $sections;
+        }
     }
 
 }
