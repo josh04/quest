@@ -191,6 +191,9 @@ class lang_error {
 
     // help
     public $help_not_found = "The help topic could not be found.";
+    public $error_updating_help = "Could not update help files.";
+    public $help_updated = "Help files updated";
+    public $confirm_help_delete = "Are you sure you want to delete this help topic?";
 
     // message overrides
     public $override_deleted = "The message has been restored to it's original content.";

@@ -292,7 +292,7 @@ table.admin-home-table td {
         padding: 4px;
 }
 
-table.admin-home-table td a {
+a.admin-box-head {
     display: block;
     background-color: #CCF;
     padding: 4px;

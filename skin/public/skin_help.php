@@ -16,7 +16,7 @@ class skin_help extends skin_common {
     public function help_row($help_topic){
         $help_row = "
         <div class='help-item'><img src='images/icons/help.png' alt='' />
-        <a href='index.php?page=help&id=".$help_topic['id']."'>".$help_topic['title']."</a></div>
+        <a href='index.php?page=help&amp;id=".$help_topic['id']."'>".$help_topic['title']."</a></div>
         ";
         return $help_row;
     }
@@ -53,22 +53,6 @@ class skin_help extends skin_common {
         <div class='help-item'>
         ".$help_topic['body']."
         </div>";
-        return $help;
-    }
-
-   /**
-    * help page
-    * 
-    * @param string $help_html main code of the page
-    * @param string $help_children children of subject
-    * @return string html
-    */
-    public function help($help_html, $help_children) {
-        $help = "
-        <h2>Help</h2>
-        ".$help_html."
-".($help_children==''?'':"        <hr style='color:#FFF;' />
-        ".$help_children);
         return $help;
     }
 
