@@ -113,6 +113,7 @@ class code_user extends _code_install {
         $player_insert['ip'] = $_SERVER['REMOTE_ADDR'];
         $player_insert['rank'] = 'Admin';
         $player_insert['login_salt'] = $login_salt;
+        $player_insert['verified'] = 1;
 
 
         $player_insert_query = $this->db->AutoExecute('players', $player_insert, 'INSERT');
