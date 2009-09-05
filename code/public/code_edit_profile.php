@@ -193,9 +193,9 @@ class code_edit_profile extends code_common {
             $avatar_options .= $this->skin->edit_avatar_url();
         if ($this->settings['avatar_gravatar'])
             $avatar_options .= $this->skin->edit_avatar_gravatar( $this->player->email );
-        if ($this->settings['avatar_upload'] && file_exists('images/avatars'))
+        if ($this->settings['avatar_upload'] && is_writeable('images/avatars'))
             $avatar_options .= $this->skin->edit_avatar_upload();
-        if ($this->settings['avatar_library'] && file_exists('images/library')) {
+        if ($this->settings['avatar_library'] && is_writeable('images/library')) {
             $handle = opendir('images/library');
             while (false !== ($file = readdir($handle))) {
                 if($file=="." || $file==".." || $file=="Thumbs.db") continue;
