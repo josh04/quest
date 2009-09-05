@@ -71,11 +71,11 @@ class code_quest extends code_common {
         $id = intval($_GET['id']);
 
         if ($this->player->hp<=0) {
-            $quest_start = $this->quest_select($this->skin->error_box($this->skin->lang_error->player_currently_incapacitated));
+            $quest_start = $this->quest_select($this->skin->error_box($this->lang->player_currently_incapacitated));
             return $quest_start;
         }
         if ($this->player->energy<=0) {
-            $quest_start = $this->quest_select($this->skin->error_box($this->skin->lang_error->player_no_energy));
+            $quest_start = $this->quest_select($this->skin->error_box($this->lang->player_no_energy));
             return $quest_start;
         }
 
@@ -85,7 +85,7 @@ class code_quest extends code_common {
             $quest_code = $this->quest_log();
             return $quest_code;
         } else {
-            $quest_code = $this->quest_select($this->skin->error_box($this->skin->lang_error->quest_not_found));
+            $quest_code = $this->quest_select($this->skin->error_box($this->lang->quest_not_found));
             return $quest_code;
         }
     }
@@ -171,12 +171,12 @@ class code_quest extends code_common {
     public function event_encounter($encounter) {
         //Player cannot attack any more
         if ($this->player->energy == 0) {
-            $this->error_page($this->skin->lang_error->player_no_energy);
+            $this->error_page($this->lang->player_no_energy);
         }
 
         //Player is unconscious
         if ($this->player->hp == 0) {
-            $this->error_page($this->skin->lang_error->player_currently_incapacitated);
+            $this->error_page($this->lang->player_currently_incapacitated);
         }
 
         $prehp = $this->player->hp;

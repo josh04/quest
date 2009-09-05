@@ -93,11 +93,11 @@ class code_index extends code_common {
         $log_query = $this->db->execute("SELECT `message`, `status` FROM `user_log` WHERE `player_id`=? ORDER BY `time` DESC LIMIT 5",array($this->player->id));
 
         if (!$log_query) {
-            $log = $this->skin->log_entry($this->skin->lang_error->error_getting_log, 0);
+            $log = $this->skin->log_entry($this->lang->error_getting_log, 0);
         }
         
         if ($log_query->numrows() == 0) {
-            $log = $this->skin->log_entry($this->skin->lang_error->no_laptop_message, 0);
+            $log = $this->skin->log_entry($this->lang->no_laptop_message, 0);
         }
 
         while($log_entry = $log_query->fetchrow()) {
@@ -119,11 +119,11 @@ class code_index extends code_common {
                           WHERE `to`=? ORDER BY `time` DESC LIMIT 5",array($this->player->id));
 
         if (!$mail_query) {
-            $this->skin->log_entry($this->skin->lang_error->error_getting_mail, 0);
+            $this->skin->log_entry($this->lang->error_getting_mail, 0);
         }
 
         if ($mail_query->numrows()==0) {
-            $mail = $this->skin->log_entry($this->skin->lang_error->no_laptop_message, 0);
+            $mail = $this->skin->log_entry($this->lang->no_laptop_message, 0);
         }
 
         while($mail_row = $mail_query->fetchrow()) {
@@ -141,7 +141,7 @@ class code_index extends code_common {
     */
     public function index_guest($login_error) {
         if ($_GET['action'] == "logged_out") {
-            $login_error = $this->skin->lang_error->logged_out;
+            $login_error = $this->lang->logged_out;
         }
         $index_guest = $this->skin->index_guest($username, $login_error, $this->settings['welcometext']);
         return $index_guest;
@@ -188,6 +188,7 @@ class code_index extends code_common {
                 $player_extra['hp_max'] = $menu->player->hp_max;
                 $player_extra['exp'] = $menu->player->exp;
                 $player_extra['exp_max'] = $menu->player->exp_max;
+                $player_extra['exp_diff'] = $menu->player->exp_max - $menu->player->exp;
                 $player_extra['energy'] = $menu->player->energy;
                 $player_extra['energy_max'] = $menu->player->energy_max;
 

@@ -16,7 +16,7 @@ class code_admin_template extends _code_admin {
 
         $this->data = $this->get_data();
         if (empty($this->data)) {
-            $code = $this->skin->error_page($this->skin->lang_error->page_not_exist);
+            $code = $this->skin->error_page($this->lang->page_not_exist);
         } else {
             $code = $this->general_wrapper();
         }
@@ -45,9 +45,9 @@ class code_admin_template extends _code_admin {
             $settings_update = $this->setting_update($field_names, $field_values);
 
             if ($settings_update) {
-                $message = $this->skin->success_box($this->skin->lang_error->changes_saved);
+                $message = $this->skin->success_box($this->lang->changes_saved);
             } else {
-                $message = $this->skin->error_box($this->skin->lang_error->changes_saved_no);
+                $message = $this->skin->error_box($this->lang->changes_saved_no);
             }
         }
 
@@ -75,11 +75,11 @@ class code_admin_template extends _code_admin {
 
         // Portal
         if ($this->page == "portal") {
-            $data = array('title'=>'Portal','description'=>$this->skin->lang_error->admin_portal_home,
+            $data = array('title'=>'Portal','description'=>$this->lang->admin_portal_home,
                 'fields' => array(
                     array('name'=>'portal_name','caption'=>'Portal name','type'=>'text'),
                     array('name'=>'portal_welcome','caption'=>'Introduction message','lang'=>'BBCode'),
-                    array('type'=>'caption', 'value'=>$this->skin->lang_error->admin_link_syntax,'lang'=>'link'),
+                    array('type'=>'caption', 'value'=>$this->lang->admin_link_syntax,'lang'=>'link'),
                     array('name'=>'portal_links','caption'=>'Portal links'),
                 ),
             );

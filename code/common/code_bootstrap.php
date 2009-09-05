@@ -1,7 +1,10 @@
 <?php
 /**
  * boot boot boot boots on the other foot now
- * handles stuff which needs to be done _before_ we know what we're doing.
+ *
+ * The bootstrap assembles all the bits needed to create our common page object,
+ * which then takes the reigns. Chooses which section and page to load, sets up
+ * the database connection, assuming we're installed.
  *
  * @author josh04
  * @package code_common
@@ -15,8 +18,30 @@ class code_bootstrap {
     * Three lines, all the code.
     */
     public function bootstrap() {
+        if (get_magic_quotes_gpc()) {
+            $_POST = array_map(array($this, 'stripslashes_deep'), $_POST);
+            $_GET = array_map(array($this, 'stripslashes_deep'), $_GET);
+            $_COOKIE = array_map(array($this, 'stripslashes_deep'), $_COOKIE);
+            $_REQUEST = array_map(array($this, 'stripslashes_deep'), $_REQUEST);
+        }
         $this->page_setup();
         $this->page->construct();
+    }
+
+   /**
+    * Strips slashes. Le sigh.
+    *
+    * @param string $value
+    * @return string slashes stripped
+    */
+    public function stripslashes_deep($value) {
+        if (is_array($value)) {
+            $value = array_map(array($this, 'stripslashes_deep'), $value);
+        } else {
+            $value = stripslashes($value);
+        }
+
+        return $value;
     }
 
    /**
@@ -35,9 +60,16 @@ class code_bootstrap {
     *
     */
     public function page_setup() {
+       /**
+        * Default page and section
+        * (TODO) make these customisable?
+        */
         $section = "public";
         $page = "index";
 
+       /**
+        * Gets sections, by reading the folder names from 'code'
+        */
         $sections = $this->get_sections();
 
         $test = strtolower($_GET['section']);
@@ -46,20 +78,25 @@ class code_bootstrap {
             $section = strtolower($_GET['section']);
         }
 
+       /**
+        * Check if we're meant to be running the installer. If not, proceed to
+        * load up the database
+        */
         if (!IS_INSTALLED) {
             $section = "install";
-            $pages[$section] = array( "index"             =>          "start",
-                            "database"          =>          "database",
-                            "user"              =>          "user",
-                            "upgrade_database"  =>          "upgrade_database"    );
+            $pages[$section] = array(   "index"             =>          "start",
+                                        "database"          =>          "database",
+                                        "user"              =>          "user",
+                                        "upgrade_database"  =>          "upgrade_database"    );
         } else {
             $this->make_config();
             $this->db =& code_database_wrapper::get_db($this->config); // this unassuming line creates the database
 
             if (!$this->db->IsConnected()) {
                 $this->page = new code_common;
-                $this->page->initiate();
-                $this->page->error_page($this->skin->lang_error->failed_to_connect);
+                $this->page->make_default_lang();
+                $this->page->make_skin();
+                $this->page->error_page($this->page->lang->failed_to_connect);
             }
             
             $page_query = $this->db->execute("SELECT * FROM `pages`");
@@ -68,17 +105,27 @@ class code_bootstrap {
                 foreach (explode(",", $page_row['redirect']) as $redirect) {
                     $pages[$page_row['section']][$redirect] = $page_row['name'];
                 }
+                if ($page_row['mod']) {
+                    $mods[$page_row['name']] = $page_row['mod'];
+                }
             }
         }
 
+       /**
+        * If the page exists, take it.
+        */
         if ($pages[$section][$_GET['page']]) {
             $page = $_GET['page'];
         }
-        
+
+       /**
+        * Else; shit the bed.
+        */
         if (!$pages[$section][$page]) {
             $this->page = new code_common;
+            $this->page->make_default_lang();
             $this->page->make_skin();
-            $this->page->error_page($this->page->skin->lang_error->page_not_exist);
+            $this->page->error_page($this->page->lang->page_not_exist);
         }
 
         if (file_exists("code/".$section."/"."_code_".$section.".php")) {
@@ -86,11 +133,26 @@ class code_bootstrap {
           *If there is, for example, a _code_install which makes universal adjustments to code_common
           * then load it.
           */
-            require("code/".$section."/"."_code_".$section.".php");
+            require_once("code/".$section."/"."_code_".$section.".php");
         }
-        
-        require_once("code/".$section."/code_".$pages[$section][$page].".php"); //Include whichever php file we want.
-        $class_name = "code_".$pages[$section][$page];
+
+       /**
+        * The main code_whatever.php page is required here
+        */
+        require_once("code/".$section."/code_".$pages[$section][$page].".php");
+
+       /**
+        * Our delightful hook override system thingy! If there's a 'mod', load
+        * that. Otherwise, take the default class name.
+        */
+
+        if (isset($mods[$page])) {
+            require_once("mods/".$mods[$page].".php");
+            $class_name = $mods[$page];
+        } else {
+            $class_name = "code_".$pages[$section][$page];
+        }
+
         $this->page = new $class_name($section, $page, $this->config);
         $this->page->pages = $pages;
     }

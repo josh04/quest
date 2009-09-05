@@ -45,7 +45,7 @@ class code_hospital extends code_common {
     */
     protected function make_hospital($message = "") {
         if ($this->player->hp == $this->player->hp_max) {
-            $message .= $this->skin->error_box($this->skin->lang_error->full_health);
+            $message .= $this->skin->error_box($this->lang->full_health);
             $disabled = "disabled='disabled'";
         }
 
@@ -65,7 +65,7 @@ class code_hospital extends code_common {
         }
 
         if (!$_POST['amount']) {
-            $heal = $this->make_hospital($this->skin->error_box($this->skin->lang_error->no_amount_to_heal_entered));
+            $heal = $this->make_hospital($this->skin->error_box($this->lang->no_amount_to_heal_entered));
             return $heal;
         }
 
@@ -74,12 +74,12 @@ class code_hospital extends code_common {
 
 
         if ( $this->player->hp_max < $heal + $this->player->hp ){
-            $heal_html = $this->make_hospital($this->skin->error_box($this->skin->lang_error->beyond_maximum));
+            $heal_html = $this->make_hospital($this->skin->error_box($this->lang->beyond_maximum));
             return $heal_html;
         }
 
         if ($this->player->gold < $heal) {
-            $heal_html = $this->make_hospital($this->skin->error_box($this->skin->lang_error->not_enough_to_heal));
+            $heal_html = $this->make_hospital($this->skin->error_box($this->lang->not_enough_to_heal));
             return $heal_html;
         }
 

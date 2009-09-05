@@ -221,7 +221,7 @@ class code_player {
     public function log_in($username, $password) {
         $username = htmlentities($username,ENT_QUOTES,'UTF-8');
 
-        $player_exists = $this->get_player_by_name($username, "");
+        $player_exists = $this->get_player($username);
         
         if (!$player_exists) {
             return false;
@@ -288,19 +288,6 @@ class code_player {
         
         if ($player_insert_query) {
             $player_id = $this->db->Insert_Id();
-
-            if ( $this->settings['verification_method']==3 ) {
-                $to = 1; // must implement bulk mail by membership group
-                $from = $player_id;
-                $body = $username . " has just registered an account. You can approve it [url=index.php?section=admin&amp;page=profile_edit&amp;action=approve&amp;id=".$player_id."]here[/url].";
-                $subject = "New account";
-
-                require_once("code/public/code_mail.php");
-
-                $mail = new code_mail();
-                $mail->mail_send($from, $from, $body, $subject);
-            }
-
         } else {
             $player_id = 0;
         }

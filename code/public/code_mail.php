@@ -40,7 +40,7 @@ class code_mail extends code_common {
 
         $compose_query = $this->db->AutoExecute('mail', $mail_insert, 'INSERT');
         if ($this->db->ErrorMsg()) {
-            $this->error_page($this->skin->lang_error->db_query_failed);
+            $this->error_page($this->lang->db_query_failed);
         }
         return $this->db->Insert_Id();
     }
@@ -161,12 +161,12 @@ class code_mail extends code_common {
         $to = new code_player;
 
         if (!$to->get_player($_POST['mail_to'])) {
-            $compose_submit = $this->compose($this->skin->error_box($this->skin->lang_error->player_not_found));
+            $compose_submit = $this->compose($this->skin->error_box($this->lang->player_not_found));
             return $compose_submit;
         }
 
         if (!$_POST['mail_body'] || !$_POST['mail_subject']) {
-            $compose_submit = $this->compose($this->skin->error_box($this->skin->lang_error->fill_in_fields));
+            $compose_submit = $this->compose($this->skin->error_box($this->lang->fill_in_fields));
             return $compose_submit;
         }
 
@@ -174,7 +174,7 @@ class code_mail extends code_common {
 
         if ($mail_check = $mail_check_query->fetchrow()) {
             if ((time() - $mail_check['time']) < 120) {
-                $compose_submit = $this->compose($this->skin->error_box($this->skin->lang_error->mail_send_too_soon));
+                $compose_submit = $this->compose($this->skin->error_box($this->lang->mail_send_too_soon));
                 return $compose_submit;
             }
         }
@@ -182,7 +182,7 @@ class code_mail extends code_common {
 
         $this->mail_send($to->id, $this->player->id, $_POST['mail_body'], $_POST['mail_subject']);
 
-        $compose_submit = $this->mail_inbox($this->skin->lang_error->mail_sent);
+        $compose_submit = $this->mail_inbox($this->lang->mail_sent);
         
         return $compose_submit;
 
@@ -215,7 +215,7 @@ class code_mail extends code_common {
         $mail_ids = "(".substr($mail_ids, 0, strlen($mail_ids)-2).")";
 
         $this->db->execute('DELETE FROM mail WHERE id IN '.$mail_ids.' AND `to`=?', array(intval($this->player->id))); // eh, this is sloppy.
-        $delete_multiple_confirm = $this->mail_inbox($this->skin->lang_error->messages_deleted);
+        $delete_multiple_confirm = $this->mail_inbox($this->lang->messages_deleted);
         return $delete_multiple_confirm;
     }
     
@@ -268,7 +268,7 @@ class code_mail extends code_common {
 
         if($read) $marked = "marked_as_read";
         else $marked = "marked_as_unread";
-        $mark_as_multiple = $this->mail_inbox($this->skin->lang_error->$marked);
+        $mark_as_multiple = $this->mail_inbox($this->lang->$marked);
         
         return $mark_as_multiple;
     }
@@ -281,7 +281,7 @@ class code_mail extends code_common {
     protected function multiple() {
 
         if(empty($_POST['mail_id'])) {
-            $multiple = $this->mail_inbox( $this->skin->lang_error->no_messages_selected );
+            $multiple = $this->mail_inbox( $this->lang->no_messages_selected );
             return $multiple;
         }
 

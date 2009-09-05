@@ -64,18 +64,18 @@ class code_blueprints extends _code_admin {
         $blueprints_query = $this->db->execute("SELECT * FROM `blueprints` ORDER BY `name` ASC");
 
         if (!$blueprints_query->RecordCount()) {
-            $list_blueprints = $this->skin->blueprint_row(array(), $this->skin->lang_error->add, "add", $this->skin->remove_button(), $this->skin->type_list(0), $message.$this->skin->error_box($this->skin->lang_error->no_blueprints));
+            $list_blueprints = $this->skin->blueprint_row(array(), $this->lang->add, "add", $this->skin->remove_button(), $this->skin->type_list(0), $message.$this->skin->error_box($this->lang->no_blueprints));
             return $list_blueprints;
         }
 
         while ($blueprint = $blueprints_query->fetchrow()) {
             if ($blueprint->type == 1) {
-                $blueprints_offense .= $this->skin->blueprint_row($blueprint, $this->skin->lang_error->modify, "modify", $this->skin->remove_button(), $this->skin->type_list($blueprint['type']));
+                $blueprints_offense .= $this->skin->blueprint_row($blueprint, $this->lang->modify, "modify", $this->skin->remove_button(), $this->skin->type_list($blueprint['type']));
             } else {
-                $blueprints_defense .= $this->skin->blueprint_row($blueprint, $this->skin->lang_error->modify, "modify", $this->skin->remove_button(), $this->skin->type_list($blueprint['type']));
+                $blueprints_defense .= $this->skin->blueprint_row($blueprint, $this->lang->modify, "modify", $this->skin->remove_button(), $this->skin->type_list($blueprint['type']));
             }
         }
-        $add_form = $this->skin->blueprint_row($blueprint_temp, $this->skin->lang_error->add, "add", "", $this->skin->type_list(0), $message);
+        $add_form = $this->skin->blueprint_row($blueprint_temp, $this->lang->add, "add", "", $this->skin->type_list(0), $message);
         $list_blueprints = $this->skin->blueprints_wrap($blueprints_offense, $blueprints_defense, $add_form);
         return $list_blueprints;
     }
@@ -93,19 +93,19 @@ class code_blueprints extends _code_admin {
         $type = intval($_POST['blueprint_type']);
 
         if ($name == "") {
-            $add = $this->list_blueprints($this->skin->error_box($this->skin->lang_error->no_blueprint_name));
+            $add = $this->list_blueprints($this->skin->error_box($this->lang->no_blueprint_name));
             return $add;
         }
         
         if ($description == "") {
-            $add = $this->list_blueprints($this->skin->error_box($this->skin->lang_error->no_blueprint_description));
+            $add = $this->list_blueprints($this->skin->error_box($this->lang->no_blueprint_description));
             return $add;
         }
 
 
 
         $this->make_blueprint($name, $description, $effectiveness, $price, $type);
-        $add = $this->list_blueprints($this->skin->success_box($this->skin->lang_error->blueprint_added));
+        $add = $this->list_blueprints($this->skin->success_box($this->lang->blueprint_added));
         return $add;
     }
 
@@ -153,23 +153,23 @@ class code_blueprints extends _code_admin {
         }
         
         if (!$_POST['blueprint_id']) {
-            $modify = $this->list_blueprints($this->skin->lang_error->no_blueprint_selected);
+            $modify = $this->list_blueprints($this->lang->no_blueprint_selected);
             return $modify;
         }
         
         if ($blueprint_update['name'] == "") {
-            $modify = $this->list_blueprints($this->skin->error_box($this->skin->lang_error->no_blueprint_name));
+            $modify = $this->list_blueprints($this->skin->error_box($this->lang->no_blueprint_name));
             return $modify;
         }
         
         if ($blueprint_update['description'] == "") {
-            $modify = $this->list_blueprints($this->skin->error_box($this->skin->lang_error->no_blueprint_description));
+            $modify = $this->list_blueprints($this->skin->error_box($this->lang->no_blueprint_description));
             return $modify;
         }
 
         $this->db->AutoExecute("blueprints", $blueprint_update, "UPDATE", "`id`=".intval($_POST['blueprint_id']));
 
-        $modify = $this->list_blueprints($this->skin->success_box($this->skin->lang_error->blueprint_modify));
+        $modify = $this->list_blueprints($this->skin->success_box($this->lang->blueprint_modify));
         return $modify;
     }
 
@@ -180,13 +180,13 @@ class code_blueprints extends _code_admin {
     */
     protected function remove() {
         if (!$_POST['blueprint_id']) {
-            $remove = $this->list_blueprints($this->skin->lang_error->no_blueprint_selected);
+            $remove = $this->list_blueprints($this->lang->no_blueprint_selected);
             return $remove;
         }
 
         $blueprint_query = $this->db->execute("SELECT `id`, `name` FROM `blueprints` WHERE `id`=? LIMIT 0,1", array(intval($_POST['blueprint_id'])));
         if (!$blueprint_query->RecordCount()) {
-            $remove = $this->list_blueprints($this->skin->lang_error->no_blueprint_selected);
+            $remove = $this->list_blueprints($this->lang->no_blueprint_selected);
             return $remove;
         }
         
@@ -209,9 +209,9 @@ class code_blueprints extends _code_admin {
         $remove_query = $this->db->execute('DELETE FROM `blueprints` WHERE `id`=?', array(intval($_POST['blueprint_id'])));
         
         if ($this->db->Affected_Rows()) {
-            $message = $this->skin->success_box($this->skin->lang_error->blueprint_removed);
+            $message = $this->skin->success_box($this->lang->blueprint_removed);
         } else {
-            $message = $this->skin->error_box($this->skin->lang_error->blueprint_remove_failed);
+            $message = $this->skin->error_box($this->lang->blueprint_remove_failed);
         }
         $remove_confirm = $this->list_blueprints($message);
         return $remove_confirm;

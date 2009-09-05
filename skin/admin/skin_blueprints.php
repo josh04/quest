@@ -64,7 +64,7 @@ class skin_blueprints extends _skin_admin {
     * @return string html
     */
     public function remove_button() {
-        $remove_button = "<td><input type='submit' name='blueprint_submit' value='".$this->lang_error->remove."' /></td>";
+        $remove_button = "<td><input type='submit' name='blueprint_submit' value='".$this->lang->remove."' /></td>";
         return $remove_button;
     }
 

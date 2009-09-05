@@ -17,7 +17,7 @@ class skin_quest extends _skin_admin {
         $ticket_row = "
                 <tr><td>".$quest['id']."</td><td>".$quest['author']."</td><td>".$quest['title']."</td>
                 <td>".$quest['description_short']."</td>
-                <td><a onclick='return confirm(\"".$this->lang_error->confirm_delete_quest."\");' href='index.php?section=admin&page=quest&delete=".$quest['id']."'><img src='images/icons/delete.png' alt='Delete quest' /></a></td></tr>";
+                <td><a onclick='return confirm(\"".$this->lang->confirm_delete_quest."\");' href='index.php?section=admin&page=quest&delete=".$quest['id']."'><img src='images/icons/delete.png' alt='Delete quest' /></a></td></tr>";
         return $ticket_row;
     }
 
@@ -50,7 +50,7 @@ class skin_quest extends _skin_admin {
         <input type='hidden' name='section' value='admin' /><input type='hidden' name='page' value='quest' />
         <input type='text' name='code' style='width:70%;' value='".$code."' /><input type='submit' value='Update' /></p></form>
 
-        <div class='error'>".$this->lang_error->quest_install_warning."</div>";
+        <div class='error'>".$this->lang->quest_install_warning."</div>";
         return $quest_wrap;
     }
 

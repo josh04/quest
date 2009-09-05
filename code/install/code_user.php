@@ -63,39 +63,43 @@ class code_user extends _code_install {
 
         $username = htmlentities($_POST['username'],ENT_QUOTES,'UTF-8');
         $email = htmlentities($_POST['email'],ENT_QUOTES,'UTF-8');
+        $username_query = $this->db->execute("SELECT * FROM `players` WHERE `username`=?", array($username)); //upgrade
 
         if ($username == "") {
-            $register_submit = $this->user_add_form($this->skin->lang_error->no_database_username);
+            $register_submit = $this->user_add_form($this->lang->no_database_username);
             return $register_submit;
         } else if (strlen($_POST['username']) < 3) {
-            $register_submit = $this->user_add_form($this->skin->lang_error->username_not_long_enough);
+            $register_submit = $this->user_add_form($this->lang->username_not_long_enough);
             return $register_submit;
         } else if (!preg_match("/^[-_a-zA-Z0-9]+$/", $_POST['username'])) {
-            $register_submit = $this->user_add_form($this->skin->lang_error->username_banned_characters);
+            $register_submit = $this->user_add_form($this->lang->username_banned_characters);
+            return $register_submit;
+        } else if ($username_query->numrows() > 0) {
+            $register_submit = $this->user_add_form($this->lang->username_conflict);
             return $register_submit;
         }
 
 
         if (!$_POST['password']) {
-            $register_submit = $this->user_add_form($this->skin->lang_error->no_password);
+            $register_submit = $this->user_add_form($this->lang->no_password);
             return $register_submit;
         } else if ($_POST['password'] != $_POST['password_confirm']) {
-            $register_submit = $this->user_add_form($this->skin->lang_error->passwords_do_not_match);
+            $register_submit = $this->user_add_form($this->lang->passwords_do_not_match);
             return $register_submit;
         } else if (strlen($_POST['password']) < 3) {
-            $register_submit = $this->user_add_form($this->skin->lang_error->password_not_long_enough);
+            $register_submit = $this->user_add_form($this->lang->password_not_long_enough);
             return $register_submit;
         }
 
         //Check email
         if (!$_POST['email']) {
-            $register_submit = $this->user_add_form($this->skin->lang_error->no_email);
+            $register_submit = $this->user_add_form($this->lang->no_email);
             return $register_submit;
         } else if ($_POST['email'] != $_POST['email_confirm']) {
-            $register_submit = $this->user_add_form($this->skin->lang_error->emails_do_not_match);
+            $register_submit = $this->user_add_form($this->lang->emails_do_not_match);
             return $register_submit;
         } else if (!preg_match("/^[-!#$%&\'*+\\.\/0-9=?A-Z^_`{|}~]+@([-0-9A-Z]+\.)+([0-9A-Z]){2,4}$/i", $_POST['email'])) {
-            $register_submit = $this->user_add_form($this->skin->error_box($this->skin->lang_error->email_wrong_format));
+            $register_submit = $this->user_add_form($this->skin->error_box($this->lang->email_wrong_format));
             return $register_submit;
         }
 
@@ -113,7 +117,7 @@ class code_user extends _code_install {
 
         $player_insert_query = $this->db->AutoExecute('players', $player_insert, 'INSERT');
         if (!$player_insert_query) {
-            $insert_user = $this->user_add_form($this->skin->lang_error->error_registering.$this->db->ErrorMsg());
+            $insert_user = $this->user_add_form($this->lang->error_registering.$this->db->ErrorMsg());
             return $insert_user;
         }
 

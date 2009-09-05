@@ -166,7 +166,7 @@ class code_common {
         //Is our player a member, or a guest?
         $allowed = $this->player->make_player();
         if (!$allowed) {
-            $this->error_page($this->skin->lang_error->page_not_exist);
+            $this->error_page($this->lang->page_not_exist);
         }
     }
 
@@ -199,7 +199,7 @@ class code_common {
             if (!$this->skin) {
                 $this->make_skin();
             }
-            $this->error_page($this->skin->lang_error->failed_to_connect);
+            $this->error_page($this->lang->failed_to_connect);
         }
     }
 
@@ -213,7 +213,6 @@ class code_common {
     * @param string $skin_name skin name
     */
     public function make_skin($skin_name = "") {
-        require_once("skin/lang/en/lang_error.php"); // (TODO) language string abstraction
         if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) {
             require_once("skin/".$this->section."/_skin_".$this->section.".php");
         }
@@ -235,7 +234,30 @@ class code_common {
             $this->skin = new skin_common;
         }
 
-        $this->skin->lang_error = new lang_error;
+        $this->skin->lang =& $this->lang;
+    }
+
+   /**
+    * Gets our language string constants
+    */
+    public function make_default_lang() {
+        require_once("skin/lang/en/lang_error.php"); // (TODO) language string abstraction
+        $this->lang = new lang_error;
+    }
+
+   /**
+    * Gets any customisation
+    *
+    * (TODO) Player language choice?
+    */
+    public function make_extra_lang() {
+        $lang_query = $this->db->execute("SELECT * FROM `lang`");
+        while ($lang = $lang_query->fetchrow()) {
+            $name = $lang['name'];
+            if (isset($this->lang->$name)) {
+                $this->lang->$name = $lang['override'];
+            }
+        }
     }
 
    /**
@@ -272,7 +294,9 @@ class code_common {
     * @param string $skin_name name of skin file to load - if left blank, loads skin_common (not recommended)
     */
     public function initiate($skin_name = "") {
+        $this->make_default_lang();
         $this->make_db();
+        $this->make_extra_lang();
         $this->make_settings();
         $this->cron();
         $this->make_player();
@@ -311,7 +335,7 @@ class code_common {
      * @return string html
      */
     public function bbparse($code, $full=false) {
-        $code = htmlentities($code, ENT_QUOTES, 'utf-8');
+        $code = htmlentities($code, ENT_QUOTES, 'utf-8', false); //things should be htmlentitised _before_ they go into the DB - you shouldn't do it twice
         if ($full) {
             $code = nl2br($code);
         }

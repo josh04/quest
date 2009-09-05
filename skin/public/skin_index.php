@@ -26,8 +26,8 @@ class skin_index extends skin_common {
             <table><tr><td style=\"width:50%;padding:8px;\">
             <strong>Level:</strong> ".$player->level."<br />
             <strong>XP:</strong> ".$player->exp." (".($player->exp_max-$player->exp)." to next level)<br />
-            <strong>HP:</strong> ".$player->hp." (".($player->hp/$player->hp_max)."%)<br />
-            <strong>Energy:</strong> ".$player->energy." (".($player->energy/$player->energy_max)."%)<br />
+            <strong>HP:</strong> ".$player->hp." (".$player->hp_percent."%)<br />
+            <strong>Energy:</strong> ".$player->energy."/".$player->energy_max."<br />
             <strong>Registered:</strong> ".$player->registered_date."<br />
             <strong>Last active:</strong> ".date("jS M, h:i A",$player->last_active)."
             </td><td style=\"width:50%;\">
@@ -179,6 +179,17 @@ class skin_index extends skin_common {
     }
 
    /**
+    * Not what?
+    *
+    * @return string html
+    */
+    public function player_not_approved() {
+        $player_not_approved = "<div class='success'><p>The site's administrators have opted to approve all new accounts.</p>
+                                <p>Yours has not been approved yet.</p></div>";
+        return $player_not_approved;
+    }
+
+   /**
     * Player details menu
     *
     * @param code_player $player Player object
@@ -190,7 +201,7 @@ class skin_index extends skin_common {
                     <strong>Username:</strong> <a href='index.php?page=profile&amp;id=".$player->id."'>".$player->username."</a>
                     <ul>
                        <li><strong>Level:</strong> ".$player_extra['level']."</li>
-                       <li><strong>EXP:</strong> ".$player_extra['exp']."/".$player_extra['exp_max']." (".$player_extra['exp_percent']."%)</li>
+                       <li><strong>EXP:</strong> ".$player_extra['exp']." (".$player_extra['exp_diff']." to go)</li>
                        <li><strong>Health:</strong> ".$player_extra['hp']."/".$player_extra['hp_max']."</li>
                        <li><strong>Energy:</strong> ".$player_extra['energy']."/".$player_extra['energy_max']."</li>
                        <li><strong>Money:</strong> &#163;".$player->gold."</li>

@@ -6,20 +6,7 @@
  * @author josh04
  * @package code_public
  */
-class code_ticket extends code_common {
-
-   /**
-    * class override. calls parents, sends kids home.
-    *
-    * @return string html
-    */
-    public function construct() {
-        $this->initiate("skin_ticket");
-
-        $code_ticket = $this->ticket_switch();
-
-        parent::construct($code_ticket);
-    }
+class ticket_mod extends code_ticket {
 
    /**
     * post, or just view?
@@ -33,7 +20,7 @@ class code_ticket extends code_common {
         }
 
         $ticket_switch = $this->ticket_list();
-        return $ticket_switch;
+        return "This page modded".$ticket_switch;
     }
 
    /**

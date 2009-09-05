@@ -61,31 +61,31 @@ class code_database extends _code_install {
     */
     public function setup_database() {
         if (!$_POST['db_username']) {
-            $message = $this->skin->error_box($this->skin->lang_error->no_database_username);
+            $message = $this->skin->error_box($this->lang->no_database_username);
             $setup_database = $this->setup_database_form($message);
             return $setup_database;
         }
 
         if (!$_POST['db_name']) {
-            $message = $this->skin->error_box($this->skin->lang_error->no_database_name);
+            $message = $this->skin->error_box($this->lang->no_database_name);
             $setup_database = $this->setup_database_form($message);
             return $setup_database;
         }
 
         if (!$_POST['db_server']) {
-            $message = $this->skin->error_box($this->skin->lang_error->no_database_server);
+            $message = $this->skin->error_box($this->lang->no_database_server);
             $setup_database = $this->setup_database_form($message);
             return $setup_database;
         }
 
         if (!$_POST['db_password'] || !$_POST['db_password_confirm']) {
-            $message = $this->skin->error_box($this->skin->lang_error->no_password);
+            $message = $this->skin->error_box($this->lang->no_password);
             $setup_database = $this->setup_database_form($message);
             return $setup_database;
         }
 
         if ($_POST['db_password'] != $_POST['db_password_confirm']) {
-            $message = $this->skin->error_box($this->skin->lang_error->passwords_do_not_match);
+            $message = $this->skin->error_box($this->lang->passwords_do_not_match);
             $setup_database = $this->setup_database_form($message);
             return $setup_database;
         }
@@ -102,7 +102,7 @@ class code_database extends _code_install {
             $setup_database = $this->success();
             return $setup_database;
         } else {
-            $message = $this->skin->error_box($this->skin->lang_error->failed_to_connect);
+            $message = $this->skin->error_box($this->lang->failed_to_connect);
             $setup_database = $this->setup_database_form($message);
             return $setup_database;
         }
@@ -141,7 +141,7 @@ class code_database extends _code_install {
             $success = $this->setup_database_complete();
             return $success;
         } else {
-            $message = $this->skin->lang_error->database_create_error;
+            $message = $this->lang->database_create_error;
             $success = $this->setup_database_page($message." ".$this->db->ErrorMsg());
             return $success;
         }

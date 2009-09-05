@@ -69,7 +69,7 @@ class code_menu extends code_common {
 
         $menu_query = $this->db->execute("SELECT * FROM `menu` WHERE `enabled`=1 AND `guest`=? ORDER BY `order` ASC", array($is_guest));
         if ($menu_query->RecordCount() == 0) {
-            return $this->skin->error_page($this->skin->lang_error->no_menu_entries);
+            return $this->skin->error_page($this->lang->no_menu_entries);
         }
         while ($menu_entry = $menu_query->fetchrow()) {
             $menu_entries[$menu_entry['category']] .= $this->make_menu_entry($menu_entry);

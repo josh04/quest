@@ -46,7 +46,6 @@ class lang_error {
     public $please_enter_password = "Please enter your password.";
     public $please_enter_username = "Please enter a username.";
     public $registration_disabled = "Registration is currently disabled.";
-    public $player_not_approved = "The site's administrators have opted to approve all new accounts.<br /><br />Yours has not been approved yet.";
 
     // register
     public $username_not_long_enough = "Your username must be longer than 3 characters.";
@@ -192,5 +191,13 @@ class lang_error {
 
     // help
     public $help_not_found = "The help topic could not be found.";
+
+    // message overrides
+    public $override_deleted = "The message has been restored to it's original content.";
+    public $no_such_override = "Message id not found.";
+
+    // pages
+    public $no_page_selected = "You did not select a page.";
+    public $mod_updated = "The mod for that page has been updated.";
 }
 ?>

@@ -91,12 +91,12 @@ class code_bank extends code_common {
         $bank_query = $this->db->execute("SELECT * FROM `bank` WHERE `player_id`=?", array($this->player->id));
 
         if (!$account = $bank_query->fetchrow()) {
-            $deposit = $this->make_bank($this->skin->error_box($this->skin->lang_error->not_enough_cash_to_deposit));
+            $deposit = $this->make_bank($this->skin->error_box($this->lang->not_enough_cash_to_deposit));
             return $deposit;
         }
 
         if (abs(intval($_POST['amount'])) > $this->player->gold) {
-            $deposit = $this->make_bank($this->skin->error_box($this->skin->lang_error->not_enough_cash_to_deposit));
+            $deposit = $this->make_bank($this->skin->error_box($this->lang->not_enough_cash_to_deposit));
             return $deposit;
         }
 
@@ -123,12 +123,12 @@ class code_bank extends code_common {
         $bank_query = $this->db->execute("SELECT * FROM `bank` WHERE `player_id`=?", array($this->player->id));
 
         if (!$account = $bank_query->fetchrow()) {
-            $withdraw = $this->make_bank($this->skin->error_box($this->skin->lang_error->not_enough_cash_to_withdraw));
+            $withdraw = $this->make_bank($this->skin->error_box($this->lang->not_enough_cash_to_withdraw));
             return $withdraw;
         }
 
         if (abs(intval($_POST['amount'])) > $account['bank_gold_saved']) {
-            $withdraw = $this->make_bank($this->skin->error_box($this->skin->lang_error->not_enough_cash_to_withdraw));
+            $withdraw = $this->make_bank($this->skin->error_box($this->lang->not_enough_cash_to_withdraw));
             return $withdraw;
         }
 
@@ -156,12 +156,12 @@ class code_bank extends code_common {
         $bank_query = $this->db->execute("SELECT * FROM `bank` WHERE `player_id`=?", array($this->player->id));
 
         if (!$account = $bank_query->fetchrow()) {
-            $interest = $this->make_bank($this->skin->error_box($this->skin->lang_error->collect_interest_tomorrow));
+            $interest = $this->make_bank($this->skin->error_box($this->lang->collect_interest_tomorrow));
             return $interest;
         }
 
         if (!$account['interest_owed']) {
-            $interest = $this->make_bank($this->skin->error_box($this->skin->lang_error->collect_interest_tomorrow));
+            $interest = $this->make_bank($this->skin->error_box($this->lang->collect_interest_tomorrow));
             return $interest;
         }
 

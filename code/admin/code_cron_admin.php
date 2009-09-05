@@ -75,14 +75,14 @@ class code_cron_admin extends code_common {
     */
     public function cron_edit($message="") {
         if (!$_GET['id']) {
-            $cron_edit = $this->cron_page($this->skin->error_box($this->skin->lang_error->no_cron_selected));
+            $cron_edit = $this->cron_page($this->skin->error_box($this->lang->no_cron_selected));
             return $cron_edit;
         }
 
         $cron_query = $this->db->execute("SELECT * FROM `cron` WHERE `id`=?", array(intval($_GET['id'])));
 
         if (!$cron = $cron_query->fetchrow()) {
-            $cron_edit = $this->cron_page($this->skin->error_box($this->skin->lang_error->no_cron_selected));
+            $cron_edit = $this->cron_page($this->skin->error_box($this->lang->no_cron_selected));
             return $cron_edit;
         }
 
@@ -107,7 +107,7 @@ class code_cron_admin extends code_common {
     */
     public function cron_edit_submit() {
         if (!$_POST['cron-edit-id']) {
-            $cron_edit_submit = $this->cron_edit($this->skin->error_box($this->skin->lang_error->no_cron_selected));
+            $cron_edit_submit = $this->cron_edit($this->skin->error_box($this->lang->no_cron_selected));
             return $cron_edit_submit;
         }
 
@@ -131,7 +131,7 @@ class code_cron_admin extends code_common {
 
         $this->db->AutoExecute("cron", $cron_update_query, "UPDATE", "`id`=".intval($_POST['cron-edit-id']));
 
-        $cron_edit_submit = $this->cron_page($this->skin->success_box($this->skin->lang_error->cron_updated));
+        $cron_edit_submit = $this->cron_page($this->skin->success_box($this->lang->cron_updated));
         return $cron_edit_submit;
     }
 

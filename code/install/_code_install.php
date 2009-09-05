@@ -66,6 +66,7 @@ class _code_install extends code_common {
         `skin` int(3) NOT NULL default '2',
         `login_rand` varchar(255) NOT NULL default '',
         `login_salt` varchar(255) NOT NULL default '',
+        `verified` tinyint(1) NOT NULL default 0,
         PRIMARY KEY  (`id`),
         KEY `rank` (`rank`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
@@ -141,6 +142,7 @@ class _code_install extends code_common {
           `name` varchar(255) NOT NULL,
           `section` varchar(255) NOT NULL default 'public',
           `redirect` varchar(255) NOT NULL,
+          `mod` varchar(255) NOT NULL,
           PRIMARY KEY  (`id`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
 
@@ -173,7 +175,8 @@ class _code_install extends code_common {
         (25, 'menu_admin', 'admin', 'menu'),
         (26, 'edit_profile', 'admin', 'profile_edit'),
         (27, 'messages', 'admin', 'messages'),
-        (29, 'cron_admin', 'admin', 'cron') ;";
+        (29, 'cron_admin', 'admin', 'cron'),
+        (30, 'pages', 'admin', 'pages') ;";
 
     public $settings_query = "CREATE TABLE IF NOT EXISTS `settings` (
         `name` varchar(125) NOT NULL,
@@ -215,16 +218,10 @@ ALTER TABLE `user_log` ADD COLUMN `status2` tinyint(1) NOT NULL;
 ALTER TABLE `players` ADD COLUMN `show_email` tinyint(3) NOT NULL default '0';
 ALTER TABLE `players` ADD COLUMN `password2` text NOT NULL;
 
-
-ALTER TABLE `players` ADD COLUMN `avatar` varchar(255) NOT NULL default 'images/avatar.png';
 ALTER TABLE `players` ADD COLUMN `skin` int(3) NOT NULL default '2';
-ALTER TABLE `players` ADD COLUMN `gender` tinyint(1) NOT NULL default '0';
-ALTER TABLE `players` ADD COLUMN `msn` varchar(65) NOT NULL default '';
-ALTER TABLE `players` ADD COLUMN `aim` varchar(65) NOT NULL default '';
-ALTER TABLE `players` ADD COLUMN `skype` varchar(65) NOT NULL default '';
 ALTER TABLE `players` ADD COLUMN `login_rand` varchar(255) NOT NULL default '';
 ALTER TABLE `players` ADD COLUMN `login_salt` varchar(255) NOT NULL default '';
-ALTER TABLE `players` ADD COLUMN `description` text NOT NULL default '';
+ALTER TABLE `players` ADD COLUMN `verified` text NOT NULL default '';
 UPDATE `blueprint_items` set `type2`='weapon' WHERE `type`='weapon';
 UPDATE `blueprint_items` set `type2`='armour' WHERE `type`='armour';
 UPDATE `items` set `status2`='1' WHERE `status`='equipped';
@@ -299,7 +296,8 @@ INSERT INTO `menu` (`id`, `label`, `category`, `section`, `page`, `extra`, `enab
 (18, 'Player Stats', 'Guests', 'public', 'ranks', '', 1, 6, 1, 1),
 (19, 'Help', 'Guests', 'public', 'guesthelp', '', 1, 7, 0, 1),
 (23, 'Quests', 'Game Menu', 'public', 'quest', '', 1, 2, 0, 0),
-(24, 'Cron Editor', 'Admin', 'admin', 'cron', '', 1, 7, 0, 0);
+(24, 'Cron Editor', 'Admin', 'admin', 'cron', '', 1, 7, 0, 0),
+(25, 'Mod Loader', 'Admin', 'admin', 'pages', '', 1, 8, 0, 0);
         ";
 
     public $friends_query = "CREATE TABLE IF NOT EXISTS `friends` (
@@ -381,8 +379,19 @@ CREATE TABLE IF NOT EXISTS `rpg` (
         $this->db->execute($this->bank_query);
         $this->db->execute($this->profile_query);
         $this->db->execute($this->rpg_query);
+        $player_query = $this->db->execute("SELECT * FROM `players`");
 
+        while ($player = $player_query->fetchrow()) {
+            $player['player_id'] = $player['id'];
+            $player['hp_max'] = $player['maxhp'];
+            $player['energy_max'] = $player['maxenergy'];
+            $player['exp_max'] = $player['maxexp'];
+            $this->db->AutoExecute('profiles', $player, 'INSERT'); // so so cheap and dirty
+            $this->db->AutoExecute('rpg', $player, 'INSERT');
+        }
         $this->db->execute($this->update_tables_query);
+
+
     }
 
    /**
@@ -406,6 +415,7 @@ CREATE TABLE IF NOT EXISTS `rpg` (
     * @param string $skin_name name of skin file to load - if left blank, loads skin_common (not recommended)
     */
     public function initiate($skin_name = "") {
+        $this->make_lang();
         $this->make_skin($skin_name);
     }
 
