@@ -176,7 +176,11 @@ class _code_install extends code_common {
         ('ban_multiple_email', '1'),
         ('custom_fields', '{\"description\":\"No description.\",\"gender\":\"0\",\"msn\":\" \",\"aim\":\" \",\"skype\":\" \",\"avatar\":\"images\/avatar.png\"}'),
         ('register_ip_check', '1'),
-        ('database_report_error', '0');";
+        ('database_report_error', '0');
+        ('avatar_url', '1'),
+        ('avatar_gravatar', '1'),
+        ('avatar_upload', '0'),
+        ('avatar_library', '0');";
 
     public $quests_query = "CREATE TABLE IF NOT EXISTS `quests` (
         `id` int(3) NOT NULL auto_increment,
