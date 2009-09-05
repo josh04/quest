@@ -175,7 +175,7 @@ class lang_error {
     public $error_getting_log = "Error retrieving from your log.";
 
     // friends
-    public $cant_self_friend = "You can be friends with yourself.";
+    public $cant_self_friend = "You can't be friends with yourself.";
     public $already_friends = "You are already friends with ";
     public $now_friends = "You are now friends with ";
     public $request_sent = "You have sent a friend request to ";
@@ -188,6 +188,9 @@ class lang_error {
     // cron
     public $no_cron_selected = "You did not select a cron to edit.";
     public $cron_updated = "You have successfully updated the cron timer.";
+
+    // help
+    public $help_not_found = "The help topic could not be found.";
 
     // message overrides
     public $override_deleted = "The message has been restored to it's original content.";

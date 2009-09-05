@@ -129,5 +129,16 @@ class skin_common {
         return $success_box;
     }
 
+   /**
+    * generates a little link to a relevant help topic
+    *
+    * @param string $id the id of the help topic you're pushing for
+    * @return string html
+    */
+    public function popup_help($id) {
+        $popup_help = " <a href='#' class='popup-help-link' onclick='popup_help(${id});return false;'>(?)</a>";
+        return $popup_help;
+    }
+
 }
 ?>
