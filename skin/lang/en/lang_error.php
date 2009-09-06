@@ -98,6 +98,7 @@ class lang_error {
     public $marked_as_unread = "Messages marked as unread";
     public $no_messages_selected = "You did not select any messages";
     public $error_getting_mail = "Error retrieving your mail.";
+    public $mail_preview = "Message preview";
 
     // items
     public $item_not_found = "The selected item does not exist.";

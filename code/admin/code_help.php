@@ -39,6 +39,10 @@ class code_help extends _code_admin {
 
         }
 
+        if($_POST['form-type']=="help-edit-index") {
+            $message = $this->help_index_save();
+        }
+
         $code_help = $this->help($message);
 
         parent::construct($code_help);
@@ -66,6 +70,7 @@ class code_help extends _code_admin {
     */
     public function help_nav_save() {
         foreach($_POST['help_title'] as $id=>$title) {
+           $title = htmlentities($title, ENT_QUOTES, 'utf-8', false);
            $t = $this->db->Execute("UPDATE `help` SET `title`=?, `order`=? WHERE `id`=?",
                array($title, $_POST['help_order'][$id], $id));
            if(!$t) $error = true;
@@ -83,6 +88,8 @@ class code_help extends _code_admin {
     *
     */
     public function help_single_save() {
+        $_POST['title'] = htmlentities($_POST['title'], ENT_QUOTES, 'utf-8', false);
+        $_POST['body'] = htmlentities($_POST['body'], ENT_QUOTES, 'utf-8', false);
         $error = !$this->db->Execute("UPDATE `help` SET `title`=?, `body`=? WHERE `id`=?",
             array($_POST['title'], $_POST['body'], $_POST['id']));
 
@@ -107,6 +114,15 @@ class code_help extends _code_admin {
     }
 
    /**
+    * saves the help settings
+    *
+    */
+    public function help_index_save() {
+        $error = !$this->setting_update('help_format', $_POST['help_format']);
+        return;
+    }
+
+   /**
     * gets skin
     *
     * @return string html
@@ -122,15 +138,27 @@ class code_help extends _code_admin {
         $help_row = $help_query->fetchrow();
         if($help_row['parent']==0) $help_row['parent'] = 1;
 
-        $child_query = $this->db->execute("SELECT * FROM `help` WHERE `parent`=? ORDER BY `order` ASC",array($help_id));
+        $child_query = $this->db->execute("SELECT * FROM `help` WHERE `parent`=? ORDER BY `order` ASC", array($help_id));
         while($child_row = $child_query->fetchrow()) {
-                $help_children .= $this->skin->help_row($child_row);
+            $help_children .= $this->skin->help_row($child_row);
+        }
+
+        if($help_id==1) {
+            $hidden_query = $this->db->execute("SELECT * FROM `help` WHERE `parent`=0 AND NOT `id`=1 ORDER BY `id` ASC");  
+            while($hidden_row = $hidden_query->fetchrow()) {
+                $help_hidden .= $this->skin->help_hidden_row($hidden_row);
+            }
         }
 
         if($child_query->numrows()==0) {
             $help = $this->skin->help_single($help_row, $message);
         } else {
             $help = $this->skin->help_navigation($help_children, $help_row, $message);
+            if($help_id==1) {
+                $selected[($this->settings['help_format'])] = " selected='selected'";
+                $help .= $this->skin->help_hidden_navigation($help_hidden);
+                $help .= $this->skin->help_index($selected);
+            }
         }
 
         return $help;

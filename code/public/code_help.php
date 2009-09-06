@@ -35,6 +35,10 @@ class code_help extends code_common {
         }
         $help_row = $help_query->fetchrow();
 
+        if($this->settings['help_format']=="bbcode") {
+            $help_row['body'] = $this->bbparse($help_row['body'], true);
+        }
+
         $child_query = $this->db->execute("SELECT * FROM `help` WHERE `parent`=? ORDER BY `order` ASC",array($help_id));
         while($child_row = $child_query->fetchrow()) {
                 $help_children .= $this->skin->help_row($child_row);
