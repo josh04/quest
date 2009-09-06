@@ -8,7 +8,7 @@
  */
 class code_login extends code_common {
 
-    public $player_class = "code_player_rpg";
+    public $player_class = "code_player_profile";
 
    /**
     * class override. calls parents, sends kids home.

@@ -8,7 +8,7 @@
  */
 class code_index extends code_common {
     
-    public $player_class = "code_player_rpg";
+    public $player_class = "code_player_profile";
     
 
    /**
@@ -18,21 +18,21 @@ class code_index extends code_common {
     * @return string html
     */
     public function index_player($message = "") {
-        require_once("code/public/code_stats.php");
-        $code_stats = new code_stats($this->section, $this->page);
-        $code_stats->player =& $this->player;
-        $code_stats->make_skin('skin_stats');
-        $stats = $code_stats->stats_table($message);
+        $angst_query = $this->db->execute("SELECT * FROM `angst` ORDER BY `time` DESC");
 
-        $news = "";
-        $news = $this->news();
+        $angst_html = "";
+        while ($angst = $angst_query->fetchrow()) {
+            if ($angst['type']) {
+                $angst_html .= $this->skin->glee($angst);
+            } else {
+                $angst_html .= $this->skin->angst($angst);
+            }
+        }
 
         $online_list = $this->online_list();
-        $quest = $this->quest();
-        $log = $this->log();
         $mail = $this->mail();
-
-        $index_player = $this->skin->index_player($this->player, $stats, $news, $online_list, $quest, $log, $mail);
+        
+        $index_player = $this->skin->index_player($this->player, $angst_html, $online_list, $mail, $message);
         return $index_player;
     }
 
@@ -53,61 +53,6 @@ class code_index extends code_common {
     }
 
    /**
-    * builds the site news
-    *
-    * @return string html
-    */
-    public function news() {
-        $news_query = $this->db->execute("SELECT n.*, p.username FROM news AS n
-                                    LEFT JOIN players AS p ON n.player_id=p.id
-                                    ORDER BY n.date DESC");
-        $news = ($news_query) ? "" : "Error retrieving news.";
-
-        while($news_entry = $news_query->fetchrow()) {
-            $news .= $this->skin->news_entry($news_entry['id'], $news_entry['username'], $news_entry['message']);
-        }
-
-        return $news;
-    }
-
-   /**
-    * current quest
-    *
-    * @return string html
-    */
-    public function quest() {
-        preg_match("/\A([0-9]+):([0-9a-z]+)/is",$this->player->quest,$m);
-        if(!$m[1]) return '';
-        $currentq = $this->db->execute("SELECT * FROM `quests` WHERE `id`=?",array($m[1]));
-        if($currentq->numrows()!=1) return '';
-        $quest = $this->skin->current_quest($currentq->fetchrow());
-        return $quest;
-    }
-
-   /**
-    * recent stuff from your log
-    *
-    * @return string html
-    */
-    public function log() {
-        $log_query = $this->db->execute("SELECT `message`, `status` FROM `user_log` WHERE `player_id`=? ORDER BY `time` DESC LIMIT 5",array($this->player->id));
-
-        if (!$log_query) {
-            $log = $this->skin->log_entry($this->lang->error_getting_log, 0);
-        }
-        
-        if ($log_query->numrows() == 0) {
-            $log = $this->skin->log_entry($this->lang->no_laptop_message, 0);
-        }
-
-        while($log_entry = $log_query->fetchrow()) {
-            $log .= $this->skin->log_entry($log_entry['message'], $log_entry['status']);
-        }
-
-        return $log;
-    }
-
-   /**
     * recent mail messages
     *
     * @return string html
@@ -123,7 +68,7 @@ class code_index extends code_common {
         }
 
         if ($mail_query->numrows()==0) {
-            $mail = $this->skin->log_entry($this->lang->no_laptop_message, 0);
+            $mail = $this->skin->log_entry($this->lang->no_mail, 0);
         }
 
         while($mail_row = $mail_query->fetchrow()) {
@@ -148,62 +93,73 @@ class code_index extends code_common {
     }
 
    /**
+    * add the moods to the db
+    *
+    * @return string html
+    */
+    public function angst() {
+        $angst = htmlentities($_POST['angst'], ENT_QUOTES, 'utf-8');
+
+        if (strlen($angst) < 3) {
+            $code_index = $this->index_player($this->skin->error_box($this->lang->angst_too_short));
+            return $code_index;
+        }
+
+        switch($_POST['submit']) {
+            case 'Glee':
+                $type = 1;
+                break;
+            case 'Angst':
+            default:
+                $type = 0;
+        }
+
+        $angst_insert['angst'] = $angst;
+        $angst_insert['type'] = $type;
+        $angst_insert['time'] = time();
+
+        $this->db->AutoExecute('angst', $angst_insert, 'INSERT');
+
+        $code_index = $this->index_player();
+        header("Location: index.php?page=index");
+
+    }
+
+   /**
+    * chooses what to do
+    *
+    * @return string html
+    */
+    public function index_switch() {
+
+        if ($_GET['action'] == "angst") {
+            $code_index = $this->angst();
+            return $code_index;
+        }
+
+        if($this->player->is_member) {
+            $code_index = $this->index_player();
+        } else {
+            $code_index = $this->index_guest("", "");
+        }
+
+        return $code_index;
+    }
+
+   /**
     * class override. calls parents, sends kids home.
     *
     * @return string html
     */
     public function construct() {
         $this->initiate("skin_index");
-        if($this->player->is_member) {
-            $code_index = $this->index_player();
-        } else {
-            $code_index = $this->index_guest("", "");
-        }
+
+        $code_index = $this->index_switch();
+
         
         parent::construct($code_index);
     }
-
-   /**
-    * Static menu extension for the index.
-    *
-    * @param code_menu $menu Menu object
-    * @param string $label Text for the label
-    * @return string html
-    */
-    public static function code_index_menu(&$menu, $label) {
-        if ($menu->player->is_member) {
-            if (get_class($menu->player) != "code_player_rpg") { // because we no longer necessarily have the rpg data
-                $player_query = $menu->db->execute("SELECT * FROM `rpg` WHERE `player_id`=?", array($menu->player->id));
-
-                if (!$player_extra = $player_query->fetchrow()) {
-                    return $label;
-                }
-            } else {
-                $player_extra['hp'] = $menu->player->hp;
-                $player_extra['strength'] = $menu->player->strength;
-                $player_extra['vitality'] = $menu->player->vitality;
-                $player_extra['agility'] = $menu->player->agility;
-
-                $player_extra['hp'] = $menu->player->hp;
-                $player_extra['hp_max'] = $menu->player->hp_max;
-                $player_extra['exp'] = $menu->player->exp;
-                $player_extra['exp_max'] = $menu->player->exp_max;
-                $player_extra['exp_diff'] = $menu->player->exp_max - $menu->player->exp;
-                $player_extra['energy'] = $menu->player->energy;
-                $player_extra['energy_max'] = $menu->player->energy_max;
-
-                $player_extra['kills'] = $menu->player->kills;
-                $player_extra['deaths'] = $menu->player->deaths;
-
-                $player_extra['level'] = $menu->player->level;
-                $player_extra['stat_points'] = $menu->player->stat_points;
-            }
-
-            require_once("skin/public/skin_index.php");
-            $menu->top .= skin_index::player_details_menu($menu->player, $player_extra);
-        }
-        return $label;
-    }
+    
 }
 
 ?>

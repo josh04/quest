@@ -13,42 +13,76 @@ class skin_index extends skin_common {
     * returns the main player-logged-in screen
     *
     * @param player $player player object
-    * @param string $stats stats html
-    * @param string $news news html
-    * @param string $online names of online players
-    * @param string $quest current quest html
+    * @param string $online_list names of online players
+    * @param string $mail any mail?
     * @return string html
     */
-    public function index_player($player, $stats, $news, $online_list, $quest, $log, $mail) {
+    public function index_player($player, $angst, $online_list, $mail, $message = "") {
         $index_player = "
-                <h2>Welcome, ".$player->username."</h2>
-            ".$quest."
-            <table><tr><td style=\"width:50%;padding:8px;\">
-            <strong>Level:</strong> ".$player->level."<br />
-            <strong>XP:</strong> ".$player->exp." (".($player->exp_max-$player->exp)." to next level)<br />
-            <strong>HP:</strong> ".$player->hp." (".$player->hp_percent."%)<br />
-            <strong>Energy:</strong> ".$player->energy."/".$player->energy_max."<br />
-            <strong>Registered:</strong> ".$player->registered_date."<br />
-            <strong>Last active:</strong> ".date("jS M, h:i A",$player->last_active)."
-            </td><td style=\"width:50%;\">
-            ".$stats."
-            </td></tr></table>
+            <div class='index-form-margin'>
+  <b class='wt'>
+  <b class='r1'></b>
+  <b class='r2'></b>
+  <b class='r3'></b>
+  <b class='r4'></b>
+  <b class='r5'></b></b><div class='index-form'>
+                <h2>Got Angst?</h2>
+                <form action='index.php?page=index&amp;action=angst' method='post'>
+                    <table><tbody><tr><td style='width:99%;padding:5px;'>
 
-            <h4>Users online</h4>
-            <div class=\"success\" style=\"margin: 8px;\">".$online_list."</div>
-
-            <div style=\"width:45%;float:left;\">
-            <h4>Your log (<a href=\"?page=laptop\">more</a>)</h4>
-            ".$log."
+<textarea cols='60' rows='1'
+          onkeyup='resizeTextarea(this)'
+          onmouseup='resizeTextarea(this)' id='angst' name='angst'></textarea></td>
+                    <td style='padding:5px;'><input type='submit' value='Angst' name='submit' id='angst-button' /></td>
+<td style='padding:5px;'><input type='submit' name='submit' value='Glee' id='glee-button' /></td></tr></tbody></table>
+                </form>".$message."
+</div>
+  <b class='wb'>
+  <b class='r5'></b>
+  <b class='r4'></b>
+  <b class='r3'></b>
+  <b class='r2'></b>
+  <b class='r1'></b></b>
+            </div>
+            
+            <h3>Welcome, ".$player->username.":</h3>
+            
+            <div style='clear:both'></div>
+            <div style='float:right'>
+                <div class=\"success\">
+                    <h4>Your Profile</h4>
+                        Registered: ".$player->registered_date."<br />
+                        Last active: ".date("jS M, h:i A",$player->last_active)."
+                </div>
+                <div class=\"success\">
+                    <h4>Users online</h4>".$online_list."
+                </div>
+                <div class=\"success\">
+                    <h4>Recent mail (<a href=\"index.php?page=mail\">more</a>)</h4>
+                        ".$mail."
+                </div>
             </div>
 
-            <div style=\"width:45%;float:right;\">
-            <h4>Recent mail (<a href=\"?page=mail\">more</a>)</h4>
-            ".$mail."
-            </div>
-            <br style=\"clear:both;\" />
+<div class='index-margin'>
+  <b class='wt'>
+  <b class='r1'></b>
+  <b class='r2'></b>
+  <b class='r3'></b>
+  <b class='r4'></b>
+  <b class='r5'></b></b>
 
-            ".($news?"<h4>Latest news</h4>".$news:"");
+<div class='index-main'>".$angst."</div>
+
+  <b class='wb'>
+  <b class='r5'></b>
+  <b class='r4'></b>
+  <b class='r3'></b>
+  <b class='r2'></b>
+  <b class='r1'></b></b></div>
+
+            <div style='clear:both'></div>
+            
+            ";
         return $index_player;
     }
 
@@ -187,6 +221,65 @@ class skin_index extends skin_common {
         $player_not_approved = "<div class='success'><p>The site's administrators have opted to approve all new accounts.</p>
                                 <p>Yours has not been approved yet.</p></div>";
         return $player_not_approved;
+    }
+
+   /**
+    * angst!
+    *
+    * @param array $angst moody moody moody
+    * @return string html
+    */
+    public function angst($angst) {
+        $angst = "<div>
+  <b class='rt'>
+  <b class='r1'></b>
+  <b class='r2'></b>
+  <b class='r3'></b>
+  <b class='r4'></b>
+  <b class='r5'></b></b>
+
+<div class='angst'>".$angst['angst']."</div>
+
+  <b class='rb'>
+  <b class='r5'></b>
+  <b class='r4'></b>
+  <b class='r3'></b>
+  <b class='r2'></b>
+  <b class='r1'></b>
+</b></div><div style='text-align:right;margin:0;padding:0;'>".date("jS M, h:i A", $angst['time'])."</div>
+
+";
+        return $angst;
+    }
+
+   /**
+    * glee!
+    *
+    * @param array $angst well, not really
+    * @return string html
+    */
+    public function glee($angst) {
+        $glee = "<div>
+  <b class='gt'>
+  <b class='r1'></b>
+  <b class='r2'></b>
+  <b class='r3'></b>
+  <b class='r4'></b>
+  <b class='r5'></b></b>
+
+<div class='glee'>".$angst['angst']."</div>
+
+
+  <b class='gb'>
+  <b class='r5'></b>
+  <b class='r4'></b>
+  <b class='r3'></b>
+  <b class='r2'></b>
+  <b class='r1'></b>
+</b></div><div style='text-align:right;margin:0;padding:0;'>".date("jS M, h:i A", $angst['time'])."</div>
+
+";
+        return $glee;
     }
 
    /**

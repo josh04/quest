@@ -45,7 +45,7 @@ class skin_menu extends skin_common {
     * @return string html
     */
     public function current_menu_entry($label, $section, $page, $extra) {
-        $current_menu_entry = "<li><a href='index.php?section=".$section."&amp;page=".$page.$extra."' style='font-weight:bold'>".$label."</a></li>";
+        $current_menu_entry = "<li class='menu_current'><a href='index.php?section=".$section."&amp;page=".$page.$extra."'>".$label."</a></li>";
         return $current_menu_entry;
     }
 
@@ -57,7 +57,7 @@ class skin_menu extends skin_common {
     * @return string html
     */
     public function menu_category($category_name, $category_html) {
-        $menu_category = "<div class='left-section'><ul><li class='header'>".$category_name."</li>".$category_html."</div>";
+        $menu_category = "<ul class='menu'>".$category_html."</ul>";
         return $menu_category;
     }
     
@@ -70,7 +70,7 @@ class skin_menu extends skin_common {
     * @return string html
     */
     public function menu_wrap($menu_html, $top, $bottom) {
-        $menu_wrap = "<div id='left'>".$top.$menu_html.$bottom."</div>";
+        $menu_wrap = $top.$menu_html.$bottom;
         return $menu_wrap;
     }
 }

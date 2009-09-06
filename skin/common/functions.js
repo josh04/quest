@@ -42,3 +42,21 @@ function questCountdown() {
 function popup_help(id) {
     window.open('popup_help.php?id='+id, 'popup_help', 'width=400,height=300');
 }
+
+
+function resizeTextarea(t) {
+  if ( !t.initialRows ) t.initialRows = t.rows;
+
+  a = t.value.split('\n');
+  b=0;
+  for (x=0; x < a.length; x++) {
+    if (a[x].length >= t.cols) b+= Math.floor(a[x].length / t.cols);
+  }
+
+  b += a.length;
+  userAgentLowerCase = navigator.userAgent.toLowerCase();
+  if (userAgentLowerCase.indexOf('opera') != -1) b += 2;
+
+  if (b > t.rows || b < t.rows)
+    t.rows = (b < t.initialRows ? t.initialRows : b);
+}
