@@ -57,7 +57,9 @@ class code_stats extends code_common {
         require_once("code/public/code_index.php");
         $code_index = new code_index($this->section, $this->page);
         $code_index->player =& $this->player;
+        $code_index->make_default_lang();
         $code_index->make_skin("skin_index");
+        $code_index->make_extra_lang();
         $index_player = $code_index->index_player($spend);
 
         return $index_player;
