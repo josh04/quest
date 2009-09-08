@@ -541,7 +541,7 @@ class QuestDB {
             $this->CatchError(7, "getInsertSQL");
             return false;
         }
-
+        
         // Loop through all of the fields in the recordset
         foreach( $columns as $field ) { 
             $upperfname = strtoupper($field->name);

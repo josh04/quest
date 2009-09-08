@@ -23,7 +23,7 @@ class skin_profile extends skin_common {
             <h1 style='margin-bottom:8px;'><img src='images/icons/status_".$profile->is_online.".png' style='padding:0px 4px;' alt='' />".$profile->username."</h1>
 
             <span style='font-size:10px;'>Joined ".$profile->registered."</span>
-            <table><tr><td style='width:50%;'><div class='gbox'><h3>Level: ".$profile->level."</h3></div></td><td style='width:50%;'><div class='bbox'><h3>Kill/Death ratio: ".$profile->ratio."</h3></div></td></tr>
+            <table><tr><td style='width:50%;'><div class='glee'><h3>".$profile->glee_count."</h3></div></td><td style='width:50%;'><div class='angst'><h3>".$profile->angst_count."</h3></div></td></tr>
 
             <tr><td rowspan='2'>
             <h3>Stats</h3>
@@ -118,7 +118,7 @@ class skin_profile extends skin_common {
         $edit_profile = "
                             <h2>Edit profile</h2>
                             ".$message."
-                                <a href='#' style='color:transparent;' onClick='showHide(\"showhide-1\",\"showhide-1-icon\");'><div class='edit-profile-header'><img id='showhide-1-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Edit Profile</div></a>
+                                <a href='#' style='color:transparent;' onClick='showHide(\"showhide-1\");'><div class='edit-profile-header'><img id='showhide-1-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Edit Profile</div></a>
                                 <div class='edit-profile-body' id='showhide-1'><form action='index.php?".$section."page=profile_edit&amp;action=update_profile' method='POST'>
                                 <input type='hidden' name='id' value='".$profile->id."' />
                                 <table>

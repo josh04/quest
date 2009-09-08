@@ -6,7 +6,7 @@
  * @author josh04
  * @package code_public
  */
-class code_login extends code_common {
+class code_login extends code_index {
 
     public $player_class = "code_player_profile";
 
@@ -59,14 +59,13 @@ class code_login extends code_common {
     * @return string html
     */
     public function log_in() {
-
         if ($_POST['username'] == "") {
-            $log_in = $this->skin->index_guest($username, $this->lang->please_enter_username, $this->settings['welcometext']);
+            $log_in = $this->index_player($this->skin->error_box($this->lang->please_enter_username));
             return $log_in;
         }
 
         if ($_POST['password'] == "") {
-            $log_in = $this->skin->index_guest($username, $this->lang->please_enter_password, $this->settings['welcometext']);
+            $log_in = $this->index_player($this->skin->error_box($this->lang->please_enter_password));
             return $log_in;
         }
 
@@ -74,7 +73,7 @@ class code_login extends code_common {
         $player_exists = $player->log_in($_POST['username'], $_POST['password']);
 
         if (!$player_exists) {
-            $log_in = $this->skin->index_guest($username, $this->lang->password_wrong, $this->settings['welcometext']);
+            $log_in = $this->index_player($this->skin->error_box($this->lang->password_wrong));
             return $log_in;
         }
 
@@ -97,7 +96,7 @@ class code_login extends code_common {
     public function register() {
 
         if($this->settings['verification_method']==0) {
-            $register_submit = $this->skin->index_guest("", $this->lang->registration_disabled, $this->settings['welcometext']);
+            $register_submit = $this->index_player($this->skin->error_box($this->lang->registration_disabled));
             return $register_submit;
         }
 
@@ -113,7 +112,7 @@ class code_login extends code_common {
     public function register_submit() {
 
         if($this->settings['verification_method']==0) {
-            $register_submit = $this->skin->index_guest("", $this->lang->registration_disabled, $this->settings['welcometext']);
+            $register_submit = $this->index_player($this->skin->error_box($this->lang->registration_disabled));
             return $register_submit;
         }
 
@@ -216,7 +215,7 @@ class code_login extends code_common {
 
         <p>But above all, have fun!</p>";
 
-        $register_submit = $this->skin->index_guest($username, $this->lang->registered, $this->settings['welcometext']);
+        $register_submit = $this->index_player($this->skin->error_box($this->lang->registered));
         return $register_submit;
 
     }

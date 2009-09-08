@@ -114,7 +114,7 @@ class code_common {
             $this->make_skin();
         }
         
-        $output = $this->skin->start_header("Error", "default.css");
+        $output = $this->skin->start_header("Error", $this->settings['name'], "default.css");
 
         $output .= $this->skin->error_page($error);
 

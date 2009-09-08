@@ -23,6 +23,8 @@ class skin_common {
     */
     public $title;
 
+    public $javascript;
+
    /**
     * displays error; needs skinning
     *
@@ -64,6 +66,10 @@ class skin_common {
                     <title>".$title."</title>
                     <meta http-equiv='content-type' content='text/html; charset=utf-8' />
                     <link rel='stylesheet' type='text/css' href='./skin/common/" . $skin . "' />
+                    <script type='text/javascript' language='JavaScript' src='./skin/common/jquery.js'></script>
+<script type='text/javascript' language='JavaScript' src='./skin/common/autoresize.jquery.js'></script>
+<script type='text/javascript' language='JavaScript'>
+".$this->javascript."</script>
                     <script type='text/javascript' language='JavaScript' src='./skin/common/functions.js'></script>
                     </head>
                     <body>

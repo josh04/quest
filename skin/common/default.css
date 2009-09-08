@@ -366,7 +366,7 @@ li.menu_current a:link, li.menu_current a:active, li.menu_current a:visited {
     background:#c3fcff;
 }
 
-div.index-main {
+div#index-main {
     background:#FFf;
     padding:5px;
 }
@@ -382,6 +382,23 @@ textarea#angst {
     padding:0;
     margin:0;
     background: #FFC;
+}
+
+textarea.angst-reply {
+    font-size:1.1em;
+    width:100%;
+    padding:0;
+    margin:0;
+    background: #FFC;
+}
+
+input.angst-reply-button {
+    font-size:1.2em;
+    height:33px;
+    width: 60px;
+    padding:0;
+    margin:0;
+    color:#aa0000;
 }
 
 input#angst-button {
@@ -401,12 +418,35 @@ input#glee-button {
 }
 
 div.glee {
+    background: url('../../images/glee.png') no-repeat;
+    background-position: center right;
     background-color: #ddffdd;
     padding: 8px;
     margin: 0px;
 }
 
+div.glee div p span, div.angst div p span {
+    padding:5px;
+}
+
+div.glee p, div.angst p {
+    padding-left:25px;
+}
+
+div.glee h3, div.angst h3 {
+    font-size: 3em;
+}
+
+p.reply-author {
+    text-align:right;
+    border: solid #dddddd;
+    border-width:0 0 1px 0;
+    padding-bottom:5px;
+}
+
 div.angst {
+    background: url('../../images/angst.png') no-repeat;
+    background-position: center right;
     background-color: #FfCfCf;
     padding: 8px;
     margin: 0px;
@@ -487,4 +527,36 @@ div.index-form-margin {
 .r5 {
   border-style:solid;
   border-width: 0 1px 0 1px;
+}
+
+span.angst-reply-span {
+    font-size:0.8em;
+    color: #000099;
+    float:right;
+    cursor:pointer;
+}
+
+span.angst-id-span {
+    font-size:0.8em;
+    color: #000099;
+    float:left;
+    cursor:pointer;
+}
+
+input#login-username {
+    background:  url('../../images/icons/user.png') no-repeat 2px 2px;
+    background-color: #fff;
+    padding-left:18px;
+    width:90%;
+}
+
+input#login-password {
+    background:  url('../../images/icons/key.png') no-repeat 2px 2px;
+    background-color: #fff;
+    padding-left:18px;
+    width:90%;
+}
+
+.reply-table {
+    padding-top:5px;
 }

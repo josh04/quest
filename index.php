@@ -17,6 +17,7 @@ require_once("code/common/code_common.php");
 require_once("skin/common/skin_common.php");
 require_once("code/common/code_bootstrap.php");
 require_once("code/common/code_database_wrapper.php");
+require_once("code/public/code_index.php");
 include("install.lock");
 
 $bootstrap = new code_bootstrap;

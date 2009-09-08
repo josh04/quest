@@ -58,8 +58,10 @@ class code_player_profile extends code_player {
 
    /**
     * extra db insert stuff
+    *
+    * @param bool $just just do the profile?
     */
-    public function update_player() {
+    public function update_player($just = false) {
         foreach (json_decode($this->settings['custom_fields']) as $field => $default) {
             $profile_array[$field] = $this->$field;
         }
@@ -67,8 +69,9 @@ class code_player_profile extends code_player {
         $profile_update_query['profile_string'] = json_encode($profile_array);
 
         $this->db->AutoExecute('profiles', $profile_update_query, 'UPDATE', '`player_id`='.$this->id);
-        
-        parent::update_player();
+        if (!$just) {
+            parent::update_player();
+        }
     }
 
 // A constant reminder that there are always more functions to add ;)

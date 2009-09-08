@@ -1,10 +1,13 @@
 // Shows or hides an element, depending on its current state
-function showHide(id) {
+function showHide(id, ida) {
 el = document.getElementById(id);
+em = document.getElementById(ida);
 if(el.style.display=="none") {
         el.style.display = "block";
+        em.innerHTML = "Hide";
     } else {
         el.style.display = "none";
+        em.innerHTML = "Reply";
     }
 return false;
 }
