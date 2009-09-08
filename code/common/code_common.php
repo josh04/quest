@@ -113,8 +113,14 @@ class code_common {
         if (!$this->skin) {
             $this->make_skin();
         }
-        
-        $output = $this->skin->start_header("Error", "default.css");
+
+        if (isset($this->settings['name'])) {
+            $site_name = $this->settings['name'];
+        } else {
+            $site_name = "Quest";
+        }
+
+        $output = $this->skin->start_header("Error", $site_name, "default.css");
 
         $output .= $this->skin->error_page($error);
 
