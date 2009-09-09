@@ -85,9 +85,7 @@ class code_hospital extends code_common {
 
         $this->player->hp = $heal + $this->player->hp;
         $this->player->gold = $this->player->gold  - $heal;
-        $update_player['hp'] = $this->player->hp;
-        $update_player['gold'] = $this->player->gold;
-        $heal_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id='.$this->player->id);
+        $this->player->update_player();
 
         $heal_html = $this->make_hospital($this->skin->healed($heal, $this->player->hp));
         return $heal_html;
