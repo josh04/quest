@@ -21,7 +21,6 @@ class _code_install extends code_common {
         `parent` int(3) NOT NULL,
         `title` varchar(65) NOT NULL default '',
         `body` longtext NOT NULL,
-        `order` int(3) NOT NULL,
         PRIMARY KEY  (`id`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;";
 
@@ -112,30 +111,12 @@ class _code_install extends code_common {
         (3, 'interest', 0, 86400, 1);";
 
     public $help_insert_query = "INSERT INTO `help` (`id`, `parent`, `title`, `body`) VALUES
-          (1, 0, 'Help Home', 'Welcome to the Quest Help Section. You can use the links below to find specific help files about what you want to know. Please make good use of this feature. If your questions are not answered by the help section, please create a ticket and the administrators will get around to helping you as quickly as possible.'),
-          (2, 1, 'General Game Queries', 'This section deals with general queries about the game. Ergo, \"stuff which don''t fit in elsewhere good but still kinda useful, y''know?\"'),
-          (3, 1, 'FAQs', '<i>Somewhat incredibly</i> we don''t have any FAQs at the moment. None. Because nobody''s asked a single question. As soon as we start getting them, however, we''ll put them up here for y''all to see.'),
-          (4, 1, 'What is..?', 'Confused about a certain part of the game? This section explains some key concepts in Quest.'),
-          (5, 1, 'Contact Us', 'To get in contact with staff, you''re best off using the mail system to send them a message. You can see the staff members <a href=\"index.php?page=members&amp;action=staff\">here</a>.'),
-          (6, 1, 'How do I..?', 'If you want to know how to do something in the game, this is the right section to come to. Use the links in this section to specify your question.'),
-          (7, 2, 'Dealing with Errors and Bugs', 'Found a problem? Oh dear. Well this section is designed specifically so that you know what to do. It''s got some basic troubleshooting for common errors as well, just in case what you''re experiencing ain''t that unusual...'),
-          (8, 2, 'Walkthrough', 'This section is designed for new users really. It contains a brief guide on how to play the game. Just a nice way to get you started so you know what you''re doing.'),
-          (9, 4, 'What is the point of this game?', 'This game is a browser based game, and your role is as a CHERUB agent living on Campus. You can buy weapons and armour from the Equipment Store, store them in the inventory, and use them in the Combat Training Zone against your friends. There will be a ranking table so you can try and beat your friends. If you lose a match, you can go to the Hospital Wing, and you can cash your tokens in at the Token Bank.'),
-          (10, 4, 'What is the laptop?', 'The laptop displays all your fight logs, showing who has fought you, and what the outcome was, including any of the final penalties.'),
-          (11, 4, 'What is the inventory?', 'This section displays all of your current weapons and armour. Once an item has been bought, it will appear here. To equip yourself with it, you must first unequip your previous weapon and then equip yourself with your new one.'),
-          (12, 4, 'What is the bank?', 'This is basically your campus piggy bank. All the tokens you win will appear here, as will everything you earn from working. You can deposit all the tokens from your pocket into the bank, and you can withdraw tokens from the bank to your pocket. You can also claim daily interest from the bank, which will appear on your pocket. You can also donate tokens to your friends by going on their profile and selecting how much you wish to donate to them.'),
-          (13, 4, 'What is the hospital?', 'This is where you should go after losing a fight. You can be healed, and you can select how much, by paying in tokens.'),
-          (14, 4, 'What is the combat training?', 'One of the most important parts of the game, this is the (newly refurbished) Campus training area in the Dojo. You can call up anyone on campus to fight, and battle them. The winner is determined by who has the better level, and also the best weapons and armour.'),
-          (15, 4, 'What is the store?', 'In the campus store, there is a selection of what you can purchase, assuming you have enough tokens. To purchase it just click on the link labelled ''buy'' on the right hand side of the item under the price.'),
-          (16, 4, 'What is the work?', 'If you are in need of urgent tokens, have no fear! Simply go to work in the canteen! It will deduct an energy point off you, and the amount of tokens you will receive depends on your level.'),
-          (17, 4, 'What is the speed of light?', 'About 299792458 m/s, but this really isn''t the right place to be learning Physics.'),
-          (18, 6, 'How do I change my email and password?', 'Don''t create a new account! I know desperate times call for desperate measures, but it''s really unnecessary. If you click on ''Edit Profile'' on the left menu, you can change it, as well as various other bits of information about you. Remember that if you forget your password, you will need a <strong>valid</strong> e-mail address to retrieve it. Also, we might want to send important and interesting admin/game information to you, and you don''t want to miss out!'),
-          (19, 6, 'How do I get new weapons?', 'From the left \"Game Menu\", go to \"Campus\". Then click onto \"store\" in the Main Building. There will be a selection of what you can purchase, assuming you have enough tokens. To purchase an item, just click on the link labelled ''buy'' on the right hand side of it (under the price).'),
-          (20, 6, 'How do I see who''s fought me?', 'You can do this quite easily. If you go to the \"Campus\" on the right hand menu and follow through to your laptop, you''ll find a list of emails stating who''s fought you, added you as a friend and suchlike.'),
-          (21, 6, 'How do I move up a level?', 'This is based on your current EXP, or Experience. To make your EXP larger (and thus to level up), you need to win fights with other agents. Also, the higher your level, the more tokens you will be able to earn through doing work on campus.'),
-          (22, 6, 'How do I become a staff member?', 'Unfortunately, we do not need any more staff at the present time. We have all the coders, designers, database administrators and public relations staff that we need right now. However, any future vacancies will be advertised on the forum, the news and put in the newsletters sent to your email address.'),
-          (23, 6, 'How do I get a friends list?', 'Simply go on the member list and select the person you want to be friends with. On their profile, click ''Invite to be friend''.'),
-          (24, 6, 'How do I get my health back?', 'You can regain health in the hospital (Click on \"Campus\" on the left and follow through) or by waiting. Every night at midnight all the agents'' healths are restored. So, even if you have no money, you can live to fight again!');";
+          (1, 0, 'Help Home', '', 0),
+          (2, 1, 'About Quest', '<p>Quest is soon to be a free open-source PHP persistent browser-based game. Breaking down all those long words:</p>\r\n<ul>\r\n<li>Quest is <strong>free</strong>. You can download it for free to use yourself. We also strongly encourage game masters to let players join their games for free.</li>\r\n<li>Quest is <strong>open-source</strong>. You can look at the code behind it, and fiddle with it to meet your needs. If you find a better way to do something, we love it when you tell us!</li>\r\n<li>Quest is written in <strong>PHP</strong>, a free scripting language. You can find out more about PHP <a href="http://www.php.net/">here</a>.</li>\r\n<li>Quest is <strong>persistent</strong>. When you log out, the gameplay continues and you can carry on playing when you get back.</li>\r\n<li>Quest is <strong>browser-based</strong>. You can play it through any sort of web browser, such as Firefox, Opera, Safari or Internet Explorer.</li>\r\n<li>Quest is a <strong>game</strong>, first and foremost. It''s designed for people to enjoy playing. If you have any ideas to make it better, tell us!</li>\r\n</ul>', 0),
+          (3, 1, 'Need help?', '<p>If you need help, there are various options available to you.</p>\r\n\r\n<p>Firstly, check if there''s anything that can help in these help pages. The solution to your problem could be here, and it will be a lot quicker to check here than try another option.</p>\r\n\r\n<p>If you can''t find a solution in the help pages, you can create a <a href=''index.php?page=ticket''>Support Ticket</a>, which the staff will read and act upon.</p>\r\n\r\n<p>If your problem is critical, or requires a personal touch, you can contact <a href=''index.php?page=members&act=staff''>our staff</a> directly through the mail system. However, there is no guarantee that they''ll respond to you.</p>', 3),
+          (4, 1, 'Walk-through', '<p>Here''s a quick walk-through of the various elements of Quest. If you want to know what something is, this guide should provide you with a quick background.</p>\r\n\r\n<h4>Mail</h4>\r\n<p>Quest''s internal mail system lets you send messages to other players. These messages are only accessible through the main Quest site and support BBcode.</p>\r\n\r\n<h4>Portal</h4>\r\n<p>The Portal provides you with access to all the important parts of Quest. Through it, you can quickly navigate your way through the game.</p>\r\n\r\n<h4>Quests</h4>\r\n<p>Quest''s Quests allow you to take part in an adventure, gaining experience as you go, without needing to directly do anything. Following a specific storyline, Quests lead you on all sorts of adventures.</p>\r\n\r\n<h4>Log</h4>\r\n<p>Your log tells keeps track of all your battles and experiences. Make sure you check it regularly to see what''s been happening to your character.</p>', 1),
+          (5, 1, 'How do I regain health?', '<p>One of the most common questions we''re asked is how to regain health. Well, your first choice is to check out <a href=''index.php?page=hospital''>the hospital</a>, where you can pay for medical assistance. Otherwise, all players health is reset on a regular basis. In other words, just leave it for a bit!</p>', 2),
+          (6, 0, 'Why can''t I change my username?', '<p>After signing up for Quest, you''ll find that you can''t change your username. The reason we implemented this is to make sure other players aren''t confused. When users change their names, it''s hard for others to know who they are or, more importantly, who they were before. If you desperately need to change your username, a <a href="index.php?page=members&amp;act=staff" target="parent">staff member</a> may be willing to do the job for you.</p>', 0);";
 
     public $pages_query = "CREATE TABLE IF NOT EXISTS `pages` (
           `id` int(11) NOT NULL auto_increment,
@@ -196,7 +177,11 @@ class _code_install extends code_common {
         ('ban_multiple_email', '1'),
         ('custom_fields', '{\"description\":\"No description.\",\"gender\":\"0\",\"msn\":\" \",\"aim\":\" \",\"skype\":\" \",\"avatar\":\"images\/avatar.png\"}'),
         ('register_ip_check', '1'),
-        ('database_report_error', '0');";
+        ('database_report_error', '0');
+        ('avatar_url', '1'),
+        ('avatar_gravatar', '1'),
+        ('avatar_upload', '0'),
+        ('avatar_library', '0');";
 
     public $quests_query = "CREATE TABLE IF NOT EXISTS `quests` (
         `id` int(3) NOT NULL auto_increment,

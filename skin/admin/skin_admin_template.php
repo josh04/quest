@@ -21,7 +21,7 @@ class skin_admin_template extends _skin_admin {
         ".$message."
         ".($data['description']?"<div class='explanation' style='margin:12px 0px;'>".$data['description']."</div>":"")."
         <form action='index.php?section=admin&amp;page=".$data['page']."' method='post'><table>
-            <tr><td style='width:20%;'></td><td></td></tr>
+            <tr><td style='width:".(100-$data['fields_width'])."%;'></td><td style='width:".$data['fields_width']."%'></td></tr>
 ".$html."
             <tr><td></td><td><input type='submit' value='Save changes' /></td></tr>
         </table></form>";

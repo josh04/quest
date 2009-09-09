@@ -149,12 +149,12 @@ class skin_profile extends skin_common {
         $edit_profile = "
                             <h2>Edit profile</h2>
                             ".$message."
-                                <a href='#' style='color:transparent;' onClick='showHide(\"showhide-1\",\"showhide-1-icon\");'><div class='edit-profile-header'><img id='showhide-1-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Edit Profile</div></a>
+                                <a href='#' style='color:transparent;' onClick='showHide(\"showhide-1\");return false;'><div class='edit-profile-header'><span style='float:right;'>&laquo;</span>Edit Profile</div></a>
                                 <div class='edit-profile-body' id='showhide-1'><form action='index.php?".$section."page=profile_edit&amp;action=update_profile' method='POST'>
                                 <input type='hidden' name='id' value='".$profile->id."' />
                                 <table>
-                                    <tr><td style='width:50%;'><label style='margin:0;'>Username</label></td>
-                                    <td style='width:50%;'><strong>".$profile->username."</strong></td></tr>
+                                    <tr><td style='width:30%;'><label style='margin:0;'>Username</label></td>
+                                    <td style='width:70%;'><strong>".$profile->username."</strong> ".$this->popup_help(6)."</td></tr>
 
                                     <tr><td><label for='edit-email'>Email</label></td>
                                     <td><input type='text' id='edit-email' name='email' value='".$profile->email."' /></td></tr>
@@ -163,10 +163,7 @@ class skin_profile extends skin_common {
                                     <td><input type='checkbox' id='edit-show-email' name='show_email' ".$show_email." /></td></tr>
 
                                     <tr><td><label for='edit-description'>Description</label></td>
-                                    <td><input type='text' id='edit-description' name='description' value='".$profile->description."'/></td></tr>
-
-                                    <tr><td><label for='edit-avatar'>Avatar URL</label></td>
-                                    <td><input type='text' id='edit-avatar' name='avatar' value='".$profile->avatar."'/></td></tr>
+                                    <td><textarea id='edit-description' name='description' style='width:90%;'>".$profile->description."</textarea></td></tr>
 
                                     <tr><td><label for='edit-gender'>Gender</label></td>
                                     <td><select id='edit-gender' name='gender'>".$gender_list."</select></td></tr>
@@ -191,13 +188,100 @@ class skin_profile extends skin_common {
     }
 
    /**
+    * Edit avatar code
+    *
+    * @param string $avatar_options the various options, specified in the admin panel
+    * @return string html
+    */
+    public function edit_avatar($avatar_options) {
+        $edit_avatar = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\");return false;'><div class='edit-profile-header'><span style='float:right;'>&laquo;</span>Change Avatar</div></a>
+            <div class='edit-profile-body' id='showhide-2' style='display:none;'><form action='index.php?page=profile_edit&amp;action=update_avatar' method='POST' enctype='multipart/form-data'>
+            <table>
+                " . $avatar_options . "
+                <tr><td colspan='2'><input type='submit' name='submit' value='Submit'/></td></tr>
+            </table></form>
+            </div>";
+        return $edit_avatar;
+    }
+
+   /**
+    * Edit avatar by URL
+    *
+    * @return string html
+    */
+    public function edit_avatar_url() {
+        $edit_avatar_url = "
+                <tr><td style='width:50%;'><label for='edit-avatar-url'>
+                    <input type='radio' id='avatar_type_url' name='avatar_type' value='url' />
+                    Enter a URL</label>
+                </td>
+                <td style='width:50%;'><input type='text' onfocus='document.getElementById(\"avatar_type_url\").checked=true;' id='edit-avatar-url' name='avatar_url' value='".$_POST['avatar_url']."' /></td></tr>
+        ";
+        return $edit_avatar_url;
+    }
+
+   /**
+    * Use a gravatar
+    *
+    * @param string $email the player's email address
+    * @return string html
+    */
+    public function edit_avatar_gravatar($email) {
+        $edit_avatar_gravatar = "
+                <tr><td style='width:50%;'><label for='edit-avatar-gravatar'>
+                    <input type='radio' id='avatar_type_gravatar' name='avatar_type' value='gravatar' />
+                    Use your gravatar</label>
+                </td>
+                <td style='width:50%;'><input type='hidden' id='edit-avatar-gravatar' name='avatar_gravatar' value='http://www.gravatar.com/avatar/".md5($email)."' />
+                <img src='http://www.gravatar.com/avatar/".md5($email)."?s=40' alt='Your gravatar' style='height:40px;' /></td></tr>
+        ";
+        return $edit_avatar_gravatar;
+    }
+
+   /**
+    * Upload your avatar
+    *
+    * @return string html
+    */
+    public function edit_avatar_upload() {
+        $edit_avatar_upload = "
+                <tr><td style='width:50%;'><label for='edit-avatar-upload'>
+                    <input type='hidden' name='MAX_FILE_SIZE' value='100000' />
+                    <input type='radio' id='avatar_type_upload' name='avatar_type' value='upload' />
+                    Upload an avatar</label>
+                </td>
+                <td style='width:50%;'><input type='file' onfocus='document.getElementById(\"avatar_type_upload\").checked=true;' id='edit-avatar-upload' name='avatar_upload' /></td></tr>
+        ";
+        return $edit_avatar_upload;
+    }
+
+   /**
+    * Use an avatar from the library
+    *
+    * @param string $library the library options
+    * @return string html
+    */
+    public function edit_avatar_library($library) {
+        $edit_avatar_library = "
+                <tr><td style='width:50%;'><label for='edit-avatar-library'>
+                    <input type='radio' id='avatar_type_library' name='avatar_type' value='library' />
+                    Choose from the library</label>
+                </td>
+                <td style='width:50%;'><img src='' alt='' id='avatar_preview_library' style='display:block;height:40px;' /></td></tr>
+                <tr><td colspan='2'><select onfocus='document.getElementById(\"avatar_type_library\").checked=true;' onchange='document.getElementById(\"avatar_preview_library\").src=\"images/library/\"+this.value;' id='edit-avatar-library' name='avatar_library' style='width:100%;'>
+                <option disabled='disabled' selected='selected'>Select an avatar:</option>".$library."</select></td></tr>
+        ";
+        return $edit_avatar_library;
+    }
+
+   /**
     * Edit password code, seperated.
     *
     * @return string html
     */
     public function edit_password() {
-        $edit_password = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\",\"showhide-2-icon\");'><div class='edit-profile-header'><img id='showhide-2-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Change Password</div></a>
-            <div class='edit-profile-body' id='showhide-2'><form action='index.php?page=profile_edit&amp;action=update_password' method='POST'>
+        $edit_password = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-3\");return false;'><div class='edit-profile-header'><span style='float:right;'>&laquo;</span>Change Password</div></a>
+            <div class='edit-profile-body' id='showhide-3' style='display:none;'><form action='index.php?page=profile_edit&amp;action=update_password' method='POST'>
             <table>
                 <tr><td style='width:50%;'><label for='edit-p1'>Current password</label></td>
                 <td style='width:50%;'><input type='password' id='edit-p1' name='current_password' /></td></tr>
@@ -222,7 +306,7 @@ class skin_profile extends skin_common {
     * @return string html
     */
     public function edit_permissions($permission_options, $id) {
-        $edit_permissions = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-3\",\"showhide-3-icon\");'><div class='edit-profile-header'><img id='showhide-3-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Edit Permissions</div></a>
+        $edit_permissions = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-3\",\"showhide-3-icon\");return false;'><div class='edit-profile-header'><img id='showhide-3-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Edit Permissions</div></a>
             <div class='edit-profile-body' id='showhide-3'><form action='index.php?section=admin&amp;page=profile_edit&amp;action=update_permissions' method='POST'>
             <input type='hidden' name='id' value='".$id."' />
             <table>
@@ -260,7 +344,7 @@ class skin_profile extends skin_common {
     * @return string html
     */
     public function edit_password_admin($id) {
-        $edit_password = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\",\"showhide-2-icon\");'><div class='edit-profile-header'><img id='showhide-2-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Change Password</div></a>
+        $edit_password = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\",\"showhide-2-icon\");return false;'><div class='edit-profile-header'><img id='showhide-2-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Change Password</div></a>
             <div class='edit-profile-body' id='showhide-2'><form action='index.php?section=admin&amp;page=profile_edit&amp;action=update_password' method='POST'>
             <input type='hidden' name='id' value='".$id."' />
             <table>

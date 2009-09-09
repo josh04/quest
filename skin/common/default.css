@@ -292,7 +292,7 @@ table.admin-home-table td {
         padding: 4px;
 }
 
-table.admin-home-table td a {
+a.admin-box-head {
     display: block;
     background-color: #CCF;
     padding: 4px;
@@ -371,8 +371,8 @@ img.avatar {
     border: 1px solid rgb(221, 221, 221);
     margin-bottom: 8px;
     padding: 4px;
-    max-width: 50px;
-    max-height: 50px;
+    width: 50px;
+    height: 50px;
 }
 
 .friendwrapper {

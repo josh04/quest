@@ -184,6 +184,10 @@ class lang_error {
     // edit_profile
     public $not_a_rank = "That is not a valid rank.";
     public $permissions_updated = "Permissions sucessfully updated.";
+    public $avatar_submit_no = "You didn't submit an avatar.";
+    public $avatar_updated = "Your avatar was successfully updated.";
+    public $avatar_url_notfound = "The avatar could not be found at the URL you supplied.";
+    public $avatar_upload_no = "Your avatar could not be uploaded.";
 
     // cron
     public $no_cron_selected = "You did not select a cron to edit.";
@@ -191,6 +195,9 @@ class lang_error {
 
     // help
     public $help_not_found = "The help topic could not be found.";
+    public $error_updating_help = "Could not update help files.";
+    public $help_updated = "Help files updated";
+    public $confirm_help_delete = "Are you sure you want to delete this help topic?";
 
     // message overrides
     public $override_deleted = "The message has been restored to it's original content.";

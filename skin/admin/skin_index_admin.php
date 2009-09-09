@@ -59,8 +59,20 @@ class skin_index_admin extends _skin_admin {
     * @return string html
     */
     public function admin_box_link($page, $title) {
-        $admin_box_link = "<a href='index.php?section=admin&amp;page=".$page."'>" . $title . "</a>";
+        $admin_box_link = "<a href='index.php?section=admin&amp;page=".$page."' class='admin-box-head'>" . $title . "</a>";
         return $admin_box_link;
+    }
+
+   /**
+    * An inner link for navigation-y boxes
+    *
+    * @param string $page which page to link to?
+    * @param string $title The link title
+    * @return string html
+    */
+    public function admin_inner_link($page, $title) {
+        $admin_inner_link = "&raquo; <a href='index.php?section=admin&amp;page=".$page."' style='line-height:18px;'>" . $title . "</a><br />";
+        return $admin_inner_link;
     }
 
    /**
