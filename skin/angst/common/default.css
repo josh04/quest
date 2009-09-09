@@ -9,7 +9,7 @@ body {
     font-size: 12px;
     text-align: center;
     background-color: #d3ecef;
-    background-image: url("../../images/bg.png");
+    background-image: url("../../../images/bg.png");
     background-repeat:repeat-x;
     background-position: top;
 /* Sneaky stuff to stop page resizing with scrollbar appear/disappear */
@@ -418,7 +418,7 @@ input#glee-button {
 }
 
 div.glee {
-    background: url('../../images/glee.png') no-repeat;
+    background: url('../../../images/glee.png') no-repeat;
     background-position: center right;
     background-color: #ddffdd;
     padding: 8px;
@@ -445,7 +445,7 @@ p.reply-author {
 }
 
 div.angst {
-    background: url('../../images/angst.png') no-repeat;
+    background: url('../../../images/angst.png') no-repeat;
     background-position: center right;
     background-color: #FfCfCf;
     padding: 8px;
@@ -544,14 +544,14 @@ span.angst-id-span {
 }
 
 input#login-username {
-    background:  url('../../images/icons/user.png') no-repeat 2px 2px;
+    background:  url('../../../images/icons/user.png') no-repeat 2px 2px;
     background-color: #fff;
     padding-left:18px;
     width:90%;
 }
 
 input#login-password {
-    background:  url('../../images/icons/key.png') no-repeat 2px 2px;
+    background:  url('../../../images/icons/key.png') no-repeat 2px 2px;
     background-color: #fff;
     padding-left:18px;
     width:90%;

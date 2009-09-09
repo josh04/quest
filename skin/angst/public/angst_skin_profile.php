@@ -72,7 +72,7 @@ class angst_skin_profile extends angst_skin_common {
    * @param string $caption the text of the link
    * @return string html
    */
-   function add_edit_link($link, $caption) {
+   function add_edit_link() {
        $add_interact_link = "<a href='index.php?page=profile_edit'>Edit your profile</a>";
        return $add_interact_link;
    }

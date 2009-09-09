@@ -11,38 +11,6 @@ class angst_profile extends code_profile {
 
 
    /**
-    * class override. calls parents, sends kids home.
-    *
-    * @return string html
-    */
-    public function construct() {
-        $this->initiate("skin_profile");
-
-        require_once("code/player/code_player_profile.php");
-        $this->profile = new code_player_profile($this->settings);
-
-        // No ID or name? Show the user's profile.
-        if (!isset($_GET['name']) && !isset($_GET['id'])) {
-            $success = $this->profile->get_player((int) $this->player->id);
-        } else if ($_GET['name']) {
-            $success = $this->profile->get_player($_GET['name']);
-        } else {
-            $success = $this->profile->get_player((int) $_GET['id']); //important
-        }
-
-
-
-        if ($success) {
-            $code_profile = $this->make_profile($message);
-        } else {
-            $code_profile = $this->skin->error_page($this->lang->player_not_found);
-        }
-
-
-        parent::construct($code_profile);
-    }
-
-   /**
     * assigns html to profile object
     * (TODO) Donate needs to splintered off into a seperate page
     *        Add a hook-in system for mods to add interact links

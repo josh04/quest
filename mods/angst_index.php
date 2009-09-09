@@ -76,8 +76,6 @@ class angst_index extends code_index {
             $reply_count[$count['angst_id']] = $count['c'];
         }
 
-
-
         $angst_return = "";
         foreach ($angst_array as $id => $single_angst) {
             if ($this->player->is_member) {
@@ -191,7 +189,7 @@ class angst_index extends code_index {
             $code_index = $this->index_player($this->skin->error_box($this->lang->angst_too_short));
             return $code_index;
         }
-
+        
         if ($this->player->is_member) {
             switch($_POST['submit']) {
                 case 'Glee':

@@ -225,16 +225,18 @@ class code_common {
     * @param string $skin_name skin name
     */
     public function make_skin($skin_name = "") {
+        $this->player->skin = "angst";
         if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) {
             require_once("skin/".$this->section."/_skin_".$this->section.".php");
+        }
+        if ($this->player->skin) {
+            if (file_exists("skin/".$this->player->skin."/common/".$this->player->skin."_skin_common.php")) {
+                        require_once("skin/".$this->player->skin."/common/".$this->player->skin."_skin_common.php");
+            }
         }
         if ($skin_name) {
             require_once("skin/".$this->section."/".$skin_name.".php"); // Get config values.
             if ($this->player->skin) {
-                if (file_exists("skin/".$this->player->skin."/common/".$this->player->skin."_skin_common.php")) {
-                    require_once("skin/".$this->player->skin."/common/".$this->player->skin."_skin_common.php");
-                }
-                
                 if (file_exists("skin/".$this->player->skin."/".$this->section."/".$this->player->skin."_".$skin_name.".php")) {
                     require_once("skin/".$this->player->skin."/".$this->section."/".$this->player->skin."_".$skin_name.".php");
                     $skin_class_name = $this->player->skin."_".$skin_name;
@@ -247,7 +249,16 @@ class code_common {
             
             $this->skin = new $skin_class_name;
         } else {
-            $this->skin = new skin_common;
+            if ($this->player->skin) {
+                $class_name = $this->player->skin."_skin_common";
+                if (class_exists($class_name)) {
+                    $this->skin = new $class_name;
+                } else {
+                    $this->skin = new skin_common;
+                }
+            } else {
+                $this->skin = new skin_common;
+            }
         }
 
         $this->skin->lang =& $this->lang;
