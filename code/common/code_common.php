@@ -226,12 +226,17 @@ class code_common {
     */
     public function make_skin($skin_name = "") {
         $this->player->skin = "angst";
-        if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) {
-            require_once("skin/".$this->section."/_skin_".$this->section.".php");
-        }
+
         if ($this->player->skin) {
             if (file_exists("skin/".$this->player->skin."/common/".$this->player->skin."_skin_common.php")) {
                         require_once("skin/".$this->player->skin."/common/".$this->player->skin."_skin_common.php");
+            }
+            if (file_exists("skin/".$this->player->skin."/".$this->section."/_skin_".$this->section.".php")) {
+                        require_once("skin/".$this->player->skin."/".$this->section."/_skin_".$this->section.".php");
+            }
+        } else {
+            if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) {
+                require_once("skin/".$this->section."/_skin_".$this->section.".php");
             }
         }
         if ($skin_name) {

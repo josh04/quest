@@ -182,6 +182,93 @@ class angst_skin_profile extends angst_skin_common {
     }
 
    /**
+    * Edit avatar code
+    *
+    * @param string $avatar_options the various options, specified in the admin panel
+    * @return string html
+    */
+    public function edit_avatar($avatar_options) {
+        $edit_avatar = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\");return false;'><div class='edit-profile-header'><span style='float:right;'>&laquo;</span>Change Avatar</div></a>
+            <div class='edit-profile-body' id='showhide-2' style='display:none;'><form action='index.php?page=profile_edit&amp;action=update_avatar' method='POST' enctype='multipart/form-data'>
+            <table>
+                " . $avatar_options . "
+                <tr><td colspan='2'><input type='submit' name='submit' value='Submit'/></td></tr>
+            </table></form>
+            </div>";
+        return $edit_avatar;
+    }
+
+   /**
+    * Edit avatar by URL
+    *
+    * @return string html
+    */
+    public function edit_avatar_url() {
+        $edit_avatar_url = "
+                <tr><td style='width:50%;'><label for='edit-avatar-url'>
+                    <input type='radio' id='avatar_type_url' name='avatar_type' value='url' />
+                    Enter a URL</label>
+                </td>
+                <td style='width:50%;'><input type='text' onfocus='document.getElementById(\"avatar_type_url\").checked=true;' id='edit-avatar-url' name='avatar_url' value='".$_POST['avatar_url']."' /></td></tr>
+        ";
+        return $edit_avatar_url;
+    }
+
+   /**
+    * Use a gravatar
+    *
+    * @param string $email the player's email address
+    * @return string html
+    */
+    public function edit_avatar_gravatar($email) {
+        $edit_avatar_gravatar = "
+                <tr><td style='width:50%;'><label for='edit-avatar-gravatar'>
+                    <input type='radio' id='avatar_type_gravatar' name='avatar_type' value='gravatar' />
+                    Use your gravatar</label>
+                </td>
+                <td style='width:50%;'><input type='hidden' id='edit-avatar-gravatar' name='avatar_gravatar' value='http://www.gravatar.com/avatar/".md5($email)."' />
+                <img src='http://www.gravatar.com/avatar/".md5($email)."?s=40' alt='Your gravatar' style='height:40px;' /></td></tr>
+        ";
+        return $edit_avatar_gravatar;
+    }
+
+   /**
+    * Upload your avatar
+    *
+    * @return string html
+    */
+    public function edit_avatar_upload() {
+        $edit_avatar_upload = "
+                <tr><td style='width:50%;'><label for='edit-avatar-upload'>
+                    <input type='hidden' name='MAX_FILE_SIZE' value='100000' />
+                    <input type='radio' id='avatar_type_upload' name='avatar_type' value='upload' />
+                    Upload an avatar</label>
+                </td>
+                <td style='width:50%;'><input type='file' onfocus='document.getElementById(\"avatar_type_upload\").checked=true;' id='edit-avatar-upload' name='avatar_upload' /></td></tr>
+        ";
+        return $edit_avatar_upload;
+    }
+
+   /**
+    * Use an avatar from the library
+    *
+    * @param string $library the library options
+    * @return string html
+    */
+    public function edit_avatar_library($library) {
+        $edit_avatar_library = "
+                <tr><td style='width:50%;'><label for='edit-avatar-library'>
+                    <input type='radio' id='avatar_type_library' name='avatar_type' value='library' />
+                    Choose from the library</label>
+                </td>
+                <td style='width:50%;'><img src='' alt='' id='avatar_preview_library' style='display:block;height:40px;' /></td></tr>
+                <tr><td colspan='2'><select onfocus='document.getElementById(\"avatar_type_library\").checked=true;' onchange='document.getElementById(\"avatar_preview_library\").src=\"images/library/\"+this.value;' id='edit-avatar-library' name='avatar_library' style='width:100%;'>
+                <option disabled='disabled' selected='selected'>Select an avatar:</option>".$library."</select></td></tr>
+        ";
+        return $edit_avatar_library;
+    }
+
+   /**
     * Edit password code, seperated.
     *
     * @return string html

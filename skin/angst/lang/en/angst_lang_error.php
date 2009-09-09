@@ -133,5 +133,6 @@ class angst_lang_error {
     public $angst_too_short = "All angst must be longer than three characters.";
     public $cannot_reply = "Guests cannot reply to angst.";
     public $reply_posted = "You posted a reply.";
+    public $angst_reply_timer = "You cannot post more than once every minute.";
 }
 ?>

@@ -22,15 +22,21 @@ class angst_skin_index extends angst_skin_common {
         });
 
         $('#index-main').find('.angst-reply-form').submit(function() {
+
             $('#error').empty();
-            dataString = 'angst-id='+ $(this).find('.angst-id').val() + '&angst-reply='+ $(this).find('.angst-reply').val();
+            var cleanTxt = $('<div/>').text($(this).find('.angst-reply').val()).html();
+            var cleanId = $(this).find('.angst-id').val();
+            var dataString = $(this).serialize();
+            var replyForm = this;
             $.post('/angst/index.php?page=index&action=ajax_reply', dataString, function (data, textStatus) {
-                    $('#error').append(data);
+                    $('#error').html(data);
+                    if (data.length == 0) {
+                        $(replyForm).parent().find('.results').append('<p><span>'+cleanTxt+'</span></p><p class=\'reply-author\'> - <a href=\'index.php?page=profile&amp;id='+userid+'\'>'+username+'</a> (just now)</p>').html();
+                        $(replyForm).find('.angst-reply').val('');
+                    }
                 }, 'html' );
 
-            if ($('#error').length == 0) {
-                $(this).parent().find('.results').append('<p>'+$(this).find('.angst-reply').val()+'</p>');
-            }
+ 
             return false;
         });
 
@@ -87,7 +93,7 @@ class angst_skin_index extends angst_skin_common {
             </div>
             
             <h3>Welcome, ".$player->username."</h3>
-            
+            <script type='text/javascript' language='JavaScript'>var username='".$player->username."'; var userid='".$player->id."'; var time</script>
             <div style='clear:both'></div>
             <div style='float:right'>
                 ".$login_box."
@@ -331,7 +337,7 @@ class angst_skin_index extends angst_skin_common {
     * a single reply
     *
     * @param array $reply reply data
-    * @return stirng html
+    * @return string html
     */
     public function reply($reply) {
         $reply = "<p><span>".$reply['reply']."</span></p>

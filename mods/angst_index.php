@@ -47,6 +47,11 @@ class angst_index extends code_index {
     * @return <type>
     */
     public function angst_board() {
+        
+        if ($_GET['action'] == "angst-reply") {
+            $message = $this->angst_reply();
+        }
+    
 
         if (isset($_GET['start'])) {
             $limit = intval($_GET['start']).",10";
@@ -77,6 +82,7 @@ class angst_index extends code_index {
         }
 
         $angst_return = "";
+
         foreach ($angst_array as $id => $single_angst) {
             if ($this->player->is_member) {
                 $reply_form = $this->skin->reply_box($this->skin->reply_form($id), $replies[$id]);
@@ -115,7 +121,7 @@ class angst_index extends code_index {
             ", array($id));
 
         while ($reply = $replies_query->fetchrow()) {
-            $replies .= $this->skin->reply($reply);
+            $replies = $this->skin->reply($reply).$replies;
         }
 
         return $replies;
@@ -172,7 +178,7 @@ class angst_index extends code_index {
             $mail_row['subject'] = str_replace(array("<",">"),array("&lt;","&gt;"),$mail_row['subject']);
             $mail .= $this->skin->mail_entry($mail_row);
         }
-
+        
         $mail_box = $this->skin->mail_box($mail);
         return $mail_box;
     }
@@ -188,6 +194,15 @@ class angst_index extends code_index {
         if (strlen($angst) < 3) {
             $code_index = $this->index_player($this->skin->error_box($this->lang->angst_too_short));
             return $code_index;
+        }
+
+        $check_query = $this->db->execute("SELECT * FROM `angst` WHERE `phpsessid`=? ORDER BY `time` DESC LIMIT 1 ", array(session_id()));
+
+        if ($check = $check_query->fetchrow()) {
+            if (time() - $check['time'] < 60) {
+                $angst_reply = $this->index_player($this->skin->error_box($this->lang->angst_reply_timer));
+                return $angst_reply;
+            }
         }
         
         if ($this->player->is_member) {
@@ -216,31 +231,9 @@ class angst_index extends code_index {
         $angst_insert['angst'] = nl2br($angst);
         $angst_insert['type'] = $type;
         $angst_insert['time'] = time();
+        $angst_insert['phpsessid'] = session_id();
 
         $this->db->AutoExecute('angst', $angst_insert, 'INSERT');
-
-        header("Location: index.php?page=index");
-    }
-
-    public function angst_reply() {
-
-        if (!$this->player->is_member) {
-            $angst_reply = $this->index_player($this->skin->error_box($this->lang->cannot_reply));
-            return $angst_reply;
-        }
-        $reply = htmlentities($_POST['angst-reply'], ENT_QUOTES, 'utf-8');
-
-        if (strlen($reply) < 3) {
-            $code_index = $this->index_player($this->skin->error_box($this->lang->angst_too_short));
-            return $code_index;
-        }
-
-        $angst_insert['player_id'] = $this->player->id;
-        $angst_insert['angst_id'] = intval($_POST['angst-id']);
-        $angst_insert['reply'] = nl2br($reply);
-        $angst_insert['time'] = time();
-
-        $this->db->AutoExecute('angst_replies', $angst_insert, 'INSERT');
 
         header("Location: index.php?page=index");
     }
@@ -250,7 +243,7 @@ class angst_index extends code_index {
     *
     * @return string html
     */
-    public function angst_reply_ajax() {
+    public function angst_reply() {
         if (!$this->player->is_member) {
             $angst_reply = $this->skin->error_box($this->lang->cannot_reply);
             return $angst_reply;
@@ -262,13 +255,22 @@ class angst_index extends code_index {
             return $code_index;
         }
 
+        $check_query = $this->db->execute("SELECT * FROM `angst_replies` WHERE `player_id`=? ORDER BY `time` DESC LIMIT 1 ", array($this->player->id));
+
+        if ($check = $check_query->fetchrow()) {
+            if (time() - $check['time'] < 60) {
+                $angst_reply = $this->skin->error_box($this->lang->angst_reply_timer);
+                return $angst_reply;
+            }
+        }
+
         $angst_insert['player_id'] = $this->player->id;
         $angst_insert['angst_id'] = intval($_POST['angst-id']);
         $angst_insert['reply'] = nl2br($reply);
         $angst_insert['time'] = time();
 
         $this->db->AutoExecute('angst_replies', $angst_insert, 'INSERT');
-        return $this->skin->success_box($this->lang->reply_posted);
+        return;
     }
 
    /**
@@ -280,11 +282,6 @@ class angst_index extends code_index {
 
         if ($_GET['action'] == "angst") {
             $code_index = $this->angst();
-            return $code_index;
-        }
-
-        if ($_GET['action'] == "angst-reply") {
-            $code_index = $this->angst_reply();
             return $code_index;
         }
 
@@ -315,7 +312,7 @@ class angst_index extends code_index {
         }
 
         if ($_GET['action'] == "ajax_reply") {
-            $code_index = $this->angst_reply_ajax();
+            $code_index = $this->angst_reply();
             print $code_index;
             return;
         }
