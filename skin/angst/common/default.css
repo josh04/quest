@@ -1,0 +1,562 @@
+/*****************************************************/
+/*   Partly Based on Gerhard Erbes' template         */
+/*****************************************************/
+
+@import url('boxes.css');
+
+body {
+    font-family: TrebuchetMS, Verdana, Arial;
+    font-size: 12px;
+    text-align: center;
+    background-color: #d3ecef;
+    background-image: url("../../images/bg.png");
+    background-repeat:repeat-x;
+    background-position: top;
+/* Sneaky stuff to stop page resizing with scrollbar appear/disappear */
+    overflow-y: scroll;
+    padding:0;
+    margin:0 5px 0 5px;
+}
+
+form, textarea {
+    font-weight: normal;
+    font-family: TrebuchetMS, Verdana, Arial;
+}
+
+a {
+    color:blue;
+}
+
+img {
+    border: 0;
+}
+
+table {
+    width: 100%;
+}
+
+input, select, textarea {
+    border: 1px solid #999999;
+    background-color: #EEEEEE;
+    font-family: 'Trebuchet MS', 'Verdana', 'Arial';
+    padding: 2px;
+    margin: 2px;
+    font-size:12px;
+}
+
+fieldset {
+    border-left: 6px solid rgb(175,175,175);
+    border-right: 1px solid #999999;
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid #999999;
+    background-color: #FFFFFF;
+    font-family: 'Trebuchet MS';
+    font-size: 14px;
+    padding-top: 6px;
+    margin: 2px;
+}
+
+legend {
+    font-weight: bold;
+    font-family: 'Trebuchet MS';
+}
+
+label {
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-top: 8px;
+}
+
+pre {
+    padding: 8px;
+    border: 1px dashed #99F;
+    background-color: #EEF;
+}
+
+h2, h4 {
+    margin: 0;
+    padding: 2px 0 2px 0;
+}
+
+h3 {
+    font-size: 1.8em;
+    margin: 5px 0 10px 0;
+}
+
+#wrapper {
+    margin: 0 auto 0 auto;
+    border-left: 3px solid rgb(220,220,220);
+    border-right: 3px solid rgb(220,220,220);
+    text-align:left;
+    padding: 0;
+}
+
+#header-text {
+    font-size: 5em;
+    color: #63acaf;
+    text-align: center;
+    background-repeat: no-repeat;
+    margin: 0 auto 0 auto;
+}
+
+#header-text a:link, #header-text a:active, #header-text a:visited {
+    color: #63acaf;
+    text-decoration:none;
+}
+
+#content {
+    padding: 5px;
+}
+
+#footer {
+    width: 100%;
+    clear: both;
+    padding: 20px 0px 0px 0px;
+}
+
+#footer-text {
+    width: 100%;
+    padding: 5px 0 5px 0;
+    background-color: rgb(220,220,220);
+    text-align: center;
+    color: rgb(80,80,80);
+    font-size: 1.0em;
+    font-weight: bold;
+}
+
+td {
+    vertical-align: top;
+    font-size: 12px;
+}
+
+.row1 td {
+    background-color: #EEE;
+    font-size: 10px;
+}
+
+.row2 td {
+    background-color: #CCC;
+    font-size: 10px;
+}
+
+th {
+    text-align: left;
+}
+
+.ticket {
+    border: solid 1px #999;
+    background:#EEE;
+    font-family: TrebuchetMS, Verdana, Arial;
+    font-size:12px;
+    padding:5px;
+    margin:2px;
+}
+
+a.faq {
+    color: #000;
+    font-weight: bold;
+}
+
+.first {
+    font-size: 13px;
+}
+
+tr.mail-unread td {
+    background-color: #FBB;
+}
+
+div.edit-profile-header {
+    background-color: #888;
+    border: 1px solid #888;
+    color: #FFF;
+    font-weight:bold;
+    font-size: 11px;
+    padding: 4px;
+    width: 400px;
+    margin: 20px auto 0px;
+}
+
+div.edit-profile-body {
+    padding: 4px;
+    width: 400px;
+    margin: 0px auto;
+    border: 1px solid #888;
+}
+
+td.form-explanation {
+    font-size: 90%;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #DDD;
+}
+
+.help-item-top {
+    padding: 8px;
+    border-bottom: 1px solid #CCC;
+    background-color: #99F;
+    color: #FFF;
+    font-weight: bold;
+}
+
+.help-item {
+    padding: 8px;
+    border-bottom: 1px solid #CCC;
+    background-color: #F3F3F3;
+}
+
+a.popup-help-link {
+    color: #666;
+    font-size: 10px;
+    text-decoration: none;
+}
+
+div.quest-select {
+    border: 1px solid #CCC;
+    padding: 8px;
+    margin: 12px 4px;
+    cursor: default;
+    font-size: 11px;
+}
+
+table.nutable {
+    border: 1px solid #DDD;
+    margin: 12px 0px;
+    padding: 4px;
+}
+
+table.admin-home-table {
+    width: 100%;
+}
+
+table.admin-home-table td {
+    width: 50%;
+        height: 100px;
+    border: 1px solid #AAA;
+        padding: 4px;
+}
+
+table.admin-home-table td a {
+    display: block;
+    background-color: #CCF;
+    padding: 4px;
+    margin-bottom: 4px;
+    color: #000;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* BOXES */
+
+div.error, div.rbox {
+    border: 1px solid #D00;
+    background-color: #FCC;
+    padding: 8px;
+    margin: 2px;
+}
+
+div.explanation, div.bbox {
+    border: 1px solid #99F;
+    background-color: #CCF;
+    padding: 8px;
+    margin: 2px;
+}
+
+div.success, div.ybox {
+    border: 1px solid #63acaf;
+    background-color: #FFC;
+    padding: 8px;
+    margin: 2px;
+    width: 300px;
+}
+
+div.gbox {
+    border: 1px solid #0D0;
+    background-color: #CFC;
+    padding: 8px;
+    margin: 2px;
+}
+
+div.dbox {
+    border: 1px solid #999;
+    background-color: #EEE;
+    padding: 8px;
+    margin: 2px 2px 6px 2px;
+}
+
+div.dbox input  {
+    background-color: #FFF;
+}
+
+ul.friendlist {
+    padding: 0px 24px;
+    margin: 0px;
+}
+
+ul.friendlist li {
+    padding: 2px 0px;
+}
+
+ul.cron-form  li{
+    border-bottom: 1px solid #DDD;
+    margin:0;
+    list-style-type:none;
+    padding-bottom: 5px;
+}
+
+.profile-interact a {
+    display: block;
+    padding: 4px 4px 2px 4px;
+    color: #339;
+    text-decoration: none;
+    border-bottom: 1px solid #CCC;
+}
+
+img.avatar {
+    border: 1px solid rgb(221, 221, 221);
+    margin-bottom: 8px;
+    padding: 4px;
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.friendwrapper {
+    display: table;
+    width: 100%;
+    border: 1px dashed #CCC;
+    border-width: 1px 0px;
+    padding: 10px 0px;
+}
+
+.friendentry {
+    display: table-cell;
+    width: 100px;
+    height: 25px;
+    text-align: center;
+}
+
+ul.menu {
+    padding: 10px;
+    text-align:center;
+    background:#ffffff;
+}
+
+ul.menu li {
+    display:inline;
+    margin:0 auto 0 auto;
+    
+    list-style-type:none;
+    background:transparent;
+}
+
+ul.menu li a:link, ul.menu li a:active, ul.menu li a:visited {
+    margin: 0 auto 0 auto;
+    text-decoration:none;
+    color: #438c8f;
+    padding: 10px;
+    background:#efffff;
+    font-size:1.2em;
+}
+
+ul.menu li a:hover {
+    background: #FFFFFF;
+}
+
+li.menu_current a:link, li.menu_current a:active, li.menu_current a:visited {
+    background:#c3fcff;
+}
+
+div#index-main {
+    background:#FFf;
+    padding:5px;
+}
+
+div.index-form {
+    background: #ffffff;
+    padding:5px;
+}
+
+textarea#angst {
+    font-size:3em;
+    width:100%;
+    padding:0;
+    margin:0;
+    background: #FFC;
+}
+
+textarea.angst-reply {
+    font-size:1.1em;
+    width:100%;
+    padding:0;
+    margin:0;
+    background: #FFC;
+}
+
+input.angst-reply-button {
+    font-size:1.2em;
+    height:33px;
+    width: 60px;
+    padding:0;
+    margin:0;
+    color:#aa0000;
+}
+
+input#angst-button {
+    font-size:3em;
+    height:60px;
+    padding:0;
+    margin:0;
+    color:#aa0000;
+}
+
+input#glee-button {
+    font-size:3em;
+    height:60px;
+    padding:0;
+    margin:0;
+    color:#00aa00;
+}
+
+div.glee {
+    background: url('../../images/glee.png') no-repeat;
+    background-position: center right;
+    background-color: #ddffdd;
+    padding: 8px;
+    margin: 0px;
+}
+
+div.glee div p span, div.angst div p span {
+    padding:5px;
+}
+
+div.glee p, div.angst p {
+    padding-left:25px;
+}
+
+div.glee h3, div.angst h3 {
+    font-size: 3em;
+}
+
+p.reply-author {
+    text-align:right;
+    border: solid #dddddd;
+    border-width:0 0 1px 0;
+    padding-bottom:5px;
+}
+
+div.angst {
+    background: url('../../images/angst.png') no-repeat;
+    background-position: center right;
+    background-color: #FfCfCf;
+    padding: 8px;
+    margin: 0px;
+}
+
+div.index-margin {
+    margin-right: 335px;
+    margin-left: 10px;
+}
+
+div.index-form-margin {
+    margin: 10px;
+}
+
+.rt, .gt {
+    display:block;
+    margin-top:20px;
+}
+
+.rb, .gb {
+    display:block;
+    margin-bottom:0px;
+}
+
+.rt *, .rb * {
+  display:block;
+  height:1px;
+  overflow:hidden;
+  font-size:.01em;
+  background:#FfCfCf;
+  border-color: #FfCfCf;
+}
+
+.gt *, .gb * {
+  display:block;
+  height:1px;
+  overflow:hidden;
+  font-size:.01em;
+  background:#ddffdd;
+  border-color: #ddffdd;
+}
+
+.wt *, .wb * {
+  display:block;
+  height:1px;
+  overflow:hidden;
+  font-size:.01em;
+  background:#FFf;
+  border-color: #FFf;
+}
+
+.r1 {
+  margin-left:3px;
+  margin-right:3px;
+  padding-left:1px;
+  padding-right:1px;
+  border-style:solid;
+  border-width: 0 1px 0 1px;
+}
+.r2 {
+  margin-left:1px;
+  margin-right:1px;
+  padding-right:1px;
+  padding-left:1px;
+  border-style:solid;
+  border-width: 0 1px 0 1px;
+}
+.r3 {
+  margin-left:1px;
+  margin-right:1px;
+  border-style:solid;
+  border-width: 0 1px 0 1px;
+}
+.r4 {
+  border-style:solid;
+  border-width: 0 1px 0 1px;
+}
+.r5 {
+  border-style:solid;
+  border-width: 0 1px 0 1px;
+}
+
+span.angst-reply-span {
+    font-size:0.8em;
+    color: #000099;
+    float:right;
+    cursor:pointer;
+}
+
+span.angst-id-span {
+    font-size:0.8em;
+    color: #000099;
+    float:left;
+    cursor:pointer;
+}
+
+input#login-username {
+    background:  url('../../images/icons/user.png') no-repeat 2px 2px;
+    background-color: #fff;
+    padding-left:18px;
+    width:90%;
+}
+
+input#login-password {
+    background:  url('../../images/icons/key.png') no-repeat 2px 2px;
+    background-color: #fff;
+    padding-left:18px;
+    width:90%;
+}
+
+.reply-table {
+    padding-top:5px;
+}
