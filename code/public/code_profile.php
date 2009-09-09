@@ -20,18 +20,17 @@ class code_profile extends code_common {
 
         require_once("code/player/code_player_profile.php");
         $this->profile = new code_player_profile($this->settings);
-        $this->profile->settings =& $this->settings;
-        
-        if ($_GET['name']) {
+
+        // No ID or name? Show the user's profile.
+        if (!isset($_GET['name']) && !isset($_GET['id'])) {
+            $success = $this->profile->get_player((int) $this->player->id);
+        } else if ($_GET['name']) {
             $success = $this->profile->get_player($_GET['name']);
         } else {
             $success = $this->profile->get_player((int) $_GET['id']); //important
         }
 
-        // No ID or name? Show the user's profile.
-        if (!isset($_GET['name']) && !isset($_GET['id'])) {
-            $success = $this->profile->get_player($this->player->id);
-        }
+
 
         if ($success) {
             $code_profile = $this->make_profile($message);
@@ -58,10 +57,6 @@ class code_profile extends code_common {
             $message = $this->add_as_friend();
         }
 
-        if ($_GET['action'] == "donate") {
-            $message = $this->donate();
-        }
-
         $custom_fields = json_decode($this->settings['custom_fields'], true);
 
         foreach ($custom_fields as $field => $default) {
@@ -86,14 +81,14 @@ class code_profile extends code_common {
 
         $this->profile->registered = date('F j, Y', $this->profile->registered);
 
-        $interaction .= $this->skin->add_interact_link("index.php?page=mail&amp;action=compose&amp;to=".$this->profile->username,"Mail");
+        $interaction .= $this->skin->add_mail_link($this->profile->username);
 
         if ($this->profile->id == $this->player->id) {
-            $interaction .= $this->skin->add_interact_link("index.php?page=profile_edit","Edit your profile");
+            $interaction .= $this->skin->add_edit_link();
         } else {
             $interaction .= $this->skin->add_battle_link($this->profile->id);
             if(!in_array($this->profile->id, array_keys($this->player->friends))) {
-                $interaction .= $this->skin->add_interact_link("index.php?page=profile&amp;id=".$this->profile->id."&amp;friends=add", "Add as friend");
+                $interaction .= $this->skin->add_friend_link("index.php?page=profile&amp;id=".$this->profile->id."&amp;friends=add", "Add as friend");
             }
         }
 
@@ -102,8 +97,6 @@ class code_profile extends code_common {
         } else {
             $this->profile->is_online = "offline";
         }
-
-        $this->profile->ratio = ($this->profile->deaths>0?number_format($this->profile->kills/$this->profile->deaths,2):"0");
 
         $this->profile->friendcount = count($this->profile->friends);
         if($this->profile->friendcount==0) {
@@ -164,35 +157,14 @@ class code_profile extends code_common {
     }
 
    /**
-    * donate cash to someone
-    *
-    * @return string html
-    */
-    public function donate() {
-        $amount = intval($_POST['donate']);
-
-        if ($amount > $this->player->gold) {
-            return $this->skin->error_box($this->lang->not_enough_cash_to_donate);
-        }
-
-        $this->profile->gold = $this->profile->gold + $amount;
-        $this->player->gold = $this->player->gold - $amount;
-
-        $this->profile->update_player();
-        $this->player->update_player();
-
-        return $this->skin->donated($amount, $this->profile->username);
-    }
-
-   /**
     * static menu function
     *
     * @param code_menu $menu the current menu object, allows adding of top/bottom and db etc
     * @param string $label The text label
     * @return string html
     */
-    public function code_profile_menu(&$menu, $label) {
-        return $this->player->username;
+    public static function code_profile_menu(&$menu, $label) {
+        return $menu->player->username;
     }
 
 }

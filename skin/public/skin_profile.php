@@ -6,7 +6,11 @@
  * @package skin_public
  */
 class skin_profile extends skin_common {
-   
+
+   public $gender_array =   array(array("Undisclosed","_gray"),
+                            array("Female","_female"),
+                            array("Male",""));
+
   /**
    * makes the profile page
    *
@@ -26,13 +30,8 @@ class skin_profile extends skin_common {
             <table><tr><td style='width:50%;'><div class='glee'><h3>".$profile->glee_count."</h3></div></td><td style='width:50%;'><div class='angst'><h3>".$profile->angst_count."</h3></div></td></tr>
 
             <tr><td rowspan='2'>
-            <h3>Stats</h3>
-            <label>Registered:</label> ".$profile->registered."
-            <label>Character age:</label> ".$profile->age." days
-            <label>Level:</label> ".$profile->level."
-            <label>Kills/deaths:</label> ".$profile->kills."/".$profile->deaths." (".$profile->ratio.")
+            <h3>Contact</h3>
             ".$profile->im_links."
-            ".$profile->extras."
 
             </td><td>
             <h3>Description</h3>
@@ -41,7 +40,6 @@ class skin_profile extends skin_common {
 
             <tr><td class='profile-interact'>
             <h3>Interact</h3>
-            <a href=''>Donate</a>
             ".$interaction."
             </td></tr>
 
@@ -57,13 +55,37 @@ class skin_profile extends skin_common {
 
   /**
    * add an interaction link
-   * 
+   *
    * @param string $link where to go to
    * @param string $caption the text of the link
    * @return string html
    */
-   function add_interact_link($link, $caption) {
-       $add_interact_link = "<a href='".$link."'>".$caption."</a>";
+   function add_mail_link($username) {
+       $add_interact_link = "<a href='index.php?page=mail&amp;action=compose&amp;to=".$usename."'>Mail</a>";
+       return $add_interact_link;
+   }
+
+  /**
+   * add an interaction link
+   *
+   * @param string $link where to go to
+   * @param string $caption the text of the link
+   * @return string html
+   */
+   function add_edit_link($link, $caption) {
+       $add_interact_link = "<a href='index.php?page=profile_edit'>Edit your profile</a>";
+       return $add_interact_link;
+   }
+
+  /**
+   * add an interaction link
+   *
+   * @param string $link where to go to
+   * @param string $caption the text of the link
+   * @return string html
+   */
+   function add_friend_link($id) {
+       $add_interact_link = "<a href='index.php?page=profile&amp;id=".$id."&amp;friends=add'>Add as Friend</a>";
        return $add_interact_link;
    }
 
@@ -273,22 +295,8 @@ class skin_profile extends skin_common {
     * @return string html
     */
     public function gender($gender) {
-        $gender_array = array(array("Undisclosed","_gray"),array("Female","_female"),array("Male",""));
-        $gender = "<img src=\"../icons/user".$g[$gender][1].".png\" alt=\"".$g[$gender][0]."\" title=\"".$g[$gender][0]."\" />";
+        $gender = "<img src=\"../icons/user".$this->gender_array[$gender][1].".png\" alt=\"".$this->gender_array[$gender][0]."\" title=\"".$this->gender_array[$gender][0]."\" />";
         return $gender;
-    }
-
-   /**
-    * converts an array of the users' friends into a list
-    *
-    * @param array $friends friends to listify
-    * @return string html
-    */
-    public function friendlist($friends) {
-        foreach($friends as $id => $username) {
-            $ret .= "<li><a href='?page=profile&id=".$id."'>".$username."</a></li>";
-            }
-        return $ret;
     }
 
    /**

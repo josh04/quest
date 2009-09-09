@@ -335,7 +335,7 @@ class skin_index extends skin_common {
     */
     public function reply($reply) {
         $reply = "<p><span>".$reply['reply']."</span></p>
-                     <p class='reply-author'> - ".$reply['username']." (".date("jS M, h:i A", $reply['time']).")</p>
+                     <p class='reply-author'> - <a href='index.php?page=profile&amp;id=".$reply['player_id']."'>".$reply['username']."</a> (".date("jS M, h:i A", $reply['time']).")</p>
             ";
             return $reply;
     }
