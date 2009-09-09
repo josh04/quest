@@ -20,8 +20,8 @@ class code_profile extends code_common {
 
         require_once("code/player/code_player_profile.php");
         $this->profile = new code_player_profile($this->settings);
-
-        // No ID or name? Show the user's profile.
+        
+       // No ID or name? Show the user's profile.
         if (!isset($_GET['name']) && !isset($_GET['id'])) {
             $success = $this->profile->get_player((int) $this->player->id);
         } else if ($_GET['name']) {
@@ -29,8 +29,6 @@ class code_profile extends code_common {
         } else {
             $success = $this->profile->get_player((int) $_GET['id']); //important
         }
-
-
 
         if ($success) {
             $code_profile = $this->make_profile($message);
@@ -55,6 +53,10 @@ class code_profile extends code_common {
         $this->profile->getFriends();
         if ($_GET['friends']=="add") {
             $message = $this->add_as_friend();
+        }
+
+        if ($_GET['action'] == "donate") {
+            $message = $this->donate();
         }
 
         $custom_fields = json_decode($this->settings['custom_fields'], true);
@@ -98,9 +100,15 @@ class code_profile extends code_common {
             $this->profile->is_online = "offline";
         }
 
+        if ($this->profile->deaths > 0) {
+            $this->profile->ratio = number_format($this->profile->kills/$this->profile->deaths,2);
+        } else {
+            $this->profile->ratio = '0';
+        }
+
         $this->profile->friendcount = count($this->profile->friends);
-        if($this->profile->friendcount==0) {
-            $friendlist = $this->profile->username." has no friends yet!";
+        if ($this->profile->friendcount==0) {
+            $friendlist = $this->skin->no_friends($this->player->username);
         } else {
             foreach($this->profile->friends as $friend) {
                 $friendlist .= $this->skin->friend_entry($friend);
@@ -154,6 +162,27 @@ class code_profile extends code_common {
         $this->db->execute("INSERT INTO `friends` (`id1`,`id2`,`accepted`) VALUES (?,?,?)",$inputArr);
         $message = $this->skin->success_box($this->lang->request_sent.$this->profile->username.".");
         return $message;
+    }
+
+   /**
+    * donate cash to someone
+    *
+    * @return string html
+    */
+    public function donate() {
+        $amount = intval($_POST['donate']);
+
+        if ($amount > $this->player->gold) {
+            return $this->skin->error_box($this->lang->not_enough_cash_to_donate);
+        }
+
+        $this->profile->gold = $this->profile->gold + $amount;
+        $this->player->gold = $this->player->gold - $amount;
+
+        $this->profile->update_player();
+        $this->player->update_player();
+
+        return $this->skin->donated($amount, $this->profile->username);
     }
 
    /**

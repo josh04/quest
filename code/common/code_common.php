@@ -113,8 +113,14 @@ class code_common {
         if (!$this->skin) {
             $this->make_skin();
         }
-        
-        $output = $this->skin->start_header("Error", $this->settings['name'], "default.css");
+
+        if (isset($this->settings['name'])) {
+            $site_name = $this->settings['name'];
+        } else {
+            $site_name = "Quest";
+        }
+
+        $output = $this->skin->start_header("Error", $site_name, "default.css");
 
         $output .= $this->skin->error_page($error);
 
@@ -225,6 +231,10 @@ class code_common {
         if ($skin_name) {
             require_once("skin/".$this->section."/".$skin_name.".php"); // Get config values.
             if ($this->player->skin) {
+                if (file_exists("skin/".$this->player->skin."/common/".$this->player->skin."_skin_common.php")) {
+                    require_once("skin/".$this->player->skin."/common/".$this->player->skin."_skin_common.php");
+                }
+                
                 if (file_exists("skin/".$this->player->skin."/".$this->section."/".$this->player->skin."_".$skin_name.".php")) {
                     require_once("skin/".$this->player->skin."/".$this->section."/".$this->player->skin."_".$skin_name.".php");
                     $skin_class_name = $this->player->skin."_".$skin_name;
@@ -257,6 +267,13 @@ class code_common {
     * (TODO) Player language choice?
     */
     public function make_extra_lang() {
+        if ($this->player->skin) {
+            if (file_exists("skin/".$this->player->skin."/lang/en/".$this->player->skin."_lang_error.php")) {
+               require_once("skin/".$this->player->skin."/lang/en/".$this->player->skin."_lang_error.php");
+               $class_name = $this->player->skin."_lang_error";
+               $this->lang = new $class_name;
+            }
+        }
         $lang_query = $this->db->execute("SELECT * FROM `lang`");
         while ($lang = $lang_query->fetchrow()) {
             $name = $lang['name'];
@@ -302,10 +319,10 @@ class code_common {
     public function initiate($skin_name = "") {
         $this->make_default_lang();
         $this->make_db();
-        $this->make_extra_lang();
         $this->make_settings();
         $this->cron();
         $this->make_player();
+        $this->make_extra_lang();
         $this->make_skin($skin_name);
     }
 

@@ -6,7 +6,7 @@
  * @package skin_public
  */
 class skin_profile extends skin_common {
-
+   
    public $gender_array =   array(array("Undisclosed","_gray"),
                             array("Female","_female"),
                             array("Male",""));
@@ -19,7 +19,7 @@ class skin_profile extends skin_common {
    * @param string $message any errors that have been drawn
    * @return string html
    */
-   function make_profile($profile, $friendlist, $interaction, $message='') {
+   public function make_profile($profile, $friendlist, $interaction, $message='') {
         $make_profile = "
             ".$message."
 
@@ -27,11 +27,16 @@ class skin_profile extends skin_common {
             <h1 style='margin-bottom:8px;'><img src='images/icons/status_".$profile->is_online.".png' style='padding:0px 4px;' alt='' />".$profile->username."</h1>
 
             <span style='font-size:10px;'>Joined ".$profile->registered."</span>
-            <table><tr><td style='width:50%;'><div class='glee'><h3>".$profile->glee_count."</h3></div></td><td style='width:50%;'><div class='angst'><h3>".$profile->angst_count."</h3></div></td></tr>
+            <table><tr><td style='width:50%;'><div class='gbox'><h3>Level: ".$profile->level."</h3></div></td><td style='width:50%;'><div class='bbox'><h3>Kill/Death ratio: ".$profile->ratio."</h3></div></td></tr>
 
             <tr><td rowspan='2'>
-            <h3>Contact</h3>
+            <h3>Stats</h3>
+            <label>Registered:</label> ".$profile->registered."
+            <label>Character age:</label> ".$profile->age." days
+            <label>Level:</label> ".$profile->level."
+            <label>Kills/deaths:</label> ".$profile->kills."/".$profile->deaths." (".$profile->ratio.")
             ".$profile->im_links."
+            ".$profile->extras."
 
             </td><td>
             <h3>Description</h3>
@@ -40,6 +45,7 @@ class skin_profile extends skin_common {
 
             <tr><td class='profile-interact'>
             <h3>Interact</h3>
+            <a href=''>Donate</a>
             ".$interaction."
             </td></tr>
 
@@ -54,39 +60,42 @@ class skin_profile extends skin_common {
    }
 
   /**
-   * add an interaction link
-   *
-   * @param string $link where to go to
-   * @param string $caption the text of the link
+   * send mail link
+   * 
+   * @param string $username player name
    * @return string html
    */
-   function add_mail_link($username) {
+   public function add_mail_link($username) {
        $add_interact_link = "<a href='index.php?page=mail&amp;action=compose&amp;to=".$usename."'>Mail</a>";
        return $add_interact_link;
    }
 
+
+
   /**
-   * add an interaction link
-   *
-   * @param string $link where to go to
-   * @param string $caption the text of the link
+   * edit profile link
+   * 
    * @return string html
    */
-   function add_edit_link($link, $caption) {
+   public function add_edit_link() {
        $add_interact_link = "<a href='index.php?page=profile_edit'>Edit your profile</a>";
        return $add_interact_link;
    }
 
   /**
-   * add an interaction link
+   * add a friend link
    *
-   * @param string $link where to go to
-   * @param string $caption the text of the link
+   * @param int $id user id
    * @return string html
    */
-   function add_friend_link($id) {
+   public function add_friend_link($id) {
        $add_interact_link = "<a href='index.php?page=profile&amp;id=".$id."&amp;friends=add'>Add as Friend</a>";
        return $add_interact_link;
+   }
+
+   public function no_friends($username) {
+       $no_friends = $username." has no friends.";
+       return $no_friends;
    }
 
   /**
@@ -95,7 +104,7 @@ class skin_profile extends skin_common {
    * @param integer $id the id of the player we're fighting
    * @return string html
    */
-   function add_battle_link($id) {
+   public function add_battle_link($id) {
        $add_interact_link = "<form action='index.php?page=battle&amp;action=fight' name='profileBattleLink' method='post'>
            <input type='hidden' name='id' value='".$id."' />
            <a href='#' onclick='document.profileBattleLink.submit();'>Battle</a></form>";
@@ -109,7 +118,7 @@ class skin_profile extends skin_common {
     * @param string $value the field value
     * @return string html
     */
-    function extra_link($field, $value) {
+    public function extra_link($field, $value) {
         $extra_link = "<label>".$field.":</label> ".$value;
         return $extra_link;
     }
@@ -120,7 +129,7 @@ class skin_profile extends skin_common {
     * @param string $avatar_url url of avatar
     * @return string html
     */
-    function player_avatar($avatar_url = "images/avatar.png") {
+    public function player_avatar($avatar_url = "images/avatar.png") {
         $player_avatar = "<img src='".$avatar_url."' alt='User Avatar'><br />";
         return $player_avatar;
     }
@@ -136,16 +145,16 @@ class skin_profile extends skin_common {
     * @param string $message error message?
     * @return string html
     */
-    function edit_profile($profile, $gender_list, $show_email, $section, $message="") {
+    public function edit_profile($profile, $gender_list, $show_email, $section, $message="") {
         $edit_profile = "
                             <h2>Edit profile</h2>
                             ".$message."
-                                <a href='#' style='color:transparent;' onClick='showHide(\"showhide-1\");'><div class='edit-profile-header'><img id='showhide-1-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Edit Profile</div></a>
+                                <a href='#' style='color:transparent;' onClick='showHide(\"showhide-1\");return false;'><div class='edit-profile-header'><span style='float:right;'>&laquo;</span>Edit Profile</div></a>
                                 <div class='edit-profile-body' id='showhide-1'><form action='index.php?".$section."page=profile_edit&amp;action=update_profile' method='POST'>
                                 <input type='hidden' name='id' value='".$profile->id."' />
                                 <table>
-                                    <tr><td style='width:50%;'><label style='margin:0;'>Username</label></td>
-                                    <td style='width:50%;'><strong>".$profile->username."</strong></td></tr>
+                                    <tr><td style='width:30%;'><label style='margin:0;'>Username</label></td>
+                                    <td style='width:70%;'><strong>".$profile->username."</strong> ".$this->popup_help(6)."</td></tr>
 
                                     <tr><td><label for='edit-email'>Email</label></td>
                                     <td><input type='text' id='edit-email' name='email' value='".$profile->email."' /></td></tr>
@@ -154,10 +163,7 @@ class skin_profile extends skin_common {
                                     <td><input type='checkbox' id='edit-show-email' name='show_email' ".$show_email." /></td></tr>
 
                                     <tr><td><label for='edit-description'>Description</label></td>
-                                    <td><input type='text' id='edit-description' name='description' value='".$profile->description."'/></td></tr>
-
-                                    <tr><td><label for='edit-avatar'>Avatar URL</label></td>
-                                    <td><input type='text' id='edit-avatar' name='avatar' value='".$profile->avatar."'/></td></tr>
+                                    <td><textarea id='edit-description' name='description' style='width:90%;'>".$profile->description."</textarea></td></tr>
 
                                     <tr><td><label for='edit-gender'>Gender</label></td>
                                     <td><select id='edit-gender' name='gender'>".$gender_list."</select></td></tr>
@@ -182,13 +188,100 @@ class skin_profile extends skin_common {
     }
 
    /**
+    * Edit avatar code
+    *
+    * @param string $avatar_options the various options, specified in the admin panel
+    * @return string html
+    */
+    public function edit_avatar($avatar_options) {
+        $edit_avatar = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\");return false;'><div class='edit-profile-header'><span style='float:right;'>&laquo;</span>Change Avatar</div></a>
+            <div class='edit-profile-body' id='showhide-2' style='display:none;'><form action='index.php?page=profile_edit&amp;action=update_avatar' method='POST' enctype='multipart/form-data'>
+            <table>
+                " . $avatar_options . "
+                <tr><td colspan='2'><input type='submit' name='submit' value='Submit'/></td></tr>
+            </table></form>
+            </div>";
+        return $edit_avatar;
+    }
+
+   /**
+    * Edit avatar by URL
+    *
+    * @return string html
+    */
+    public function edit_avatar_url() {
+        $edit_avatar_url = "
+                <tr><td style='width:50%;'><label for='edit-avatar-url'>
+                    <input type='radio' id='avatar_type_url' name='avatar_type' value='url' />
+                    Enter a URL</label>
+                </td>
+                <td style='width:50%;'><input type='text' onfocus='document.getElementById(\"avatar_type_url\").checked=true;' id='edit-avatar-url' name='avatar_url' value='".$_POST['avatar_url']."' /></td></tr>
+        ";
+        return $edit_avatar_url;
+    }
+
+   /**
+    * Use a gravatar
+    *
+    * @param string $email the player's email address
+    * @return string html
+    */
+    public function edit_avatar_gravatar($email) {
+        $edit_avatar_gravatar = "
+                <tr><td style='width:50%;'><label for='edit-avatar-gravatar'>
+                    <input type='radio' id='avatar_type_gravatar' name='avatar_type' value='gravatar' />
+                    Use your gravatar</label>
+                </td>
+                <td style='width:50%;'><input type='hidden' id='edit-avatar-gravatar' name='avatar_gravatar' value='http://www.gravatar.com/avatar/".md5($email)."' />
+                <img src='http://www.gravatar.com/avatar/".md5($email)."?s=40' alt='Your gravatar' style='height:40px;' /></td></tr>
+        ";
+        return $edit_avatar_gravatar;
+    }
+
+   /**
+    * Upload your avatar
+    *
+    * @return string html
+    */
+    public function edit_avatar_upload() {
+        $edit_avatar_upload = "
+                <tr><td style='width:50%;'><label for='edit-avatar-upload'>
+                    <input type='hidden' name='MAX_FILE_SIZE' value='100000' />
+                    <input type='radio' id='avatar_type_upload' name='avatar_type' value='upload' />
+                    Upload an avatar</label>
+                </td>
+                <td style='width:50%;'><input type='file' onfocus='document.getElementById(\"avatar_type_upload\").checked=true;' id='edit-avatar-upload' name='avatar_upload' /></td></tr>
+        ";
+        return $edit_avatar_upload;
+    }
+
+   /**
+    * Use an avatar from the library
+    *
+    * @param string $library the library options
+    * @return string html
+    */
+    public function edit_avatar_library($library) {
+        $edit_avatar_library = "
+                <tr><td style='width:50%;'><label for='edit-avatar-library'>
+                    <input type='radio' id='avatar_type_library' name='avatar_type' value='library' />
+                    Choose from the library</label>
+                </td>
+                <td style='width:50%;'><img src='' alt='' id='avatar_preview_library' style='display:block;height:40px;' /></td></tr>
+                <tr><td colspan='2'><select onfocus='document.getElementById(\"avatar_type_library\").checked=true;' onchange='document.getElementById(\"avatar_preview_library\").src=\"images/library/\"+this.value;' id='edit-avatar-library' name='avatar_library' style='width:100%;'>
+                <option disabled='disabled' selected='selected'>Select an avatar:</option>".$library."</select></td></tr>
+        ";
+        return $edit_avatar_library;
+    }
+
+   /**
     * Edit password code, seperated.
     *
     * @return string html
     */
     public function edit_password() {
-        $edit_password = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\",\"showhide-2-icon\");'><div class='edit-profile-header'><img id='showhide-2-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Change Password</div></a>
-            <div class='edit-profile-body' id='showhide-2'><form action='index.php?page=profile_edit&amp;action=update_password' method='POST'>
+        $edit_password = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-3\");return false;'><div class='edit-profile-header'><span style='float:right;'>&laquo;</span>Change Password</div></a>
+            <div class='edit-profile-body' id='showhide-3' style='display:none;'><form action='index.php?page=profile_edit&amp;action=update_password' method='POST'>
             <table>
                 <tr><td style='width:50%;'><label for='edit-p1'>Current password</label></td>
                 <td style='width:50%;'><input type='password' id='edit-p1' name='current_password' /></td></tr>
@@ -213,7 +306,7 @@ class skin_profile extends skin_common {
     * @return string html
     */
     public function edit_permissions($permission_options, $id) {
-        $edit_permissions = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-3\",\"showhide-3-icon\");'><div class='edit-profile-header'><img id='showhide-3-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Edit Permissions</div></a>
+        $edit_permissions = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-3\",\"showhide-3-icon\");return false;'><div class='edit-profile-header'><img id='showhide-3-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Edit Permissions</div></a>
             <div class='edit-profile-body' id='showhide-3'><form action='index.php?section=admin&amp;page=profile_edit&amp;action=update_permissions' method='POST'>
             <input type='hidden' name='id' value='".$id."' />
             <table>
@@ -251,7 +344,7 @@ class skin_profile extends skin_common {
     * @return string html
     */
     public function edit_password_admin($id) {
-        $edit_password = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\",\"showhide-2-icon\");'><div class='edit-profile-header'><img id='showhide-2-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Change Password</div></a>
+        $edit_password = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\",\"showhide-2-icon\");return false;'><div class='edit-profile-header'><img id='showhide-2-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Change Password</div></a>
             <div class='edit-profile-body' id='showhide-2'><form action='index.php?section=admin&amp;page=profile_edit&amp;action=update_password' method='POST'>
             <input type='hidden' name='id' value='".$id."' />
             <table>

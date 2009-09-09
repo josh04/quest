@@ -23,8 +23,6 @@ class skin_common {
     */
     public $title;
 
-    public $javascript;
-
    /**
     * displays error; needs skinning
     *
@@ -66,15 +64,11 @@ class skin_common {
                     <title>".$title."</title>
                     <meta http-equiv='content-type' content='text/html; charset=utf-8' />
                     <link rel='stylesheet' type='text/css' href='./skin/common/" . $skin . "' />
-                    <script type='text/javascript' language='JavaScript' src='./skin/common/jquery.js'></script>
-<script type='text/javascript' language='JavaScript' src='./skin/common/autoresize.jquery.js'></script>
-<script type='text/javascript' language='JavaScript'>
-".$this->javascript."</script>
                     <script type='text/javascript' language='JavaScript' src='./skin/common/functions.js'></script>
                     </head>
                     <body>
                     <div id='wrapper'>
-                    <div id='header-text'><a href='index.php'>".$site_name."</a></div>
+                    <div id='header-text'>".$site_name."</div>
                     ";
         
         return $start_header;
@@ -86,9 +80,9 @@ class skin_common {
      * @return string html
      */
     public function glue($page) {
-        $glue = "
+        $glue = "<div id='right'>
                  <div id='content'>".$page."
-                 </div>";
+                 </div></div>";
         return $glue;
     }
 
@@ -100,8 +94,10 @@ class skin_common {
          $footer .= "
                     <div id='footer'>
                         <div id='footer-text'>
-                            <span style='font-size:1.5em;'>Angst</span><br />
-                            This version by Josh04 and Grego.
+                            <span style='font-size:1.5em;'>Quest</span><br />
+                            <span style='font-weight:normal;'>Based on ezRPG 0.1 by Zeggy</span><br />
+                            New code by Justin, Jamie, Josh04 and Grego<br />
+                            This version by Josh04 and Grego
                         </div>
                     </div>
                 </div>

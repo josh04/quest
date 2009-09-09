@@ -53,7 +53,7 @@ class code_cron_admin extends code_common {
             $cron['hours'] = intval($cron['period']/3600);
             $cron['minutes'] = intval(($cron['period'] % 3600)/60);
             $cron['seconds'] = intval($cron['period'] % 60);
-            $cron['last_active'] = date("F j, Y", $cron['last_active']);
+            $cron['last_active'] = date("G:i F j, Y", $cron['last_active']);
             if ($cron['enabled']) {
                 $cron['enabled'] = "Yes";
             } else {

@@ -38,7 +38,7 @@ class code_cron {
     * 
     */
     public function reset_energy() {
-        $player_query = $this->db->execute("UPDATE `players` SET `energy`=`energy_max`");
+        $player_query = $this->db->execute("UPDATE `rpg` SET `energy`=`energy_max`");
     }
     
    /**
@@ -46,7 +46,7 @@ class code_cron {
     * 
     */
     public function recover_health() {
-        $player_query = $this->db->execute("UPDATE `players` SET `hp`=`hp_max`");
+        $player_query = $this->db->execute("UPDATE `rpg` SET `hp`=`hp_max`");
     }
 
    /**
@@ -54,7 +54,7 @@ class code_cron {
     *
     */
     public function natural_heal($repeat) {
-        $player_query = $this->db->execute("UPDATE `players` SET `hp`=`hp`+? WHERE `hp`+? < `hp_max`", array($repeat, $repeat));
+        $player_query = $this->db->execute("UPDATE `rpg` SET `hp`=`hp`+? WHERE `hp`+? < `hp_max`", array($repeat, $repeat));
     }
 
    /**

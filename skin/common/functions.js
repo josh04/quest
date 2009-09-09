@@ -1,13 +1,10 @@
 // Shows or hides an element, depending on its current state
-function showHide(id, ida) {
+function showHide(id) {
 el = document.getElementById(id);
-em = document.getElementById(ida);
 if(el.style.display=="none") {
         el.style.display = "block";
-        em.innerHTML = "Hide";
     } else {
         el.style.display = "none";
-        em.innerHTML = "Reply";
     }
 return false;
 }
@@ -46,20 +43,24 @@ function popup_help(id) {
     window.open('popup_help.php?id='+id, 'popup_help', 'width=400,height=300');
 }
 
+function help_move(dir, id) {
+    d = document.getElementById('help_order_'+id);
 
-function resizeTextarea(t) {
-  if ( !t.initialRows ) t.initialRows = t.rows;
+    if(dir=='up')
+        nuVal= parseInt(d.value) - 1;
+    else
+        nuVal = parseInt(d.value) + 1;
 
-  a = t.value.split('\n');
-  b=0;
-  for (x=0; x < a.length; x++) {
-    if (a[x].length >= t.cols) b+= Math.floor(a[x].length / t.cols);
-  }
+    coll = document.getElementsByTagName('input');
 
-  b += a.length;
-  userAgentLowerCase = navigator.userAgent.toLowerCase();
-  if (userAgentLowerCase.indexOf('opera') != -1) b += 2;
-
-  if (b > t.rows || b < t.rows)
-    t.rows = (b < t.initialRows ? t.initialRows : b);
+    for(i=0;i<coll.length;i++) {
+        if(coll[i].name.substr(0,11) != 'help_order[') continue;
+        if(coll[i].value == nuVal) {
+            coll[i].value = d.value;
+            d.value = nuVal;
+            hold = d.parentNode.innerHTML;
+            d.parentNode.innerHTML = coll[i].parentNode.innerHTML;
+            coll[i].parentNode.innerHTML = hold;
+        }
+    }
 }

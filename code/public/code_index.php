@@ -8,7 +8,7 @@
  */
 class code_index extends code_common {
     
-    public $player_class = "code_player_profile";
+    public $player_class = "code_player_rpg";
     
 
    /**
@@ -18,119 +18,22 @@ class code_index extends code_common {
     * @return string html
     */
     public function index_player($message = "") {
-        if ($_GET['action'] == "logged_out") {
-            $message .= $this->skin->error_box($this->lang->logged_out);
-        }
-        
-        $online_list = "";
-        $mail = "";
-        $login_box = "";
+        require_once("code/public/code_stats.php");
+        $code_stats = new code_stats($this->section, $this->page);
+        $code_stats->player =& $this->player;
+        $code_stats->make_skin('skin_stats');
+        $stats = $code_stats->stats_table($message);
 
-        $angst_html = $this->angst_board();
+        $news = "";
+        $news = $this->news();
 
-        if ($this->player->is_member) {
-            $online_list = $this->online_list();
-            $mail = $this->mail();
-            $profile_box = $this->skin->profile_box($this->player->id, $this->player->registered_date);
-        } else {
-            $username = htmlentities($_POST['username'], ENT_QUOTES, 'utf-8');
-            $login_box = $this->skin->login_box($username);
-        }
-        
-        $index_player = $this->skin->index_player($this->player, $angst_html, $online_list, $mail, $login_box, $profile_box, $message);
+        $online_list = $this->online_list();
+        $quest = $this->quest();
+        $log = $this->log();
+        $mail = $this->mail();
+
+        $index_player = $this->skin->index_player($this->player, $stats, $news, $online_list, $quest, $log, $mail);
         return $index_player;
-    }
-
-   /**
-    * Makes the "angst board!"
-    *
-    * @return <type>
-    */
-    public function angst_board() {
-
-        if (isset($_GET['start'])) {
-            $limit = intval($_GET['start']).",10";
-        } else {
-            $limit = "0,10";
-        }
-
-        $angst_query = $this->db->execute("SELECT * FROM `angst` ORDER BY `time` DESC LIMIT ".$limit);
-
-        if ($angst_query->NumRows == 0) {
-            unset($angst_query);
-            $angst_query = $this->db->execute("SELECT * FROM `angst` ORDER BY `time` DESC LIMIT 0,10");
-        }
-
-        $angst_html = "";
-        $angst_ids = array();
-        $angst_array = array();
-        while ($angst = $angst_query->fetchrow()) {
-                $angst_ids[] = $angst['id'];
-                $angst_array[$angst['id']] = $angst;
-        }
-        
-        $replies_count_query = $this->db->execute("SELECT `angst_id`, COUNT(*) AS 'c' FROM `angst_replies`
-            GROUP BY `angst_id`", array());
-        
-        while ($count = $replies_count_query->fetchrow()) {
-            $reply_count[$count['angst_id']] = $count['c'];
-        }
-
-
-
-        $angst_return = "";
-        foreach ($angst_array as $id => $single_angst) {
-            if ($this->player->is_member) {
-                $reply_form = $this->skin->reply_box($this->skin->reply_form($id), $replies[$id]);
-            } else {
-                $reply_form = $this->skin->reply_box($this->skin->reply_form_guest($id), $replies[$id]);
-            }
-            if (!$reply_count[$id]) {
-                $reply_count[$id] = 0;
-            }
-            
-            if ($single_angst['type']) {
-                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'glee', 'g', $reply_count[$id]);
-            } else {
-                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'angst', 'r', $reply_count[$id]);
-            }
-        }
-
-        return $angst_html;
-
-    }
-
-   /**
-    * Fetches reply html
-    *
-    * @param int $id angst id
-    * @return string html
-    */
-    public function replies($id, $start = 0) {
-        $id = intval($id);
-        $start = intval($start);
-        $replies_query = $this->db->execute("SELECT `r`.*, `p`.`username` FROM `angst_replies` AS `r`
-            LEFT JOIN `players` AS `p` ON `r`.`player_id`=`p`.`id`
-            WHERE `r`.`angst_id`=?
-            ORDER BY `time` DESC
-            LIMIT ".$start.",5
-            ", array($id));
-
-        while ($reply = $replies_query->fetchrow()) {
-            $replies .= $this->skin->reply($reply);
-        }
-
-        return $replies;
-    }
-
-   /**
-    * Ajax replies
-    *
-    * @return string html
-    */
-    public function ajax_replies() {
-        $ajax_replies = $this->replies($_GET['id']);
-        return $ajax_replies;
     }
 
    /**
@@ -145,10 +48,63 @@ class code_index extends code_common {
         while($online = $online_query->fetchrow()) {
             $online_list[] = $this->skin->member_online_link($online['id'], $online['username']);
         }
-        $list = implode(", ",$online_list);
-        $online_list = $this->skin->online_list($list);
+        
+        return implode(", ",$online_list);
+    }
 
-        return  $online_list;
+   /**
+    * builds the site news
+    *
+    * @return string html
+    */
+    public function news() {
+        $news_query = $this->db->execute("SELECT n.*, p.username FROM news AS n
+                                    LEFT JOIN players AS p ON n.player_id=p.id
+                                    ORDER BY n.date DESC");
+        $news = ($news_query) ? "" : "Error retrieving news.";
+
+        while($news_entry = $news_query->fetchrow()) {
+            $news .= $this->skin->news_entry($news_entry['id'], $news_entry['username'], $news_entry['message']);
+        }
+
+        return $news;
+    }
+
+   /**
+    * current quest
+    *
+    * @return string html
+    */
+    public function quest() {
+        preg_match("/\A([0-9]+):([0-9a-z]+)/is",$this->player->quest,$m);
+        if(!$m[1]) return '';
+        $currentq = $this->db->execute("SELECT * FROM `quests` WHERE `id`=?",array($m[1]));
+        if($currentq->numrows()!=1) return '';
+        $quest = $this->skin->current_quest($currentq->fetchrow());
+        return $quest;
+    }
+
+   /**
+    * recent stuff from your log
+    *
+    * @return string html
+    */
+    public function log() {
+        $log_query = $this->db->execute("SELECT `message`, `status` FROM `user_log` WHERE `player_id`=? ORDER BY `time` DESC LIMIT 5",array($this->player->id));
+
+        if (!$log_query) {
+            $log = $this->skin->log_entry($this->lang->error_getting_log, 0);
+        }
+        
+        if ($log_query->numrows() == 0) {
+            $log = $this->skin->log_entry($this->lang->no_laptop_message, 0);
+        }
+
+        while($log_entry = $log_query->fetchrow()) {
+            $log .= $this->skin->log_entry($log_entry['message'], $log_entry['status']);
+        }
+
+        return $log;
     }
 
    /**
@@ -167,7 +123,7 @@ class code_index extends code_common {
         }
 
         if ($mail_query->numrows()==0) {
-            $mail = $this->skin->log_entry($this->lang->no_mail, 0);
+            $mail = $this->skin->log_entry($this->lang->no_laptop_message, 0);
         }
 
         while($mail_row = $mail_query->fetchrow()) {
@@ -175,123 +131,20 @@ class code_index extends code_common {
             $mail .= $this->skin->mail_entry($mail_row);
         }
 
-        $mail_box = $this->skin->mail_box($mail);
-        return $mail_box;
+        return $mail;
     }
 
    /**
-    * add the moods to the db
+    * builds the guest index. losers :P
     *
     * @return string html
     */
-    public function angst() {
-        $angst = htmlentities($_POST['angst'], ENT_QUOTES, 'utf-8');
-
-        if (strlen($angst) < 3) {
-            $code_index = $this->index_player($this->skin->error_box($this->lang->angst_too_short));
-            return $code_index;
+    public function index_guest($login_error) {
+        if ($_GET['action'] == "logged_out") {
+            $login_error = $this->lang->logged_out;
         }
-
-        if ($this->player->is_member) {
-            switch($_POST['submit']) {
-                case 'Glee':
-                    $this->player->glee_count++;
-                    $this->player->update_player(true);
-                    break;
-                case 'Angst':
-                default:
-                    $this->player->angst_count++;
-                    $this->player->update_player(true);
-            }
-
-        }
-
-        switch($_POST['submit']) {
-            case 'Glee':
-                $type = 1;
-                break;
-            case 'Angst':
-            default:
-                $type = 0;
-        }
-
-        $angst_insert['angst'] = nl2br($angst);
-        $angst_insert['type'] = $type;
-        $angst_insert['time'] = time();
-
-        $this->db->AutoExecute('angst', $angst_insert, 'INSERT');
-
-        header("Location: index.php?page=index");
-    }
-
-    public function angst_reply() {
-
-        if (!$this->player->is_member) {
-            $angst_reply = $this->index_player($this->skin->error_box($this->lang->cannot_reply));
-            return $angst_reply;
-        }
-        $reply = htmlentities($_POST['angst-reply'], ENT_QUOTES, 'utf-8');
-
-        if (strlen($reply) < 3) {
-            $code_index = $this->index_player($this->skin->error_box($this->lang->angst_too_short));
-            return $code_index;
-        }
-
-        $angst_insert['player_id'] = $this->player->id;
-        $angst_insert['angst_id'] = intval($_POST['angst-id']);
-        $angst_insert['reply'] = nl2br($reply);
-        $angst_insert['time'] = time();
-
-        $this->db->AutoExecute('angst_replies', $angst_insert, 'INSERT');
-
-        header("Location: index.php?page=index");
-    }
-
-   /**
-    * Angst reply for ajax
-    *
-    * @return string html
-    */
-    public function angst_reply_ajax() {
-        if (!$this->player->is_member) {
-            $angst_reply = $this->skin->error_box($this->lang->cannot_reply);
-            return $angst_reply;
-        }
-        $reply = htmlentities($_POST['angst-reply'], ENT_QUOTES, 'utf-8');
-
-        if (strlen($reply) < 3) {
-            $code_index = $this->skin->error_box($this->lang->angst_too_short);
-            return $code_index;
-        }
-
-        $angst_insert['player_id'] = $this->player->id;
-        $angst_insert['angst_id'] = intval($_POST['angst-id']);
-        $angst_insert['reply'] = nl2br($reply);
-        $angst_insert['time'] = time();
-
-        $this->db->AutoExecute('angst_replies', $angst_insert, 'INSERT');
-        return $this->skin->success_box($this->lang->reply_posted);
-    }
-
-   /**
-    * chooses what to do
-    *
-    * @return string html
-    */
-    public function index_switch() {
-
-        if ($_GET['action'] == "angst") {
-            $code_index = $this->angst();
-            return $code_index;
-        }
-
-        if ($_GET['action'] == "angst-reply") {
-            $code_index = $this->angst_reply();
-            return $code_index;
-        }
-
-        $code_index = $this->index_player();
-        return $code_index;
+        $index_guest = $this->skin->index_guest($username, $login_error, $this->settings['welcometext']);
+        return $index_guest;
     }
 
    /**
@@ -299,35 +152,59 @@ class code_index extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-
-        if ($code_other) {
-            parent::construct($code_other);
-            return;
-        }
-
-
-        
+    public function construct() {
         $this->initiate("skin_index");
-
-        if ($_GET['action'] == "ajax_replies") {
-            $code_index = $this->ajax_replies();
-            print $code_index;
-            return;
+        if($this->player->is_member) {
+            $code_index = $this->index_player();
+        } else {
+            $code_index = $this->index_guest("", "");
         }
-
-        if ($_GET['action'] == "ajax_reply") {
-            $code_index = $this->angst_reply_ajax();
-            print $code_index;
-            return;
-        }
-        
-        $code_index = $this->index_switch();
-
         
         parent::construct($code_index);
     }
-    
+
+   /**
+    * Static menu extension for the index.
+    *
+    * @param code_menu $menu Menu object
+    * @param string $label Text for the label
+    * @return string html
+    */
+    public static function code_index_menu(&$menu, $label) {
+        if ($menu->player->is_member) {
+            if (get_class($menu->player) != "code_player_rpg") { // because we no longer necessarily have the rpg data
+                $player_query = $menu->db->execute("SELECT * FROM `rpg` WHERE `player_id`=?", array($menu->player->id));
+                
+                if (!$player_extra = $player_query->fetchrow()) {
+                    return $label;
+                }
+                $player_extra['exp_diff'] = $player_extra['exp_max'] - $player_extra['exp'];
+            } else {
+                $player_extra['hp'] = $menu->player->hp;
+                $player_extra['strength'] = $menu->player->strength;
+                $player_extra['vitality'] = $menu->player->vitality;
+                $player_extra['agility'] = $menu->player->agility;
+
+                $player_extra['hp'] = $menu->player->hp;
+                $player_extra['hp_max'] = $menu->player->hp_max;
+                $player_extra['exp'] = $menu->player->exp;
+                $player_extra['exp_max'] = $menu->player->exp_max;
+                $player_extra['exp_diff'] = $menu->player->exp_max - $menu->player->exp;
+                $player_extra['energy'] = $menu->player->energy;
+                $player_extra['energy_max'] = $menu->player->energy_max;
+
+                $player_extra['kills'] = $menu->player->kills;
+                $player_extra['deaths'] = $menu->player->deaths;
+
+                $player_extra['level'] = $menu->player->level;
+                $player_extra['stat_points'] = $menu->player->stat_points;
+            }
+
+            require_once("skin/public/skin_index.php");
+            $menu->top .= skin_index::player_details_menu($menu->player, $player_extra);
+        }
+        return $label;
+    }
 }
 
 ?>

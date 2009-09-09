@@ -23,6 +23,21 @@ class lang_error {
     public $upgrade_db_no_object = "Your installation of ezrpg is not suitable to be upgraded.";
     public $db_query_failed = "There was a problem accessing the database";
 
+    // battle
+    public $player_not_found = "Player not found.";
+    public $no_player_selected = "No player selected.";
+    public $cannot_attack_self = "You cannot attack yourself.";
+    public $player_no_energy = "You do not have enough energy to attack";
+    public $player_currently_incapacitated = "You are currently incapacitated.";
+    public $enemy_currently_incapacitated = "Your opponent is currently incapacitated.";
+    public $you_won = "You won!";
+    public $you_lost = "You lost!";
+    public $you_drew = "You drew.";
+    public $levelled_up = "You gained a level!";
+    public $battle_drawn = "Battle drawn.";
+    public $enemy_malformed = "Enemy not properly formed.";
+    public $no_players_found = "No players matched your query.";
+
     // login
     public $password_wrong = "The password entered is incorrect.";
     public $password_updated = "Password successfully updated.";
@@ -61,6 +76,19 @@ class lang_error {
     public $ticket_submitted = "Your support ticket was submitted.";
     public $too_many_tickets = "You have too many open tickets. Please wait until some are resolved before submitting another.";
 
+    // blueprints
+    public $no_blueprints = "There are currently no blueprints.";
+    public $no_blueprint_selected = "You did not select a blueprint.";
+    public $no_blueprint_name = "You did not enter a name for your blueprint.";
+    public $no_blueprint_description = "You did not enter a description for your blueprint.";
+    public $blueprint_removed = "The selected blueprint has been removed.";
+    public $blueprint_remove_failed = "No blueprint was selected to delete.";
+    public $blueprint_added = "Blueprint added.";
+    public $blueprint_modify = "Blueprint modified.";
+    public $add = "Add";
+    public $modify = "Modify";
+    public $remove = "Remove";
+
     // mail
     public $messages_deleted = "Messages deleted.";
     public $mail_sent = "Mail sent.";
@@ -70,7 +98,21 @@ class lang_error {
     public $marked_as_unread = "Messages marked as unread";
     public $no_messages_selected = "You did not select any messages";
     public $error_getting_mail = "Error retrieving your mail.";
-    public $no_mail = "You do not currently have any mail.";
+
+    // items
+    public $item_not_found = "The selected item does not exist.";
+    public $item_equipped = "Item Equipped.";
+    public $item_unequipped = "Item Unequipped";
+    public $no_items = "You do not have any items in your inventory.";
+    public $equip = "Equip";
+    public $unequip = "Unequip";
+    public $no_items_in_store = "There are currently no items in the store.";
+    public $no_item_selected = "No item selected";
+    public $cannot_afford = "You cannot afford that item.";
+
+    // stats
+    public $no_stat_points = "You do not currently have any stat points to spend.";
+    public $not_a_stat = "That is not a stat.";
 
     // menu
     public $no_menu_entry_selected = "You did not select a menu entry.";
@@ -91,6 +133,16 @@ class lang_error {
     public $category_move_down_no = "That menu entry cannot be moved down.";
     public $category_move_up_no = "That menu entry cannot be moved up.";
 
+    // quests
+    public $no_quests = "There are currently no quests installed.";
+    public $quest_not_found = "The quest you were looking for does not exist.";
+    public $confirm_delete_quest = "Are you sure you want to delete this quest?";
+    public $quest_install_warning = "The developers of Quest are not responsible for the quests you install. Check quests carefully before installing them.";
+    public $quest_install_success = "The quest was successfully installed.";
+    public $quest_install_no = "The quest could not be installed.";
+    public $quest_delete_success = "The quest was successfully deleted.";
+    public $quest_delete_no = "The quest could not be deleted.";
+
     // admin
     public $changes_saved = "Changes saved.";
     public $changes_saved_no = "Changes could not be saved.";
@@ -103,6 +155,25 @@ class lang_error {
     public $couldnt_find_message = "The message you submitted could not be found.";
     public $message_saved = "Message saved.";
 
+    // bank
+    public $collect_interest_tomorrow = "You can collect your interest again tomorrow.";
+    public $not_enough_cash_to_deposit = "You do not have that much cash to deposit.";
+    public $not_enough_cash_to_withdraw = "You do not have that much cash to withdraw.";
+    public $not_enough_cash_to_donate = "You do not have that much cash to donate.";
+
+    // hospital
+    public $full_health = "You are already at full health.";
+    public $beyond_maximum = "That is beyond your maximum health.";
+    public $not_enough_to_heal = "You don't have enough money to heal that much.";
+    public $no_amount_to_heal_entered = "You did not enter an amount to heal.";
+
+    // work
+    public $no_energy_to_work = "You have no energy left. You must rest a while before working.";
+
+    // laptop
+    public $no_laptop_message = "You currently do not have any laptop messages.";
+    public $error_getting_log = "Error retrieving from your log.";
+
     // friends
     public $cant_self_friend = "You can't be friends with yourself.";
     public $already_friends = "You are already friends with ";
@@ -113,6 +184,10 @@ class lang_error {
     // edit_profile
     public $not_a_rank = "That is not a valid rank.";
     public $permissions_updated = "Permissions sucessfully updated.";
+    public $avatar_submit_no = "You didn't submit an avatar.";
+    public $avatar_updated = "Your avatar was successfully updated.";
+    public $avatar_url_notfound = "The avatar could not be found at the URL you supplied.";
+    public $avatar_upload_no = "Your avatar could not be uploaded.";
 
     // cron
     public $no_cron_selected = "You did not select a cron to edit.";
@@ -120,6 +195,9 @@ class lang_error {
 
     // help
     public $help_not_found = "The help topic could not be found.";
+    public $error_updating_help = "Could not update help files.";
+    public $help_updated = "Help files updated";
+    public $confirm_help_delete = "Are you sure you want to delete this help topic?";
 
     // message overrides
     public $override_deleted = "The message has been restored to it's original content.";
@@ -128,10 +206,5 @@ class lang_error {
     // pages
     public $no_page_selected = "You did not select a page.";
     public $mod_updated = "The mod for that page has been updated.";
-
-    // angst
-    public $angst_too_short = "All angst must be longer than three characters.";
-    public $cannot_reply = "Guests cannot reply to angst.";
-    public $reply_posted = "You posted a reply.";
 }
 ?>

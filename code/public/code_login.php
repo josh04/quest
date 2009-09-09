@@ -6,9 +6,9 @@
  * @author josh04
  * @package code_public
  */
-class code_login extends code_index {
+class code_login extends code_common {
 
-    public $player_class = "code_player_profile";
+    public $player_class = "code_player_rpg";
 
    /**
     * class override. calls parents, sends kids home.
@@ -59,13 +59,14 @@ class code_login extends code_index {
     * @return string html
     */
     public function log_in() {
+
         if ($_POST['username'] == "") {
-            $log_in = $this->index_player($this->skin->error_box($this->lang->please_enter_username));
+            $log_in = $this->skin->index_guest($username, $this->lang->please_enter_username, $this->settings['welcometext']);
             return $log_in;
         }
 
         if ($_POST['password'] == "") {
-            $log_in = $this->index_player($this->skin->error_box($this->lang->please_enter_password));
+            $log_in = $this->skin->index_guest($username, $this->lang->please_enter_password, $this->settings['welcometext']);
             return $log_in;
         }
 
@@ -73,7 +74,7 @@ class code_login extends code_index {
         $player_exists = $player->log_in($_POST['username'], $_POST['password']);
 
         if (!$player_exists) {
-            $log_in = $this->index_player($this->skin->error_box($this->lang->password_wrong));
+            $log_in = $this->skin->index_guest($username, $this->lang->password_wrong, $this->settings['welcometext']);
             return $log_in;
         }
 
@@ -96,7 +97,7 @@ class code_login extends code_index {
     public function register() {
 
         if($this->settings['verification_method']==0) {
-            $register_submit = $this->index_player($this->skin->error_box($this->lang->registration_disabled));
+            $register_submit = $this->skin->index_guest("", $this->lang->registration_disabled, $this->settings['welcometext']);
             return $register_submit;
         }
 
@@ -112,7 +113,7 @@ class code_login extends code_index {
     public function register_submit() {
 
         if($this->settings['verification_method']==0) {
-            $register_submit = $this->index_player($this->skin->error_box($this->lang->registration_disabled));
+            $register_submit = $this->skin->index_guest("", $this->lang->registration_disabled, $this->settings['welcometext']);
             return $register_submit;
         }
 
@@ -215,7 +216,7 @@ class code_login extends code_index {
 
         <p>But above all, have fun!</p>";
 
-        $register_submit = $this->index_player($this->skin->error_box($this->lang->registered));
+        $register_submit = $this->skin->index_guest($username, $this->lang->registered, $this->settings['welcometext']);
         return $register_submit;
 
     }

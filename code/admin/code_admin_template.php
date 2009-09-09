@@ -87,7 +87,7 @@ class code_admin_template extends _code_admin {
 
         // Admin panel
         if ($this->page == "panel") {
-            $data = array('title'=>'Admin panel','description'=>'',
+            $data = array('title'=>'Admin panel','description'=>'','fields_width'=>70,
                 'fields' => array(
                     array('type'=>'text', 'name'=>'name','caption'=>'Project name'),
                     array('name'=>'admin_notes','caption'=>'Notes for administrators','lang'=>'BBCode'),
@@ -101,6 +101,11 @@ class code_admin_template extends _code_admin {
                             array('value'=>'3', 'caption'=>'Require administrator approval'),
                         ),
                     ),
+                    array('type'=>'caption','value'=>'<h3>Avatars</h3>'),
+                    array('type'=>'checkbox','name'=>'avatar_url','caption'=>'Allow players to enter an avatar by URL?'),
+                    array('type'=>'checkbox','name'=>'avatar_gravatar','caption'=>'Allow players to use <a href="http://www.gravatar.com/" target="_blank">Gravatars</a>?'),
+                    array('type'=>'checkbox','name'=>'avatar_upload','caption'=>'Allow players to upload avatars (in <em>/images/avatars</em>)?'),
+                    array('type'=>'checkbox','name'=>'avatar_library','caption'=>'Enable an avatar library (in <em>/images/library</em>)?'),
                 ),
             );
         }
