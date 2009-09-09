@@ -255,14 +255,14 @@ class angst_index extends code_index {
             return $code_index;
         }
 
-        $check_query = $this->db->execute("SELECT * FROM `angst_replies` WHERE `player_id`=? ORDER BY `time` DESC LIMIT 1 ", array($this->player->id));
+       /* $check_query = $this->db->execute("SELECT * FROM `angst_replies` WHERE `player_id`=? ORDER BY `time` DESC LIMIT 1 ", array($this->player->id));
 
         if ($check = $check_query->fetchrow()) {
             if (time() - $check['time'] < 60) {
                 $angst_reply = $this->skin->error_box($this->lang->angst_reply_timer);
                 return $angst_reply;
             }
-        }
+        }*/
 
         $angst_insert['player_id'] = $this->player->id;
         $angst_insert['angst_id'] = intval($_POST['angst-id']);
