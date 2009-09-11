@@ -13,7 +13,11 @@ class code_blueprints extends _code_admin {
     *
     * @return string html
     */
-    public function construct() {
+    public function construct($code_other = "") {
+        if ($code_other) {
+             parent::construct($code_other);
+             return;
+        }  
         $this->initiate("skin_blueprints");
 
         $code_blueprints = $this->blueprints_switch();

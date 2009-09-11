@@ -13,7 +13,7 @@ class code_player_profile extends code_player {
     */
     public function make_player() {
         $return_value = parent::make_player("profiles");
-        if ($this->is_player) {
+        if ($this->is_member) {
             $this->custom_fields();
         }
         return $return_value;

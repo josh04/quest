@@ -15,7 +15,11 @@ class code_profile extends code_common {
     *
     * @return string html
     */
-    public function construct() {
+    public function construct($code_other = "") {
+        if ($code_other) {
+             parent::construct($code_other);
+             return;
+        }  
         $this->initiate("skin_profile");
 
         require_once("code/player/code_player_profile.php");

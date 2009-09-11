@@ -152,7 +152,11 @@ class code_index extends code_common {
     *
     * @return string html
     */
-    public function construct() {
+    public function construct($code_other = "") {
+        if ($code_other) {
+             parent::construct($code_other);
+             return;
+        }  
         $this->initiate("skin_index");
         if($this->player->is_member) {
             $code_index = $this->index_player();

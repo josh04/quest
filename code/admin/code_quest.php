@@ -11,7 +11,11 @@ class code_quest extends _code_admin {
     *
     * @return string html
     */
-    public function construct() {
+    public function construct($code_other = "") {
+        if ($code_other) {
+             parent::construct($code_other);
+             return;
+        }  
         $this->initiate("skin_quest");
 
         $code_quest = $this->quest_page();

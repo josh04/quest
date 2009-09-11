@@ -12,7 +12,11 @@ class code_edit_profile extends _code_admin {
     *
     * @return string html
     */
-    public function construct() {
+    public function construct($code_other = "") {
+        if ($code_other) {
+             parent::construct($code_other);
+             return;
+        }  
         $this->section = "public"; // Cheating here because I want to use the public skin file skin_profile
         $this->initiate("skin_profile");
 

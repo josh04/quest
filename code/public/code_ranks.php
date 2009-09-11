@@ -12,7 +12,11 @@ class code_ranks extends code_common {
     *
     * @return string html
     */
-    public function construct() {
+    public function construct($code_other = "") {
+        if ($code_other) {
+             parent::construct($code_other);
+             return;
+        }  
         $this->initiate("skin_ranks");
 
         $code_ranks = $this->make_ranks();
