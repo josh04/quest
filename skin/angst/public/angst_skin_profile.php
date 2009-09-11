@@ -308,7 +308,10 @@ class angst_skin_profile extends angst_skin_common {
                 <td><input type='password' id='edit-t2' name='twitter_password' /></td></tr>
 
                 <tr><td colspan='2'><input type='submit' name='submit' value='Submit'/></td></tr>
+
             </table></form>
+<form action='index.php?page=profile_edit&amp;action=twitter_recount' method='POST'>
+<input type='submit' name='submit' value='Recount'/></form>
             </div>";
         return $edit_password;
     }

@@ -136,5 +136,8 @@ class angst_lang_error {
     public $angst_reply_timer = "You cannot post more than once every minute.";
     public $twitter_not_verified = "Twitter verification failed.";
     public $twitter_succeeded = "Twitter verification succeeded.";
+    public $twitter_already_verified = "You have already connected your account with this twitter username.";
+    public $twitter_no_new = "No new tweets.";
+    public $twitter_recounted = "Twitter posts recounted.";
 }
 ?>

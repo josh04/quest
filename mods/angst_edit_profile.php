@@ -45,6 +45,9 @@ class angst_edit_profile extends code_edit_profile {
             case 'twitter_auth':
                 $profile_switch = $this->twitter_auth();
                 break;
+            case 'twitter_recount':
+                $profile_switch = $this->twitter_recount();
+                break;
             default:
                 $profile_switch = $this->edit_profile_page();
         }
@@ -53,6 +56,8 @@ class angst_edit_profile extends code_edit_profile {
 
    /**
     * got twitter? Check it
+    *
+    * @return string html
     */
     public function twitter_auth() {
         $curl_conn = curl_init();
@@ -78,19 +83,28 @@ class angst_edit_profile extends code_edit_profile {
         $array_glee = json_decode($output_glee, true);
         
         if (isset($array_glee['id'])) {
+
+            if ($this->player->twitter_user_id == $array_glee['id']) {
+                $twitter_auth = $this->edit_profile_page($this->skin->error_box($this->lang->twitter_already_verified));
+                return $twitter_auth;
+            }
+
             $this->player->twitter_user_id = $array_glee['id'];
             if (!intval($this->player->twitter_last)) {
                 $this->player->twitter_last = 0;
             }
-            $check_query = $this->db->execute("SELECT twitter_id, COUNT(`twitter_id`) AS `c` FROM `twitter` WHERE `twitter_user_id`=? AND `twitter_id` >= ? ORDER BY `twitter_id` DESC LIMIT 1", array($this->player->twitter_user_id, $this->player->twitter_last));
+            $check_query = $this->db->execute("SELECT COUNT(`twitter_id`) AS `c` FROM `twitter` WHERE `twitter_user_id`=? AND `twitter_id` > ? ", array($this->player->twitter_user_id, $this->player->twitter_last));
             if ($check = $check_query->fetchrow()) {
 
                 $count_query = $this->db->execute("SELECT COUNT(`twitter_id`) AS `c` FROM `twitter` AS `t` INNER JOIN `angst` AS `a` ON `t`.`angst_id`=`a`.`id` WHERE `a`.`type`=0 AND `t`.`twitter_user_id`=? AND `t`.`twitter_id` > ?", array($this->player->twitter_user_id, $this->player->twitter_last));
-                $this->player->twitter_last = $check['twitter_id'];
+
                 if ($count = $count_query->fetchrow()) {
                     $this->player->angst_count = $this->player->angst_count + $count['c'];
-                    $this->player->glee_count = $this->player->glee_count + ($check['c'] - $count['c'] - 1); // minus one because >= in the check query
+                    $this->player->glee_count = $this->player->glee_count + ($check['c'] - $count['c']); // minus one because >= in the check query
                 }
+                $last_query = $this->db->execute("SELECT `twitter_id` FROM `twitter` WHERE `twitter_user_id`=? ORDER BY `twitter_id` DESC LIMIT 1");
+                $last = $last_query->fetchrow();
+                $this->player->twitter_last = $last['twitter_id'];
             }
             $this->player->update_player(true);
         } else {
@@ -99,6 +113,36 @@ class angst_edit_profile extends code_edit_profile {
         }
 
         $twitter_auth = $this->edit_profile_page($this->skin->success_box($this->lang->twitter_succeeded));
+        return $twitter_auth;
+    }
+
+   /**
+    * Much quicker than reverifying
+    */
+    public function twitter_recount() {
+        if (!intval($this->player->twitter_last)) {
+            $this->player->twitter_last = 0;
+        }
+        $check_query = $this->db->execute("SELECT COUNT(`twitter_id`) AS `c` FROM `twitter` WHERE `twitter_user_id`=? AND `twitter_id` > ? ", array($this->player->twitter_user_id, $this->player->twitter_last));
+        if ($check = $check_query->fetchrow()) {
+            if ($check['c'] > 0) {
+                
+                $count_query = $this->db->execute("SELECT COUNT(`twitter_id`) AS `c` FROM `twitter` AS `t` INNER JOIN `angst` AS `a` ON `t`.`angst_id`=`a`.`id` WHERE `a`.`type`=0 AND `t`.`twitter_user_id`=? AND `t`.`twitter_id` > ?", array($this->player->twitter_user_id, $this->player->twitter_last));
+
+                if ($count = $count_query->fetchrow()) {
+                    $this->player->angst_count = $this->player->angst_count + $count['c'];
+                    $this->player->glee_count = $this->player->glee_count + ($check['c'] - $count['c']); // minus one because >= in the check query
+                }
+                $last_query = $this->db->execute("SELECT `twitter_id` FROM `twitter` WHERE `twitter_user_id`=? ORDER BY `twitter_id` DESC LIMIT 1", array($this->player->twitter_user_id));
+                $last = $last_query->fetchrow();
+                $this->player->twitter_last = $last['twitter_id'];
+                $this->player->update_player(true);
+            } else {
+                $twitter_auth = $this->edit_profile_page($this->skin->error_box($this->lang->twitter_no_new));
+                return $twitter_auth;
+            }
+        }
+        $twitter_auth = $this->edit_profile_page($this->skin->success_box($this->lang->twitter_recounted));
         return $twitter_auth;
     }
 
