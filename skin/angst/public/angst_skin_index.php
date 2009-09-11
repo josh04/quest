@@ -388,6 +388,7 @@ class angst_skin_index extends angst_skin_common {
     public function reply_form_guest($id) {
         $reply_form = " <form action='index.php?page=index&amp;action=angst-reply' class='angst-reply-form' method='post'>
             <input type='hidden' class='angst-id' name='angst-id' value='".$id."' />
+            <div class='error'>Guests cannot reply to angst.</div>
     </form>";
         return $reply_form;
     }

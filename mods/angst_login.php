@@ -16,7 +16,11 @@ class angst_login extends angst_index {
     *
     * @return string html
     */
-    public function construct() {
+    public function construct($code_other = "") {
+        if ($code_other) {
+             parent::construct($code_other);
+             return;
+        }  
         $this->initiate("skin_index");
         if($this->player->is_member) {
             $code_login = $this->log_out();
@@ -84,6 +88,10 @@ class angst_login extends angst_index {
             return $log_in;
         }
         
+        if ($player->twitter_user_id) {
+            $player->twitter_update();
+        }
+
         header("Location: index.php");
         exit;
 

@@ -15,7 +15,11 @@ class code_battle extends code_common {
     *
     * @return string html
     */
-    public function construct() {
+    public function construct($code_other = "") {
+        if ($code_other) {
+             parent::construct($code_other);
+             return;
+        }  
         $this->initiate("skin_battle");
 
         $this->fight = new code_fight($this->section, $this->page);

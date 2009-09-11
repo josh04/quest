@@ -293,6 +293,27 @@ class angst_skin_profile extends angst_skin_common {
     }
 
    /**
+    * Edit password code, seperated.
+    *
+    * @return string html
+    */
+    public function twitter_auth() {
+        $edit_password = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-4\",\"showhide-4-icon\");'><div class='edit-profile-header'><img id='showhide-4-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Twitter Account</div></a>
+            <div class='edit-profile-body' id='showhide-2'><form action='index.php?page=profile_edit&amp;action=twitter_auth' method='POST'>
+            <table>
+                <tr><td style='width:50%;'><label for='edit-p1'>Twitter Username</label></td>
+                <td style='width:50%;'><input type='text' id='edit-t1' name='twitter_username' /></td></tr>
+
+                <tr><td><label for='edit-p2'>Twitter Password</label></td>
+                <td><input type='password' id='edit-t2' name='twitter_password' /></td></tr>
+
+                <tr><td colspan='2'><input type='submit' name='submit' value='Submit'/></td></tr>
+            </table></form>
+            </div>";
+        return $edit_password;
+    }
+
+   /**
     * fer makin people admins
     *
     * @param string $permission_options list of options

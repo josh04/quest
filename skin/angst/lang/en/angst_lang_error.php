@@ -134,5 +134,7 @@ class angst_lang_error {
     public $cannot_reply = "Guests cannot reply to angst.";
     public $reply_posted = "You posted a reply.";
     public $angst_reply_timer = "You cannot post more than once every minute.";
+    public $twitter_not_verified = "Twitter verification failed.";
+    public $twitter_succeeded = "Twitter verification succeeded.";
 }
 ?>

@@ -13,7 +13,11 @@ class code_database extends _code_install {
     *
     * @return string html
     */
-    public function construct() {
+    public function construct($code_other = "") {
+        if ($code_other) {
+             parent::construct($code_other);
+             return;
+        }  
         $this->initiate("skin_install");
 
         $code_database = $this->database_switch();

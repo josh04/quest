@@ -147,9 +147,9 @@ class code_bootstrap {
         * that. Otherwise, take the default class name.
         */
 
-        if (isset($mods[$page])) {
-            require_once("mods/".$mods[$page].".php");
-            $class_name = $mods[$page];
+        if (isset($mods[$pages[$section][$page]])) {
+            require_once("mods/".$mods[$pages[$section][$page]].".php");
+            $class_name = $mods[$pages[$section][$page]];
         } else {
             $class_name = "code_".$pages[$section][$page];
         }
