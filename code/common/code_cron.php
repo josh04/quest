@@ -1,6 +1,7 @@
 <?php
 /**
  * ticking tocking clocking
+ * (TODO) hooks for functions
  *
  * @author josh04
  * @package code_common
