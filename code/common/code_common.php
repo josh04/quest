@@ -81,9 +81,16 @@ class code_common {
    /**
     * The class stored in this variable will be loaded by make_player as the player object.
     *
-    * @var <type>
+    * @var string
     */
     public $player_class = "code_player";
+
+   /**
+    * Default skin
+    *
+    * @var string
+    */
+    public $override_skin = "";
 
    /**
     * The common constructor for every class which extends code_common.
@@ -192,7 +199,6 @@ class code_common {
         while ($setting = $settings_query->fetchrow()) {
             $this->settings[$setting['name']] = $setting['value'];
         }
-        
     }
 
    /**
@@ -221,17 +227,30 @@ class code_common {
     * If the player has a skin, use that. needs skin selection code to be
     * useful, tbqh.
     * (DONE) skin code
-    * (TODO) site default custom skin
     *
     * @param string $skin_name skin name
     */
     public function make_skin($skin_name = "") {
+        $alternative_skin = "";
+
+        if ($this->settings->default_skin) {
+            $alternative_skin = $this->settings->default_skin;
+        }
+
         if ($this->player->skin) {
-            if (file_exists("skin/".$this->player->skin."/common/".$this->player->skin."_skin_common.php")) {
-                        require_once("skin/".$this->player->skin."/common/".$this->player->skin."_skin_common.php");
+            $alternative_skin = $this->player->skin;
+        }
+
+        if ($this->override_skin) {
+            $alternative_skin = $this->override_skin;
+        }
+
+        if ($alternative_skin) {
+            if (file_exists("skin/".$alternative_skin."/common/".$alternative_skin."_skin_common.php")) {
+                        require_once("skin/".$alternative_skin."/common/".$alternative_skin."_skin_common.php");
             }
-            if (file_exists("skin/".$this->player->skin."/".$this->section."/_skin_".$this->section.".php")) {
-                        require_once("skin/".$this->player->skin."/".$this->section."/_skin_".$this->section.".php");
+            if (file_exists("skin/".$alternative_skin."/".$this->section."/_skin_".$this->section.".php")) {
+                        require_once("skin/".$alternative_skin."/".$this->section."/_skin_".$this->section.".php");
             }
         } else {
             if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) {
@@ -240,21 +259,21 @@ class code_common {
         }
         if ($skin_name) {
             require_once("skin/".$this->section."/".$skin_name.".php"); // Get config values.
-            if ($this->player->skin) {
-                if (file_exists("skin/".$this->player->skin."/".$this->section."/".$this->player->skin."_".$skin_name.".php")) {
-                    require_once("skin/".$this->player->skin."/".$this->section."/".$this->player->skin."_".$skin_name.".php");
-                    $skin_class_name = $this->player->skin."_".$skin_name;
+            if ($alternative_skin) {
+                if (file_exists("skin/".$alternative_skin."/".$this->section."/".$alternative_skin."_".$skin_name.".php")) {
+                    require_once("skin/".$alternative_skin."/".$this->section."/".$alternative_skin."_".$skin_name.".php");
+                    $skin_class_name = $alternative_skin."_".$skin_name;
                 } else {
                     $skin_class_name = $skin_name;
                 }
             } else {
                 $skin_class_name = $skin_name;
             }
-
+            
             $this->skin = new $skin_class_name;
         } else {
-            if ($this->player->skin) {
-                $class_name = $this->player->skin."_skin_common";
+            if ($alternative_skin) {
+                $class_name = $alternative_skin."_skin_common";
                 if (class_exists($class_name)) {
                     $this->skin = new $class_name;
                 } else {
@@ -282,6 +301,27 @@ class code_common {
     * (TODO) Player language choice?
     */
     public function make_extra_lang() {
+        $alternative_skin = "";
+
+        if ($this->settings->default_skin) {
+            $alternative_skin = $this->settings->default_skin;
+        }
+
+        if ($this->player->skin) {
+            $alternative_skin = $this->player->skin;
+        }
+
+        if ($this->override_skin) {
+            $alternative_skin = $this->override_skin;
+        }
+
+        if ($alternative_skin) {
+            if (file_exists("skin/".$alternative_skin."/lang/en/".$alternative_skin."_lang_error.php")) {
+               require_once("skin/".$alternative_skin."/lang/en/".$alternative_skin."_lang_error.php");
+               $class_name = $alternative_skin."_lang_error";
+               $this->lang = new $class_name;
+            }
+        }
         $lang_query = $this->db->execute("SELECT * FROM `lang`");
         while ($lang = $lang_query->fetchrow()) {
             $name = $lang['name'];
@@ -327,10 +367,10 @@ class code_common {
     public function initiate($skin_name = "") {
         $this->make_default_lang();
         $this->make_db();
-        $this->make_extra_lang();
         $this->make_settings();
         $this->cron();
         $this->make_player();
+        $this->make_extra_lang();
         $this->make_skin($skin_name);
     }
 
