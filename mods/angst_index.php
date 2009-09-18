@@ -66,6 +66,12 @@ class angst_index extends code_index {
             $angst_query = $this->db->execute("SELECT * FROM `angst` ORDER BY `time` DESC LIMIT 0,10");
         }
 
+        $count_query = $this->db->execute("SELECT COUNT(*) AS `c` FROM `angst`");
+        $count = $count_query->fetchrow();
+
+        $paginate = $this->paginate($count['c'], intval($_GET['start']), 10);
+
+
         $angst_html = "";
         $angst_ids = array();
         $angst_array = array();
@@ -100,7 +106,7 @@ class angst_index extends code_index {
             }
         }
 
-        return $angst_html;
+        return $angst_html.$paginate;
 
     }
 
@@ -248,7 +254,7 @@ class angst_index extends code_index {
             $angst_reply = $this->skin->error_box($this->lang->cannot_reply);
             return $angst_reply;
         }
-        $reply = htmlentities($_POST['angst-reply'], ENT_QUOTES, 'utf-8');
+        $reply = nl2br(htmlentities($_POST['angst-reply'], ENT_QUOTES, 'utf-8'));
 
         if (strlen($reply) < 3) {
             $code_index = $this->skin->error_box($this->lang->angst_too_short);
@@ -266,7 +272,7 @@ class angst_index extends code_index {
 
         $angst_insert['player_id'] = $this->player->id;
         $angst_insert['angst_id'] = intval($_POST['angst-id']);
-        $angst_insert['reply'] = nl2br($reply);
+        $angst_insert['reply'] = $reply;
         $angst_insert['time'] = time();
 
         $this->db->AutoExecute('angst_replies', $angst_insert, 'INSERT');

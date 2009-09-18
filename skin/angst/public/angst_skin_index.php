@@ -31,7 +31,9 @@ class angst_skin_index extends angst_skin_common {
             $.post('/angst/index.php?page=index&action=ajax_reply', dataString, function (data, textStatus) {
                     $('#error').html(data);
                     if (data.length == 0) {
-                        $(replyForm).parent().find('.results').append('<p style=\'display: none;\'><span>'+cleanTxt+'</span></p><p class=\'reply-author\' style=\'display: none;\'> - <a class=\'added\' href=\'index.php?page=profile&amp;id='+userid+'\'>'+username+'</a> (just now)</p>').html();
+                        var replystring = '<p style=\'display: none;\'><span>'+cleanTxt+'</span></p><p class=\'reply-author\' style=\'display: none;\'> - <a class=\'added\' href=\'index.php?page=profile&amp;id='+userid+'\'>'+username+'</a> (just now)</p>';
+                        replystring.replace(/([^>]?)\\n/g, '$1<br />\\n');
+                        $(replyForm).parent().find('.results').append(replystring).html();
                         $(replyForm).find('.angst-reply').val('');
                         $(replyForm).parent().find('.results').find(':hidden').fadeIn('slow');
                     }

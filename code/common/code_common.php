@@ -81,9 +81,16 @@ class code_common {
    /**
     * The class stored in this variable will be loaded by make_player as the player object.
     *
-    * @var <type>
+    * @var string
     */
     public $player_class = "code_player";
+
+   /**
+    * Default skin
+    *
+    * @var string
+    */
+    public $override_skin = "";
 
    /**
     * The common constructor for every class which extends code_common.
@@ -192,7 +199,6 @@ class code_common {
         while ($setting = $settings_query->fetchrow()) {
             $this->settings[$setting['name']] = $setting['value'];
         }
-        
     }
 
    /**
@@ -225,14 +231,26 @@ class code_common {
     * @param string $skin_name skin name
     */
     public function make_skin($skin_name = "") {
-        $this->player->skin = "angst";
+        $alternative_skin = "";
+
+        if ($this->settings->default_skin) {
+            $alternative_skin = $this->settings->default_skin;
+        }
 
         if ($this->player->skin) {
-            if (file_exists("skin/".$this->player->skin."/common/".$this->player->skin."_skin_common.php")) {
-                        require_once("skin/".$this->player->skin."/common/".$this->player->skin."_skin_common.php");
+            $alternative_skin = $this->player->skin;
+        }
+
+        if ($this->override_skin) {
+            $alternative_skin = $this->override_skin;
+        }
+
+        if ($alternative_skin) {
+            if (file_exists("skin/".$alternative_skin."/common/".$alternative_skin."_skin_common.php")) {
+                        require_once("skin/".$alternative_skin."/common/".$alternative_skin."_skin_common.php");
             }
-            if (file_exists("skin/".$this->player->skin."/".$this->section."/_skin_".$this->section.".php")) {
-                        require_once("skin/".$this->player->skin."/".$this->section."/_skin_".$this->section.".php");
+            if (file_exists("skin/".$alternative_skin."/".$this->section."/_skin_".$this->section.".php")) {
+                        require_once("skin/".$alternative_skin."/".$this->section."/_skin_".$this->section.".php");
             }
         } else {
             if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) {
@@ -241,10 +259,10 @@ class code_common {
         }
         if ($skin_name) {
             require_once("skin/".$this->section."/".$skin_name.".php"); // Get config values.
-            if ($this->player->skin) {
-                if (file_exists("skin/".$this->player->skin."/".$this->section."/".$this->player->skin."_".$skin_name.".php")) {
-                    require_once("skin/".$this->player->skin."/".$this->section."/".$this->player->skin."_".$skin_name.".php");
-                    $skin_class_name = $this->player->skin."_".$skin_name;
+            if ($alternative_skin) {
+                if (file_exists("skin/".$alternative_skin."/".$this->section."/".$alternative_skin."_".$skin_name.".php")) {
+                    require_once("skin/".$alternative_skin."/".$this->section."/".$alternative_skin."_".$skin_name.".php");
+                    $skin_class_name = $alternative_skin."_".$skin_name;
                 } else {
                     $skin_class_name = $skin_name;
                 }
@@ -254,8 +272,8 @@ class code_common {
             
             $this->skin = new $skin_class_name;
         } else {
-            if ($this->player->skin) {
-                $class_name = $this->player->skin."_skin_common";
+            if ($alternative_skin) {
+                $class_name = $alternative_skin."_skin_common";
                 if (class_exists($class_name)) {
                     $this->skin = new $class_name;
                 } else {
@@ -283,10 +301,24 @@ class code_common {
     * (TODO) Player language choice?
     */
     public function make_extra_lang() {
+        $alternative_skin = "";
+
+        if ($this->settings->default_skin) {
+            $alternative_skin = $this->settings->default_skin;
+        }
+
         if ($this->player->skin) {
-            if (file_exists("skin/".$this->player->skin."/lang/en/".$this->player->skin."_lang_error.php")) {
-               require_once("skin/".$this->player->skin."/lang/en/".$this->player->skin."_lang_error.php");
-               $class_name = $this->player->skin."_lang_error";
+            $alternative_skin = $this->player->skin;
+        }
+
+        if ($this->override_skin) {
+            $alternative_skin = $this->override_skin;
+        }
+
+        if ($alternative_skin) {
+            if (file_exists("skin/".$alternative_skin."/lang/en/".$alternative_skin."_lang_error.php")) {
+               require_once("skin/".$alternative_skin."/lang/en/".$alternative_skin."_lang_error.php");
+               $class_name = $alternative_skin."_lang_error";
                $this->lang = new $class_name;
             }
         }
@@ -441,6 +473,46 @@ class code_common {
             }
         }
         return false; // This will only occur if it screws up. I expect.
+    }
+
+   /**
+    * paginates. move to code_common?
+    *
+    * @param int $max total number of thingies
+    * @param int $current current offset
+    * @param int $per_page number per page
+    * @return string html
+    */
+    public function paginate($max, $current, $per_page) {
+        $num_pages = intval($max / $per_page);
+
+        if ($max % $per_page) {
+            $num_pages++; // plus one if over a round number
+        }
+
+        $current_page = intval($current/$per_page);
+
+        $current_html = $this->skin->paginate_current($current_page, $this->section, $this->page);
+
+        $pagination = array( ($current_page - 2) => ($current - 2*$per_page),
+            ($current_page - 1) => ($current - $per_page),
+            ($current_page + 1) => ($current + $per_page),
+            ($current_page + 2) => ($current + 2*$per_page));
+
+        foreach ($pagination as $page_number => $page_start) {
+            $paginate_links[$page_number] = $this->skin->paginate_link($page_number, $page_start, $this->section, $this->page);
+        }
+
+        $paginate_links[$current_page] = $current_html;
+        ksort($paginate_links);
+
+        foreach ($paginate_links as $link) {
+            $paginate .= $link;
+        }
+
+        $paginate_final = $this->skin->paginate_wrap($paginate);
+        return $paginate_final;
+
     }
 
 }
