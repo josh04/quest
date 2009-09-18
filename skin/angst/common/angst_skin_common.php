@@ -7,7 +7,7 @@
  * @author josh04
  */
 
-class angst_skin_common {
+class angst_skin_common extends skin_common {
 
    /**
     * Error strings, lots of error strings

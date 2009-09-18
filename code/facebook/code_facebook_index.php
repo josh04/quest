@@ -36,7 +36,7 @@ class code_facebook_index extends _code_facebook {
     * @return string html
     */
     public function facebook_display() {
-
+        
         if (isset($_GET['start'])) {
             $limit = intval($_GET['start']).",10";
         } else {
@@ -44,8 +44,8 @@ class code_facebook_index extends _code_facebook {
         }
 
         $angst_query = $this->db->execute("SELECT * FROM `angst` ORDER BY `time` DESC LIMIT ".$limit);
-
-        if ($angst_query->NumRows == 0) {
+        
+        if ($angst_query->NumRows() == 0) {
             unset($angst_query);
             $angst_query = $this->db->execute("SELECT * FROM `angst` ORDER BY `time` DESC LIMIT 0,10");
         }
@@ -74,27 +74,25 @@ class code_facebook_index extends _code_facebook {
         $angst_return = "";
 
         foreach ($angst_array as $id => $single_angst) {
+
             if ($this->player->is_member) {
                 $reply_form = $this->skin->reply_box($this->skin->reply_form($id), $replies[$id]);
             } else {
                 $reply_form = $this->skin->reply_box($this->skin->reply_form_guest($id), $replies[$id]);
             }
+
             if (!$reply_count[$id]) {
                 $reply_count[$id] = 0;
             }
 
             if ($single_angst['type']) {
-                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'glee', 'g', $reply_count[$id]);
+                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'Glee');
             } else {
-                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'angst', 'r', $reply_count[$id]);
+                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'Angst');
             }
         }
-
-        return $angst_html.$paginate;
-
-
-
-        $facebook_display = $this->skin->facebook_display($this->facebook_id);
+        
+        $facebook_display = $this->skin->facebook_display($angst_html.$paginate);
         return $facebook_display;
     }
 }

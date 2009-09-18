@@ -61,7 +61,7 @@ class angst_index extends code_index {
 
         $angst_query = $this->db->execute("SELECT * FROM `angst` ORDER BY `time` DESC LIMIT ".$limit);
 
-        if ($angst_query->NumRows == 0) {
+        if ($angst_query->NumRows() == 0) {
             unset($angst_query);
             $angst_query = $this->db->execute("SELECT * FROM `angst` ORDER BY `time` DESC LIMIT 0,10");
         }

@@ -500,7 +500,9 @@ class code_common {
             ($current_page + 2) => ($current + 2*$per_page));
 
         foreach ($pagination as $page_number => $page_start) {
-            $paginate_links[$page_number] = $this->skin->paginate_link($page_number, $page_start, $this->section, $this->page);
+            if ($page_number >= 0) {
+                $paginate_links[$page_number] = $this->skin->paginate_link($page_number, $page_start, $this->section, $this->page);
+            }
         }
 
         $paginate_links[$current_page] = $current_html;
