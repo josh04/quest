@@ -107,7 +107,7 @@ class code_bootstrap {
                     $pages[$page_row['section']][$redirect] = $page_row['name'];
                 }
                 if ($page_row['mod']) {
-                    $mods[$page_row['name']] = $page_row['mod'];
+                    $mods[$page_row['section']][$page_row['name']] = $page_row['mod'];
                 }
             }
         }
@@ -147,9 +147,9 @@ class code_bootstrap {
         * that. Otherwise, take the default class name.
         */
 
-        if (isset($mods[$pages[$section][$page]])) {
-            require_once("mods/".$mods[$pages[$section][$page]].".php");
-            $class_name = $mods[$pages[$section][$page]];
+        if (isset($mods[$section][$pages[$section][$page]])) {
+            require_once("mods/".$mods[$section][$pages[$section][$page]].".php");
+            $class_name = $mods[$section][$pages[$section][$page]];
         } else {
             $class_name = "code_".$pages[$section][$page];
         }

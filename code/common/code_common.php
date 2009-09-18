@@ -475,6 +475,46 @@ class code_common {
         return false; // This will only occur if it screws up. I expect.
     }
 
+   /**
+    * paginates. move to code_common?
+    *
+    * @param int $max total number of thingies
+    * @param int $current current offset
+    * @param int $per_page number per page
+    * @return string html
+    */
+    public function paginate($max, $current, $per_page) {
+        $num_pages = intval($max / $per_page);
+
+        if ($max % $per_page) {
+            $num_pages++; // plus one if over a round number
+        }
+
+        $current_page = intval($current/$per_page);
+
+        $current_html = $this->skin->paginate_current($current_page, $this->section, $this->page);
+
+        $pagination = array( ($current_page - 2) => ($current - 2*$per_page),
+            ($current_page - 1) => ($current - $per_page),
+            ($current_page + 1) => ($current + $per_page),
+            ($current_page + 2) => ($current + 2*$per_page));
+
+        foreach ($pagination as $page_number => $page_start) {
+            $paginate_links[$page_number] = $this->skin->paginate_link($page_number, $page_start, $this->section, $this->page);
+        }
+
+        $paginate_links[$current_page] = $current_html;
+        ksort($paginate_links);
+
+        foreach ($paginate_links as $link) {
+            $paginate .= $link;
+        }
+
+        $paginate_final = $this->skin->paginate_wrap($paginate);
+        return $paginate_final;
+
+    }
+
 }
 
 ?>
