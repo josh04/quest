@@ -114,7 +114,7 @@ class code_common {
             $this->make_skin();
         }
         
-        $output = $this->skin->start_header("Error", "default.css");
+        $output = $this->start_header("Error", "default.css");
 
         $output .= $this->skin->error_page($error);
 
@@ -307,6 +307,7 @@ class code_common {
         $this->cron();
         $this->make_player();
         $this->make_skin($skin_name);
+        $this->quest_lock_check();
     }
 
    /**
@@ -433,6 +434,17 @@ class code_common {
             }
         }
         return false; // This will only occur if it screws up. I expect.
+    }
+
+   /**
+    * locks the player out if they're on a quest
+    *
+    */
+    public function quest_lock_check() {
+        if($this->quest_lock && $this->player->quest) {
+            $this->construct($this->lang->quest_lock);
+            die();
+        }
     }
 
 }

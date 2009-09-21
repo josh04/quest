@@ -8,6 +8,7 @@
 class code_hospital extends code_common {
 
     public $player_class = "code_player_rpg";
+    public $quest_lock = true;
 
    /**
     * class override. calls parents, sends kids home.
