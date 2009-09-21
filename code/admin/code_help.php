@@ -12,7 +12,11 @@ class code_help extends _code_admin {
     *
     * @return string html
     */
-    public function construct() {
+    public function construct($code_other = "") {
+        if ($code_other) {
+             parent::construct($code_other);
+             return;
+        }  
         $this->initiate("skin_help");
 
         // Form handling

@@ -15,22 +15,23 @@ class code_profile extends code_common {
     *
     * @return string html
     */
-    public function construct() {
+    public function construct($code_other = "") {
+        if ($code_other) {
+             parent::construct($code_other);
+             return;
+        }  
         $this->initiate("skin_profile");
 
         require_once("code/player/code_player_profile.php");
         $this->profile = new code_player_profile($this->settings);
-        $this->profile->settings =& $this->settings;
         
-        if ($_GET['name']) {
+       // No ID or name? Show the user's profile.
+        if (!isset($_GET['name']) && !isset($_GET['id'])) {
+            $success = $this->profile->get_player((int) $this->player->id);
+        } else if ($_GET['name']) {
             $success = $this->profile->get_player($_GET['name']);
         } else {
             $success = $this->profile->get_player((int) $_GET['id']); //important
-        }
-
-        // No ID or name? Show the user's profile.
-        if (!isset($_GET['name']) && !isset($_GET['id'])) {
-            $success = $this->profile->get_player($this->player->id);
         }
 
         if ($success) {
@@ -86,14 +87,14 @@ class code_profile extends code_common {
 
         $this->profile->registered = date('F j, Y', $this->profile->registered);
 
-        $interaction .= $this->skin->add_interact_link("index.php?page=mail&amp;action=compose&amp;to=".$this->profile->username,"Mail");
+        $interaction .= $this->skin->add_mail_link($this->profile->username);
 
         if ($this->profile->id == $this->player->id) {
-            $interaction .= $this->skin->add_interact_link("index.php?page=profile_edit","Edit your profile");
+            $interaction .= $this->skin->add_edit_link();
         } else {
             $interaction .= $this->skin->add_battle_link($this->profile->id);
             if(!in_array($this->profile->id, array_keys($this->player->friends))) {
-                $interaction .= $this->skin->add_interact_link("index.php?page=profile&amp;id=".$this->profile->id."&amp;friends=add", "Add as friend");
+                $interaction .= $this->skin->add_friend_link("index.php?page=profile&amp;id=".$this->profile->id."&amp;friends=add", "Add as friend");
             }
         }
 
@@ -103,11 +104,15 @@ class code_profile extends code_common {
             $this->profile->is_online = "offline";
         }
 
-        $this->profile->ratio = ($this->profile->deaths>0?number_format($this->profile->kills/$this->profile->deaths,2):"0");
+        if ($this->profile->deaths > 0) {
+            $this->profile->ratio = number_format($this->profile->kills/$this->profile->deaths,2);
+        } else {
+            $this->profile->ratio = '0';
+        }
 
         $this->profile->friendcount = count($this->profile->friends);
-        if($this->profile->friendcount==0) {
-            $friendlist = $this->profile->username." has no friends yet!";
+        if ($this->profile->friendcount==0) {
+            $friendlist = $this->skin->no_friends($this->player->username);
         } else {
             foreach($this->profile->friends as $friend) {
                 $friendlist .= $this->skin->friend_entry($friend);
@@ -191,8 +196,8 @@ class code_profile extends code_common {
     * @param string $label The text label
     * @return string html
     */
-    public function code_profile_menu(&$menu, $label) {
-        return $this->player->username;
+    public static function code_profile_menu(&$menu, $label) {
+        return $menu->player->username;
     }
 
 }

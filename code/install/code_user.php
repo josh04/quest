@@ -12,7 +12,11 @@ class code_user extends _code_install {
     *
     * @return string html
     */
-    public function construct() {
+    public function construct($code_other = "") {
+        if ($code_other) {
+             parent::construct($code_other);
+             return;
+        }  
         $this->initiate("skin_install");
         $this->make_config();
         $this->make_db();
@@ -113,6 +117,7 @@ class code_user extends _code_install {
         $player_insert['ip'] = $_SERVER['REMOTE_ADDR'];
         $player_insert['rank'] = 'Admin';
         $player_insert['login_salt'] = $login_salt;
+        $player_insert['verified'] = 1;
 
 
         $player_insert_query = $this->db->AutoExecute('players', $player_insert, 'INSERT');

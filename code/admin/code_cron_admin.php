@@ -12,7 +12,11 @@ class code_cron_admin extends code_common {
     *
     * @return string html
     */
-    public function construct() {
+    public function construct($code_other = "") {
+        if ($code_other) {
+             parent::construct($code_other);
+             return;
+        }  
         $this->initiate("skin_cron_admin");
 
         $code_cron_admin = $this->cron_switch();
@@ -53,7 +57,7 @@ class code_cron_admin extends code_common {
             $cron['hours'] = intval($cron['period']/3600);
             $cron['minutes'] = intval(($cron['period'] % 3600)/60);
             $cron['seconds'] = intval($cron['period'] % 60);
-            $cron['last_active'] = date("F j, Y", $cron['last_active']);
+            $cron['last_active'] = date("G:i F j, Y", $cron['last_active']);
             if ($cron['enabled']) {
                 $cron['enabled'] = "Yes";
             } else {

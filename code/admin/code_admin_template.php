@@ -11,7 +11,11 @@ class code_admin_template extends _code_admin {
     *
     * @return string html
     */
-    public function construct() {
+    public function construct($code_other = "") {
+        if ($code_other) {
+             parent::construct($code_other);
+             return;
+        }  
         $this->initiate("skin_admin_template");
 
         $this->data = $this->get_data();

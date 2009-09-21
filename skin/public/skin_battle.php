@@ -57,7 +57,6 @@ class skin_battle extends skin_common {
     * @return string html
     */
     public function battle_search_row($player) {
-        print_r($player);
         $battle_search_row = "
             <tr>
                 <td>

@@ -152,7 +152,11 @@ class code_index extends code_common {
     *
     * @return string html
     */
-    public function construct() {
+    public function construct($code_other = "") {
+        if ($code_other) {
+             parent::construct($code_other);
+             return;
+        }  
         $this->initiate("skin_index");
         if($this->player->is_member) {
             $code_index = $this->index_player();
@@ -174,10 +178,11 @@ class code_index extends code_common {
         if ($menu->player->is_member) {
             if (get_class($menu->player) != "code_player_rpg") { // because we no longer necessarily have the rpg data
                 $player_query = $menu->db->execute("SELECT * FROM `rpg` WHERE `player_id`=?", array($menu->player->id));
-
+                
                 if (!$player_extra = $player_query->fetchrow()) {
                     return $label;
                 }
+                $player_extra['exp_diff'] = $player_extra['exp_max'] - $player_extra['exp'];
             } else {
                 $player_extra['hp'] = $menu->player->hp;
                 $player_extra['strength'] = $menu->player->strength;

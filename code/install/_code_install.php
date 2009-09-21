@@ -182,7 +182,8 @@ class _code_install extends code_common {
         ('avatar_gravatar', '1'),
         ('avatar_upload', '0'),
         ('avatar_library', '0'),
-        ('help_format', 'html');";
+        ('help_format', 'html'),
+        ('default_skin', '');";
 
     public $quests_query = "CREATE TABLE IF NOT EXISTS `quests` (
         `id` int(3) NOT NULL auto_increment,
@@ -412,7 +413,7 @@ CREATE TABLE IF NOT EXISTS `rpg` (
     * @param string $skin_name name of skin file to load - if left blank, loads skin_common (not recommended)
     */
     public function initiate($skin_name = "") {
-        $this->make_lang();
+        $this->make_default_lang();
         $this->make_skin($skin_name);
     }
 

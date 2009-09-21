@@ -7,6 +7,10 @@
  */
 class skin_profile extends skin_common {
    
+   public $gender_array =   array(array("Undisclosed","_gray"),
+                            array("Female","_female"),
+                            array("Male",""));
+
   /**
    * makes the profile page
    *
@@ -15,7 +19,7 @@ class skin_profile extends skin_common {
    * @param string $message any errors that have been drawn
    * @return string html
    */
-   function make_profile($profile, $friendlist, $interaction, $message='') {
+   public function make_profile($profile, $friendlist, $interaction, $message='') {
         $make_profile = "
             ".$message."
 
@@ -56,15 +60,42 @@ class skin_profile extends skin_common {
    }
 
   /**
-   * add an interaction link
+   * send mail link
    * 
-   * @param string $link where to go to
-   * @param string $caption the text of the link
+   * @param string $username player name
    * @return string html
    */
-   function add_interact_link($link, $caption) {
-       $add_interact_link = "<a href='".$link."'>".$caption."</a>";
+   public function add_mail_link($username) {
+       $add_interact_link = "<a href='index.php?page=mail&amp;action=compose&amp;to=".$usename."'>Mail</a>";
        return $add_interact_link;
+   }
+
+
+
+  /**
+   * edit profile link
+   * 
+   * @return string html
+   */
+   public function add_edit_link() {
+       $add_interact_link = "<a href='index.php?page=profile_edit'>Edit your profile</a>";
+       return $add_interact_link;
+   }
+
+  /**
+   * add a friend link
+   *
+   * @param int $id user id
+   * @return string html
+   */
+   public function add_friend_link($id) {
+       $add_interact_link = "<a href='index.php?page=profile&amp;id=".$id."&amp;friends=add'>Add as Friend</a>";
+       return $add_interact_link;
+   }
+
+   public function no_friends($username) {
+       $no_friends = $username." has no friends.";
+       return $no_friends;
    }
 
   /**
@@ -73,7 +104,7 @@ class skin_profile extends skin_common {
    * @param integer $id the id of the player we're fighting
    * @return string html
    */
-   function add_battle_link($id) {
+   public function add_battle_link($id) {
        $add_interact_link = "<form action='index.php?page=battle&amp;action=fight' name='profileBattleLink' method='post'>
            <input type='hidden' name='id' value='".$id."' />
            <a href='#' onclick='document.profileBattleLink.submit();'>Battle</a></form>";
@@ -87,7 +118,7 @@ class skin_profile extends skin_common {
     * @param string $value the field value
     * @return string html
     */
-    function extra_link($field, $value) {
+    public function extra_link($field, $value) {
         $extra_link = "<label>".$field.":</label> ".$value;
         return $extra_link;
     }
@@ -98,7 +129,7 @@ class skin_profile extends skin_common {
     * @param string $avatar_url url of avatar
     * @return string html
     */
-    function player_avatar($avatar_url = "images/avatar.png") {
+    public function player_avatar($avatar_url = "images/avatar.png") {
         $player_avatar = "<img src='".$avatar_url."' alt='User Avatar'><br />";
         return $player_avatar;
     }
@@ -114,7 +145,7 @@ class skin_profile extends skin_common {
     * @param string $message error message?
     * @return string html
     */
-    function edit_profile($profile, $gender_list, $show_email, $section, $message="") {
+    public function edit_profile($profile, $gender_list, $show_email, $section, $message="") {
         $edit_profile = "
                             <h2>Edit profile</h2>
                             ".$message."
@@ -357,22 +388,8 @@ class skin_profile extends skin_common {
     * @return string html
     */
     public function gender($gender) {
-        $gender_array = array(array("Undisclosed","_gray"),array("Female","_female"),array("Male",""));
-        $gender = "<img src=\"../icons/user".$g[$gender][1].".png\" alt=\"".$g[$gender][0]."\" title=\"".$g[$gender][0]."\" />";
+        $gender = "<img src=\"../icons/user".$this->gender_array[$gender][1].".png\" alt=\"".$this->gender_array[$gender][0]."\" title=\"".$this->gender_array[$gender][0]."\" />";
         return $gender;
-    }
-
-   /**
-    * converts an array of the users' friends into a list
-    *
-    * @param array $friends friends to listify
-    * @return string html
-    */
-    public function friendlist($friends) {
-        foreach($friends as $id => $username) {
-            $ret .= "<li><a href='?page=profile&id=".$id."'>".$username."</a></li>";
-            }
-        return $ret;
     }
 
    /**

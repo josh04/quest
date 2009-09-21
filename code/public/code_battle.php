@@ -15,7 +15,11 @@ class code_battle extends code_common {
     *
     * @return string html
     */
-    public function construct() {
+    public function construct($code_other = "") {
+        if ($code_other) {
+             parent::construct($code_other);
+             return;
+        }  
         $this->initiate("skin_battle");
 
         $this->fight = new code_fight($this->section, $this->page);
@@ -85,7 +89,7 @@ class code_battle extends code_common {
         }
 
         $player_query_construct .= "LIMIT 0,20";
-
+        
 	$player_query = $this->db->execute($player_query_construct, $player_query_values); //Search!
 
         if ($player_query->recordcount()) {
@@ -122,10 +126,11 @@ class code_battle extends code_common {
         $id = intval($_POST['id']);
 
         if(!$id && isset($_POST['username'])) {
-            $t = new code_player;
-            $t->get_player($_POST['username']);
-            if(isset($t->id)) $id = $t->id;
-            else {
+            $test_player = new code_player;
+            $test_player->get_player($_POST['username']);
+            if(isset($test_player->id)) {
+                $id = $test_player->id;
+            } else {
                 $fight = $this->battle_search_page($this->skin->error_box($this->lang->no_player_selected));
                 return $fight;
             }
@@ -164,7 +169,7 @@ class code_battle extends code_common {
             $fight = $this->battle_search_page($this->skin->error_box($this->lang->player_not_found));
             return $fight;
         }
-
+        
         //Otherwise, check if agent has any health
         if ($this->fight->enemy->hp == 0) {
             $fight = $this->battle_search_page($this->skin->error_box($this->lang->enemy_currently_incapacitated));
