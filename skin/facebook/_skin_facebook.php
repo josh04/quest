@@ -18,7 +18,7 @@ class _skin_facebook extends skin_common {
     public function start_header($title, $site_name, $skin) {
 
         $start_header = "<div id='header-text'>".$site_name."</div>
-                    <link rel='stylesheet' type='text/css' href='http://www.atomicfridge.net:12340/angst/skin/angst/common/default.css' />";
+                    <link rel='stylesheet' type='text/css' href='http://www.atomicfridge.net:12340/angst/skin/angst/common/facebook.css' />";
         return $start_header;
     }
 
@@ -57,7 +57,7 @@ class _skin_facebook extends skin_common {
     * @return string html
     */
     public function paginate_link($page_number, $page_start, $section, $page) {
-        $paginate_link = "<fb:action class='paginate_link' href='index.php?section=".$section."&amp;page=".$page."&amp;start=".$page_start.$extra."'>".$page_number."</fb:action>";
+        $paginate_link = "<fb:action href='index.php?section=".$section."&amp;page=".$page."&amp;start=".$page_start.$extra."'><span class='paginate-link'>".$page_number."</span></fb:action>";
         return $paginate_link;
     }
 
@@ -65,12 +65,13 @@ class _skin_facebook extends skin_common {
     * real current paginate link :P
     *
     * @param int $page_number current page number
+    * @param int $page_start current offset
     * @param string $section current section
     * @param string $page current page
     * @return string html
     */
-    public function paginate_current($page_number, $section, $page) {
-        $paginate_current = "<fb:action class='paginate_current' href=''>".$page_number."</fb:action>";
+    public function paginate_current($page_number, $page_start, $section, $page) {
+        $paginate_current = "<fb:action href='index.php?section=".$section."&amp;page=".$page."&amp;start=".$page_start.$extra."'><span class='paginate-current'>".$page_number."</span></fb:action>";
         return $paginate_current;
     }
 
@@ -81,7 +82,7 @@ class _skin_facebook extends skin_common {
     * @return string html
     */
     public function paginate_wrap($paginate) {
-        $paginate_wrap = "<fb:dashboard> ".$paginate."<fb:dashboard> ";
+        $paginate_wrap = "<fb:dashboard>".$paginate."</fb:dashboard>";
         return $paginate_wrap;
     }
 }

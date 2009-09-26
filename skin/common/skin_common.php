@@ -150,7 +150,7 @@ class skin_common {
     * @return string html
     */
     public function paginate_link($page_number, $page_start, $section, $page) {
-        $paginate_link = "<a class='paginate_link' href='index.php?section=".$section."&amp;page=".$page."&amp;start=".$page_start.$extra."'>".$page_number."</a>";
+        $paginate_link = "<a class='paginate-link' href='index.php?section=".$section."&amp;page=".$page."&amp;start=".$page_start.$extra."'>".$page_number."</a>";
         return $paginate_link;
     }
 
@@ -158,12 +158,13 @@ class skin_common {
     * real current paginate link :P
     *
     * @param int $page_number current page number
+    * @param int $page_start current offset
     * @param string $section current section
     * @param string $page current page
     * @return string html
     */
-    public function paginate_current($page_number, $section, $page) {
-        $paginate_current = "<a class='paginate_current' href='#'>".$page_number."</a>";
+    public function paginate_current($page_number, $page_start, $section, $page) {
+        $paginate_current = "<a class='paginate-current' href='index.php?section=".$section."&amp;page=".$page."&amp;start=".$page_start.$extra."'>".$page_number."</a>";
         return $paginate_current;
     }
 

@@ -174,6 +174,7 @@ class code_common {
     * Makes $player a code_player object.
     */
     public function make_player() {
+        session_start();
         // (DONE) player shirt and percentage code has moved
         // Get our player object
         if ($this->player_class != "code_player") {
@@ -233,33 +234,40 @@ class code_common {
     public function make_skin($skin_name = "") {
         $alternative_skin = "";
 
-        if ($this->settings->default_skin) {
-            $alternative_skin = $this->settings->default_skin;
+        // Is there a default skin in the settings?
+        if ($this->settings['default_skin']) {
+            $alternative_skin = $this->settings['default_skin'];
         }
 
+        // Does th player have a personal skin set?
         if ($this->player->skin) {
             $alternative_skin = $this->player->skin;
         }
 
+        // Does the module specify a skin which must be used?
         if ($this->override_skin) {
             $alternative_skin = $this->override_skin;
         }
 
         if ($alternative_skin) {
+            // If there is an alternate skin_common to be load, do so.
             if (file_exists("skin/".$alternative_skin."/common/".$alternative_skin."_skin_common.php")) {
                         require_once("skin/".$alternative_skin."/common/".$alternative_skin."_skin_common.php");
             }
+            // If there is a alternate, section-specific skin_common to load, do so.
             if (file_exists("skin/".$alternative_skin."/".$this->section."/_skin_".$this->section.".php")) {
                         require_once("skin/".$alternative_skin."/".$this->section."/_skin_".$this->section.".php");
             }
-        } else {
-            if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) {
-                require_once("skin/".$this->section."/_skin_".$this->section.".php");
-            }
+        } else if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) { // conflicting class names
+            // If there's a section-specific skin_common NOT of a custom skin, load that.
+            require_once("skin/".$this->section."/_skin_".$this->section.".php");
         }
+        
         if ($skin_name) {
-            require_once("skin/".$this->section."/".$skin_name.".php"); // Get config values.
+            // Load the main event, as it were. The default requested skin file.
+            require_once("skin/".$this->section."/".$skin_name.".php");
             if ($alternative_skin) {
+                // If there's an alternate skin version, grab that too and change the class name to be loaded.
                 if (file_exists("skin/".$alternative_skin."/".$this->section."/".$alternative_skin."_".$skin_name.".php")) {
                     require_once("skin/".$alternative_skin."/".$this->section."/".$alternative_skin."_".$skin_name.".php");
                     $skin_class_name = $alternative_skin."_".$skin_name;
@@ -272,6 +280,7 @@ class code_common {
             
             $this->skin = new $skin_class_name;
         } else {
+            // Load the default skin_common, no extras.
             if ($alternative_skin) {
                 $class_name = $alternative_skin."_skin_common";
                 if (class_exists($class_name)) {
@@ -284,6 +293,7 @@ class code_common {
             }
         }
 
+        // Some quick lang naughtiness.
         $this->skin->lang =& $this->lang;
     }
 
@@ -303,8 +313,8 @@ class code_common {
     public function make_extra_lang() {
         $alternative_skin = "";
 
-        if ($this->settings->default_skin) {
-            $alternative_skin = $this->settings->default_skin;
+        if ($this->settings['default_skin']) {
+            $alternative_skin = $this->settings['default_skin'];
         }
 
         if ($this->player->skin) {
@@ -492,7 +502,7 @@ class code_common {
 
         $current_page = intval($current/$per_page);
 
-        $current_html = $this->skin->paginate_current($current_page, $this->section, $this->page);
+        $current_html = $this->skin->paginate_current($current_page, $current, $this->section, $this->page);
 
         $pagination = array( ($current_page - 2) => ($current - 2*$per_page),
             ($current_page - 1) => ($current - $per_page),

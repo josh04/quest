@@ -139,5 +139,6 @@ class angst_lang_error {
     public $twitter_already_verified = "You have already connected your account with this twitter username.";
     public $twitter_no_new = "No new tweets.";
     public $twitter_recounted = "Twitter posts recounted.";
+    public $no_angst_id = "You did not enter an angst id.";
 }
 ?>

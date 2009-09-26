@@ -7,8 +7,7 @@
  * @author josh04
  */
  $time = microtime(true);
-session_start(); // Starts session.
-
+ 
 // ------------------------
 
 require_once("code/common/code_questdb.php");            //Initialise database first

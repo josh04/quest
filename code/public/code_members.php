@@ -20,7 +20,7 @@ class code_members extends code_common {
         $this->initiate("skin_members");
 
         $code_members = $this->members_list();
-
+        
         parent::construct($code_members);
     }
 
@@ -42,7 +42,7 @@ class code_members extends code_common {
 
         $previous = $begin - $limit;
         $next = $begin + $limit;
-
+        
         if ($_GET['action'] == "staff") {
             $memberlist = $this->db->execute("SELECT `id`, `username`, `level`
                 FROM `players` WHERE `rank`='Admin' ORDER BY `level` DESC

@@ -26,16 +26,82 @@ class code_facebook_index extends _code_facebook {
     * @return string html
     */
     public function facebook_switch() {
+        if ($_GET['action'] == "angst") {
+            $facebook_switch = $this->facebook_angst();
+            return $facebook_switch;
+        }
+
+        if ($_GET['action'] == 'show_wall_offer') {
+            $facebook_switch = $this->facebook_display($this->skin->angst_with_facebook_form());
+            return $facebook_switch;
+        }
+
         $facebook_switch = $this->facebook_display();
         return $facebook_switch;
     }
 
    /**
-    * shows the main page, facebook-style
+    * add the moods to the db
     *
     * @return string html
     */
-    public function facebook_display() {
+    public function facebook_angst() {
+        $angst = htmlentities($_POST['angst'], ENT_QUOTES, 'utf-8');
+
+        if (strlen($angst) < 3) {
+            $code_index = $this->facebook_display($this->skin->error_box($this->lang->angst_too_short));
+            return $code_index;
+        }
+
+        $check_query = $this->db->execute("SELECT * FROM `angst` WHERE `phpsessid`=? ORDER BY `time` DESC LIMIT 1 ", array(session_id()));
+/*
+        if ($check = $check_query->fetchrow()) {
+            if (time() - $check['time'] < 60) {
+                $angst_reply = $this->facebook_display($this->skin->error_box($this->lang->angst_reply_timer));
+                return $angst_reply;
+            }
+        }
+
+        if ($this->player->is_member) {
+            switch($_POST['submit']) {
+                case 'Glee':
+                    $this->player->glee_count++;
+                    $this->player->update_player(true);
+                    break;
+                case 'Angst':
+                default:
+                    $this->player->angst_count++;
+                    $this->player->update_player(true);
+            }
+
+        }
+*/
+        switch($_POST['submit']) {
+            case 'Glee':
+                $type = 1;
+                break;
+            case 'Angst':
+            default:
+                $type = 0;
+        }
+
+        $angst_insert['angst'] = nl2br($angst);
+        $angst_insert['type'] = $type;
+        $angst_insert['time'] = time();
+        $angst_insert['phpsessid'] = $this->facebook->api_client->session_key;
+
+        $this->db->AutoExecute('angst', $angst_insert, 'INSERT');
+        $code_index = $this->skin->redirect_after_angst();
+        return $code_index;
+    }
+
+   /**
+    * shows the main page, facebook-style
+    *
+    * @param string $message error tyme
+    * @return string html
+    */
+    public function facebook_display($message = "") {
         
         if (isset($_GET['start'])) {
             $limit = intval($_GET['start']).",10";
@@ -91,8 +157,13 @@ class code_facebook_index extends _code_facebook {
                 $angst_html .= $this->skin->angst($single_angst, $reply_form, 'Angst');
             }
         }
-        
-        $facebook_display = $this->skin->facebook_display($angst_html.$paginate);
+
+        $angst_html .= $paginate;
+        $result = array();
+        if ($this->player->id) {
+            //$result = $this->facebook->api_client->fql_query("SELECT uid, name FROM user WHERE uid=".$this->player->id);
+        }
+        $facebook_display = $this->skin->facebook_display($angst_html, $result[0]['name'], $result[0]['uid'], $message);
         return $facebook_display;
     }
 }
