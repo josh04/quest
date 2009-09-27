@@ -306,7 +306,7 @@ class angst_edit_profile extends code_edit_profile {
             $avatar_options .= $this->skin->edit_avatar_library( $library );
         }
 
-        $edit_profile = $this->skin->edit_profile($this->player, $gender_list, $show_email, "", $message);
+        $edit_profile = $this->skin->edit_profile($this->player, $gender_list, $show_email, "section=public&amp;", $message);
         $edit_avatar = $this->skin->edit_avatar($avatar_options);
         $edit_password = $this->skin->edit_password($this->player->id);
         $edit_twitter = $this->skin->twitter_auth();

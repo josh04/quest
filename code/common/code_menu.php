@@ -117,8 +117,8 @@ class code_menu extends code_common {
         if ($this->enabled) {
             if ($this->player_page == $menu_entry['page'] && $this->player_section == $menu_entry['section'] && $menu_entry['extra'] == "") {
                 $make_menu_entry = $this->skin->current_menu_entry($menu_entry['label'], $menu_entry['section'], $menu_entry['page'], $menu_entry['extra']);
-            } else if ($menu_entry['section'] == "public") {
-                $make_menu_entry = $this->skin->public_menu_entry($menu_entry['label'], $menu_entry['page'], $menu_entry['extra']);
+            //} else if ($menu_entry['section'] == "public") {
+            //    $make_menu_entry = $this->skin->public_menu_entry($menu_entry['label'], $menu_entry['page'], $menu_entry['extra']);
             } else {
                 $make_menu_entry = $this->skin->menu_entry($menu_entry['label'], $menu_entry['section'], $menu_entry['page'], $menu_entry['extra']);
             }

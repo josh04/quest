@@ -61,7 +61,7 @@ class angst_skin_profile extends angst_skin_common {
    * @return string html
    */
    function add_mail_link($username) {
-       $add_interact_link = "<a href='index.php?page=mail&amp;action=compose&amp;to=".$usename."'>Mail</a>";
+       $add_interact_link = "<a href='index.php?section=public&amp;page=mail&amp;action=compose&amp;to=".$usename."'>Mail</a>";
        return $add_interact_link;
    }
 
@@ -73,7 +73,7 @@ class angst_skin_profile extends angst_skin_common {
    * @return string html
    */
    function add_edit_link() {
-       $add_interact_link = "<a href='index.php?page=profile_edit'>Edit your profile</a>";
+       $add_interact_link = "<a href='index.php?section=public&amp;page=profile_edit'>Edit your profile</a>";
        return $add_interact_link;
    }
 
@@ -85,7 +85,7 @@ class angst_skin_profile extends angst_skin_common {
    * @return string html
    */
    function add_friend_link($id) {
-       $add_interact_link = "<a href='index.php?page=profile&amp;id=".$id."&amp;friends=add'>Add as Friend</a>";
+       $add_interact_link = "<a href='index.php?section=public&amp;page=profile&amp;id=".$id."&amp;friends=add'>Add as Friend</a>";
        return $add_interact_link;
    }
 
@@ -96,7 +96,7 @@ class angst_skin_profile extends angst_skin_common {
    * @return string html
    */
    function add_battle_link($id) {
-       $add_interact_link = "<form action='index.php?page=battle&amp;action=fight' name='profileBattleLink' method='post'>
+       $add_interact_link = "<form action='index.php?section=public&amp;page=battle&amp;action=fight' name='profileBattleLink' method='post'>
            <input type='hidden' name='id' value='".$id."' />
            <a href='#' onclick='document.profileBattleLink.submit();'>Battle</a></form>";
        return $add_interact_link;
@@ -189,7 +189,7 @@ class angst_skin_profile extends angst_skin_common {
     */
     public function edit_avatar($avatar_options) {
         $edit_avatar = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\");return false;'><div class='edit-profile-header'><span style='float:right;'>&laquo;</span>Change Avatar</div></a>
-            <div class='edit-profile-body' id='showhide-2' style='display:none;'><form action='index.php?page=profile_edit&amp;action=update_avatar' method='POST' enctype='multipart/form-data'>
+            <div class='edit-profile-body' id='showhide-2' style='display:none;'><form action='index.php?section=public&amp;page=profile_edit&amp;action=update_avatar' method='POST' enctype='multipart/form-data'>
             <table>
                 " . $avatar_options . "
                 <tr><td colspan='2'><input type='submit' name='submit' value='Submit'/></td></tr>
@@ -275,7 +275,7 @@ class angst_skin_profile extends angst_skin_common {
     */
     public function edit_password() {
         $edit_password = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\",\"showhide-2-icon\");'><div class='edit-profile-header'><img id='showhide-2-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Change Password</div></a>
-            <div class='edit-profile-body' id='showhide-2'><form action='index.php?page=profile_edit&amp;action=update_password' method='POST'>
+            <div class='edit-profile-body' id='showhide-2'><form action='index.php?section=public&amp;page=profile_edit&amp;action=update_password' method='POST'>
             <table>
                 <tr><td style='width:50%;'><label for='edit-p1'>Current password</label></td>
                 <td style='width:50%;'><input type='password' id='edit-p1' name='current_password' /></td></tr>
@@ -299,7 +299,7 @@ class angst_skin_profile extends angst_skin_common {
     */
     public function twitter_auth() {
         $edit_password = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-4\",\"showhide-4-icon\");'><div class='edit-profile-header'><img id='showhide-4-icon' src='images/dropdown_open.png' style='float:right;' alt='&laquo;' />Twitter Account</div></a>
-            <div class='edit-profile-body' id='showhide-2'><form action='index.php?page=profile_edit&amp;action=twitter_auth' method='POST'>
+            <div class='edit-profile-body' id='showhide-2'><form action='index.php?section=public&amp;page=profile_edit&amp;action=twitter_auth' method='POST'>
             <table>
                 <tr><td style='width:50%;'><label for='edit-p1'>Twitter Username</label></td>
                 <td style='width:50%;'><input type='text' id='edit-t1' name='twitter_username' /></td></tr>
@@ -310,7 +310,7 @@ class angst_skin_profile extends angst_skin_common {
                 <tr><td colspan='2'><input type='submit' name='submit' value='Submit'/></td></tr>
 
             </table></form>
-<form action='index.php?page=profile_edit&amp;action=twitter_recount' method='POST'>
+<form action='index.php?section=public&amp;page=profile_edit&amp;action=twitter_recount' method='POST'>
 <input type='submit' name='submit' value='Recount'/></form>
             </div>";
         return $edit_password;
@@ -419,7 +419,7 @@ class angst_skin_profile extends angst_skin_common {
     public function friend_entry($friend) {
         $friend_entry .= "<div class='friendentry'>
                     <img src='".$friend['avatar']."' alt='[user avatar]' class='avatar' /><br />
-                    <a href='index.php?page=profile&amp;id=3'>".$friend['username']."</a><br />
+                    <a href='index.php?section=public&amp;page=profile&amp;id=3'>".$friend['username']."</a><br />
                 </div>";
         return $friend_entry;
     }

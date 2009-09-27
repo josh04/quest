@@ -1,5 +1,5 @@
 <?php
-require_once("mods/angst_index.php");
+require_once("code/angst/code_angst_index.php");
 /**
  * code_login.class.php
  *
@@ -7,9 +7,10 @@ require_once("mods/angst_index.php");
  * @author josh04
  * @package code_public
  */
-class angst_login extends angst_index {
-
+class angst_login extends code_angst_index {
+    
     public $player_class = "code_player_profile";
+    public $override_skin = "angst";
 
    /**
     * class override. calls parents, sends kids home.
@@ -20,8 +21,9 @@ class angst_login extends angst_index {
         if ($code_other) {
              parent::construct($code_other);
              return;
-        }  
-        $this->initiate("skin_index");
+        }
+        $this->section = "angst";
+        $this->initiate("skin_angst_index");
         if($this->player->is_member) {
             $code_login = $this->log_out();
         } else {

@@ -257,9 +257,12 @@ class code_common {
             // If there is a alternate, section-specific skin_common to load, do so.
             if (file_exists("skin/".$alternative_skin."/".$this->section."/_skin_".$this->section.".php")) {
                         require_once("skin/".$alternative_skin."/".$this->section."/_skin_".$this->section.".php");
+            } else if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) {
+                // If there's a section-specific skin_common NOT of a custom skin, load that.
+                require_once("skin/".$this->section."/_skin_".$this->section.".php");
             }
         } else if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) { // conflicting class names
-            // If there's a section-specific skin_common NOT of a custom skin, load that.
+            // ditto the above
             require_once("skin/".$this->section."/_skin_".$this->section.".php");
         }
         
@@ -510,7 +513,7 @@ class code_common {
             ($current_page + 2) => ($current + 2*$per_page));
 
         foreach ($pagination as $page_number => $page_start) {
-            if ($page_number >= 0) {
+            if ($page_number >= 0 && $num_pages > $page_number) {
                 $paginate_links[$page_number] = $this->skin->paginate_link($page_number, $page_start, $this->section, $this->page);
             }
         }

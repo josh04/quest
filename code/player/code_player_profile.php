@@ -107,6 +107,20 @@ class code_player_profile extends code_player {
             return true;
         }
     }
-
+    
+   /**
+    * is guest? is this a guest page?
+    * hmm, this couldn't possibly go wrong.
+    *
+    * @param string $page current page
+    * @return bool kick them out?
+    */
+    protected function halt_if_guest($page) {
+        $guest_pages = array("login","guesthelp","ranks", "index", "single", "");
+        if(!$this->is_member && !in_array($this->page,$guest_pages)){
+            return false;
+        }
+        return true;
+    }
 }
 ?>

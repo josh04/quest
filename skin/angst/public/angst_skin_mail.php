@@ -16,10 +16,10 @@ class angst_skin_mail extends angst_skin_common {
         $mail_row = "<tr class=\"mail-".($mail['status']==0?"un":"")."read\">
 				<td width='5%'><input type='checkbox' name='mail_id[]' onchange='update_multiple_parent(\"mail_check_all\", \"mail_id\");' value='".$mail['id']."' /></td>
 				<td width='20%'>
-				<a href='index.php?page=profile&amp;id=".$mail['from']."'>".$mail['username']."</a>
+				<a href='index.php?section=public&amp;page=profile&amp;id=".$mail['from']."'>".$mail['username']."</a>
 				</td>
 				<td width='35%'>
-				<a href='index.php?page=mail&amp;action=read&amp;id=".$mail['id']."'>".$mail['subject']."</a>
+				<a href='index.php?section=public&amp;page=mail&amp;action=read&amp;id=".$mail['id']."'>".$mail['subject']."</a>
 				</td>
 				<td width='40%'>".$mail['time']."</td>
 				</tr>";
@@ -36,26 +36,26 @@ class angst_skin_mail extends angst_skin_common {
     public function read($mail, $username) {
         $read = "
         <h2>Mail</h2>
-            <a href='index.php?page=mail'>Inbox</a> | <a href='index.php?page=mail&amp;action=compose'>New Message</a>
+            <a href='index.php?section=public&amp;page=mail'>Inbox</a> | <a href='index.php?section=public&amp;page=mail&amp;action=compose'>New Message</a>
 
 		<table style='width:100%;margin:12px 0px;'>
-			<tr><th style='width:15%;'>To:</th><td><a href='index.php?page=profile&amp;id=".$mail['to']."'>".$username."</a></td></tr>
-			<tr><th>From:</th><td><a href='index.php?page=profile&amp;id=".$mail['from']."'>".$mail['username']."</a></td></tr>
+			<tr><th style='width:15%;'>To:</th><td><a href='index.php?section=public&amp;page=profile&amp;id=".$mail['to']."'>".$username."</a></td></tr>
+			<tr><th>From:</th><td><a href='index.php?section=public&amp;page=profile&amp;id=".$mail['from']."'>".$mail['username']."</a></td></tr>
 			<tr><th>Date:</th><td>".$mail['time']."</td></tr>
 			<tr><th>Subject:</th><td>".$mail['subject']."</td></tr>
 			<tr><td colspan='2' style='border:1px solid #CCC; border-width: 1px 0px; padding:12px;'>".$mail['body']."</td></tr>
 		</table>
 
-			<form method='POST' action='index.php?page=mail&amp;action=compose' style='display:inline;'>
+			<form method='POST' action='index.php?section=public&amp;page=mail&amp;action=compose' style='display:inline;'>
 			<input type='hidden' name='mail_to' value='".$mail['username']."' />
 			<input type='hidden' name='mail_subject' value='".$mail['pre'].$mail['subject']."' />
 			<input type='submit' name='reply' value='Reply' />
 			</form>
-			<form method='POST' action='index.php?page=mail&amp;action=mark_as_unread' style='display:inline;'>
+			<form method='POST' action='index.php?section=public&amp;page=mail&amp;action=mark_as_unread' style='display:inline;'>
 			<input type='hidden' name='mail_id[]' value='".$mail['id']."' />
 			<input type='submit' name='mark_as_unread' value='Mark as unread' />
 			</form>
-			<form method='post' action='index.php?page=mail&amp;action=delete_multiple' style='display:inline;'>
+			<form method='post' action='index.php?section=public&amp;page=mail&amp;action=delete_multiple' style='display:inline;'>
 			<input type='hidden' name='mail_id[]' value='".$mail['id']."' />
 			<input type='submit' name='delete' value='Delete' />
 			</form>";
@@ -72,8 +72,8 @@ class angst_skin_mail extends angst_skin_common {
     public function mail_wrap($mail_html, $message = "") {
         $mail_wrap = "
         <h2>Mail</h2>
-        <div style='margin-bottom:6px;'><strong>Inbox</strong> | <a href='index.php?page=mail&amp;action=compose'>New Message</a></div>
-        <form method='POST' action='index.php?page=mail&amp;action=multiple' name='inbox'>
+        <div style='margin-bottom:6px;'><strong>Inbox</strong> | <a href='index.php?section=public&amp;page=mail&amp;action=compose'>New Message</a></div>
+        <form method='POST' action='index.php?section=public&amp;page=mail&amp;action=multiple' name='inbox'>
         ".($message?"<div class=\"success\">".$message."</div>":"")."
             <table class='nutable' cellspacing='0' cellpadding='4' style='margin-top:6px;'>
                 <tr style='background-color:#EEE;'>
@@ -106,8 +106,8 @@ class angst_skin_mail extends angst_skin_common {
     public function compose($to, $subject, $body, $message = "") {
         $compose = "
             <h2>Mail</h2>
-            <a href='index.php?page=mail'>Inbox</a> | <strong>New Message</strong>
-            <form method='POST' action='index.php?page=mail&amp;action=compose_submit'>
+            <a href='index.php?section=public&amp;page=mail'>Inbox</a> | <strong>New Message</strong>
+            <form method='POST' action='index.php?section=public&amp;page=mail&amp;action=compose_submit'>
 		<table style='width:100%;margin-top:12px;'>
                 <tr><td colspan=\"2\">".$message."</td></tr>
                 <tr><td style='width:20%;'><label for='mail-to'>To</label></td><td><input type='text' id='mail-to' name='mail_to' value='".$to."' style='width:95%;' /></td></tr>
@@ -128,7 +128,7 @@ class angst_skin_mail extends angst_skin_common {
     public function delete_multiple($delete_html) {
         $delete_multiple = "
                     Are you sure you want to delete these messages?<br /><br />
-                    <form method='POST' action='index.php?page=mail&amp;action=delete_multiple_confirm'>
+                    <form method='POST' action='index.php?section=public&amp;page=mail&amp;action=delete_multiple_confirm'>
                     ".$delete_html."
                     <input type='submit' value='Delete' />
                     </form>";
@@ -156,7 +156,7 @@ class angst_skin_mail extends angst_skin_common {
     public static function mail_row_small($id, $username, $subject) {
         $mail_row_small = "
             <li>
-            <a style='background:#FCC;' href='index.php?page=mail&amp;action=read&amp;id=".$id."'>
+            <a style='background:#FCC;' href='index.php?section=public&amp;page=mail&amp;action=read&amp;id=".$id."'>
             <strong>From:</strong> ".$username."<br />
             <strong>Subject:</strong><br /> ".$subject."</a>
             </li>";

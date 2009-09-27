@@ -155,10 +155,10 @@ class code_menu_admin extends code_common {
                 $section_options .= $this->skin->section($section);
             }
         }
-
+        
         $done = array();
         foreach ($this->pages as $section_array) {
-            foreach ($section_array as $page) {
+            foreach ($section_array as $page => $useless) {
                 if (in_array($page, $done)) {
                     continue; // prevent duplicates
                 }

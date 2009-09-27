@@ -462,7 +462,7 @@ div.glee div p span, div.angst div p span {
 }
 
 div.glee p, div.angst p {
-    padding-left:25px;
+    padding: 10px 0 10px 25px;
 }
 
 div.glee h3, div.angst h3 {
