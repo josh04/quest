@@ -247,10 +247,12 @@ class code_common {
 
         if ($alternative_skin) {
             if (file_exists("skin/".$alternative_skin."/common/".$alternative_skin."_skin_common.php")) {
-                        require_once("skin/".$alternative_skin."/common/".$alternative_skin."_skin_common.php");
+                require_once("skin/".$alternative_skin."/common/".$alternative_skin."_skin_common.php");
             }
             if (file_exists("skin/".$alternative_skin."/".$this->section."/_skin_".$this->section.".php")) {
-                        require_once("skin/".$alternative_skin."/".$this->section."/_skin_".$this->section.".php");
+                require_once("skin/".$alternative_skin."/".$this->section."/_skin_".$this->section.".php");
+            } else if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) {
+                require_once("skin/".$this->section."/_skin_".$this->section.".php");
             }
         } else {
             if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) {
