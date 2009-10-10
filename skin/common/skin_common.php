@@ -164,7 +164,7 @@ class skin_common {
     * @return string html
     */
     public function paginate_current($page_number, $page_start, $section, $page) {
-        $paginate_current = "<a class='paginate-current' href='#'>".$page_number."</a>";
+        $paginate_current = "<a class='paginate-current' href='index.php?section=".$section."&amp;page=".$page."&amp;start=".$page_start.$extra."'>".$page_number."</a>";
         return $paginate_current;
     }
 

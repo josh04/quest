@@ -63,7 +63,11 @@ class code_player_profile extends code_player {
     */
     public function update_player($just = false) {
         foreach (json_decode($this->settings['custom_fields']) as $field => $default) {
-            $profile_array[$field] = $this->$field;
+            if (isset($this->$field)) {
+                $profile_array[$field] = $this->$field;
+            } else {
+                $profile_array[$field] = $default;
+            }
         }
                 
         $profile_update_query['profile_string'] = json_encode($profile_array);

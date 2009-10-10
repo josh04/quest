@@ -7,7 +7,6 @@
  * @author josh04
  */
  $time = microtime(true);
-session_start(); // Starts session.
 
 // ------------------------
 
