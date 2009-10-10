@@ -504,17 +504,6 @@ class code_common {
     }
 
    /**
-    * locks the player out if they're on a quest
-    *
-    */
-    public function quest_lock_check() {
-        if($this->quest_lock && $this->player->quest) {
-            $this->construct($this->lang->quest_lock);
-            die();
-        }
-    }
-
-   /**
     * paginates. move to code_common?
     *
     * @param int $max total number of thingies

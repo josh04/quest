@@ -175,15 +175,16 @@ class skin_mail extends skin_common {
     * it's important not to indent this, because the text goes straight into a textarea
     * so every space and newline counts.
     *
+    * (Josh) This is what trim() is for ;)
+    *
     * @param string $username the username of the player we're quoting
     * @param string $body the body that we're quoting
     * @return string html
     */
     public function make_quote($username, $body) {
         $make_quote =  "[quote=" . $username . "]
-" . $body . "
-[/quote]
-";
+            " . $body . "
+            [/quote]";
         return $make_quote;
     }
 
