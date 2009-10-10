@@ -20,9 +20,15 @@ class skin_hospital extends skin_common {
             <div>
             <br />
             <form action='index.php?page=hospital&amp;action=heal' method='post'>
-            Amount to heal: <input type='text' ".$disabled." name='amount' /><br />
-            <label for='full_heal'>Full heal: <input type='checkbox' ".$disabled." name='full_heal' /></label><br />
-            <input type='submit' ".$disabled." value='Heal'/>
+            <table>
+            <tr><td style='width:30%;'><label for='heal_amount'>Select amount to heal:</label></td>
+            <td><input type='text' ".$disabled." name='amount' id='heal_amount' /></td></tr>
+
+            <tr><td><label for='full_heal' style='display:inline;'>Full heal:</label></td>
+            <td><input type='checkbox' ".$disabled." name='full_heal' id='full_heal' /></td></tr>
+
+            <tr><td colspan='2'><input type='submit' ".$disabled." value='Heal'/></td></tr>
+            </table>
             </form></div>";
         return $make_hospital;
 

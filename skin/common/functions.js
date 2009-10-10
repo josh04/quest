@@ -39,10 +39,12 @@ function questCountdown() {
         b.innerHTML = '<a href="index.php?page=quest">Next event...</a>';
 }
 
+// pops up a help window
 function popup_help(id) {
     window.open('popup_help.php?id='+id, 'popup_help', 'width=400,height=300');
 }
 
+// moves some help items around in their list
 function help_move(dir, id) {
     d = document.getElementById('help_order_'+id);
 

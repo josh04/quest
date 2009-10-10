@@ -30,6 +30,22 @@ class skin_help extends skin_common {
     }
 
    /**
+    * help row for hidden (popup) help pages
+    * 
+    * @param array $help_topic help topic from database
+    * @return string html
+    */
+    public function help_hidden_row($help_topic) {
+        $help_hidden_row = "
+        <div class='help-item'>
+        <img src='images/icons/help.png' alt='' /> ID: " . $help_topic['id'] . "
+        <a href='index.php?section=admin&amp;page=help&amp;id=".$help_topic['id']."'>".$help_topic['title']."</a>
+        </div>
+        ";
+        return $help_hidden_row;
+    }
+
+   /**
     * help navigation page
     * 
     * @param string $help_html the html to display as navigation
@@ -56,6 +72,24 @@ class skin_help extends skin_common {
     }
 
    /**
+    * help navigation page for hidden pages
+    * 
+    * @param string $help_html the html to display as navigation
+    * @param string $help_topic the topic we're playing with
+    * @param string $message any message to display
+    * @return string html
+    */
+    public function help_hidden_navigation($help_html) {
+        $help_hidden_navigation = "
+        <div class='help-item-top' style='margin-top:20px;'>
+        Hidden pages
+        </div>
+        " . $help_html;
+        return $help_hidden_navigation;
+    }
+
+
+   /**
     * single help page
     * 
     * @param array $help_topic the topic to display
@@ -79,6 +113,27 @@ class skin_help extends skin_common {
         <input type='submit' name='save' value='Save changes' />
         or <a href='?section=admin&amp;page=help&amp;id=".$help_topic['parent']."'>back</a>
         </div>
+        </form>";
+        return $help;
+    }
+
+   /**
+    * A special case when on the root help files page
+    * 
+    * @param string $message how have we done?
+    * @return string html
+    */
+    public function help_index($selected, $message='') {
+        $help = "
+        <h3 style='margin-top:20px;'>General options</h3>
+        ".$message."
+        <form action='' method='post'>
+        <input type='hidden' name='form-type' value='help-edit-index' />
+        Help files format: <select name='help_format' style='width: 150px;'>
+            <option value='bbcode'".$selected['bbcode'].">BBcode</option>
+            <option value='html'".$selected['html'].">HTML</option>
+        </select><br />
+        <input type='submit' name='save' value='Save changes' />
         </form>";
         return $help;
     }

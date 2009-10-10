@@ -98,6 +98,7 @@ class lang_error {
     public $marked_as_unread = "Messages marked as unread";
     public $no_messages_selected = "You did not select any messages";
     public $error_getting_mail = "Error retrieving your mail.";
+    public $mail_preview = "Message preview";
 
     // items
     public $item_not_found = "The selected item does not exist.";
@@ -142,6 +143,7 @@ class lang_error {
     public $quest_install_no = "The quest could not be installed.";
     public $quest_delete_success = "The quest was successfully deleted.";
     public $quest_delete_no = "The quest could not be deleted.";
+    public $quest_lock = "You can't do that whilst you're on a quest!";
 
     // admin
     public $changes_saved = "Changes saved.";

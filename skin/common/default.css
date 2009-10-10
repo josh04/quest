@@ -210,13 +210,24 @@ th {
     margin:2px;
 }
 
-a.faq {
-    color: #000;
-    font-weight: bold;
-}
-
 .first {
     font-size: 13px;
+}
+
+div.quote-head {
+    padding: 8px;
+    border: 1px solid #CCC;
+    border-bottom: none;
+    background-color: #EEE;
+    font-size: 80%;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+div.quote {
+    padding: 8px;
+    border: 1px solid #CCC;
+    background-color: #FFF;
 }
 
 tr.mail-unread td {

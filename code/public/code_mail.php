@@ -105,7 +105,8 @@ class code_mail extends code_common {
         }
 
         $mail['time'] = date("F j, Y, g:i a", $mail['time']);
-        $mail['body'] = $this->bbparse(nl2br($mail['body']));
+        $mail['quote'] = $this->skin->make_quote($mail['username'], $mail['body']);
+        $mail['body'] = $this->bbparse($mail['body'], true);
         $mail['subject'] = nl2br($mail['subject']);
 
         if (substr($mail['subject'],0,3) != "RE:") {
@@ -162,6 +163,13 @@ class code_mail extends code_common {
     */
     protected function compose_submit() {
         //Process mail info, show success message
+
+        if(isset($_POST['preview'])) {
+            $_POST['mail_preview'] = $this->bbparse($_POST['mail_body'], true);
+            $compose_submit = $this->compose($this->skin->mail_preview($_POST['mail_preview']));
+            return $compose_submit;
+        }
+
         $to = new code_player;
 
         if (!$to->get_player($_POST['mail_to'])) {

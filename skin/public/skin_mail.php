@@ -51,6 +51,12 @@ class skin_mail extends skin_common {
 			<input type='hidden' name='mail_subject' value='".$mail['pre'].$mail['subject']."' />
 			<input type='submit' name='reply' value='Reply' />
 			</form>
+			<form method='POST' action='index.php?page=mail&amp;action=compose' style='display:inline;'>
+			<input type='hidden' name='mail_to' value='".$mail['username']."' />
+			<input type='hidden' name='mail_subject' value='".$mail['pre'].$mail['subject']."' />
+			<input type='hidden' name='mail_body' value='".$mail['quote']."' />
+			<input type='submit' name='quote' value='Quote' />
+			</form>
 			<form method='POST' action='index.php?page=mail&amp;action=mark_as_unread' style='display:inline;'>
 			<input type='hidden' name='mail_id[]' value='".$mail['id']."' />
 			<input type='submit' name='mark_as_unread' value='Mark as unread' />
@@ -113,7 +119,7 @@ class skin_mail extends skin_common {
                 <tr><td style='width:20%;'><label for='mail-to'>To</label></td><td><input type='text' id='mail-to' name='mail_to' value='".$to."' style='width:95%;' /></td></tr>
                 <tr><td><label for='mail-subject'>Subject</label></td><td><input type='text' id='mail-subject' name='mail_subject' value='".$subject."' style='width:95%;' /></td></tr>
                 <tr><td colspan='2'><textarea name='mail_body' rows='10' style='width:96%;'>".$body."</textarea></td></tr>
-                <tr><td colspan='2'><input type='submit' value='Send' /></td></tr>
+                <tr><td colspan='2'><input type='submit' name='preview' value='Preview' /> <input type='submit' value='Send' /></td></tr>
 		</table>
             </form>";
         return $compose;
@@ -161,6 +167,40 @@ class skin_mail extends skin_common {
             <strong>Subject:</strong><br /> ".$subject."</a>
             </li>";
         return $mail_row_small;
+    }
+
+   /**
+    * makes a quotation to reply with
+    *
+    * it's important not to indent this, because the text goes straight into a textarea
+    * so every space and newline counts.
+    *
+    * @param string $username the username of the player we're quoting
+    * @param string $body the body that we're quoting
+    * @return string html
+    */
+    public function make_quote($username, $body) {
+        $make_quote =  "[quote=" . $username . "]
+" . $body . "
+[/quote]
+";
+        return $make_quote;
+    }
+
+   /**
+    * generates a preview of a message being written
+    *
+    *
+    * @param string $body the message to preview
+    * @return string html
+    */
+    public function mail_preview($body) {
+        $mail_preview = "
+        <div class='quote-head' style='width:94%;'>
+        " . $this->lang->mail_preview . "</div>
+        <div class='quote' style='width:94%;'>
+        ". $body . "</div>";
+        return $mail_preview;
     }
 
    /**

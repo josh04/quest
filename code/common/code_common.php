@@ -374,6 +374,7 @@ class code_common {
         $this->make_player();
         $this->make_extra_lang();
         $this->make_skin($skin_name);
+        $this->quest_lock_check();
     }
 
    /**
@@ -412,6 +413,13 @@ class code_common {
         if ($full) {
             $code = nl2br($code);
         }
+
+        preg_match_all("/\[code\](.*?)\[\/code\]/is", $code, $matches, PREG_SET_ORDER);
+        foreach($matches as $match) {
+            $match[1] = str_replace("[", "&#91;", $match[1]);
+            $code = str_replace($match[0], "<pre>" . $match[1] . "</pre>", $code);
+        }
+
         $match = array (
                 "/\[b\](.*?)\[\/b\]/is",
                 "/\[i\](.*?)\[\/i\]/is",
@@ -420,7 +428,6 @@ class code_common {
                 "/\[url\](.*?)\[\/url\]/is",
                 "/\[url=(.*?)\](.*?)\[\/url\]/is",
                 "/\[img\](.*?)\[\/img\]/is",
-                "/\[code\](.*?)\[\/code\]/is",
                 "/\[colo(u)?r=([a-z]*?|#?[A-Fa-f0-9]*){3,6}\](.*?)\[\/colo(u)?r\]/is",
                 );
         $replace = array (
@@ -431,12 +438,31 @@ class code_common {
                 "<a href='$1' target='_blank'>$1</a>",
                 "<a href='$1' target='_blank'>$2</a>",
                 "<img src='$1' alt='[image]' />",
-                "<pre>$1</pre>",
                 "<span style='color:$2;'>$3</span>",
                 );
-        $code = preg_replace($match,$replace,$code);
+        $code = preg_replace($match, $replace, $code);
+        while($this->bbparse_quote($code)) continue; // a fake loop that drills through
         return $code;
     }
+    /**
+     * parses quotes in bbcode (looped for multiple quotes)
+     *
+     * @param string $code bbcode
+     * @param boolean $full whether to fully parse
+     * @return string html
+     */
+    public function bbparse_quote(&$code) {
+        $match = array (
+                "/\[quote=(.+?)\](.*?)\[\/quote\]/is",
+                "/\[quote=?\](.*?)\[\/quote\]/is",
+                );
+        $replace = array (
+                "<div class='quote-head'>Quote ($1)</div><div class='quote'>$2</div>",
+                "<div class='quote-head'>Quote</div><div class='quote'>$1</div>",
+                );
+        $code = preg_replace($match, $replace, $code, -1, $count);
+        return $count;
+}
 
     /**
      * Updates a specific setting.
@@ -475,6 +501,17 @@ class code_common {
             }
         }
         return false; // This will only occur if it screws up. I expect.
+    }
+
+   /**
+    * locks the player out if they're on a quest
+    *
+    */
+    public function quest_lock_check() {
+        if($this->quest_lock && $this->player->quest) {
+            $this->construct($this->lang->quest_lock);
+            die();
+        }
     }
 
    /**
