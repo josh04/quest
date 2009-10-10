@@ -54,7 +54,6 @@ class angst_profile extends code_profile {
         if ($this->profile->id == $this->player->id) {
             $interaction .= $this->skin->add_edit_link();
         } else {
-            $interaction .= $this->skin->add_battle_link($this->profile->id);
             if(!in_array($this->profile->id, array_keys($this->player->friends))) {
                 $interaction .= $this->skin->add_friend_link("index.php?page=profile&amp;id=".$this->profile->id."&amp;friends=add", "Add as friend");
             }

@@ -169,10 +169,6 @@ class angst_edit_profile extends code_edit_profile {
             return $update_profile;
         }
 
-        foreach (json_decode($this->settings['custom_fields'],true) as $field => $default) {
-            $this->player->$field = htmlentities($_POST[$field], ENT_QUOTES, 'utf-8');
-        }
-
         $this->player->email         = $_POST['email'];
         $this->player->description   = htmlentities($_POST['description'], ENT_QUOTES, 'utf-8');
         $this->player->gender        = intval($_POST['gender']);

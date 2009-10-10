@@ -75,14 +75,25 @@ pre {
     background-color: #EEF;
 }
 
-h2, h4 {
+h4 {
     margin: 0;
     padding: 2px 0 2px 0;
 }
 
-h3 {
+h2 {
     font-size: 1.8em;
     margin: 5px 0 10px 0;
+}
+
+h3 {
+    font-size: 1.5em;
+    margin: 0px 0 0px 0;
+}
+
+h3.reply-header {
+    font-size: 1.5em !important;
+    text-align: center;
+    font-weight: normal;
 }
 
 #wrapper {
@@ -353,7 +364,7 @@ img.avatar {
 ul.menu {
     padding: 10px;
     text-align:center;
-    background:#ffffff;
+    background: rgba(255, 255, 255, 0.5);
 }
 
 ul.menu li {
@@ -396,7 +407,7 @@ div#index-main {
 }
 
 div.index-form {
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.5);
     padding:5px;
 }
 
@@ -457,14 +468,6 @@ div.glee-inv {
     margin: 0px;
 }
 
-div.glee div p span, div.angst div p span {
-    padding:5px;
-}
-
-div.glee p, div.angst p {
-    padding: 10px 0 10px 25px;
-}
-
 div.glee h3, div.angst h3 {
     font-size: 3em;
 }
@@ -474,6 +477,7 @@ p.reply-author {
     border: solid #dddddd;
     border-width:0 0 1px 0;
     padding-bottom:5px;
+    margin-bottom: 5px;
 }
 
 div.angst {
@@ -538,6 +542,22 @@ div.index-form-margin {
   border-color: #FFf;
 }
 
+.tt *, .tb * {
+  display:block;
+  height:1px;
+  overflow:hidden;
+  font-size:.01em;
+  background: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.wbr {
+  padding-top: 5px;
+  background:#fff;
+  border-style:solid;
+  border-width: 0 1px 0 1px;
+}
+
 .r1 {
   margin-left:3px;
   margin-right:3px;
@@ -585,6 +605,10 @@ span.angst-reply-span {
     cursor:pointer;
 }
 
+span.angst-reply-span a:link {
+    text-decoration: none;
+}
+
 span.angst-id-span {
     font-size:0.8em;
     color: #000099;
@@ -596,8 +620,45 @@ span.angst-id-span a {
     text-decoration:none;
 }
 
+input.angst-id {
+    display:none;
+}
+
+div.angst div.results {
+    background: url('../../../images/angst-inv.png') no-repeat;
+    background-position: center right;
+    background-color: #fff;
+    margin:0;
+}
+
+div.glee div.results {
+    background: url('../../../images/glee-inv.png') no-repeat;
+    background-position: center right;
+    background-color: #fff;
+    margin:0;
+}
+
 div.results input {
     display: none !important;
+}
+
+div#results input {
+    display: none !important;
+}
+
+div.results p span {
+    padding:5px;
+}
+
+div.results p {
+    padding: 10px 5px 10px 25px;
+    margin: 0 5px 0 5px;
+}
+
+div.results-wrap {
+    margin:0;
+    padding:0;
+    display:none;
 }
 
 input#login-username {
@@ -615,7 +676,7 @@ input#login-password {
 }
 
 .reply-table {
-    padding:5px 0 0 0;
+    padding:5px 0 0 50px;
     margin: 0;
 }
 

@@ -74,7 +74,7 @@ class angst_skin_common extends skin_common {
                     </head>
                     <body>
                     <div id='wrapper'>
-                    <div id='header-text'><a href='index.php'>".$site_name."</a></div>
+                    <h1 id='header-text'><a href='index.php'>".$site_name."</a></h1>
                     ";
         
         return $start_header;

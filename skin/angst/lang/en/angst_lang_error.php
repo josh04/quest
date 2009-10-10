@@ -130,7 +130,7 @@ class angst_lang_error {
     public $mod_updated = "The mod for that page has been updated.";
 
     // angst
-    public $angst_too_short = "All angst must be longer than three characters.";
+    public $angst_too_short = "All messages must be longer than three characters.";
     public $cannot_reply = "Guests cannot reply to angst.";
     public $reply_posted = "You posted a reply.";
     public $angst_reply_timer = "You cannot post more than once every minute.";
@@ -140,5 +140,8 @@ class angst_lang_error {
     public $twitter_no_new = "No new tweets.";
     public $twitter_recounted = "Twitter posts recounted.";
     public $no_angst_id = "You did not enter an angst id.";
+    public $player_not_found = "That user was not found.";
+    public $angst_not_approved = "Approval failed.";
+    public $angst_not_yet_approved = "Unfortunately, the angst you selected has not yet been approved by a moderator.";
 }
 ?>
