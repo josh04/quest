@@ -99,6 +99,7 @@ class lang_error {
     public $no_messages_selected = "You did not select any messages";
     public $error_getting_mail = "Error retrieving your mail.";
     public $mail_preview = "Message preview";
+    public $no_messages = "No messages";
 
     // items
     public $item_not_found = "The selected item does not exist.";
