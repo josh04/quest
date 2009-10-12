@@ -107,7 +107,7 @@ class _code_install extends code_common {
         ('admin_notes', ''),
         ('verification_method', '1'),
         ('ban_multiple_email', '1'),
-        ('custom_fields', '{\"description\":\"No description.\",\"gender\":\"0\",\"msn\":\" \",\"aim\":\" \",\"skype\":\" \",\"avatar\":\"images/avatar.png\",\"angst_count\":\"0\",\"glee_count\":\"0\"}'),
+        ('custom_fields', '{\"description\":\"No description.\",\"gender\":\"0\",\"msn\":\" \",\"aim\":\" \",\"skype\":\" \",\"avatar\":\"images/avatar.png\",\"angst_count\":\"0\",\"glee_count\":\"0\", \"twitter_last\":\"0\", \"twitter_user_id\":\"0\", \"bookmarks\":\"[]\"}'),
         ('register_ip_check', '1'),
         ('database_report_error', '0'),
         ('default_skin', '');";

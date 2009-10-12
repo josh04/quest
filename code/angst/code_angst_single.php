@@ -69,6 +69,15 @@ class code_angst_single extends code_common {
     * @return string html
     */
     public function angst_single($id, $message="") {
+
+        if ($_GET['action'] == "bookmarked") {
+            $message .= $this->skin->success_box($this->skin->bookmarked(intval($_GET['id'])));
+        }
+
+        if ($_GET['action'] == "not_bookmarked") {
+            $message .= $this->skin->error_box($this->lang->bookmark_failed);
+        }
+
         $angst_query = $this->db->execute("SELECT * FROM `angst` WHERE `id`=? LIMIT 0,1", array($id));
 
         if (!$angst_query) {
@@ -112,7 +121,14 @@ class code_angst_single extends code_common {
         
         $script = $this->skin->user_id_script($this->player->id, $this->player->username);
 
-        $angst_single = $this->skin->angst_single($angst_db, $replies, $reply_form, $type, $reply_count['c'], $script, $message);
+        $bookmark_link = "";
+        if (!isset($this->player->bookmarks[$angst_db['id']])) {
+            $bookmark_link = $this->skin->bookmark_link($angst_db['id']);
+        } else {
+            $bookmark_link = $this->skin->unbookmark_link($angst_db['id']);
+        }
+
+        $angst_single = $this->skin->angst_single($angst_db, $replies, $reply_form, $type, $reply_count['c'], $script, $bookmark_link, $message);
 
         return $angst_single;
     }
@@ -145,6 +161,14 @@ class code_angst_single extends code_common {
                 $replies .= $this->skin->reply($reply);
                 $reply_counter++;
             }
+            $bookmarks_array = json_decode($_COOKIE['bookmarks'], true);
+
+            if ($bookmarks_array[$id] < $start + $reply_counter) {
+                $bookmarks_array[$id] = $start + $reply_counter;
+            }
+
+
+            setcookie('bookmarks', json_encode($bookmarks_array), time()+60*60*24*300);
             $replies .= $this->skin->start_input(intval($_GET['start'] + $reply_counter), $more_to_come);
         }
         return $replies;
@@ -198,6 +222,15 @@ class code_angst_single extends code_common {
         $angst_insert['time'] = time();
 
         $this->db->AutoExecute('angst_replies', $angst_insert, 'INSERT');
+
+        $id = $this->db->Insert_Id();
+        
+        $bookmarks_array = json_decode($_COOKIE['bookmarks'], true);
+
+        $bookmarks_array[$id]++;
+
+        setcookie('bookmarks', json_encode($bookmarks_array), time()+60*60*24*300);
+        
         return false;
     }
 }

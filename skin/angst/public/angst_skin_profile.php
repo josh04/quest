@@ -348,10 +348,12 @@ class angst_skin_profile extends angst_skin_common {
         $current_permission = "permission_".$current_permission;
         $permission_Member .= "<option value='Member'";
         $permission_Admin .= "<option value='Admin'";
+        $permission_Moderator .= "<option value='Moderator'";
         $$current_permission .= " selected='selected'";
         $permission_Member .= ">Member</option>";
         $permission_Admin .= ">Admin</option>";
-        $permission_list = $permission_Member.$permission_Admin;
+        $permission_Moderator .= ">Moderator</option>";
+        $permission_list = $permission_Member.$permission_Admin.$permission_Moderator;
         return $permission_list;
     }
 

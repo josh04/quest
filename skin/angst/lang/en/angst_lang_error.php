@@ -143,5 +143,8 @@ class angst_lang_error {
     public $player_not_found = "That user was not found.";
     public $angst_not_approved = "Approval failed.";
     public $angst_not_yet_approved = "Unfortunately, the angst you selected has not yet been approved by a moderator.";
+    public $no_bookmarks = "You have not yet bookmarked any posts.";
+    public $bookmark_failed = "Bookmarking failed.";
+    public $remove_bookmark_failed = "Failed to remove bookmark.";
 }
 ?>

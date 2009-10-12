@@ -609,11 +609,12 @@ span.angst-reply-span a:link {
     text-decoration: none;
 }
 
-span.angst-id-span {
+span.angst-id-span, a.angst-id-span {
     font-size:0.8em;
     color: #000099;
     float:left;
     cursor:pointer;
+    text-decoration: none;
 }
 
 span.angst-id-span a {
@@ -689,4 +690,28 @@ a.paginate-current {
 a.paginate-link:link, a.paginate-link:visited, a.paginate-link:active  {
     text-decoration: none;
     margin: 5px;
+}
+
+a.bookmark-unread {
+    color: #FF6666 !important;
+    font-size:1.2em;
+}
+
+span.unapproved {
+    color: #666666 !important;
+    font-size:1.2em;
+}
+
+a.angst-bookmark-span, a.angst-unbookmark-span {
+    font-size:0.8em;
+    color: #000099;
+    float:left;
+    cursor:pointer;
+    text-decoration: none;
+}
+
+a.bookmark-remove {
+    font-size:0.8em;
+    color: #000099;
+    text-decoration: none;
 }

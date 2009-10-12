@@ -18,13 +18,30 @@ class code_angst_index extends code_common {
     * @return string html
     */
     public function index_player($message = "") {
-        if ($_GET['action'] == "logged_out") {
-            $message .= $this->skin->error_box($this->lang->logged_out);
+        switch ($_GET['action']) {
+            case "logged_out":
+                $message .= $this->skin->error_box($this->lang->logged_out);
+                break;
+            case "bookmarked":
+                $message .= $this->skin->success_box($this->skin->bookmarked(intval($_GET['id'])));
+                break;
+            case "not_bookmarked":
+                $message .= $this->skin->error_box($this->lang->bookmark_failed);
+                break;
+            case "unbookmarked":
+                $message .= $this->skin->success_box($this->skin->unbookmarked(intval($_GET['id'])));
+                break;
+            case "not_unbookmarked":
+                $message .= $this->skin->error_box($this->lang->remove_bookmark_failed);
+                break;
         }
+
+
         
         $online_list = "";
         $mail = "";
         $login_box = "";
+        $bookmarks_box = "";
 
         $angst_html = $this->angst_board();
 
@@ -32,6 +49,7 @@ class code_angst_index extends code_common {
             $online_list = $this->online_list();
             $mail = $this->mail();
             $profile_box = $this->skin->profile_box($this->player->id, $this->player->registered_date);
+            $bookmarks_box = $this->bookmarks_box();
         } else {
             $username = htmlentities($_POST['username'], ENT_QUOTES, 'utf-8');
             $login_box = $this->skin->login_box($username);
@@ -39,8 +57,23 @@ class code_angst_index extends code_common {
 
         $angst_text = htmlentities($_POST['angst'], ENT_QUOTES, 'utf-8');
         
-        $index_player = $this->skin->index_player($this->player, $angst_html, $online_list, $mail, $login_box, $profile_box, $angst_text, $message);
+        $index_player = $this->skin->index_player($this->player, $angst_html, $online_list, $mail, $login_box, $profile_box, $bookmarks_box, $angst_text, $message);
         return $index_player;
+    }
+
+   /**
+    * makes a bookmarks object and gets the box with the little numbers in it.
+    *
+    * @return string html
+    */
+    public function bookmarks_box() {
+        require_once('code/angst/code_angst_bookmark.php');
+        $bookmarks = new code_angst_bookmark($this->section, $this->page);
+        $bookmarks->player =& $this->player;
+        $bookmarks->skin =& $this->skin;
+
+        $bookmarks_box = $bookmarks->code_index_bookmarks_box();
+        return $bookmarks_box;
     }
 
    /**
@@ -98,11 +131,16 @@ class code_angst_index extends code_common {
 
             $single_angst['date'] = date("jS M, h:i A", $single_angst['time']);
             
+            $bookmark_link = "";
+            if (!isset($this->player->bookmarks[$single_angst['id']])) {
+                $bookmark_link = $this->skin->bookmark_link($single_angst['id'], $reply_count[$id]);
+            }
+
             if ($single_angst['type']) {
                 
-                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'glee', $reply_count[$id]);
+                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'glee', $reply_count[$id], $bookmark_link);
             } else {
-                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'angst', $reply_count[$id]);
+                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'angst', $reply_count[$id], $bookmark_link);
             }
         }
 
@@ -180,19 +218,7 @@ class code_angst_index extends code_common {
             }
         }
         
-        if ($this->player->is_member) {
-            switch($_POST['submit']) {
-                case 'Glee':
-                    $this->player->glee_count++;
-                    $this->player->update_player(true);
-                    break;
-                case 'Angst':
-                default:
-                    $this->player->angst_count++;
-                    $this->player->update_player(true);
-            }
 
-        }
 
         switch($_POST['submit']) {
             case 'Glee':
@@ -209,6 +235,31 @@ class code_angst_index extends code_common {
         $angst_insert['phpsessid'] = session_id();
 
         $this->db->AutoExecute('angst', $angst_insert, 'INSERT');
+
+        $new_angst_id = $this->db->Insert_Id();
+
+        if ($this->player->is_member) {
+            switch($_POST['submit']) {
+                case 'Glee':
+                    $this->player->glee_count++;
+                    break;
+                case 'Angst':
+                default:
+                    $this->player->angst_count++;
+            }
+
+            $bookmarks_array = json_decode($_COOKIE['bookmarks'], true);
+
+            $bookmarks_array[$new_angst_id] = 0;
+
+            setcookie('bookmarks', json_encode($bookmarks_array), time()+60*60*24*30);
+
+            $this->player->bookmarks[$new_angst_id] = 0;
+
+            $this->player->update_player(true);
+
+        }
+
 
         header("Location: index.php?page=index");
     }

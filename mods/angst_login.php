@@ -24,7 +24,7 @@ class angst_login extends code_angst_index {
         }
         $this->section = "angst";
         $this->initiate("skin_angst_index");
-        if($this->player->is_member) {
+        if ($this->player->is_member) {
             $code_login = $this->log_out();
         } else {
             $code_login = $this->login_switch();
@@ -76,7 +76,7 @@ class angst_login extends code_angst_index {
             return $log_in;
         }
 
-        $player = new code_player();
+        $player = new code_player_profile($this->settings);
         $player_exists = $player->log_in($_POST['username'], $_POST['password']);
 
         if (!$player_exists) {
@@ -88,10 +88,6 @@ class angst_login extends code_angst_index {
             $player->log_out();
             $log_in = $this->skin->player_not_approved();
             return $log_in;
-        }
-        
-        if ($player->twitter_user_id) {
-            $player->twitter_update();
         }
 
         header("Location: index.php");

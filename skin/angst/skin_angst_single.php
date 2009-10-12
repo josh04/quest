@@ -60,6 +60,26 @@ if (replycounter != 1 ) {
             return false;
         });
 
+        $('#bottom-single').find('a.angst-bookmark-span').click(function() {
+            splitStringArr = $(this).attr('id').split('-');
+            id = splitStringArr[2];
+            $(this).fadeOut('slow');
+            $.get('index.php?section=angst&page=bookmark&action=ajax_bookmark&id='+id, '', function(data) {
+                $('#error').append(data);
+             });
+            return false;
+        });
+
+        $('#bottom-single').find('a.angst-unbookmark-span').click(function() {
+            splitStringArr = $(this).attr('id').split('-');
+            id = splitStringArr[2];
+            $(this).fadeOut('slow');
+            $.get('index.php?section=angst&page=bookmark&action=ajax_remove&id='+id, '', function(data) {
+                $('#error').append(data);
+             });
+            return false;
+        });
+
         $('textarea.angst-reply').autoResize({
             // On resize:
             onResize : function() {
@@ -84,8 +104,8 @@ if (replycounter != 1 ) {
     * @param string $reply_form the reply form
     * @return string html
     */
-    public function angst_single($angst_db, $replies, $reply_form, $type, $reply_count, $script, $message) {
-        $angst_single = $message.$script."
+    public function angst_single($angst_db, $replies, $reply_form, $type, $reply_count, $script, $bookmark, $message) {
+        $angst_single = "<div id='error'>".$message."</div>".$script."
 
 <div id='angst-single'>
   <b class='wt'>
@@ -116,13 +136,37 @@ if (replycounter != 1 ) {
   <b class='r2'></b>
   <b class='r1'></b></b>
 </div>
-
-<div style='text-align:right;margin:0;padding:0;'>".$angst_db['date']."</div>
+<div id='bottom-single'>
+".$bookmark."
+<div style='text-align:right;margin:0;padding:0;'>".$angst_db['date']."</div></div>
 
 
 
 ";
         return $angst_single;
+    }
+
+
+   /**
+    * Bookmark link
+    *
+    * @param int $id angst id
+    * @return string html
+    */
+    public function bookmark_link($id) {
+        $bookmark_link = "<a class='angst-bookmark-span' id='angst-bookmark-".$id."' href='index.php?section=angst&amp;page=bookmark&amp;action=single_redirect&amp;id=".$id."'>Bookmark</a>";
+        return $bookmark_link;
+    }
+
+   /**
+    * unBookmark link
+    *
+    * @param int $id angst id
+    * @return string html
+    */
+    public function unbookmark_link($id) {
+        $bookmark_link = "<a class='angst-unbookmark-span' id='angst-unbookmark-".$id."' href='index.php?section=angst&amp;page=bookmark&amp;action=single_remove&amp;id=".$id."'>Remove Bookmark</a>";
+        return $bookmark_link;
     }
 
    /**

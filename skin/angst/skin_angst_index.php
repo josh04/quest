@@ -60,11 +60,53 @@ if (replycounter != 1 ) { angstreplyspan.html('There are currently no more comme
                         replystring.replace(/([^>]?)\\n/g, '$1<br />\\n');
                         $(replyForm).parent().find('.results').append(replystring).html();
                         $(replyForm).find('.angst-reply').val('');
-                        $(replyForm).parent().find('.results').find('.just-posted:last').find('p').show();
+                        $(replyForm).parent().find('.results').find('.just-posted:last').find('p').fadeIn('slow');
                     }
                 }, 'html' );
 
  
+            return false;
+        });
+
+        $('#index-main').find('a.angst-id-span').click(function() {
+            splitStringArr = $(this).attr('id').split('-');
+            id = splitStringArr[2];
+            if (splitStringArr[3] == '1') {
+                reply_count = splitStringArr[3]+' reply';
+            } else {
+                reply_count = splitStringArr[3]+' replies';
+            }
+            $(this).fadeOut('slow');
+            $.get('index.php?section=angst&page=bookmark&action=ajax_bookmark&id='+id, '', function(data) {
+                if ($('#new-bookmarks').find('a').length < 1) {
+                    $('#new-bookmarks').append('<h4>Just Added</h4>');
+                }
+                bookmark_string = '<span><a href=\"index.php?section=angst&page=single&id='+id+'\" class=\"bookmark-unread\"> #'+id+'</a> ('+reply_count+') <a class=\"bookmark-remove\" id=\"angst-bookmark-delete-'+id+'\" href=\"index.php?section=angst&amp;page=bookmark&amp;action=index_remove&amp;id='+id+'\">(remove)</a></span><br />';
+                $('#error').append(data);
+                $('#new-bookmarks').parent().find('.error').hide();
+                $('#new-bookmarks').append(bookmark_string);
+
+        $('.leftside').find('a.bookmark-remove').click(function() {
+            splitStringArr = $(this).attr('id').split('-');
+            id = splitStringArr[3];
+            $(this).parent().fadeOut('slow');
+            $.get('index.php?section=angst&page=bookmark&action=ajax_remove&id='+id, '', function(data) {
+                $('#error').append(data);
+             });
+            return false;
+        });
+
+             });
+            return false;
+        });
+
+        $('.leftside').find('a.bookmark-remove').click(function() {
+            splitStringArr = $(this).attr('id').split('-');
+            id = splitStringArr[3];
+            $(this).parent().fadeOut('slow');
+            $.get('index.php?section=angst&page=bookmark&action=ajax_remove&id='+id, '', function(data) {
+                $('#error').append(data);
+             });
             return false;
         });
 
@@ -92,7 +134,7 @@ if (replycounter != 1 ) { angstreplyspan.html('There are currently no more comme
     * @param string $mail any mail?
     * @return string html
     */
-    public function index_player($player, $angst, $online_list, $mail, $login_box, $profile_box, $angst_text, $message = "") {
+    public function index_player($player, $angst, $online_list, $mail, $login_box, $profile_box, $bookmark_box, $angst_text, $message = "") {
         $index_player = "
             <div class='index-form-margin'>
   <b class='tt'>
@@ -125,6 +167,7 @@ if (replycounter != 1 ) { angstreplyspan.html('There are currently no more comme
             <div style='clear:both'></div>
             <div style='float:right'>
                 ".$login_box."
+                ".$bookmark_box."
                 ".$profile_box."
                 ".$online_list."
                 ".$mail."
@@ -317,7 +360,7 @@ if (replycounter != 1 ) { angstreplyspan.html('There are currently no more comme
     * @param array $angst moody moody moody
     * @return string html
     */
-    public function angst($angst, $replies, $type, $reply_count) {
+    public function angst($angst, $replies, $type, $reply_count, $bookmark) {
         $angst = "<div>
   <b class='".$type."t'>
   <b class='r1'></b>
@@ -341,10 +384,21 @@ if (replycounter != 1 ) { angstreplyspan.html('There are currently no more comme
   <b class='r3'></b>
   <b class='r2'></b>
   <b class='r1'></b>
-</b></div><div style='text-align:right;margin:0;padding:0;'>".$angst['date']."</div>
+</b></div>".$bookmark."<div style='text-align:right;margin:0;padding:0;'>".$angst['date']."</div>
 
 ";
         return $angst;
+    }
+
+   /**
+    * Bookmark link
+    *
+    * @param int $id angst id
+    * @return string html
+    */
+    public function bookmark_link($id, $reply_count) {
+        $bookmark_link = "<a class='angst-id-span' id='angst-bookmark-".$id."-".$reply_count."' href='index.php?section=angst&amp;page=bookmark&amp;action=index_redirect&amp;id=".$id."'>Bookmark</a>";
+        return $bookmark_link;
     }
 
    /**
@@ -408,6 +462,112 @@ if (replycounter != 1 ) { angstreplyspan.html('There are currently no more comme
             <div>Guests cannot reply to angst.</div>
     </form>";
         return $reply_form;
+    }
+
+   /**
+    * makes a single bookmark id
+    *
+    * @param int $id bookmark id
+    * @param int $replies number of replies
+    * @param string $class new replies?
+    * @return string html
+    */
+    public function bookmark_id_read($id, $replies) {
+        $bookmark_id = " <span><a class='bookmark-read' href='index.php?section=angst&amp;page=single&amp;id=".$id."'>#".$id."</a> (".$replies." repl".(($replies == 1) ? 'y':'ies').")  <a class='bookmark-remove' id='angst-bookmark-delete-".$id."' href='index.php?section=angst&amp;page=bookmark&amp;action=index_remove&amp;id=".$id."'>(remove)</a><br /></span>";
+        return $bookmark_id;
+    }
+
+   /**
+    * bookmark id when unread
+    *
+    * @param int $id angst id
+    * @param int $unread number of new replies
+    * @return string html
+    */
+    public function bookmark_id_unread($id, $unread) {
+        $bookmark_id_unread = " <span><a class='bookmark-unread' href='index.php?section=angst&amp;page=single&amp;id=".$id."'>#".$id."</a> (".$unread." new)  <a class='bookmark-remove' id='angst-bookmark-delete-".$id."' href='index.php?section=angst&amp;page=bookmark&amp;action=index_remove&amp;id=".$id."'>(remove)</a><br /></span>";
+        return $bookmark_id_unread;
+    }
+
+   /**
+    * bookmark id when unapproved
+    *
+    * @param int $id angst id
+    * @return string html
+    */
+    public function bookmark_id_unapproved($id) {
+        $bookmark_id_unapproved = " <span><span class='bookmark-unapproved'>#".$id."</a> (unapproved) <a class='bookmark-remove' id='angst-bookmark-delete-".$id."' href='index.php?section=angst&amp;page=bookmark&amp;action=index_remove&amp;id=".$id."'>(remove)</a><br /></span>";
+        return $bookmark_id_unapproved;
+    }
+
+   /**
+    * box for the ids
+    *
+    * @param string $unread ids with new replies
+    * @param string $read ids with not new replies
+    * @param string $unapproved ids the mods don't like
+    * @return string html
+    */
+    public function bookmark_box($unread, $read, $unapproved) {
+        $bookmark_box = "<div class='leftside'>
+               ".$unread.$read.$unapproved."<div id='new-bookmarks'></div>
+            </div>";
+        return $bookmark_box;
+    }
+
+   /**
+    * unread bookmarks
+    *
+    * @param string $unread unread ids
+    * @return string html
+    */
+    public function bookmark_unread($unread) {
+        $bookmark_unread = "<div><h4>New replies</h4>".$unread."</div>";
+        return $bookmark_unread;
+    }
+
+   /**
+    * read bookmarks
+    *
+    * @param string $read read ids
+    * @return string html
+    */
+    public function bookmark_read($read) {
+        $bookmark_read = "<div><h4>No New Replies</h4>".$read."</div>";
+        return $bookmark_read;
+    }
+
+   /**
+    * unapproved bookmarks
+    *
+    * @param string $unapproved unapproved ids
+    * @return string html
+    */
+    public function bookmark_unapproved($unapproved) {
+        $bookmark_unapproved = "<div><h4>Unapproved</h4>".$unapproved."</div>";
+        return $bookmark_unapproved;
+    }
+
+   /**
+    * success message
+    *
+    * @param int $id angst id
+    * @return string html
+    */
+    public function bookmarked($id) {
+        $bookmarked = "You have bookmarked angst #".$id;
+        return $bookmarked;
+    }
+
+   /**
+    * success message
+    *
+    * @param int $id angst id
+    * @return string html
+    */
+    public function unbookmarked($id) {
+        $bookmarked = "You are no longer bookmarking angst #".$id;
+        return $bookmarked;
     }
 
 }
