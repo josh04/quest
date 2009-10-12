@@ -63,14 +63,13 @@ class code_ticket extends _code_admin {
 
         if (isset($_POST['ticket-mail'])) {
             $to = new code_player();
-            if (!$to->get_player($_POST['to'])) {
+            if (!$to->get_player(intval($_POST['to']))) {
                 $message .= $this->skin->error_box($this->lang->player_not_found);
             } else if (!$_POST['body'] || !$_POST['subject']) {
                 $message .= $this->skin->error_box($this->lang->fill_in_fields);
             } else {
                 require_once("code/public/code_mail.php");
                 $code_mail = new code_mail();
-                //$code_mail->
                 $code_mail->mail_send($_POST['to'], $this->player->id, $_POST['body'], $_POST['subject']);
                 $message .= $this->skin->success_box($this->lang->mail_sent);
             }
