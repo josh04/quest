@@ -222,12 +222,10 @@ class code_angst_single extends code_common {
         $angst_insert['time'] = time();
 
         $this->db->AutoExecute('angst_replies', $angst_insert, 'INSERT');
-
-        $id = $this->db->Insert_Id();
         
         $bookmarks_array = json_decode($_COOKIE['bookmarks'], true);
 
-        $bookmarks_array[$id]++;
+        $bookmarks_array[intval($_POST['angst-id'])]++;
 
         setcookie('bookmarks', json_encode($bookmarks_array), time()+60*60*24*300);
         

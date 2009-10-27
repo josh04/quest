@@ -169,6 +169,7 @@ class angst_edit_profile extends code_edit_profile {
             return $update_profile;
         }
 
+        $this->player->avatar        = $_POST['avatar'];
         $this->player->email         = $_POST['email'];
         $this->player->description   = htmlentities($_POST['description'], ENT_QUOTES, 'utf-8');
         $this->player->gender        = intval($_POST['gender']);
