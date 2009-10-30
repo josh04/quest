@@ -1,5 +1,5 @@
 <? 
 
-                    define('IS_INSTALLED', 1);
+                    define('IS_INSTALLED', true);
 
                     ?>

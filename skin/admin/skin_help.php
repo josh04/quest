@@ -30,6 +30,7 @@ class skin_help extends skin_common {
     }
 
    /**
+<<<<<<< HEAD:skin/admin/skin_help.php
     * help row for hidden (popup) help pages
     * 
     * @param array $help_topic help topic from database
@@ -46,6 +47,8 @@ class skin_help extends skin_common {
     }
 
    /**
+=======
+>>>>>>> d35f7ff95bcba424c44d1bf26964994996615c2a:skin/admin/skin_help.php
     * help navigation page
     * 
     * @param string $help_html the html to display as navigation
@@ -72,6 +75,7 @@ class skin_help extends skin_common {
     }
 
    /**
+<<<<<<< HEAD:skin/admin/skin_help.php
     * help navigation page for hidden pages
     * 
     * @param string $help_html the html to display as navigation
@@ -90,6 +94,8 @@ class skin_help extends skin_common {
 
 
    /**
+=======
+>>>>>>> d35f7ff95bcba424c44d1bf26964994996615c2a:skin/admin/skin_help.php
     * single help page
     * 
     * @param array $help_topic the topic to display
@@ -117,6 +123,7 @@ class skin_help extends skin_common {
         return $help;
     }
 
+<<<<<<< HEAD:skin/admin/skin_help.php
    /**
     * A special case when on the root help files page
     * 
@@ -138,5 +145,7 @@ class skin_help extends skin_common {
         return $help;
     }
 
+=======
+>>>>>>> d35f7ff95bcba424c44d1bf26964994996615c2a:skin/admin/skin_help.php
 }
 ?>

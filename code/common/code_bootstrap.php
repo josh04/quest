@@ -67,11 +67,18 @@ class code_bootstrap {
         */
         $section = "public";
         $page = "index";
+        
+        $this->make_config();
+
 
        /**
         * Gets sections, by reading the folder names from 'code'
         */
         $sections = code_bootstrap::get_sections();
+
+        if ($this->config['default_section'] && in_array($this->config['default_section'], $sections)) {
+            $section = $this->config['default_section'];
+        }
 
         $test = strtolower($_GET['section']);
 
@@ -90,7 +97,7 @@ class code_bootstrap {
                                         "user"              =>          "user",
                                         "upgrade_database"  =>          "upgrade_database"    );
         } else {
-            $this->make_config();
+            
             $this->db =& code_database_wrapper::get_db($this->config); // this unassuming line creates the database
 
             if (!$this->db->IsConnected()) {

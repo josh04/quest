@@ -44,7 +44,10 @@ function popup_help(id) {
     window.open('popup_help.php?id='+id, 'popup_help', 'width=400,height=300');
 }
 
+<<<<<<< HEAD:skin/common/functions.js
 // moves some help items around in their list
+=======
+>>>>>>> d35f7ff95bcba424c44d1bf26964994996615c2a:skin/common/functions.js
 function help_move(dir, id) {
     d = document.getElementById('help_order_'+id);
 

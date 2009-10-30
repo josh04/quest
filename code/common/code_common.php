@@ -231,7 +231,7 @@ class code_common {
     *
     * @param string $skin_name skin name
     */
-   public function make_skin($skin_name = "") {
+    public function make_skin($skin_name = "") {
         $alternative_skin = "";
 
         // Is there a default skin in the settings?
@@ -265,7 +265,6 @@ class code_common {
             // ditto the above
             require_once("skin/".$this->section."/_skin_".$this->section.".php");
         }
-
         if ($skin_name) {
             // Load the main event, as it were. The default requested skin file.
             require_once("skin/".$this->section."/".$skin_name.".php");
@@ -539,7 +538,7 @@ class code_common {
             ($current_page + 2) => ($current + 2*$per_page));
 
         foreach ($pagination as $page_number => $page_start) {
-            if ($page_number >= 0) {
+            if ($page_number >= 0 && $num_pages > $page_number) {
                 $paginate_links[$page_number] = $this->skin->paginate_link($page_number, $page_start, $this->section, $this->page);
             }
         }

@@ -69,7 +69,7 @@ class code_player_profile extends code_player {
                 $profile_array[$field] = $default;
             }
         }
-                
+        
         $profile_update_query['profile_string'] = json_encode($profile_array);
 
         $this->db->AutoExecute('profiles', $profile_update_query, 'UPDATE', '`player_id`='.$this->id);
@@ -111,6 +111,48 @@ class code_player_profile extends code_player {
             return true;
         }
     }
+    
+   /**
+    * is guest? is this a guest page?
+    * hmm, this couldn't possibly go wrong.
+    *
+    * @param string $page current page
+    * @return bool kick them out?
+    */
+    protected function halt_if_guest($page) {
+        $guest_pages = array("login","guesthelp","ranks", "index", "single", "");
+        if(!$this->is_member && !in_array($this->page,$guest_pages)){
+            return false;
+        }
+        return true;
+    }
 
+   /**
+    * It logs the player in!
+    *
+    * @param string $username what name they?
+    * @param string $password what's the secret word?
+    * @return bool did they do it right?
+    */
+    public function log_in($username, $password) {
+        $return = parent::log_in($username, $password);
+
+        if (isset($_COOKIE['bookmarks'])) {
+            $bookmarks_cookie = json_decode($_COOKIE['bookmarks'], true);
+            $i = 0;
+            foreach ($this->bookmarks as $id => $reply_count) {
+                if ($bookmarks_cookie[$id] && $reply_count < $bookmarks_cookie[$id]) {
+                    $i++;
+                    $this->bookmark[$id] = $bookmarks_cookie[$id];
+                }
+            }
+            if ($i > 1) {
+                $this->update_player(true);
+            }
+        }
+        
+        setcookie('bookmarks', json_encode($this->bookmarks), time()+60*60*24*300);
+        return $return;
+    }
 }
 ?>

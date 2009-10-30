@@ -250,8 +250,8 @@ class code_player {
             $hash = md5($this->id.$this->password.$login_rand);
             $_SESSION['user_id'] = $this->id;
             $_SESSION['hash'] = $hash;
-            setcookie("user_id", $this->id, mktime()+2592000);
-            setcookie("cookie_hash", $hash, mktime()+2592000);
+            setcookie("user_id", $this->id, time()+2592000);
+            setcookie("cookie_hash", $hash, time()+2592000);
             
             return true;
         } else {
