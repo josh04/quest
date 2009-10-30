@@ -7,11 +7,7 @@
  * @author josh04
  */
  $time = microtime(true);
-<<<<<<< HEAD:index.php
 
-=======
- 
->>>>>>> d35f7ff95bcba424c44d1bf26964994996615c2a:index.php
 // ------------------------
 
 require_once("code/common/code_questdb.php");            //Initialise database first

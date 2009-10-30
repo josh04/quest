@@ -15,10 +15,7 @@ class code_hospital extends code_common {
     * @return string html
     */
     public function construct($code_other = "") {
-<<<<<<< HEAD:code/public/code_hospital.php
         require_once("code/player/code_player_rpg.php"); // we need this for code_player_quest
-=======
->>>>>>> d35f7ff95bcba424c44d1bf26964994996615c2a:code/public/code_hospital.php
         if ($code_other) {
              parent::construct($code_other);
              return;
