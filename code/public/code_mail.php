@@ -129,6 +129,7 @@ class code_mail extends code_common {
             $mail['time'] = date("F j, Y, g:i a", $mail['time']);
             $mail_html .= $this->skin->mail_row($mail);
         }
+        if ($mail_query->numrows()==0) $mail_html = $this->skin->empty_inbox();
         $mail_list = $this->skin->mail_wrap($mail_html, $message);
         return $mail_list;
     }

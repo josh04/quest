@@ -28,10 +28,21 @@ class skin_mail extends skin_common {
     }
 
    /**
+    * no mail for you!
+    *
+    * @return string html
+    */
+    public function empty_inbox() {
+        $empty_inbox = "<tr><td colspan='3'><h3>".$this->lang->no_messages."</h3></td></tr>";
+        return $empty_inbox;
+    }
+
+   /**
     * displays a single message
     *
     * @param array $mail message detail
     * @param string $username
+    * @return string html
     */
     public function read($mail, $username) {
         $read = "
