@@ -384,7 +384,6 @@ class code_common {
         $this->make_player();
         $this->make_extra_lang();
         $this->make_skin($skin_name);
-        $this->quest_lock_check();
     }
 
    /**
