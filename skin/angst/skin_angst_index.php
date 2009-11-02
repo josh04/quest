@@ -10,62 +10,76 @@
 class skin_angst_index extends angst_skin_common {
 
     public $javascript = "
+    var in_action = 0;
     $(function() {
         $('#index-main').find('.angst-reply-span').click(function() {
-            if ($(this).parent().find('.reply-table').find('p').length == 0) {
-                id = $(this).parent().find('.angst-id').val();
-                $(this).parent().find('.reply-table').slideToggle();
-                var img = $(this).parent().find('img');
-                var temp = $(this).parent().find('.results');
-                $.get('index.php?page=single&action=ajax_replies&id='+id+'&start=0', '', function(data) { img.hide(); if (data.length > 1) {temp.parent().show();} temp.append(data); });
-            } else {
-                $(this).parent().find('.reply-table').slideToggle();
+            if (in_action == 0) {
+                in_action = 1;
+                if ($(this).parent().find('.reply-table').find('p').length == 0) {
+                    id = $(this).parent().find('.angst-id').val();
+                    $(this).parent().find('.reply-table').slideToggle();
+                    var img = $(this).parent().find('img');
+                    var temp = $(this).parent().find('.results');
+                    $.get('index.php?page=single&action=ajax_replies&id='+id+'&start=0', '', function(data) { img.hide(); if (data.length > 1) {temp.parent().show();} temp.append(data); in_action = 0;});
+                } else {
+                    $(this).parent().find('.reply-table').slideToggle();
+                    in_action = 0;
+                }
             }
         });
 
         $('#index-main').find('.angst-reply-more').click(function() {
-            if ($(this).parent().find('.reply-table').find('p').length == 0) {
-                id = $(this).parent().find('.angst-id').val();
-                start = $(this).parent().find('.results').find('input:last').val();
-                var angstreplyspan = $(this);
-                var temp = $(this).parent().find('.results');
-                $.get('index.php?page=single&action=ajax_replies&id='+id+'&start='+start, '', function(data) {
-if (data.length < 1 ) {
-    angstreplyspan.html('There are currently no more comments. Click here to retry.'); temp.find('.just-posted').hide();
-};
+            if (in_action == 0) {
+                in_action = 1;
+                if ($(this).parent().find('.reply-table').find('p').length == 0) {
+                    id = $(this).parent().find('.angst-id').val();
+                    start = $(this).parent().find('.results').find('input:last').val();
+                    var angstreplyspan = $(this);
+                    var temp = $(this).parent().find('.results');
+                    $.get('index.php?page=single&action=ajax_replies&id='+id+'&start='+start, '', function(data) {
+    if (data.length < 1 ) {
+        angstreplyspan.html('There are currently no more comments. Click here to retry.'); temp.find('.just-posted').hide();
+    };
 
-if ($('.just-posted').length > 0) {
-temp.find('.just-posted:last').before('<div style=\'display:none\'>'+data+'</div>'); temp.find('div:last').prev().slideDown();
-} else {
-temp.append('<div style=\'display:none\'>'+data+'</div>'); temp.find('div:last').slideDown();
-}
+    if ($('.just-posted').length > 0) {
+    temp.find('.just-posted:last').before('<div style=\'display:none\'>'+data+'</div>'); temp.find('div:last').prev().slideDown();
+    } else {
+    temp.append('<div style=\'display:none\'>'+data+'</div>'); temp.find('div:last').slideDown();
+    }
 
-replycounter = temp.find('input:last').prev().val();
-if (replycounter != 1 ) { angstreplyspan.html('There are currently no more comments. Click here to retry.'); temp.find('.just-posted').hide(); $(this).parent().find('.results').find('input:last').prev().val('1'); }; });
+    replycounter = temp.find('input:last').prev().val();
+    if (replycounter != 1 ) { angstreplyspan.html('There are currently no more comments. Click here to retry.'); temp.find('.just-posted').hide(); $(this).parent().find('.results').find('input:last').prev().val('1'); }; in_action = 0;});
+                } else {
+                    in_action = 0;
+                }
             }
         });
 
         $('#index-main').find('.angst-reply-form').submit(function() {
-            var temp = $(this).parent().find('.results');
-            $('#error').empty();
-            var cleanTxt = $('<div/>').text($(this).find('.angst-reply').val()).html();
-            var cleanId = $(this).find('.angst-id').val();
-            var dataString = $(this).serialize();
-            var replyForm = this;
-            $.post('index.php?page=single&action=ajax_reply', dataString, function (data, textStatus) {
-                    $('#error').html(data);
-                    if (data.length == 0) {
-                        temp.parent().show();
-                        var replystring = '<div class=\'just-posted\'><p style=\'display: none;\'><span>'+cleanTxt+'</span></p><p class=\'reply-author\' style=\'display: none;\'> - <a class=\'added\' href=\'index.php?section=public&amp;page=profile&amp;id='+userid+'\'>'+username+'</a> (just now)</p></div>';
-                        replystring.replace(/([^>]?)\\n/g, '$1<br />\\n');
-                        $(replyForm).parent().find('.results').append(replystring).html();
-                        $(replyForm).find('.angst-reply').val('');
-                        $(replyForm).parent().find('.results').find('.just-posted:last').find('p').fadeIn('slow');
-                    }
-                }, 'html' );
+            if (in_action == 0) {
+                in_action = 1;
+                var temp = $(this).parent().find('.results');
+                $('#error').empty();
+                var cleanTxt = $('<div/>').text($(this).find('.angst-reply').val()).html();
+                var cleanId = $(this).find('.angst-id').val();
+                var dataString = $(this).serialize();
+                var replyForm = this;
+                $.post('index.php?page=single&action=ajax_reply', dataString, function (data, textStatus) {
+                        $('#error').html(data);
+                        if (data.length == 0) {
+                            temp.parent().show();
+                            var replystring = '<div class=\'just-posted\'><p style=\'display: none;\'><span>'+cleanTxt+'</span></p><p class=\'reply-author\' style=\'display: none;\'> - <a class=\'added\' href=\'index.php?section=public&amp;page=profile&amp;id='+userid+'\'>'+username+'</a> (just now)</p></div>';
+                            replystring.replace(/([^>]?)\\n/g, '$1<br />\\n');
+                            $(replyForm).parent().find('.results').append(replystring).html();
+                            $(replyForm).find('.angst-reply').val('');
+                            $(replyForm).parent().find('.results').find('.just-posted:last').find('p').fadeIn('slow');
+                        }
+                        in_action = 0;
+                    }, 'html' );
 
- 
+            }
             return false;
+
         });
 
         $('#index-main').find('a.angst-id-span').click(function() {
@@ -134,7 +148,7 @@ if (replycounter != 1 ) { angstreplyspan.html('There are currently no more comme
     * @param string $mail any mail?
     * @return string html
     */
-    public function index_player($player, $angst, $online_list, $mail, $login_box, $profile_box, $bookmark_box, $angst_text, $message = "") {
+    public function angst_index($angst, $boxes, $id = 0, $username = 'Guest', $angst_text = "", $message = "") {
         $index_player = "
             <div class='index-form-margin'>
   <b class='tt'>
@@ -162,38 +176,48 @@ if (replycounter != 1 ) { angstreplyspan.html('There are currently no more comme
   <b class='r1'></b></b>
             </div>
             
-            <h2>Welcome, ".$player->username."</h2>
-            <script type='text/javascript' language='JavaScript'>var username='".$player->username."'; var userid='".$player->id."'; var time</script>
+            <h2>Welcome, ".$username."</h2>
+            <script type='text/javascript' language='JavaScript'>var username='".$username."'; var userid='".$id."'; var time</script>
             <div style='clear:both'></div>
             <div style='float:right'>
-                ".$login_box."
-                ".$bookmark_box."
-                ".$profile_box."
-                ".$online_list."
-                ".$mail."
+                ".$boxes."
             </div>
 
-<div class='index-margin'>
-  <b class='wt'>
-  <b class='r1'></b>
-  <b class='r2'></b>
-  <b class='r3'></b>
-  <b class='r4'></b>
-  <b class='r5'></b></b>
-
-<div id='index-main'>".$angst."</div>
-
-  <b class='wb'>
-  <b class='r5'></b>
-  <b class='r4'></b>
-  <b class='r3'></b>
-  <b class='r2'></b>
-  <b class='r1'></b></b></div>
+                ".$angst."
 
             <div style='clear:both'></div>
             
             ";
         return $index_player;
+    }
+
+   /**
+    * Draws the angst board
+    *
+    * @param string $formatted_angst the angst html
+    * @param string $paginate the paginator
+    * @return string html
+    */
+    public function angst_board($formatted_angst, $paginate) {
+        $angst_board = "<div class='index-margin'>
+          <b class='wt'>
+          <b class='r1'></b>
+          <b class='r2'></b>
+          <b class='r3'></b>
+          <b class='r4'></b>
+          <b class='r5'></b></b>
+
+            <div id='index-main'>".$formatted_angst.$paginate."
+
+            </div>
+
+          <b class='wb'>
+          <b class='r5'></b>
+          <b class='r4'></b>
+          <b class='r3'></b>
+          <b class='r2'></b>
+          <b class='r1'></b></b></div>";
+        return $angst_board;
     }
 
    /**
@@ -360,7 +384,7 @@ if (replycounter != 1 ) { angstreplyspan.html('There are currently no more comme
     * @param array $angst moody moody moody
     * @return string html
     */
-    public function angst($angst, $replies, $type, $reply_count, $bookmark) {
+    public function angst($angst, $replies, $type, $bookmark, $replies_link = "", $unapproved = "") {
         $angst = "<div>
   <b class='".$type."t'>
   <b class='r1'></b>
@@ -370,11 +394,11 @@ if (replycounter != 1 ) { angstreplyspan.html('There are currently no more comme
   <b class='r5'></b></b>
 
 <div class='".$type."'>
-    <span class='angst-id-span' style='float:left;'><a href='index.php?page=single&amp;id=".$angst['id']."'>#".$angst['id']."</a></span>
+    <span class='angst-id-span' style='float:left;'><a href='index.php?page=single&amp;id=".$angst['id']."'>#".$angst['id']." ".$unapproved."</a></span>
 
-    <span class='angst-reply-span' id='angst-reply-span-".$angst['id']."'>
-        <span>Reply</span> (".$reply_count.")</span>
-    <p>".$angst['angst']."</p>
+    ".$replies_link."
+
+    <p style='clear:left;'>".$angst['angst']."</p>
     <div>".$replies."</div>
 </div>
 
@@ -388,6 +412,19 @@ if (replycounter != 1 ) { angstreplyspan.html('There are currently no more comme
 
 ";
         return $angst;
+    }
+
+   /**
+    * The Replies (30) thing
+    *
+    * @param int $id angst id
+    * @param int $reply_count number of replies
+    * @return string html
+    */
+    public function replies_link($id, $reply_count) {
+        $replies_link = "<span class='angst-reply-span' id='angst-reply-span-".$id."'>
+            <span>Reply</span> (".$reply_count.")</span>";
+        return $replies_link;
     }
 
    /**
@@ -496,7 +533,7 @@ if (replycounter != 1 ) { angstreplyspan.html('There are currently no more comme
     * @return string html
     */
     public function bookmark_id_unapproved($id) {
-        $bookmark_id_unapproved = " <span><span class='bookmark-unapproved'>#".$id."</a> (unapproved) <a class='bookmark-remove' id='angst-bookmark-delete-".$id."' href='index.php?section=angst&amp;page=bookmark&amp;action=index_remove&amp;id=".$id."'>(remove)</a><br /></span>";
+        $bookmark_id_unapproved = " <span><a class='bookmark-unapproved' href='index.php?section=angst&amp;page=single&amp;id=".$id."'>#".$id."</a> (unapproved) <a class='bookmark-remove' id='angst-bookmark-delete-".$id."' href='index.php?section=angst&amp;page=bookmark&amp;action=index_remove&amp;id=".$id."'>(remove)</a><br /></span>";
         return $bookmark_id_unapproved;
     }
 

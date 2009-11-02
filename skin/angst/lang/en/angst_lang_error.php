@@ -146,5 +146,7 @@ class angst_lang_error {
     public $no_bookmarks = "You have not yet bookmarked any posts.";
     public $bookmark_failed = "Bookmarking failed.";
     public $remove_bookmark_failed = "Failed to remove bookmark.";
+    public $unapproved = "(Unapproved)";
+    public $guest = "Guest";
 }
 ?>

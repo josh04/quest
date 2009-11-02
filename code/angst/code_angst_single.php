@@ -94,8 +94,7 @@ class code_angst_single extends code_common {
         $angst_db = $angst_query->fetchrow();
 
         if (!$angst_db['approved']) {
-            $angst_single = $this->skin->error_box($this->lang->angst_not_yet_approved);
-            return $angst_single;
+            $message .= $this->skin->error_box($this->lang->angst_not_yet_approved);
         }
 
         $angst_db['date'] = date("jS M, h:i A", $angst_db['time']);

@@ -8,7 +8,8 @@ body {
     font-family: TrebuchetMS, Verdana, Arial;
     font-size: 12px;
     text-align: center;
-    background-color: #d3ecef;
+    /*background-color: #d3ecef;*/
+    background-color: #ffffff;
     background-image: url("../../../images/bg.png");
     background-repeat:repeat-x;
     background-position: top;

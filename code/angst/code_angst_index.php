@@ -35,29 +35,32 @@ class code_angst_index extends code_common {
                 $message .= $this->skin->error_box($this->lang->remove_bookmark_failed);
                 break;
         }
-
-
         
-        $online_list = "";
-        $mail = "";
+        $online_box = "";
+        $mail_box = "";
         $login_box = "";
         $bookmarks_box = "";
+        $username = "";
 
         $angst_html = $this->angst_board();
 
         if ($this->player->is_member) {
-            $online_list = $this->online_list();
-            $mail = $this->mail();
+            $online_box = $this->online_list();
+            $mail_box = $this->mail();
             $profile_box = $this->skin->profile_box($this->player->id, $this->player->registered_date);
             $bookmarks_box = $this->bookmarks_box();
+            $username = $this->player->username;
         } else {
             $username = htmlentities($_POST['username'], ENT_QUOTES, 'utf-8');
             $login_box = $this->skin->login_box($username);
+            $username = $this->lang->guest;
         }
 
+        $boxes = $bookmarks_box.$online_box.$login_box.$profile_box.$mail_box;
+
         $angst_text = htmlentities($_POST['angst'], ENT_QUOTES, 'utf-8');
-        
-        $index_player = $this->skin->index_player($this->player, $angst_html, $online_list, $mail, $login_box, $profile_box, $bookmarks_box, $angst_text, $message);
+
+        $index_player = $this->skin->angst_index($angst_html, $boxes, $this->player->id, $username, $angst_text, $message);
         return $index_player;
     }
 
@@ -79,7 +82,7 @@ class code_angst_index extends code_common {
    /**
     * Makes the "angst board!"
     *
-    * @return <type>
+    * @return string html
     */
     public function angst_board() {
         
@@ -89,36 +92,46 @@ class code_angst_index extends code_common {
             $limit = "0,10";
         }
 
-        $angst_query = $this->db->execute("SELECT * FROM `angst` WHERE `approved`=1 ORDER BY `time` DESC LIMIT ".$limit);
+        $approved = 1;
+        
+        if ($_GET['show'] == "unapproved") {
+            $approved = 0;
+        }
+
+        $angst_query = $this->db->execute("SELECT * FROM `angst` WHERE `approved`=? ORDER BY `time` DESC LIMIT ".$limit, array($approved));
 
         if ($angst_query->NumRows() == 0) {
             unset($angst_query);
-            $angst_query = $this->db->execute("SELECT * FROM `angst` WHERE `approved`=1 ORDER BY `time` DESC LIMIT 0,10");
+            $angst_query = $this->db->execute("SELECT * FROM `angst` WHERE `approved`=? ORDER BY `time` DESC LIMIT 0,10", array($approved));
         }
 
-        $count_query = $this->db->execute("SELECT COUNT(*) AS `c` FROM `angst` WHERE `approved`=1");
+        $count_query = $this->db->execute("SELECT COUNT(*) AS `c` FROM `angst` WHERE `approved`=?", array($approved));
         $count = $count_query->fetchrow();
 
-        $paginate = $this->paginate($count['c'], intval($_GET['start']), 10);
-
-
-        $angst_html = "";
-        $angst_ids = array();
+        $angst_ids = "";
         $angst_array = array();
         while ($angst = $angst_query->fetchrow()) {
-                $angst_ids[] = $angst['id'];
-                $angst_array[$angst['id']] = $angst;
+            $angst_ids .= intval($angst['id']).", ";
+            $angst_array[$angst['id']] = $angst;
         }
-        
+        $angst_ids = substr($angst_ids, 0, -2);
         $replies_count_query = $this->db->execute("SELECT `angst_id`, COUNT(*) AS 'c' FROM `angst_replies`
-            GROUP BY `angst_id`", array());
+            WHERE `angst_id` IN (".$angst_ids.") GROUP BY `angst_id`");
         
-        while ($count = $replies_count_query->fetchrow()) {
-            $reply_count[$count['angst_id']] = $count['c'];
+        while ($number_count = $replies_count_query->fetchrow()) {
+            $reply_count[$number_count['angst_id']] = $number_count['c'];
         }
-        
-        $angst_return = "";
 
+        $formatted_angst = $this->format_angst($angst_array, $reply_count, $approved);
+        $paginate = $this->paginate($count['c'], intval($_GET['start']), 10);
+        
+        $angst_board = $this->skin->angst_board($formatted_angst, $paginate);
+        return $angst_board;
+
+    }
+
+
+    public function format_angst($angst_array, $reply_count, $approved = 1) {
         foreach ($angst_array as $id => $single_angst) {
             if ($this->player->is_member) {
                 $reply_form = $this->skin->reply_box($this->skin->reply_form($id));
@@ -136,19 +149,23 @@ class code_angst_index extends code_common {
                 $bookmark_link = $this->skin->bookmark_link($single_angst['id'], $reply_count[$id]);
             }
 
-            if ($single_angst['type']) {
-                
-                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'glee', $reply_count[$id], $bookmark_link);
+            $replies_link = "";
+            $unapproved = "";
+            if (!$approved) {
+                $unapproved = $this->lang->unapproved;
             } else {
-                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'angst', $reply_count[$id], $bookmark_link);
+                $replies_link = $this->skin->replies_link($single_angst['id'], $reply_count[$id]);
+            }
+
+            if ($single_angst['type']) {
+                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'glee',  $bookmark_link, $replies_link, $unapproved);
+            } else {
+                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'angst', $bookmark_link, $replies_link, $unapproved);
             }
         }
 
-        return $angst_html.$paginate;
-
+        return $angst_html;
     }
-
-
 
    /**
     * builds the online list
