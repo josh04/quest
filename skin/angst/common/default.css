@@ -9,8 +9,8 @@ body {
     font-size: 12px;
     text-align: center;
     /*background-color: #d3ecef;*/
-    background-color: #ffffff;
-    background-image: url("../../../images/bg.png");
+    background-color: #e8c0dd;
+    background-image: url("../../../images/bgnew.png");
     background-repeat:repeat-x;
     background-position: top;
 /* Sneaky stuff to stop page resizing with scrollbar appear/disappear */
@@ -95,6 +95,7 @@ h3.reply-header {
     font-size: 1.5em !important;
     text-align: center;
     font-weight: normal;
+    margin-bottom: 4px;
 }
 
 #wrapper {
@@ -107,14 +108,13 @@ h3.reply-header {
 
 #header-text {
     font-size: 5em;
-    color: #63acaf;
     text-align: center;
     background-repeat: no-repeat;
     margin: 0 auto 0 auto;
 }
 
 #header-text a:link, #header-text a:active, #header-text a:visited {
-    color: #63acaf;
+    color: #000000;
     text-decoration:none;
 }
 
@@ -282,10 +282,9 @@ div.success, div.ybox {
 }
 
 div.leftside {
-    border: 1px solid #63acaf;
-    background-color: #efffff;
+    background-color: rgba(255, 255, 255, 0.5);
     padding: 8px;
-    margin: 2px;
+    margin: 0px;
     width: 300px;
 }
 
@@ -381,12 +380,12 @@ ul.menu li a:link, ul.menu li a:active, ul.menu li a:visited {
     text-decoration:none;
     color: #438c8f;
     padding: 10px;
-    background:#efffff;
+    background: rgba(255, 255, 255, 0.6);
     font-size:1.2em;
     background-image: url("../../../images/curve2.png");
     background-repeat: no-repeat;
     border-width: 0px 0 0 1px;
-    border-color: #ddffdd;
+    border-color: #ffffff;
     border-style: solid;
 
 }
@@ -403,8 +402,9 @@ li.menu_current a:link, li.menu_current a:active, li.menu_current a:visited {
 }
 
 div#index-main {
-    background:#FFf;
     padding:5px;
+    margin-right: 335px;
+    margin-left: 10px;
 }
 
 div.index-form {
@@ -417,7 +417,7 @@ textarea#angst {
     width:100%;
     padding:0;
     margin:0;
-    background: #FFC;
+    background: #fbf5d6;
 }
 
 textarea.angst-reply {
@@ -453,53 +453,66 @@ input#glee-button {
     color:#00aa00;
 }
 
-div.glee {
-    background: url('../../../images/glee.png') no-repeat;
-    background-position: center right;
-    background-color: #ddffdd;
-    padding: 8px;
-    margin: 0px;
-}
-
-div.glee-inv {
-    background: url('../../../images/glee-inv.png') no-repeat;
-    background-position: center right;
-    background-color: #fff;
-    padding: 8px;
-    margin: 0px;
-}
-
 div.glee h3, div.angst h3 {
     font-size: 3em;
 }
 
+div.reply {
+    border: solid #dddddd;
+    border-width:1px 0 0 0;
+}
+
 p.reply-author {
     text-align:right;
-    border: solid #dddddd;
-    border-width:0 0 1px 0;
     padding-bottom:5px;
     margin-bottom: 5px;
 }
 
-div.angst {
-    background: url('../../../images/angst.png') no-repeat;
-    background-position: center right;
-    background-color: #FfCfCf;
+div.glee {
+    background: url('../../../images/glee.png') no-repeat;
+    background-position: 95% 50%;
+    background-color: #ffffff;
+    border-width: 0 1px 0 1px;
+    border-style: solid;
+    border-color: #ffffff;
     padding: 8px;
     margin: 0px;
+    overflow:hidden;
+    word-wrap: break-word;
+}
+
+div.glee-inv {
+    background: url('../../../images/glee-inv.png') no-repeat;
+    background-position: 95% 50%;
+    background-color: #fff;
+    padding: 8px;
+    margin: 0px;
+    overflow:hidden;
+    word-wrap: break-word;
+}
+
+div.angst {
+    background: url('../../../images/angst.png') no-repeat;
+    background-position: 95% 50%;
+    background-color: #c0c0c0;
+    padding: 8px;
+    margin: 0px;
+    overflow:hidden;
+    word-wrap: break-word;
+    color: #000000;
+    border-width: 0 1px 0 1px;
+    border-style: solid;
+    border-color: #c0c0c0;
 }
 
 div.angst-inv {
     background: url('../../../images/angst-inv.png') no-repeat;
-    background-position: center right;
+    background-position: 95% 50%;
     background-color: #fff;
     padding: 8px;
     margin: 0px;
-}
-
-div.index-margin {
-    margin-right: 335px;
-    margin-left: 10px;
+    overflow:hidden;
+    word-wrap: break-word;
 }
 
 div.index-form-margin {
@@ -508,7 +521,7 @@ div.index-form-margin {
 
 .angstt, .gleet {
     display:block;
-    margin-top:20px;
+    margin-top:0px;
 }
 
 .angstb, .gleeb {
@@ -521,8 +534,8 @@ div.index-form-margin {
   height:1px;
   overflow:hidden;
   font-size:.01em;
-  background:#FfCfCf;
-  border-color: #FfCfCf;
+  background: #c0c0c0;
+  border-color: #c0c0c0;
 }
 
 .gleet *, .gleeb * {
@@ -530,17 +543,8 @@ div.index-form-margin {
   height:1px;
   overflow:hidden;
   font-size:.01em;
-  background:#ddffdd;
-  border-color: #ddffdd;
-}
-
-.wt *, .wb * {
-  display:block;
-  height:1px;
-  overflow:hidden;
-  font-size:.01em;
-  background:#FFf;
-  border-color: #FFf;
+  background: #ffffff;
+  border-color: #ffffff;
 }
 
 .tt *, .tb * {
@@ -549,14 +553,21 @@ div.index-form-margin {
   overflow:hidden;
   font-size:.01em;
   background: rgba(255, 255, 255, 0.5);
-  border-color: rgba(255, 255, 255, 0.5);
+  border-color: transparent;
 }
 
-.wbr {
-  padding-top: 5px;
-  background:#fff;
-  border-style:solid;
-  border-width: 0 1px 0 1px;
+.wt *, .wb * {
+  display:block;
+  height:1px;
+  overflow:hidden;
+  font-size:.01em;
+  background: rgb(255, 255, 255);
+  border-color: transparent;
+}
+
+.tb {
+    display:block;
+  height: 10px;
 }
 
 .r1 {
@@ -601,9 +612,16 @@ span.angst-reply-more {
 
 span.angst-reply-span {
     font-size:0.8em;
-    color: #000099;
     float:right;
     cursor:pointer;
+}
+
+div.angst span.angst-reply-span, div.angst span.angst-id-span a, div.angst a.angst-id-span a {
+    color: #eeeeee;
+}
+
+div.glee span.angst-reply-span, div.glee span.angst-id-span a, div.glee a.angst-id-span a, .angst-id-span {
+    color: #438c8f;
 }
 
 span.angst-reply-span a:link {
@@ -612,7 +630,6 @@ span.angst-reply-span a:link {
 
 span.angst-id-span, a.angst-id-span {
     font-size:0.8em;
-    color: #000099;
     float:left;
     cursor:pointer;
     text-decoration: none;
@@ -627,14 +644,14 @@ input.angst-id {
 }
 
 div.angst div.results {
-    background: url('../../../images/angst-inv.png') no-repeat;
+    background: url('../../../images/angst.png') no-repeat;
     background-position: center right;
     background-color: #fff;
     margin:0;
 }
 
 div.glee div.results {
-    background: url('../../../images/glee-inv.png') no-repeat;
+    background: url('../../../images/glee.png') no-repeat;
     background-position: center right;
     background-color: #fff;
     margin:0;
@@ -705,7 +722,7 @@ span.unapproved {
 
 a.angst-bookmark-span, a.angst-unbookmark-span {
     font-size:0.8em;
-    color: #000099;
+    color: #438c8f;
     float:left;
     cursor:pointer;
     text-decoration: none;
@@ -713,6 +730,6 @@ a.angst-bookmark-span, a.angst-unbookmark-span {
 
 a.bookmark-remove {
     font-size:0.8em;
-    color: #000099;
+    color: #438c8f;
     text-decoration: none;
 }

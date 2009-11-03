@@ -199,24 +199,9 @@ class skin_angst_index extends angst_skin_common {
     * @return string html
     */
     public function angst_board($formatted_angst, $paginate) {
-        $angst_board = "<div class='index-margin'>
-          <b class='wt'>
-          <b class='r1'></b>
-          <b class='r2'></b>
-          <b class='r3'></b>
-          <b class='r4'></b>
-          <b class='r5'></b></b>
+        $angst_board = "<div id='index-main'>".$formatted_angst.$paginate."
 
-            <div id='index-main'>".$formatted_angst.$paginate."
-
-            </div>
-
-          <b class='wb'>
-          <b class='r5'></b>
-          <b class='r4'></b>
-          <b class='r3'></b>
-          <b class='r2'></b>
-          <b class='r1'></b></b></div>";
+            </div>";
         return $angst_board;
     }
 
@@ -227,10 +212,20 @@ class skin_angst_index extends angst_skin_common {
     * @return string html
     */
     public function mail_box($mail) {
-        $mail_box = "<div class=\"leftside\">
+        $mail_box = "  <b class='tt'>
+  <b class='r1'></b>
+  <b class='r2'></b>
+  <b class='r3'></b>
+  <b class='r4'></b>
+  <b class='r5'></b></b><div class=\"leftside\">
                     <h4>Recent mail (<a href=\"index.php?section=public&amp;page=mail\">more</a>)</h4>
                         ".$mail."
-                </div>";
+                </div>  <b class='tb'>
+  <b class='r5'></b>
+  <b class='r4'></b>
+  <b class='r3'></b>
+  <b class='r2'></b>
+  <b class='r1'></b></b>";
         return $mail_box;
     }
 
@@ -242,10 +237,20 @@ class skin_angst_index extends angst_skin_common {
     * @return string html
     */
     public function profile_box($id, $registered) {
-        $profile_box = "<div class=\"leftside\">
+        $profile_box = "  <b class='tt'>
+  <b class='r1'></b>
+  <b class='r2'></b>
+  <b class='r3'></b>
+  <b class='r4'></b>
+  <b class='r5'></b></b><div class=\"leftside\">
                     <h4>Your Profile (<a href='index.php?section=public&amp;page=profile&amp;id=".$id."'>more</a>)</h4>
                         Registered: ".$registered."<br />
-                </div>";
+                </div>  <b class='tb'>
+  <b class='r5'></b>
+  <b class='r4'></b>
+  <b class='r3'></b>
+  <b class='r2'></b>
+  <b class='r1'></b></b>";
         return $profile_box;
     }
 
@@ -256,9 +261,19 @@ class skin_angst_index extends angst_skin_common {
     * @return string html
     */
     public function online_list($list) {
-        $online_list = "<div class=\"leftside\">
+        $online_list = "  <b class='tt'>
+  <b class='r1'></b>
+  <b class='r2'></b>
+  <b class='r3'></b>
+  <b class='r4'></b>
+  <b class='r5'></b></b><div class=\"leftside\">
                     <h4>Users online (<a href='index.php?section=public&amp;page=members'>more</a>)</h4>".$list."
-                </div>";
+                </div>  <b class='tb'>
+  <b class='r5'></b>
+  <b class='r4'></b>
+  <b class='r3'></b>
+  <b class='r2'></b>
+  <b class='r1'></b></b>";
         return $online_list;
     }
 
@@ -269,7 +284,12 @@ class skin_angst_index extends angst_skin_common {
     * @return string html
     */
     public function login_box($username) {
-        $login_box = "<div class='leftside'>
+        $login_box = "  <b class='tt'>
+  <b class='r1'></b>
+  <b class='r2'></b>
+  <b class='r3'></b>
+  <b class='r4'></b>
+  <b class='r5'></b></b><div class='leftside'>
                     <form method='post' action='index.php?section=public&amp;page=login'>
                         <strong>Log in</strong><br />
                         <label for='login-username'>Username:</label><br />
@@ -279,7 +299,12 @@ class skin_angst_index extends angst_skin_common {
                         <input name='login' type='submit' value='Login' /><br />
                     </form>
                     <a href='index.php?section=public&amp;page=login&amp;action=register'>Click here to register!</a>
-                </div>";
+                </div>  <b class='tb'>
+  <b class='r5'></b>
+  <b class='r4'></b>
+  <b class='r3'></b>
+  <b class='r2'></b>
+  <b class='r1'></b></b>";
         return $login_box;
     }
 
@@ -394,6 +419,7 @@ class skin_angst_index extends angst_skin_common {
   <b class='r5'></b></b>
 
 <div class='".$type."'>
+
     <span class='angst-id-span' style='float:left;'><a href='index.php?page=single&amp;id=".$angst['id']."'>#".$angst['id']." ".$unapproved."</a></span>
 
     ".$replies_link."
@@ -408,7 +434,7 @@ class skin_angst_index extends angst_skin_common {
   <b class='r3'></b>
   <b class='r2'></b>
   <b class='r1'></b>
-</b></div>".$bookmark."<div style='text-align:right;margin:0;padding:0;'>".$angst['date']."</div>
+</b></div>".$bookmark."<div style='text-align:right;margin-bottom:20px;;padding:0;'>".$angst['date']."</div>
 
 ";
         return $angst;
@@ -546,9 +572,19 @@ class skin_angst_index extends angst_skin_common {
     * @return string html
     */
     public function bookmark_box($unread, $read, $unapproved) {
-        $bookmark_box = "<div class='leftside'>
+        $bookmark_box = "  <b class='tt'>
+  <b class='r1'></b>
+  <b class='r2'></b>
+  <b class='r3'></b>
+  <b class='r4'></b>
+  <b class='r5'></b></b><div class='leftside'>
                ".$unread.$read.$unapproved."<div id='new-bookmarks'></div>
-            </div>";
+            </div>  <b class='tb'>
+  <b class='r5'></b>
+  <b class='r4'></b>
+  <b class='r3'></b>
+  <b class='r2'></b>
+  <b class='r1'></b></b>";
         return $bookmark_box;
     }
 

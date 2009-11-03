@@ -176,8 +176,8 @@ if (replycounter != 1 ) {
     * @return string html
     */
     public function reply($reply) {
-        $reply = "<p><span>".$reply['reply']."</span></p>
-                     <p class='reply-author'> - <a href='index.php?section=public&amp;page=profile&amp;id=".$reply['player_id']."'>".$reply['username']."</a> (".date("jS M, h:i A", $reply['time']).")</p>
+        $reply = "<div class='reply'><p><span>".$reply['reply']."</span></p>
+                     <p class='reply-author'> - <a href='index.php?section=public&amp;page=profile&amp;id=".$reply['player_id']."'>".$reply['username']."</a> (".date("jS M, h:i A", $reply['time']).")</p></div>
             ";
             return $reply;
     }

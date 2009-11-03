@@ -62,7 +62,7 @@ class skin_angst_approval extends _skin_angst_mod {
     * @return string html
     */
     public function unapproved_angst_board($angst, $message = "") {
-        $unapproved_angst_board = "<div id='error-box'>".$message."</div>".$angst;
+        $unapproved_angst_board = "<div id='error-box'>".$message."</div><div style='clear:both;'></div>".$angst;
         return $unapproved_angst_board;
     }
     

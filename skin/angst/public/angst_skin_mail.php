@@ -28,6 +28,16 @@ class angst_skin_mail extends angst_skin_common {
     }
 
    /**
+    * no mail for you!
+    *
+    * @return string html
+    */
+    public function empty_inbox() {
+        $empty_inbox = "<tr><td colspan='3'><h3>".$this->lang->no_messages."</h3></td></tr>";
+        return $empty_inbox;
+    }
+    
+   /**
     * displays a single message
     *
     * @param array $mail message detail
@@ -162,6 +172,43 @@ class angst_skin_mail extends angst_skin_common {
             </li>";
         return $mail_row_small;
     }
+
+
+   /**
+    * makes a quotation to reply with
+    *
+    * it's important not to indent this, because the text goes straight into a textarea
+    * so every space and newline counts.
+    *
+    * (Josh) This is what trim() is for ;)
+    *
+    * @param string $username the username of the player we're quoting
+    * @param string $body the body that we're quoting
+    * @return string html
+    */
+    public function make_quote($username, $body) {
+        $make_quote =  "[quote=" . $username . "]
+            " . $body . "
+            [/quote]";
+        return $make_quote;
+    }
+
+   /**
+    * generates a preview of a message being written
+    *
+    *
+    * @param string $body the message to preview
+    * @return string html
+    */
+    public function mail_preview($body) {
+        $mail_preview = "
+        <div class='quote-head' style='width:94%;'>
+        " . $this->lang->mail_preview . "</div>
+        <div class='quote' style='width:94%;'>
+        ". $body . "</div>";
+        return $mail_preview;
+    }
+
 
    /**
     * static function for the menu wrapper
