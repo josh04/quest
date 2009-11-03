@@ -24,15 +24,14 @@ class code_index extends code_common {
         $code_stats->make_skin('skin_stats');
         $stats = $code_stats->stats_table($message);
 
-        $news = "";
-        $news = $this->news();
+        $extra = $this->do_hook("home/extra");
 
         $online_list = $this->online_list();
         $quest = $this->quest();
         $log = $this->log();
         $mail = $this->mail();
 
-        $index_player = $this->skin->index_player($this->player, $stats, $news, $online_list, $quest, $log, $mail);
+        $index_player = $this->skin->index_player($this->player, $stats, $extra, $online_list, $quest, $log, $mail);
         return $index_player;
     }
 
@@ -123,7 +122,7 @@ class code_index extends code_common {
         }
 
         if ($mail_query->numrows()==0) {
-            $mail = $this->skin->log_entry($this->lang->no_laptop_message, 0);
+            $mail = $this->skin->log_entry($this->lang->no_messages_long, 0);
         }
 
         while($mail_row = $mail_query->fetchrow()) {
