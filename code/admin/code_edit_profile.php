@@ -92,7 +92,7 @@ class code_edit_profile extends _code_admin {
     * @return string html
     */
     public function update_permissions($id) {
-        if (!($_POST['rank'] == "Admin" || $_POST['rank'] == "Member")) { //stops you wiping your profile with GET
+        if (!($_POST['rank'] == "Admin" || $_POST['rank'] == "Member" || $_POST['rank'] == "Moderator")) { //stops you wiping your profile with GET
             $update_permissions = $this->edit_profile_page($id, $this->skin->error_box($this->lang->not_a_rank));
             return $update_permissions;
         }

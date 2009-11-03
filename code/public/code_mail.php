@@ -105,7 +105,7 @@ class code_mail extends code_common {
         }
 
         $mail['time'] = date("F j, Y, g:i a", $mail['time']);
-        $mail['quote'] = $this->skin->make_quote($mail['username'], $mail['body']);
+        $mail['quote'] = trim($this->skin->make_quote($mail['username'], $mail['body']));
         $mail['body'] = $this->bbparse($mail['body'], true);
         $mail['subject'] = nl2br($mail['subject']);
 

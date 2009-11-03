@@ -5,7 +5,7 @@
  * @author josh04
  * @package skin_public
  */
-class skin_menu_admin extends skin_common {
+class skin_menu_admin extends _skin_admin {
 
    /**
     * a single monstorous row of input boxes

@@ -7,8 +7,7 @@
  */
 class code_hospital extends code_common {
 
-    public $player_class = "code_player_rpg";
-    public $quest_lock = true;
+    public $player_class = "code_player_quest";
 
    /**
     * class override. calls parents, sends kids home.
@@ -16,6 +15,7 @@ class code_hospital extends code_common {
     * @return string html
     */
     public function construct($code_other = "") {
+        require_once("code/player/code_player_rpg.php"); // we need this for code_player_quest
         if ($code_other) {
              parent::construct($code_other);
              return;
@@ -33,6 +33,11 @@ class code_hospital extends code_common {
     * @return string html
     */
     protected function hospital_switch() {
+        if (!$this->player->quest_lock_check()) {
+            $code_hospital = $this->skin->error_box($this->lang->quest_lock);
+
+        }
+
         if ($_GET['action'] == 'heal') {
             $make_hospital = $this->heal();
             return $make_hospital;

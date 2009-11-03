@@ -533,8 +533,9 @@ class QuestDB {
         }
         
         if (get_class($rs) == 'QuestDBrs') {
-            for ($i=0, $max=$rs->FieldCount(); $i < $max; $i++) 
+            for ($i=0, $max=$rs->FieldCount(); $i < $max; $i++) {
                 $columns[] = $rs->FetchField($i);
+            }
             $recordSet = $rs;
 
         } else {
@@ -707,7 +708,7 @@ class QuestDBrs {
         $this->result =& $result;
         
         if ($result) {
-
+            
             $this->FieldCount = mysqli_num_fields($this->result);
             
             while ($a = mysqli_fetch_array($this->result)) {

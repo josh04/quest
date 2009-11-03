@@ -145,7 +145,7 @@ class lang_error {
     public $quest_install_no = "The quest could not be installed.";
     public $quest_delete_success = "The quest was successfully deleted.";
     public $quest_delete_no = "The quest could not be deleted.";
-    public $quest_lock = "You can't do that whilst you're on a quest!";
+    public $quest_lock = "You can't do that while you're on a quest.";
 
     // admin
     public $changes_saved = "Changes saved.";
