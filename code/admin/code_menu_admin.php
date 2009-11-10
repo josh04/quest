@@ -12,16 +12,12 @@ class code_menu_admin extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_menu_admin");
 
         $code_menu_admin = $this->menu_admin_switch();
 
-        parent::construct($code_menu_admin);
+        return $code_menu_admin;
     }
 
    /**

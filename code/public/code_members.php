@@ -12,16 +12,12 @@ class code_members extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_members");
 
         $code_members = $this->members_list();
         
-        parent::construct($code_members);
+        return $code_members;
     }
 
    /**

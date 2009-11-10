@@ -17,7 +17,7 @@ class code_cookie extends code_common {
 
         $code_cookie = ;
 
-        parent::construct($code_cookie);
+        return $code_cookie;
     }
 
 }

@@ -12,16 +12,12 @@ class code_log extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_log");
 
         $code_log = $this->make_log();
 
-        parent::construct($code_log);
+        return $code_log;
     }
 
    /**

@@ -14,16 +14,12 @@ class code_work extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_work");
 
         $code_work = $this->work_switch();
 
-        parent::construct($code_work);
+        return $code_work;
     }
 
     public function work_switch() {

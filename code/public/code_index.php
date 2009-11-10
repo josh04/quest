@@ -154,7 +154,7 @@ class code_index extends code_common {
     */
     public function construct($code_other = "") {
         if ($code_other) {
-            parent::construct($code_other);
+            return $code_other;
             return;
         }
 
@@ -165,7 +165,7 @@ class code_index extends code_common {
             $code_index = $this->index_guest("", "");
         }
         
-        parent::construct($code_index);
+        return $code_index;
     }
 
    /**

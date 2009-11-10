@@ -14,16 +14,12 @@ class code_upgrade_database extends _code_install {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_install");
 
         $code_upgrade_database = $this->upgrade_switch();
 
-        parent::construct($code_upgrade_database);
+        return $code_upgrade_database;
     }
 
    /**

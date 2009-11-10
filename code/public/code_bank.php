@@ -12,16 +12,12 @@ class code_bank extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_bank");
 
         $code_bank = $this->bank_switch();
 
-        parent::construct($code_bank);
+        return $code_bank;
     }
 
    /**

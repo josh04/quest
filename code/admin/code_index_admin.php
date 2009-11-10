@@ -11,16 +11,12 @@ class code_index_admin extends _code_admin {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_index_admin");
 
         $code_index = $this->index_wrapper();
 
-        parent::construct($code_index);
+        return $code_index;
     }
 
    /**

@@ -12,16 +12,12 @@ class code_portal extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_portal");
 
         $code_portal = $this->portal();
 
-        parent::construct($code_portal);
+        return $code_portal;
     }
 
    /**
