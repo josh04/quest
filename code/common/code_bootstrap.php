@@ -26,7 +26,8 @@ class code_bootstrap {
             $_REQUEST = array_map(array($this, 'stripslashes_deep'), $_REQUEST);
         }
         $this->page_setup();
-        $this->page->construct();
+        $page = $this->page->construct();
+        print $this->page->finish_page($page);
     }
 
    /**

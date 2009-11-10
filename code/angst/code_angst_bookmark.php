@@ -108,6 +108,12 @@ class code_angst_bookmark extends _code_angst {
         }
     }
 
+   /**
+    * removes a bookmark
+    *
+    * @param int $id angst id
+    * @return bool success
+    */
     public function bookmark_remove($id) {
         $id = intval($id);
         if (is_array($this->player->bookmarks) && isset($this->player->bookmarks[$id])) {
