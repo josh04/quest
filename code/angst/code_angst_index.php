@@ -296,7 +296,6 @@ class code_angst_index extends _code_angst {
     * @return string html
     */
     public function index_switch() {
-
         if ($_GET['action'] == "angst") {
             $code_index = $this->angst();
             return $code_index;
@@ -315,7 +314,6 @@ class code_angst_index extends _code_angst {
         $this->initiate("skin_angst_index");
 
         $code_index = $this->index_switch();
-
         
         return $code_index;
     }

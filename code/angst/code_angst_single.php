@@ -16,34 +16,38 @@ class code_angst_single extends _code_angst {
     * @return string html
     */
     public function construct() {
-
         $this->initiate("skin_angst_single");
 
-        if ($_GET['action'] == "ajax_replies") {
-            $code_index = $this->ajax_replies();
-            print $code_index;
-            return;
-        }
-
-        if ($_GET['action'] == "ajax_reply") {
-            $code_index = $this->angst_reply();
-            print $code_index;
-            return;
-        }
-
         $code_angst_single = $this->angst_switch();
-
 
         return $code_angst_single;
     }
 
+   /**
+    * switchboard function
+    *
+    * @return string html
+    */
     public function angst_switch() {
+
+        if ($_GET['action'] == "ajax_replies") {
+            $this->ajax_mode = true;
+            $angst_switch = $this->replies($_GET['id'], $_GET['start']);
+            return $angst_switch;
+        }
+
+        if ($_GET['action'] == "ajax_reply") {
+            $this->ajax_mode = true;
+            $angst_switch = $this->angst_reply();
+            return $angst_switch;
+        }
+
         if (!intval($_GET['id'])) {
             $angst_switch = $this->skin->error_box($this->lang->no_angst_id);
             return $angst_switch;
         }
 
-        if ($_GET['action'] == "angst-reply") {
+        if ($_GET['action'] == "angst_reply") {
             $angst_switch = $this->angst_reply();
             if (!$angst_switch) {
                 header("Location: index.php?page=single&id=".intval($_GET['id']));

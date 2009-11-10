@@ -200,7 +200,7 @@ if (replycounter != 1 ) {
     * @return string html
     */
     public function reply_form($id) {
-        $reply_form = " <form action='index.php?page=single&amp;action=angst-reply&amp;id=".$id."' class='angst-reply-form' id='reply-form' method='post'>
+        $reply_form = " <form action='index.php?page=single&amp;action=angst_reply&amp;id=".$id."' class='angst-reply-form' id='reply-form' method='post'>
         <table><tbody>
             <tr><td style='width:99%;'>
             <input type='hidden' class='angst-id' name='angst-id' value='".$id."' />

@@ -18,23 +18,24 @@ class code_angst_bookmark extends _code_angst {
     public function construct() {
         $this->initiate("skin_angst_extra");
         $id = intval($_GET['id']);
+        $this->ajax_mode = true;
 
         if ($id) {
             switch ($_GET['action']) {
                 case "ajax_bookmark":
                     $bookmark = $this->bookmark($id);
                     if ($bookmark) {
-                        print $this->skin->bookmarked($id);
+                        return $this->skin->bookmarked($id);
                     } else {
-                        print $this->skin->error_box($this->lang->bookmark_failed);
+                        return $this->skin->error_box($this->lang->bookmark_failed);
                     }
                     exit;
                 case "ajax_remove":
                     $bookmark = $this->bookmark_remove($id);
                     if ($bookmark) {
-                        print $this->skin->unbookmarked($id);
+                        return $this->skin->unbookmarked($id);
                     } else {
-                        print $this->skin->error_box($this->lang->remove_bookmark_failed);
+                        return $this->skin->error_box($this->lang->remove_bookmark_failed);
                     }
                     exit;
                 case 'index_redirect':

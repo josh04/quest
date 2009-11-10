@@ -42,13 +42,21 @@ class skin_angst_index extends angst_skin_common {
     };
 
     if ($('.just-posted').length > 0) {
-    temp.find('.just-posted:last').before('<div style=\'display:none\'>'+data+'</div>'); temp.find('div:last').prev().slideDown();
+        temp.find('.just-posted:last').before('<div style=\'display:hide\'>'+data+'</div>');
+        temp.find('div:last').prev().slideDown();
     } else {
-    temp.append('<div style=\'display:none\'>'+data+'</div>'); temp.find('div:last').slideDown();
+        temp.append('<div style=\'display:hide\'>'+data+'</div>');
+        temp.find('div:last').parent().slideDown();
     }
 
     replycounter = temp.find('input:last').prev().val();
-    if (replycounter != 1 ) { angstreplyspan.html('There are currently no more comments. Click here to retry.'); temp.find('.just-posted').hide(); $(this).parent().find('.results').find('input:last').prev().val('1'); }; in_action = 0;});
+    if (replycounter != 1 ) { 
+        angstreplyspan.html('There are currently no more comments. Click here to retry.');
+        temp.find('.just-posted').hide();
+        $(this).parent().find('.results').find('input:last').prev().val('1');
+    };
+    in_action = 0;}
+);
                 } else {
                     in_action = 0;
                 }
@@ -489,7 +497,7 @@ class skin_angst_index extends angst_skin_common {
     * @return string html
     */
     public function reply_form($id) {
-        $reply_form = " <form action='index.php?page=single&amp;action=angst-reply' class='angst-reply-form' method='post'>
+        $reply_form = " <form action='index.php?page=single&amp;action=angst_reply' class='angst-reply-form' method='post'>
         <table><tbody>
             <tr><td style='width:99%;'>
             <input type='hidden' class='angst-id' name='angst-id' value='".$id."' />

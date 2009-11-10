@@ -15,26 +15,40 @@ class code_angst_approval extends _code_angst_mod {
     public function construct() {
         $this->initiate("skin_angst_approval");
 
-        if ($_GET['action'] == 'ajax_approve') {
-            $approve = $this->approve($_GET['id']);
-            print $approve;
-            exit;
-        }
-
         $code_angst_admin = $this->angst_admin_switch();
 
         return $code_angst_admin;
     }
 
+   /**
+    * not sure what this does
+    *
+    * @return string html
+    */
     public function angst_admin_switch() {
+        
+        if ($_GET['action'] == 'ajax_approve') {
+            $this->ajax_mode = true;
+            $approve = $this->approve($_GET['id']);
+            return $approve;
+        }
+
         $message = "";
+
         if (intval($_GET['id'])) {
             $message = $this->approve(intval($_GET['id']));
         }
+        
         $angst_admin_switch = $this->unapproved_angst_board($message);
         return $angst_admin_switch;
     }
 
+   /**
+    * prints the pagefulla unfinished angst
+    *
+    * @param string $message error message
+    * @return string html
+    */
     public function unapproved_angst_board($message = "") {
 
         if (isset($_GET['start'])) {
