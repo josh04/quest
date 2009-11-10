@@ -164,9 +164,9 @@ class skin_angst_index extends angst_skin_common {
 <textarea cols='60' rows='1'
           onkeyup='resizeTextarea(this)'
           onmouseup='resizeTextarea(this)' id='angst' name='angst'>".$angst_text."</textarea></td>
-                    <td style='padding:5px;'><input type='submit' value='Angst' name='submit' id='angst-button' /></td>
-<td style='padding:5px;'><input type='submit' name='submit' value='Glee' id='glee-button' /></td></tr></tbody></table>
-                </form><div id='error'>".$message."</div>
+                    <td style='padding:5px;'><input type='image' src='images/angst-button.png' value='Angst' name='submit' id='angst-button' /></td>
+<td style='padding:5px;'><input type='image' src='images/glee-button.png' name='submit' value='Glee' id='glee-button' /> </td></tr></tbody></table>
+                </form>
 </div>
   <b class='tb'>
   <b class='r5'></b>
@@ -174,7 +174,7 @@ class skin_angst_index extends angst_skin_common {
   <b class='r3'></b>
   <b class='r2'></b>
   <b class='r1'></b></b>
-            </div>
+            </div><div id='error'><div id='error-content'>".$message."</div><span id='error-remove' style='display:none;'>Remove</span></div>
             
             <h2>Welcome, ".$username."</h2>
             <script type='text/javascript' language='JavaScript'>var username='".$username."'; var userid='".$id."'; var time</script>
@@ -424,7 +424,7 @@ class skin_angst_index extends angst_skin_common {
 
     ".$replies_link."
 
-    <p style='clear:left;'>".$angst['angst']."</p>
+    <p class='angst-text'>".$angst['angst']."</p>
     <div>".$replies."</div>
 </div>
 
@@ -472,25 +472,13 @@ class skin_angst_index extends angst_skin_common {
     */
     public function reply_box($form, $display='none') {
         $reply_form = "
-       <div class='reply-table' style='display:".$display.";'>
-<img src='images/load.gif' alt='Working' style='margin:0 auto 0 auto;padding:5px;display:block' />
-<div class='results-wrap'>
-  <b class='wt'>
-  <b class='r1'></b>
-  <b class='r2'></b>
-  <b class='r3'></b>
-  <b class='r4'></b>
-  <b class='r5'></b></b>
-
-<div class='results'><h3 class='reply-header'>Replies</h3></div>
-
-  <b class='wb'>
-  <b class='wbr'></b>
-  <b class='r4'></b>
-  <b class='r3'></b>
-  <b class='r2'></b>
-  <b class='r1'></b></b></div>
-            <span class='angst-reply-more'>More...</span>".$form."</div>";
+        <div class='reply-table' style='display:".$display.";'>
+            <img src='images/load.gif' alt='Working' style='margin:0 auto 0 auto;padding:5px;display:block' />
+            <div class='results-wrap'>
+                <div class='results'><h3 class='reply-header'>Replies</h3></div>
+            </div>
+            <span class='angst-reply-more'>More...</span>".$form."
+        </div>";
         return $reply_form;
     }
 
@@ -619,28 +607,6 @@ class skin_angst_index extends angst_skin_common {
     public function bookmark_unapproved($unapproved) {
         $bookmark_unapproved = "<div><h4>Unapproved</h4>".$unapproved."</div>";
         return $bookmark_unapproved;
-    }
-
-   /**
-    * success message
-    *
-    * @param int $id angst id
-    * @return string html
-    */
-    public function bookmarked($id) {
-        $bookmarked = "You have bookmarked angst #".$id;
-        return $bookmarked;
-    }
-
-   /**
-    * success message
-    *
-    * @param int $id angst id
-    * @return string html
-    */
-    public function unbookmarked($id) {
-        $bookmarked = "You are no longer bookmarking angst #".$id;
-        return $bookmarked;
     }
 
 }

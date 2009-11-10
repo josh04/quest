@@ -5,7 +5,7 @@
  * @author josh04
  * @package code_angst
  */
-class code_angst_bookmark extends code_common {
+class code_angst_bookmark extends _code_angst {
 
     public $player_class = "code_player_profile";
     public $override_skin = "angst"; // This is a little bit of a hack; technically the extra skin_common should be in _skin_angst.php
@@ -16,7 +16,7 @@ class code_angst_bookmark extends code_common {
     * @return string html
     */
     public function construct() {
-        $this->initiate("skin_angst_index");
+        $this->initiate("skin_angst_extra");
         $id = intval($_GET['id']);
 
         if ($id) {
@@ -24,7 +24,7 @@ class code_angst_bookmark extends code_common {
                 case "ajax_bookmark":
                     $bookmark = $this->bookmark($id);
                     if ($bookmark) {
-                        print $this->skin->success_box($this->skin->bookmarked($id));
+                        print $this->skin->bookmarked($id);
                     } else {
                         print $this->skin->error_box($this->lang->bookmark_failed);
                     }
@@ -32,7 +32,7 @@ class code_angst_bookmark extends code_common {
                 case "ajax_remove":
                     $bookmark = $this->bookmark_remove($id);
                     if ($bookmark) {
-                        print $this->skin->success_box($this->skin->unbookmarked($id));
+                        print $this->skin->unbookmarked($id);
                     } else {
                         print $this->skin->error_box($this->lang->remove_bookmark_failed);
                     }
@@ -120,6 +120,11 @@ class code_angst_bookmark extends code_common {
         return true;
     }
 
+   /**
+    * prints the bookmarks box down the side. should be a hook.
+    *
+    * @return string html
+    */
     public function code_index_bookmarks_box() {
 
         $bookmark_html_unread = "";

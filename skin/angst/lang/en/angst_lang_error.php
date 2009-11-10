@@ -148,5 +148,20 @@ class angst_lang_error {
     public $remove_bookmark_failed = "Failed to remove bookmark.";
     public $unapproved = "(Unapproved)";
     public $guest = "Guest";
+    public $cannot_reply_unapproved = "You cannot reply to unapproved angst.";
+
+    public $a_second_ago = "One second ago";
+    public $seconds_ago = " seconds ago";
+    public $a_minute_ago = "A minute ago";
+    public $minutes_ago = " minutes ago";
+    public $a_hour_ago = "An hour ago";
+    public $hours_ago = " hours ago";
+    public $yesterday = "Yesterday";
+    public $days_ago = " days ago";
+    public $a_month_ago = "A month ago";
+
+    public $guests_cant_vote = "Guests cannot vote.";
+    public $already_voted = "You have already voted on this angst";
+    public $error_voting = "There was an error voting.";
 }
 ?>

@@ -5,7 +5,7 @@
  * @author josh04
  * @package code_public
  */
-class code_angst_single extends code_common {
+class code_angst_single extends _code_angst {
     
     public $player_class = "code_player_profile";
     public $override_skin = "angst"; // This is a little bit of a hack; technically the extra skin_common should be in _skin_angst.php
@@ -85,38 +85,46 @@ class code_angst_single extends code_common {
             return $angst_single;
         }
 
+        $angst_db = $angst_query->fetchrow();
+
         if ($angst_db['type']) {
             $type = 'glee';
         } else {
             $type= 'angst';
         }
 
-        $angst_db = $angst_query->fetchrow();
+        $unapproved = "";
+        $replies = "";
+        $reply_count['c'] = 0;
 
         if (!$angst_db['approved']) {
+            $unapproved = $this->lang->unapproved;
             $message .= $this->skin->error_box($this->lang->angst_not_yet_approved);
-        }
-
-        $angst_db['date'] = date("jS M, h:i A", $angst_db['time']);
-
-        $replies = $this->replies($angst_db['id'], intval($_GET['start']));
-
-        if ($replies) {
-            $replies = $this->skin->replies($replies, $type, 'block');
         } else {
-            $replies = $this->skin->replies($replies, $type, 'none');
+            $replies = $this->replies($angst_db['id'], intval($_GET['start']));
+
+            if ($replies) {
+                $replies = $this->skin->replies($replies, $type, 'block');
+            } else {
+                $replies = $this->skin->replies($replies, $type, 'none');
+            }
+
+            $reply_form = $this->skin->more_button();
+
+            if ($this->player->is_member) {
+                $reply_form .= $this->skin->reply_form($angst_db['id']);
+            } else {
+                $reply_form .= $this->skin->reply_form_guest($angst_db['id']);
+            }
+
+            $reply_count_query = $this->db->execute("SELECT `angst_id`, COUNT(*) AS 'c' FROM `angst_replies`
+                WHERE `angst_id`=?", array($id));
+
+            $reply_count = $reply_count_query->fetchrow();
+
         }
 
-        if ($this->player->is_member) {
-            $reply_form = $this->skin->reply_form($angst_db['id']);
-        } else {
-            $reply_form = $this->skin->reply_form_guest($angst_db['id']);
-        }
-
-        $reply_count_query = $this->db->execute("SELECT `angst_id`, COUNT(*) AS 'c' FROM `angst_replies`
-            WHERE `angst_id`=?", array($id));
-        
-        $reply_count = $reply_count_query->fetchrow();
+        $angst_db['date'] = $this->format_time($angst_db['time']);
         
         $script = $this->skin->user_id_script($this->player->id, $this->player->username);
 
@@ -127,7 +135,7 @@ class code_angst_single extends code_common {
             $bookmark_link = $this->skin->unbookmark_link($angst_db['id']);
         }
 
-        $angst_single = $this->skin->angst_single($angst_db, $replies, $reply_form, $type, $reply_count['c'], $script, $bookmark_link, $message);
+        $angst_single = $this->skin->angst_single($angst_db, $replies, $reply_form, $type, $reply_count['c'], $script, $bookmark_link, $unapproved, $message);
 
         return $angst_single;
     }
@@ -157,6 +165,7 @@ class code_angst_single extends code_common {
                     $more_to_come = 1;
                     continue;
                 }
+                $reply['date'] = $this->format_time($reply['time']);
                 $replies .= $this->skin->reply($reply);
                 $reply_counter++;
             }
@@ -214,6 +223,13 @@ class code_angst_single extends code_common {
                 return $angst_reply;
             }
         }*/
+
+        $angst_unapproved_check_query = $this->db->execute("SELECT * FROM `angst` WHERE `id`=? AND `approved`=1", array(intval($_POST['angst-id'])));
+
+        if (!$angst_unapproved_check = $angst_unapproved_check_query->fetchrow()) {
+            $code_index = $this->skin->error_box($this->lang->cannot_reply_unapproved);
+            return $code_index;
+        }
 
         $angst_insert['player_id'] = $this->player->id;
         $angst_insert['angst_id'] = intval($_POST['angst-id']);

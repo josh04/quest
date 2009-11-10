@@ -37,7 +37,7 @@ table {
 }
 
 input, select, textarea {
-    border: 1px solid #999999;
+    border: 1px solid #c0c0c0;
     background-color: #EEEEEE;
     font-family: 'Trebuchet MS', 'Verdana', 'Arial';
     padding: 2px;
@@ -260,25 +260,24 @@ table.admin-home-table td a {
 
 /* BOXES */
 
-div.error, div.rbox {
+div.error {
     border: 0px solid #E00;
-    background-color: #FfCfCf;
+    background-color: rgba(255, 240, 240, 0.5);
     padding: 8px;
-    margin: 2px;
+    margin: 2px -5px 4px -5px;
 }
 
-div.explanation, div.bbox {
+div.explanation {
     border: 1px solid #99F;
     background-color: #CCF;
     padding: 8px;
     margin: 2px;
 }
 
-div.success, div.ybox {
-    border: 0px solid #63acaf;
-    background-color: #FFC;
+div.success {
+    background-color: rgba(255, 255, 255, 0.5);
     padding: 8px;
-    margin: 2px;
+    margin: 2px -5px 4px -5px;
 }
 
 div.leftside {
@@ -362,9 +361,10 @@ img.avatar {
 }
 
 ul.menu {
+    margin:7px 0 7px 0;
     padding: 10px;
     text-align:center;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.3);
 }
 
 ul.menu li {
@@ -380,7 +380,7 @@ ul.menu li a:link, ul.menu li a:active, ul.menu li a:visited {
     text-decoration:none;
     color: #438c8f;
     padding: 10px;
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.3);
     font-size:1.2em;
     background-image: url("../../../images/curve2.png");
     background-repeat: no-repeat;
@@ -391,7 +391,7 @@ ul.menu li a:link, ul.menu li a:active, ul.menu li a:visited {
 }
 
 ul.menu li a:hover {
-    background: #FFFFFF;
+    background: rgba(255, 255, 255, 0.5);
     background-image: url("../../../images/curve.png");
     background-repeat: no-repeat;
     border-color: #FFFFFF;
@@ -425,7 +425,7 @@ textarea.angst-reply {
     width:100%;
     padding:0;
     margin:0;
-    background: #FFC;
+    background: #fbf5d6;
 }
 
 input.angst-reply-button {
@@ -438,19 +438,19 @@ input.angst-reply-button {
 }
 
 input#angst-button {
-    font-size:3em;
-    height:60px;
     padding:0;
     margin:0;
     color:#aa0000;
+    border: none;
+    background: none;
 }
 
 input#glee-button {
-    font-size:3em;
-    height:60px;
     padding:0;
     margin:0;
     color:#00aa00;
+    border: none;
+    background: none;
 }
 
 div.glee h3, div.angst h3 {
@@ -482,7 +482,7 @@ div.glee {
 }
 
 div.glee-inv {
-    background: url('../../../images/glee-inv.png') no-repeat;
+    background: url('../../../images/glee.png') no-repeat;
     background-position: 95% 50%;
     background-color: #fff;
     padding: 8px;
@@ -506,7 +506,7 @@ div.angst {
 }
 
 div.angst-inv {
-    background: url('../../../images/angst-inv.png') no-repeat;
+    background: url('../../../images/angst.png') no-repeat;
     background-position: 95% 50%;
     background-color: #fff;
     padding: 8px;
@@ -603,7 +603,7 @@ div.index-form-margin {
 
 span.angst-reply-more {
     font-size:0.8em;
-    color: #000099;
+    color: #438c8f;
     cursor:pointer;
     margin: 5px;
     display:block;
@@ -611,16 +611,12 @@ span.angst-reply-more {
 }
 
 span.angst-reply-span {
-    font-size:0.8em;
+    font-size:0.85em;
     float:right;
     cursor:pointer;
 }
 
-div.angst span.angst-reply-span, div.angst span.angst-id-span a, div.angst a.angst-id-span a {
-    color: #eeeeee;
-}
-
-div.glee span.angst-reply-span, div.glee span.angst-id-span a, div.glee a.angst-id-span a, .angst-id-span {
+span.angst-reply-span, span.angst-id-span a, a.angst-id-span, span.angst-id-span {
     color: #438c8f;
 }
 
@@ -629,7 +625,7 @@ span.angst-reply-span a:link {
 }
 
 span.angst-id-span, a.angst-id-span {
-    font-size:0.8em;
+    font-size:0.85em;
     float:left;
     cursor:pointer;
     text-decoration: none;
@@ -645,15 +641,15 @@ input.angst-id {
 
 div.angst div.results {
     background: url('../../../images/angst.png') no-repeat;
-    background-position: center right;
-    background-color: #fff;
+    background-position: 95% 50%;
+    background-color: #c0c0c0;
     margin:0;
 }
 
 div.glee div.results {
     background: url('../../../images/glee.png') no-repeat;
-    background-position: center right;
-    background-color: #fff;
+    background-position: 95% 50%;
+    background-color: #ffffff;
     margin:0;
 }
 
@@ -732,4 +728,9 @@ a.bookmark-remove {
     font-size:0.8em;
     color: #438c8f;
     text-decoration: none;
+}
+
+p.angst-text {
+    clear:left;
+    padding-top:5px;
 }

@@ -6,7 +6,7 @@
  * @package code_angst
  * @author josh04
  */
-class code_angst_index extends code_common {
+class code_angst_index extends _code_angst {
     
     public $player_class = "code_player_profile";
     public $override_skin = "angst"; // This is a little bit of a hack; technically the extra skin_common should be in _skin_angst.php
@@ -110,10 +110,12 @@ class code_angst_index extends code_common {
 
         $angst_ids = "";
         $angst_array = array();
+
         while ($angst = $angst_query->fetchrow()) {
             $angst_ids .= intval($angst['id']).", ";
             $angst_array[$angst['id']] = $angst;
         }
+
         $angst_ids = substr($angst_ids, 0, -2);
         $replies_count_query = $this->db->execute("SELECT `angst_id`, COUNT(*) AS 'c' FROM `angst_replies`
             WHERE `angst_id` IN (".$angst_ids.") GROUP BY `angst_id`");
@@ -130,7 +132,14 @@ class code_angst_index extends code_common {
 
     }
 
-
+   /**
+    * makes the angst list look nice
+    *
+    * @param array $angst_array angst from db
+    * @param array $reply_count array of reply numbers
+    * @param int $approved is it approved?
+    * @return string html
+    */
     public function format_angst($angst_array, $reply_count, $approved = 1) {
         foreach ($angst_array as $id => $single_angst) {
             if ($this->player->is_member) {
@@ -142,7 +151,7 @@ class code_angst_index extends code_common {
                 $reply_count[$id] = 0;
             }
 
-            $single_angst['date'] = date("jS M, h:i A", $single_angst['time']);
+            $single_angst['date'] = $this->format_time($single_angst['time']);
             
             $bookmark_link = "";
             if (!isset($this->player->bookmarks[$single_angst['id']])) {
@@ -278,7 +287,7 @@ class code_angst_index extends code_common {
         }
 
 
-        header("Location: index.php?page=index");
+        header("Location: index.php?page=index&show=unapproved");
     }
 
    /**

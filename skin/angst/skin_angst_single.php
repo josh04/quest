@@ -45,7 +45,7 @@ if (replycounter != 1 ) {
             var dataString = $(this).serialize();
             var replyForm = this;
             $.post('index.php?page=single&action=ajax_reply', dataString, function (data, textStatus) {
-                    $('#error').html(data);
+                    $('#error').append(data);
                     if (data.length == 0) {
                         var replystring = '<div class=\'just-posted\'><p style=\'display: none;\'><span>'+cleanTxt+'</span></p><p class=\'reply-author\' style=\'display: none;\'> - <a class=\'added\' href=\'index.php?section=public&amp;page=profile&amp;id='+userid+'\'>'+username+'</a> (just now)</p></div>';
                         replystring.replace(/([^>]?)\\n/g, '$1<br />\\n');
@@ -104,7 +104,7 @@ if (replycounter != 1 ) {
     * @param string $reply_form the reply form
     * @return string html
     */
-    public function angst_single($angst_db, $replies, $reply_form, $type, $reply_count, $script, $bookmark, $message) {
+    public function angst_single($angst_db, $replies, $reply_form, $type, $reply_count, $script, $bookmark, $unapproved = "", $message = "") {
         $angst_single = "<div id='error'>".$message."</div>".$script."
 
 <div id='angst-single'>
@@ -116,16 +116,17 @@ if (replycounter != 1 ) {
   <b class='r5'></b></b>
 
 <div class='".$type."-inv'>
-    <span class='angst-id-span' style='float:left;'>#".$angst_db['id']."</span>
+    <span class='angst-id-span' style='float:left;'>#".$angst_db['id']." ".$unapproved."</span>
 
     <span class='angst-reply-span' id='angst-reply-span-".$angst_db['id']."'>
         ".$reply_count." repl".(($reply_count == 1) ? 'y':'ies')."</span>
-    <p>".$angst_db['angst']."</p>
+
+    <p class='angst-text'>".$angst_db['angst']."</p>
     <div><div class='reply-table'>
 
 ".$replies."
 
-<span class='angst-reply-more'>More...</span>".$reply_form."</div>
+".$reply_form."</div>
 </div>
 </div>
 
@@ -177,9 +178,19 @@ if (replycounter != 1 ) {
     */
     public function reply($reply) {
         $reply = "<div class='reply'><p><span>".$reply['reply']."</span></p>
-                     <p class='reply-author'> - <a href='index.php?section=public&amp;page=profile&amp;id=".$reply['player_id']."'>".$reply['username']."</a> (".date("jS M, h:i A", $reply['time']).")</p></div>
+                     <p class='reply-author'> - <a href='index.php?section=public&amp;page=profile&amp;id=".$reply['player_id']."'>".$reply['username']."</a> (".$reply['date'].")</p></div>
             ";
             return $reply;
+    }
+
+   /**
+    * needs to be seperate so we can cut it from unapproved
+    *
+    * @return string html
+    */
+    public function more_button() {
+        $more_button = "<span class='angst-reply-more'>More...</span>";
+        return $more_button;
     }
 
    /**
@@ -250,19 +261,8 @@ if (replycounter != 1 ) {
     */
     public function replies($replies_html, $type, $display = 'none') {
         $replies = "  <div style='display:".$display."'>
-<b class='".$type."t'>
-  <b class='r1'></b>
-  <b class='r2'></b>
-  <b class='r3'></b>
-  <b class='r4'></b>
-  <b class='r5'></b></b>
-            <div class='".$type."' id='results'><h3 class='reply-header'>Replies</h3>".$replies_html."</div>
-  <b class='".$type."b'>
-  <b class='r5'></b>
-  <b class='r4'></b>
-  <b class='r3'></b>
-  <b class='r2'></b>
-  <b class='r1'></b></b></div>";
+            <div id='results'><h3 class='reply-header'>Replies</h3>".$replies_html."</div>
+            </div>";
         return $replies;
     }
 }

@@ -87,7 +87,9 @@ class code_player_profile extends code_player {
     function getfriends(){
 
         // This is a resource-expensive funciton, so let's put a circuit breaker in
-        if(!empty($this->friends)) return true;
+        if (!empty($this->friends)) {
+            return true;
+        }
 
         $query = $this->db->execute("SELECT `p`.`id`, `p`.`username`, `j`.`profile_string`
     FROM `players` AS `p`
@@ -120,7 +122,7 @@ class code_player_profile extends code_player {
     * @return bool kick them out?
     */
     protected function halt_if_guest($page) {
-        $guest_pages = array("login","guesthelp","ranks", "index", "single", "");
+        $guest_pages = array("login","guesthelp","ranks", "index", "single", ""); // (TODO) fix this.
         if(!$this->is_member && !in_array($this->page,$guest_pages)){
             return false;
         }
