@@ -12,16 +12,12 @@ class code_pages extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_pages");
 
         $code_pages = $this->pages_switch();
 
-        parent::construct($code_pages);
+        return $code_pages;
     }
 
    /**

@@ -11,16 +11,12 @@ class code_messages extends _code_admin {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_messages");
 
         $code_messages = $this->messages_switch();
 
-        parent::construct($code_messages);
+        return $code_messages;
     }
 
     public function messages_switch() {

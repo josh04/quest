@@ -12,16 +12,12 @@ class code_items extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_items");
 
         $code_store = $this->items_switch("");
 
-        parent::construct($code_store);
+        return $code_store;
     }
 
    /**

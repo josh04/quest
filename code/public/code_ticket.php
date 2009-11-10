@@ -13,16 +13,12 @@ class code_ticket extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_ticket");
 
         $code_ticket = $this->ticket_switch();
 
-        parent::construct($code_ticket);
+        return $code_ticket;
     }
 
    /**

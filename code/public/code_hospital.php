@@ -17,14 +17,14 @@ class code_hospital extends code_common {
     public function construct($code_other = "") {
         require_once("code/player/code_player_rpg.php"); // we need this for code_player_quest
         if ($code_other) {
-             parent::construct($code_other);
+             return $code_other;
              return;
         }  
         $this->initiate("skin_hospital");
 
         $code_hospital = $this->hospital_switch();
 
-        parent::construct($code_hospital);
+        return $code_hospital;
     }
 
    /**

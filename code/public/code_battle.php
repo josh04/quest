@@ -15,17 +15,13 @@ class code_battle extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_battle");
 
         $this->fight = new code_fight($this->section, $this->page);
         $code_battle = $this->battle_switch();
 
-        parent::construct($code_battle);
+        return $code_battle;
     }
     
    /**

@@ -311,19 +311,13 @@ class code_angst_index extends _code_angst {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-
-        if ($code_other) {
-            parent::construct($code_other);
-            return;
-        }
-
+    public function construct() {
         $this->initiate("skin_angst_index");
 
         $code_index = $this->index_switch();
 
         
-        parent::construct($code_index);
+        return $code_index;
     }
     
 }

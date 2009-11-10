@@ -83,47 +83,6 @@ class angst_profile extends code_profile {
     }
 
    /**
-    * sends a friend request or adds a friend link
-    *
-    * @return bool success
-    */
-    public function add_as_friend() {
-        if($this->player->id == $this->profile->id) {
-            $message = $this->skin->error_box($this->lang->cant_self_friend);
-            return $message;
-        }
-
-        $this->player->getFriends();
-
-        if(in_array($this->profile->id, array_keys($this->player->friends))) {
-            $message = $this->skin->error_box($this->lang->already_friends.$this->profile->username.".");
-            return $message;
-        }
-
-        // Get friendship status
-        $inputarr = array($this->profile->id, $this->player->id, $this->player->id, $this->profile->id);
-        $fq = $this->db->execute("SELECT * FROM `friends` WHERE (`id1`=? AND `id2`=?) OR (`id1`=? AND `id2`=?)",$inputarr);
-        if($fq->numrows()==1) {
-            $f = $fq->fetchrow();
-            if($f['id1']==$this->player->id) {
-                $message = $this->skin->error_box($this->lang->awaiting_friend_response);
-                return $message;
-            } else {
-                // Accepting request!
-                $inputArr = array($this->profile->id, $this->player->id);
-                $this->db->execute("UPDATE `friends` SET `accepted`=1 WHERE `id1`=? AND `id2`=?",$inputArr);
-                $message = $this->skin->success_box($this->lang->now_friends.$this->profile->username.".");
-                return $message;
-            }
-        }
-        // All else has failed, let's send a request
-        $inputArr = array($this->player->id, $this->profile->id, false);
-        $this->db->execute("INSERT INTO `friends` (`id1`,`id2`,`accepted`) VALUES (?,?,?)",$inputArr);
-        $message = $this->skin->success_box($this->lang->request_sent.$this->profile->username.".");
-        return $message;
-    }
-
-   /**
     * static menu function
     *
     * @param code_menu $menu the current menu object, allows adding of top/bottom and db etc

@@ -17,7 +17,7 @@ class code_facebook_index extends _code_facebook {
 
         $code_facebook = $this->facebook_switch();
 
-        parent::construct($code_facebook);
+        return $code_facebook;
     }
 
    /**

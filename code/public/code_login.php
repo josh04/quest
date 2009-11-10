@@ -15,11 +15,7 @@ class code_login extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_index");
         if($this->player->is_member) {
             $code_login = $this->log_out();
@@ -27,7 +23,7 @@ class code_login extends code_common {
             $code_login = $this->login_switch();
         }
 
-        parent::construct($code_login);
+        return $code_login;
     }
 
    /**

@@ -23,7 +23,7 @@ class code_angst_approval extends _code_angst_mod {
 
         $code_angst_admin = $this->angst_admin_switch();
 
-        parent::construct($code_angst_admin);
+        return $code_angst_admin;
     }
 
     public function angst_admin_switch() {

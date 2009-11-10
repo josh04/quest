@@ -12,16 +12,12 @@ class code_cron_admin extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_cron_admin");
 
         $code_cron_admin = $this->cron_switch();
 
-        parent::construct($code_cron_admin);
+        return $code_cron_admin;
     }
     
    /**

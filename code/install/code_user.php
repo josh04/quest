@@ -12,18 +12,14 @@ class code_user extends _code_install {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_install");
         $this->make_config();
         $this->make_db();
 
         $code_user = $this->user_switch();
 
-        parent::construct($code_user);
+        return $code_user;
     }
 
    /**

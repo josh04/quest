@@ -16,10 +16,6 @@ class code_angst_single extends _code_angst {
     * @return string html
     */
     public function construct() {
-        if ($code_other) {
-            parent::construct($code_other);
-            return;
-        }
 
         $this->initiate("skin_angst_single");
 
@@ -38,7 +34,7 @@ class code_angst_single extends _code_angst {
         $code_angst_single = $this->angst_switch();
 
 
-        parent::construct($code_angst_single);
+        return $code_angst_single;
     }
 
     public function angst_switch() {

@@ -17,11 +17,8 @@ class angst_login extends code_angst_index {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }
+    public function construct() {
+
         $this->section = "angst";
         $this->initiate("skin_angst_index");
         if ($this->player->is_member) {
@@ -30,7 +27,7 @@ class angst_login extends code_angst_index {
             $code_login = $this->login_switch();
         }
 
-        parent::construct($code_login);
+        return $code_login;
     }
 
    /**
