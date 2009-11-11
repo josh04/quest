@@ -119,7 +119,6 @@ class code_database extends _code_install {
         $make_tables_success = $this->create_database();
         
         if (!$this->db->ErrorMsg()) {
-            
             $config_string = "<? 
                 /**
                  * config file
