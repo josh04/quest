@@ -88,8 +88,6 @@ class code_help extends _code_admin {
     *
     */
     public function help_single_save() {
-        $_POST['title'] = htmlentities($_POST['title'], ENT_QUOTES, 'utf-8', false);
-        $_POST['body'] = htmlentities($_POST['body'], ENT_QUOTES, 'utf-8', false);
         $error = !$this->db->Execute("UPDATE `help` SET `title`=?, `body`=? WHERE `id`=?",
             array($_POST['title'], $_POST['body'], $_POST['id']));
 

@@ -14,12 +14,12 @@ class skin_index extends skin_common {
     *
     * @param player $player player object
     * @param string $stats stats html
-    * @param string $news news html
+    * @param string $extra any extra html to display at the bottom (hook: home/extra)
     * @param string $online names of online players
     * @param string $quest current quest html
     * @return string html
     */
-    public function index_player($player, $stats, $news, $online_list, $quest, $log, $mail) {
+    public function index_player($player, $stats, $extra, $online_list, $quest, $log, $mail) {
         $index_player = "
                 <h2>Welcome, ".$player->username."</h2>
             ".$quest."
@@ -48,7 +48,7 @@ class skin_index extends skin_common {
             </div>
             <br style=\"clear:both;\" />
 
-            ".($news?"<h4>Latest news</h4>".$news:"");
+            ".($extra?$extra:"");
         return $index_player;
     }
 

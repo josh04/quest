@@ -100,6 +100,7 @@ class lang_error {
     public $error_getting_mail = "Error retrieving your mail.";
     public $mail_preview = "Message preview";
     public $no_messages = "No messages";
+    public $no_messages_long = "You currently do not have any mail messages.";
 
     // items
     public $item_not_found = "The selected item does not exist.";
