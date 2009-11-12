@@ -457,5 +457,17 @@ class angst_skin_profile extends angst_skin_common {
             </div></form>";
         return $approve_user;
     }
+    
+   /**
+    * friend request pm
+    *
+    * @param int $to_id user from id
+    * @param string $from_name user to name
+    * @return return html
+    */
+    public function friend_request($to_id, $from_name) {
+        $friend_request = "You have been added as a friend by ".$from_name.". Click [url=index.php?section=public&page=profile&friends=add&id=".$to_id."]here[/url] to accept.";
+        return $friend_request;
+    }
 }
 ?>

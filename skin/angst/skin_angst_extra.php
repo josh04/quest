@@ -14,7 +14,7 @@ class skin_angst_extra extends angst_skin_common {
     * @return string html as always
     */
     public function liked($id) {
-        $liked = "<div class='success'>You liked <a href='index.php?section=angst&amp;page=single&amp;id=".$id."'>angst #".$id."</a>.</div>";
+        $liked = "<div class='success'>You were sympathetic towards <a href='index.php?section=angst&amp;page=single&amp;id=".$id."'>angst #".$id."</a>.</div>";
         return $liked;
     }
 
@@ -25,7 +25,7 @@ class skin_angst_extra extends angst_skin_common {
     * @return string html as always
     */
     public function disliked($id) {
-        $liked = "<div class='success'>You disliked <a href='index.php?section=angst&amp;page=single&amp;id=".$id."'>angst #".$id."</a>.</div>";
+        $liked = "<div class='success'>You were apathetic towards <a href='index.php?section=angst&amp;page=single&amp;id=".$id."'>angst #".$id."</a>.</div>";
         return $liked;
     }
 

@@ -130,21 +130,21 @@ class skin_angst_index extends angst_skin_common {
                 var dislikeCount = (parseInt(disSplitStringArr[3])+1);
 
                 if (splitStringArr[1] == 'like') {
-                    var appendText = '<span class=\"angst-like-button\" style=\"display:none\"> - You liked this</span>';
+                    var appendText = '<span class=\"angst-like-button\" style=\"display:none\"> - You were sympathetic towards this</span>';
                     var likeCount = (parseInt(splitStringArr[3])+1).toString();
                     var dislikeCount = disSplitStringArr[3];
                 } else if (splitStringArr[1] == 'dislike') {
-                    var appendText = '<span class=\"angst-like-button\" style=\"display:none\"> - You disliked this</span>';
+                    var appendText = '<span class=\"angst-like-button\" style=\"display:none\"> - You were apathetic towards this</span>';
                     var likeCount = splitStringArr[3];
                     var dislikeCount = (parseInt(disSplitStringArr[3])+1).toString();
                 }
 
                 likebutton.fadeOut('slow', function() {
-                    likebutton.before('<span class=\"angst-like-button\" style=\"display:none\">Liked ('+likeCount+')</span>').remove();
+                    likebutton.before('<span class=\"angst-like-button\" style=\"display:none\">Sympathy ('+likeCount+')</span>').remove();
                     $('span.angst-like-button').fadeIn('slow');
                 });
                 dislikebutton.fadeOut('slow', function() {
-                    dislikebutton.before('<span class=\"angst-like-button\" style=\"display:none\">Disliked ('+dislikeCount+')</span>'+appendText).remove();
+                    dislikebutton.before('<span class=\"angst-like-button\" style=\"display:none\">Apathy ('+dislikeCount+')</span>'+appendText).remove();
                     $('span.angst-like-button').fadeIn('slow');
                 });
 
@@ -520,9 +520,9 @@ class skin_angst_index extends angst_skin_common {
     */
     public function like_dislike_link($id, $like_count, $dislike_count) {
         $like_dislike_link = "<a class='angst-like-button' id='angst-like-".$id."-".$like_count."' href='index.php?section=angst&amp;page=like&amp;id=".$id."'>
-            Like (".$like_count.")</a><span class='angst-like-button' id='angst-like-seperator-".$id."'> - </span>
+            Sympathise (".$like_count.")</a><span class='angst-like-button' id='angst-like-seperator-".$id."'> - </span>
             <a class='angst-like-button' id='angst-dislike-".$id."-".$dislike_count."' href='index.php?section=angst&amp;page=dislike&amp;id=".$id."'>
-            Dislike (".$dislike_count.")</a>";
+            Apathise (".$dislike_count.")</a>";
         return $like_dislike_link;
     }
 
@@ -535,7 +535,7 @@ class skin_angst_index extends angst_skin_common {
     * @return string html
     */
     public function you_liked($id, $like_count, $dislike_count) {
-        $you_liked = "<span class='angst-like-button'>Liked (".$like_count.") - Disliked (".$dislike_count.") - You liked this</span>";
+        $you_liked = "<span class='angst-like-button'>Sympathy (".$like_count.") - Apathy (".$dislike_count.") - You were sympathetic towards this</span>";
         return $you_liked;
     }
 
@@ -548,7 +548,7 @@ class skin_angst_index extends angst_skin_common {
     * @return string html
     */
     public function you_disliked($id, $like_count, $dislike_count) {
-        $you_disliked = "<span class='angst-like-button'>Liked (".$like_count.") - Disliked (".$dislike_count.") - You disliked this</span>";
+        $you_disliked = "<span class='angst-like-button'>Sympathy (".$like_count.") - Apathy (".$dislike_count.") - You were apathetic towards this</span>";
         return $you_disliked;
     }
    /**

@@ -100,6 +100,7 @@ class lang_error {
     public $error_getting_mail = "Error retrieving your mail.";
     public $mail_preview = "Message preview";
     public $no_messages = "No messages";
+    public $no_messages_long = "You currently do not have any mail messages.";
 
     // items
     public $item_not_found = "The selected item does not exist.";
@@ -183,6 +184,7 @@ class lang_error {
     public $now_friends = "You are now friends with ";
     public $request_sent = "You have sent a friend request to ";
     public $awaiting_friend_response = "You have already sent a friend request.";
+    public $friend_request = "Friend request.";
 
     // edit_profile
     public $not_a_rank = "That is not a valid rank.";
