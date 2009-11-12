@@ -15,7 +15,7 @@ class skin_ranks extends skin_common {
     * @return string html
     */
     public function rank_row($player, $rank) {
-        $rank_row = "<tr><td style=\"width:50%;\"><a href=\"index.php?page=profile&id=".$player['id']."\">".$player['username']."</a></td>
+        $rank_row = "<tr><td style=\"width:50%;\"><a href=\"index.php?section=public&amp;page=profile&id=".$player['id']."\">".$player['username']."</a></td>
                         <td>".$player[$rank]." ".$rank."</td></tr>";
         return $rank_row;
     }

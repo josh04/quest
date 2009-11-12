@@ -16,7 +16,7 @@ class skin_quest extends skin_common {
     */
     public function quest_row($quest) {
         return "<div class='quest-select'>
-        <a style='float:right;' href='index.php?page=quest&id=".$quest['id']."'>Start this quest!</a>
+        <a style='float:right;' href='index.php?section=public&amp;page=quest&id=".$quest['id']."'>Start this quest!</a>
         <h3>".$quest['title']."</h3>
         Author: ".$quest['author']."<br />
         <p>".$quest['description']."</p></div>";
@@ -106,7 +106,7 @@ class skin_quest extends skin_common {
     * @return string html
     */
     public function finish_quest() {
-        return "<div style='text-align:center;'><a href='index.php?page=quest'>Finish quest</a></div>";
+        return "<div style='text-align:center;'><a href='index.php?section=public&amp;page=quest'>Finish quest</a></div>";
     }
 
    /**

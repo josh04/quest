@@ -44,7 +44,7 @@ class code_portal extends code_common {
         preg_match_all("/(?:\s|\A)(\*+)?(?:[ ]*)(?:([^\n\r|]*)\|)?([^\n\r]+)/is",$l,$matches,PREG_SET_ORDER);
         foreach($matches as $m) {
             if($m[3]=="--") {$portal .= "</td><td>";continue;}
-            $m[3] = ($m[2]?"<a href='index.php?page=".$m[2]."'>".$m[3]."</a>":$m[3]);
+            $m[3] = ($m[2]?"<a href='index.php?section=public&amp;page=".$m[2]."'>".$m[3]."</a>":$m[3]);
             $m[3] = ($m[1]=='*'?"<strong>".$m[3]."</strong>":$m[3]);
             $portal .= $m[3] . "<br />\n";
             }

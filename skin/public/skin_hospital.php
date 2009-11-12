@@ -19,7 +19,7 @@ class skin_hospital extends skin_common {
             <h2>Hospital</h2>
             <div>
             <br />
-            <form action='index.php?page=hospital&amp;action=heal' method='post'>
+            <form action='index.php?section=public&amp;page=hospital&amp;action=heal' method='post'>
             <table>
             <tr><td style='width:30%;'><label for='heal_amount'>Select amount to heal:</label></td>
             <td><input type='text' ".$disabled." name='amount' id='heal_amount' /></td></tr>

@@ -35,11 +35,11 @@ class skin_items extends skin_common {
                         ".$item['description']."<br />
                         <b>Effectiveness:</b> ".$item['effectiveness']."
                         </td><td width='15%'>
-                        <form action='index.php?page=store&amp;action=sell' method='POST'>
+                        <form action='index.php?section=public&amp;page=store&amp;action=sell' method='POST'>
                             <input type='hidden' name='id' value='".$item['id']."' />
                             <input type='submit' name='action' value='Sell' />
                         </form>
-                        <form action='index.php?page=inventory&amp;action=equip' method='POST'>
+                        <form action='index.php?section=public&amp;page=inventory&amp;action=equip' method='POST'>
                             <input type='hidden' name='id' value='".$item['id']."' />
                             <input type='submit' name='action' value='".$equip."' />
                         </form>
@@ -76,7 +76,7 @@ class skin_items extends skin_common {
             <b>Effectiveness:</b> ".$item['effectiveness']."
             </td><td width='15%'>
             <b>Price:</b> ".$item['price']."<br />
-            <form action='index.php?page=store&amp;action=buy' method='POST'>
+            <form action='index.php?section=public&amp;page=store&amp;action=buy' method='POST'>
             <input type='hidden' name='id' value='".$item['id']."' />
             <input type='submit' value='Buy' /><br />
             </form>

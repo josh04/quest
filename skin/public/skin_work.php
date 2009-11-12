@@ -30,7 +30,7 @@ class skin_work extends skin_common {
             <li>Level Nine: 450 Tokens</li>
             <li>Level Ten: 500 Tokens</li>
             </ul>
-            <form action='index.php?page=work' method='POST'>
+            <form action='index.php?section=public&amp;page=work' method='POST'>
             <input type='submit' name='action' value='Work' />
             </form>
             ";

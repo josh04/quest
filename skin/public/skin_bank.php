@@ -29,7 +29,7 @@ class skin_bank extends skin_common {
                         <td style='width:50%;border:1px solid #CCC;padding:4px;'>
                         <strong>Deposit tokens:</strong><br />
                         You have <b>".$gold."</b> tokens on you.<br />
-                        <form method='post' action='index.php?page=bank&amp;action=deposit'>
+                        <form method='post' action='index.php?section=public&amp;page=bank&amp;action=deposit'>
                         <input type='text' name='amount' value='".$gold."' />
                         <input type='submit' value='Deposit'/>
                         </form>
@@ -40,7 +40,7 @@ class skin_bank extends skin_common {
                         The interest rate is at: 3%.<br />
                         Your next interest payment will be £".$next_interest.".
 
-                        <form method='post' action='index.php?page=bank&amp;action=interest'><br />
+                        <form method='post' action='index.php?section=public&amp;page=bank&amp;action=interest'><br />
                         <input type='submit' value='Collect' ".$disabled." />
                         </form>
                         <br />
@@ -55,7 +55,7 @@ class skin_bank extends skin_common {
                         You have <strong>".$bank_gold_saved."</strong> tokens in your bank account.<br />
                         You have <strong>".$bank_gold_deposited."</strong> tokens pending. They will be deposited in your account after your next
                         interest payment.<br />
-                        <form method='post' action='index.php?page=bank&amp;action=withdraw'>
+                        <form method='post' action='index.php?section=public&amp;page=bank&amp;action=withdraw'>
                         <input type='text' name='amount' value='".$bank."' />
                         <input type='submit' value='Withdraw'/>
                         </form>

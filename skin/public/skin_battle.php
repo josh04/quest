@@ -20,7 +20,7 @@ class skin_battle extends skin_common {
         $battle_search_page = "<h2>Find a battle</h2>
             ".$message."
             <h3>Search</h3>
-            <form method='post' action='index.php?page=battle&amp;action=search'>
+            <form method='post' action='index.php?section=public&amp;page=battle&amp;action=search'>
             <table>
                 <tr><td style='width:20%;'><label for='username'>Username</label></td>
                 <td><input type='text' id='username' name='username' value='".$username."' style='width:95%;' /></td></tr>
@@ -40,7 +40,7 @@ class skin_battle extends skin_common {
             </form><br />
             
             <h3>Attack a player</h3>
-            <form method='post' action='index.php?page=battle&amp;action=fight'>
+            <form method='post' action='index.php?section=public&amp;page=battle&amp;action=fight'>
             <table>
                 <tr><td style='width:20%;'><label for='username'>Username</label></td>
                 <td><input type='text' id='username' name='username' value='".$username."' style='width:95%;' /></td>
@@ -60,13 +60,13 @@ class skin_battle extends skin_common {
         $battle_search_row = "
             <tr>
                 <td>
-                    <a href='index.php?page=profile&amp;id=".$player['id']."'>" .$player['username']."</a>
+                    <a href='index.php?section=public&amp;page=profile&amp;id=".$player['id']."'>" .$player['username']."</a>
                 </td>
                 <td>
                     ".$player['level']."
                 </td>
                 <td>
-                    <form method='POST' name='memberBattle".$player['id']."' action='index.php?page=battle&amp;action=fight'>
+                    <form method='POST' name='memberBattle".$player['id']."' action='index.phpsection=public&amp;?page=battle&amp;action=fight'>
                         <input type='hidden' name='id' value='".$player['id']."' />
                         <a href='#' onclick='document.memberBattle".$player['id'].".submit();return false;'>Attack</a>
                     </form>
@@ -98,7 +98,7 @@ class skin_battle extends skin_common {
     * @return string html
     */
     public function victory_log($loser_id, $loser_username, $gold_shift, $exp_gain) {
-        $victory_log = "You fought <a href='index.php?page=profile&amp;id=".$loser_id."'>".$loser_username."</a> but you won!<br /> You gained ".$exp_gain." experience and ".$gold_shift." gold.";
+        $victory_log = "You fought <a href='index.php?section=public&amp;page=profile&amp;id=".$loser_id."'>".$loser_username."</a> but you won!<br /> You gained ".$exp_gain." experience and ".$gold_shift." gold.";
         return $victory_log;
     }
     
@@ -111,7 +111,7 @@ class skin_battle extends skin_common {
     * @return string html
     */
     public function loss_log($victor_id, $victor_username, $gold_shift) {
-        $loss_log = "You fought <a href='index.php?page=profile&amp;id=".$victor_id."'>".$victor_username."</a> and lost.<br /> You lost ".$gold_shift." gold.";
+        $loss_log = "You fought <a href='index.php?section=public&amp;page=profile&amp;id=".$victor_id."'>".$victor_username."</a> and lost.<br /> You lost ".$gold_shift." gold.";
         return $loss_log;
     }
 
@@ -123,7 +123,7 @@ class skin_battle extends skin_common {
     * @return string html
     */
     public function draw_log($opponent_id, $opponent_name) {
-        $draw_log = "You fought <a href='index.php?page=profile&amp;id=".$opponent_id."'>".$opponent_name."</a> and drew.";
+        $draw_log = "You fought <a href='index.php?section=public&amp;page=profile&amp;id=".$opponent_id."'>".$opponent_name."</a> and drew.";
         return $draw_log;
     }
 
