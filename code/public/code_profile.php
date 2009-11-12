@@ -8,7 +8,7 @@
 class code_profile extends code_common {
 
     public $profile;
-
+    public $player_class = 'code_player_profile';
 
    /**
     * class override. calls parents, sends kids home.
