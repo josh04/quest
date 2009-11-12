@@ -8,6 +8,7 @@
 class angst_profile extends code_profile {
 
     public $profile;
+    public $player_class = 'code_player_profile';
 
 
    /**
