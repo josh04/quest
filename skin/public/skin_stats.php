@@ -61,23 +61,23 @@ class skin_stats extends skin_common {
     * @return string html
     */
     public function stats_table_can_spend($strength, $vitality, $agility) {
-        $stats_table = "<form action='index.php?page=stats' method='POST'>
+        $stats_table = "<form action='index.php?section=public&amp;page=stats' method='POST'>
             <table style=\"width:100px;margin:8px auto;\">
                 <tr><th style=\"width: 100px;\">Strength</th><td><div style='margin:100% 0px;'>".$strength."</div></td>
                     <td>
-                        <form action='index.php?page=stats' method='POST'>
+                        <form action='index.php?section=public&amp;page=stats' method='POST'>
                             <input type='hidden' name='stat' value='strength' />
                             <input type='submit' value='+' />
                         </form></td></tr>
                 <tr><th>Vitality</th><td><div style='margin:100% 0px;'>".$vitality."</div></td>
                     <td>
-                        <form action='index.php?page=stats' method='POST'>
+                        <form action='index.php?section=public&amp;page=stats' method='POST'>
                             <input type='hidden' name='stat' value='vitality' />
                             <input type='submit' value='+' />
                         </form></td></tr>
                 <tr><th>Agility</th><td><div style='margin:100% 0px;'>".$agility."</div></td>
                     <td>
-                        <form action='index.php?page=stats' method='POST'>
+                        <form action='index.php?section=public&amp;page=stats' method='POST'>
                             <input type='hidden' name='stat' value='agility' />
                             <input type='submit' value='+' />
                         </form></td></tr>

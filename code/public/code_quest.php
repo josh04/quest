@@ -271,7 +271,7 @@ class code_quest extends code_common {
             $quest = simplexml_load_file($file);
         } else {
             $this->db->execute("UPDATE `players` SET `quest`='0' WHERE `id`=?", array($this->player->id));
-            header('location:index.php?page=quest');
+            header('location:index.php?section=public&page=quest');
         }
 
         $this->quest_stages['location'] = $quest->start;

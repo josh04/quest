@@ -142,20 +142,31 @@ class code_angst_index extends _code_angst {
     */
     public function format_angst($angst_array, $reply_count, $approved = 1) {
         foreach ($angst_array as $id => $single_angst) {
-            if ($this->player->is_member) {
-                $reply_form = $this->skin->reply_box($this->skin->reply_form($id));
-            } else {
-                $reply_form = $this->skin->reply_box($this->skin->reply_form_guest($id));
-            }
+
             if (!$reply_count[$id]) {
                 $reply_count[$id] = 0;
             }
 
             $single_angst['date'] = $this->format_time($single_angst['time']);
             
-            $bookmark_link = "";
-            if (!isset($this->player->bookmarks[$single_angst['id']])) {
-                $bookmark_link = $this->skin->bookmark_link($single_angst['id'], $reply_count[$id]);
+            $row_links = "";
+
+
+            if ($this->player->is_member) {
+                $reply_form = $this->skin->reply_box($this->skin->reply_form($id));
+                if (!isset($this->player->bookmarks[$single_angst['id']])) {
+                    $row_links = $this->skin->bookmark_link($single_angst['id'], $reply_count[$id]);
+                    }
+                if ($this->player->voted_on[$id] == 1) {
+                    $row_links .= $this->skin->you_liked($single_angst['id'], $single_angst['like'], $single_angst['dislike']);
+                } else if ($this->player->voted_on[$id] == -1) {
+                    $row_links .= $this->skin->you_disliked($single_angst['id'], $single_angst['like'], $single_angst['dislike']);
+                } else {
+                    $row_links .= $this->skin->like_dislike_link($single_angst['id'], $single_angst['like'], $single_angst['dislike']);
+                }
+                
+            } else {
+                $reply_form = $this->skin->reply_box($this->skin->reply_form_guest($id));
             }
 
             $replies_link = "";
@@ -167,9 +178,9 @@ class code_angst_index extends _code_angst {
             }
 
             if ($single_angst['type']) {
-                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'glee',  $bookmark_link, $replies_link, $unapproved);
+                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'glee',  $row_links, $replies_link, $unapproved);
             } else {
-                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'angst', $bookmark_link, $replies_link, $unapproved);
+                $angst_html .= $this->skin->angst($single_angst, $reply_form, 'angst', $row_links, $replies_link, $unapproved);
             }
         }
 

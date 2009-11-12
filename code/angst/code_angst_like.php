@@ -15,15 +15,21 @@ class code_angst_like extends _code_angst {
     * @return string html
     */
     public function construct() {
-        $this->initiate();
+        $this->initiate("skin_angst_extra");
 
-        $id = intval($_POST['angst_id']);
+        $id = intval($_GET['id']);
 
         if (!$id) {
             return $this->skin->error_box($this->lang->no_angst_id);
         }
 
-        $code_angst_like = $this->vote($id);
+        if ($this->page == 'like') {
+            $like = true;
+        } else {
+            $like = false;
+        }
+
+        $code_angst_like = $this->vote($id, $like);
 
         if ($_GET['action'] == 'ajax_vote') {
             $this->ajax_mode = true;
@@ -52,14 +58,14 @@ class code_angst_like extends _code_angst {
             return $this->skin->error_box($this->lang->no_angst_id);
         }
 
-        if ($_POST['type'] == "dislike") {
-            $this->player->voted_on[$id] = -1;
-            $voted_query = $this->db->execute("UPDATE `angst` SET `dislike`=`dislike`+1 WHERE `id`=?", array($id));
-            $success = $this->skin->success_box($this->lang->disliked);
-        } else {
+        if ($like) {
             $this->player->voted_on[$id] = 1;
             $voted_query = $this->db->execute("UPDATE `angst` SET `like`=`like`+1 WHERE `id`=?", array($id));
-            $success = $this->skin->success_box($this->lang->liked);
+            $success = $this->skin->liked($id);
+        } else {
+            $this->player->voted_on[$id] = -1;
+            $voted_query = $this->db->execute("UPDATE `angst` SET `dislike`=`dislike`+1 WHERE `id`=?", array($id));
+            $success = $this->skin->disliked($id);
         }
 
         if (!$voted_query) {

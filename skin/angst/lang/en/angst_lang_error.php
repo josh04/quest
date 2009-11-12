@@ -5,7 +5,7 @@
  * @author josh04
  * @package skin_lang
  */
-class angst_lang_error {
+class angst_lang_error extends lang_error {
 
     // common
     public $page_not_exist = "The page you have tried to access does not exist.";
@@ -147,7 +147,7 @@ class angst_lang_error {
     public $bookmark_failed = "Bookmarking failed.";
     public $remove_bookmark_failed = "Failed to remove bookmark.";
     public $unapproved = "(Unapproved)";
-    public $guest = "Guest";
+    public $guest = "Guest - sign in to reply to posts!";
     public $cannot_reply_unapproved = "You cannot reply to unapproved angst.";
 
     public $a_second_ago = "One second ago";

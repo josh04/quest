@@ -160,12 +160,6 @@ class angst_edit_profile extends code_edit_profile {
             return $update_profile;
         }
 
-        if (!preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\- !]+)$#iU", $_POST['avatar']) && $_POST['avatar']) {
-            $update_profile = $this->edit_profile_page($this->skin->error_box($this->lang->avatar_wrong_format));
-            return $update_profile;
-        }
-
-        $this->player->avatar        = $_POST['avatar'];
         $this->player->email         = $_POST['email'];
         $this->player->description   = htmlentities($_POST['description'], ENT_QUOTES, 'utf-8');
         $this->player->gender        = intval($_POST['gender']);
@@ -186,124 +180,14 @@ class angst_edit_profile extends code_edit_profile {
     }
 
    /**
-    * updates the player's password
-    * (TODO) clean password
-    *
-    * @return string html
-    */
-    public function update_password() {
-        if ($_POST['submit'] != "Submit") { //stops you wiping your profile with GET
-            $update_password = $this->edit_profile_page("");
-            return $update_password;
-        }
-
-        if ($_POST['new_password'] == "" || $_POST['confirm_password'] == "") { //stops you wiping your profile with GET
-            $update_password = $this->edit_profile_page($this->lang->no_password);
-            return $update_password;
-        }
-
-        if ($_POST['new_password'] != $_POST['confirm_password']) {
-            $update_password = $this->edit_profile_page($this->lang->passwords_do_not_match);
-            return $update_password;
-        }
-
-        if (md5($_POST['current_password'].$this->player->login_salt) != $this->player->password) {
-            $update_password = $this->edit_profile_page($this->lang->password_wrong);
-            return $update_password;
-        }
-
-        $this->player->update_password($_POST['new_password']);
-        $update_password = $this->edit_profile_page($this->skin->success_box($this->lang->password_updated));
-        return $update_password;
-
-    }
-
-   /**
-    * updates the user's avatar
-    *
-    * @return string html
-    */
-    public function update_avatar() {
-
-        // Treat a gravatar like a submitted URL.
-        if($_POST['avatar_type']=="gravatar")
-            $_POST['avatar_url'] = $_POST['avatar_gravatar'];
-
-        // Treat a library image similarly to a submitted URL, but check first 'cos it's local
-        if($_POST['avatar_type']=="library") {
-            $_POST['avatar_url'] = "images/library/" . $_POST['avatar_library'];
-            $exists = file_exists($_POST['avatar_url']);
-        }
-
-        // Ultimately treat an upload like a submitted URL too. But upload it first.
-        if($_POST['avatar_type']=="upload") {
-            if(!empty($_FILES['avatar_upload']['error'])) {
-                $update_avatar = $this->edit_profile_page($this->skin->error_box($this->lang->avatar_upload_no));
-                return $update_avatar;
-            }
-
-            // Put it where you want it!
-            $file_name = $_FILES['avatar_upload']['name'];
-            $file_type = strtolower(strrchr($file_name, "." ));
-            $target_path = "images/avatars/" . $this->player->id . ".jpg";
-            if(move_uploaded_file($_FILES['avatar_upload']['tmp_name'], $target_path)) {
-                $_POST['avatar_url'] = $target_path;
-                $exists = file_exists($target_path);
-            } else {
-                $update_avatar = $this->edit_profile_page($this->skin->error_box($this->lang->avatar_upload_no));
-                return $update_avatar;
-            }
-        }
-
-        // I'll take whatever you've got...
-        if(isset($_POST['avatar_type'])) {
-            if(!$exists) $exists = @get_headers($_POST['avatar_url']);
-            if($exists) {
-                $this->player->avatar = $_POST['avatar_url'];
-                $this->player->update_player();
-                $_POST['avatar_url'] = "";
-                $update_avatar = $this->edit_profile_page($this->skin->success_box($this->lang->avatar_updated));
-            } else
-                $update_avatar = $this->edit_profile_page($this->skin->error_box($this->lang->avatar_url_notfound));
-            return $update_avatar;
-        }
-
-        $update_avatar = $this->edit_profile_page($this->skin->error_box($this->lang->avatar_submit_no));
-        return $update_avatar;
-    }
-
-   /**
     * diaplays the edit page
     *
     * @return string html
     */
     public function edit_profile_page($message = "") {
-        $gender_list = $this->skin->gender_list($this->player->gender);
-        $show_email = "";
-        if ($this->player->show_email) {
-            $show_email = "checked='checked'";
-        }
-        
-        if ($this->settings['avatar_url'])
-            $avatar_options .= $this->skin->edit_avatar_url();
-        if ($this->settings['avatar_gravatar'])
-            $avatar_options .= $this->skin->edit_avatar_gravatar( $this->player->email );
-        if ($this->settings['avatar_upload'] && is_writeable('images/avatars'))
-            $avatar_options .= $this->skin->edit_avatar_upload();
-        if ($this->settings['avatar_library'] && is_writeable('images/library')) {
-            $handle = opendir('images/library');
-            while (false !== ($file = readdir($handle))) {
-                if($file=="." || $file==".." || $file=="Thumbs.db") continue;
-                $library .= "<option>${file}</option>";
-            }
-            $avatar_options .= $this->skin->edit_avatar_library( $library );
-        }
-
-        $edit_profile = $this->skin->edit_profile($this->player, $gender_list, $show_email, "section=public&amp;", $message);
-        $edit_avatar = $this->skin->edit_avatar($avatar_options);
-        $edit_password = $this->skin->edit_password($this->player->id);
+        $parent = parent::edit_profile_page($message);
         $edit_twitter = $this->skin->twitter_auth();
-        return $edit_profile.$edit_avatar.$edit_password.$edit_twitter;
+        return $parent.$edit_twitter;
     }
 
 }

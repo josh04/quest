@@ -25,7 +25,7 @@ if (data.length < 1 ) {
 if ($('.just-posted').length > 0) {
     temp.find('.just-posted:last').before('<div style=\'display:none\'>'+data+'</div>'); temp.find('div:last').prev().slideDown();
 } else {
-    temp.append('<div style=\'display:none\'>'+data+'</div>'); temp.find('div:last').slideDown();
+    temp.append('<div style=\'display:none\'>'+data+'</div>'); temp.find('div:last').parent().slideDown();
 }
 replycounter = temp.find('input:last').prev().val();
 if (replycounter != 1 ) { 

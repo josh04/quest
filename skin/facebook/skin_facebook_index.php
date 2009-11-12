@@ -95,7 +95,7 @@ function resizeTextarea(t) {
     */
     public function reply($reply) {
         $reply = "<p><span>".$reply['reply']."</span></p>
-                     <p class='reply-author'> - <a href='index.php?page=profile&amp;id=".$reply['player_id']."'>".$reply['username']."</a> (".date("jS M, h:i A", $reply['time']).")</p>
+                     <p class='reply-author'> - <a href='index.php?section=public&amp;page=profile&amp;id=".$reply['player_id']."'>".$reply['username']."</a> (".date("jS M, h:i A", $reply['time']).")</p>
             ";
             return $reply;
     }
@@ -120,7 +120,7 @@ function resizeTextarea(t) {
     * @return string html
     */
     public function reply_form($id) {
-        $reply_form = " <form action='index.php?page=index&amp;action=angst-reply' class='angst-reply-form' method='post'>
+        $reply_form = " <form action='index.php?section=public&amp;page=index&amp;action=angst-reply' class='angst-reply-form' method='post'>
         <table><tbody>
             <tr><td style='width:99%;'>
             <input type='hidden' class='angst-id' name='angst-id' value='".$id."' />
@@ -139,7 +139,7 @@ function resizeTextarea(t) {
     * @return string html
     */
     public function reply_form_guest($id) {
-        $reply_form = " <form action='index.php?page=index&amp;action=angst-reply' class='angst-reply-form' method='post'>
+        $reply_form = " <form action='index.php?section=public&amp;page=index&amp;action=angst-reply' class='angst-reply-form' method='post'>
             <input type='hidden' class='angst-id' name='angst-id' value='".$id."' />
             <div class='error'>Guests cannot reply to angst.</div>
     </form>";

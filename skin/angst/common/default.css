@@ -616,7 +616,7 @@ span.angst-reply-span {
     cursor:pointer;
 }
 
-span.angst-reply-span, span.angst-id-span a, a.angst-id-span, span.angst-id-span {
+span.angst-reply-span, span.angst-id-span a, a.angst-id-span, span.angst-id-span, .angst-like-button {
     color: #438c8f;
 }
 
@@ -629,10 +629,18 @@ span.angst-id-span, a.angst-id-span {
     float:left;
     cursor:pointer;
     text-decoration: none;
+    padding: 0 5px 0 0;
 }
 
 span.angst-id-span a {
     text-decoration:none;
+}
+
+.angst-like-button {
+    font-size:0.85em;
+    float:left;
+    text-decoration: none;
+    padding: 0 5px 0 0;
 }
 
 input.angst-id {

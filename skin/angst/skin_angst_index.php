@@ -90,35 +90,72 @@ class skin_angst_index extends angst_skin_common {
 
         });
 
-        $('#index-main').find('a.angst-id-span').click(function() {
+        $('#index-main').find('a.angst-like-button').click(function() {
             splitStringArr = $(this).attr('id').split('-');
             id = splitStringArr[2];
-            if (splitStringArr[3] == '1') {
-                reply_count = splitStringArr[3]+' reply';
-            } else {
-                reply_count = splitStringArr[3]+' replies';
-            }
-            $(this).fadeOut('slow');
-            $.get('index.php?section=angst&page=bookmark&action=ajax_bookmark&id='+id, '', function(data) {
-                if ($('#new-bookmarks').find('a').length < 1) {
-                    $('#new-bookmarks').append('<h4>Just Added</h4>');
+            if (splitStringArr[1] == 'bookmark') {
+                if (splitStringArr[3] == '1') {
+                    reply_count = splitStringArr[3]+' reply';
+                } else {
+                    reply_count = splitStringArr[3]+' replies';
                 }
-                bookmark_string = '<span><a href=\"index.php?section=angst&page=single&id='+id+'\" class=\"bookmark-unread\"> #'+id+'</a> ('+reply_count+') <a class=\"bookmark-remove\" id=\"angst-bookmark-delete-'+id+'\" href=\"index.php?section=angst&amp;page=bookmark&amp;action=index_remove&amp;id='+id+'\">(remove)</a></span><br />';
-                $('#error').append(data);
-                $('#new-bookmarks').parent().find('.error').hide();
-                $('#new-bookmarks').append(bookmark_string);
+                $(this).fadeOut('slow');
+                $('#angst-bookmark-seperator-'+id).fadeOut('slow');
+                $.get('index.php?section=angst&page=bookmark&action=ajax_bookmark&id='+id, '', function(data) {
+                    if ($('#new-bookmarks').find('a').length < 1) {
+                        $('#new-bookmarks').append('<h4>Just Added</h4>');
+                    }
+                    bookmark_string = '<span><a href=\"index.php?section=angst&page=single&id='+id+'\" class=\"bookmark-unread\"> #'+id+'</a> ('+reply_count+') <a class=\"bookmark-remove\" id=\"angst-bookmark-delete-'+id+'\" href=\"index.php?section=angst&amp;page=bookmark&amp;action=index_remove&amp;id='+id+'\">(remove)</a></span><br />';
+                    $('#error').append(data);
+                    $('#new-bookmarks').parent().find('.error').hide();
+                    $('#new-bookmarks').append(bookmark_string);
 
-        $('.leftside').find('a.bookmark-remove').click(function() {
-            splitStringArr = $(this).attr('id').split('-');
-            id = splitStringArr[3];
-            $(this).parent().fadeOut('slow');
-            $.get('index.php?section=angst&page=bookmark&action=ajax_remove&id='+id, '', function(data) {
-                $('#error').append(data);
-             });
-            return false;
-        });
+                    $('.leftside').find('a.bookmark-remove').click(function() {
+                        splitStringArr = $(this).attr('id').split('-');
+                        id = splitStringArr[3];
+                        $(this).parent().fadeOut('slow');
+                        $.get('index.php?section=angst&page=bookmark&action=ajax_remove&id='+id, '', function(data) {
+                            $('#error').append(data);
+                        });
+                        return false;
+                    });
 
-             });
+                });
+            } else if (splitStringArr[1] == 'like' || splitStringArr[1] == 'dislike') {
+                var likebutton = $('a[id*=angst-like-'+id+']');
+                var dislikebutton = $('a[id*=angst-dislike-'+id+']');
+                var likeCount = (parseInt(splitStringArr[3])+1);
+
+                var disSplitStringArr = dislikebutton.attr('id').split('-');
+                var dislikeCount = (parseInt(disSplitStringArr[3])+1);
+
+                if (splitStringArr[1] == 'like') {
+                    var appendText = '<span class=\"angst-like-button\" style=\"display:none\"> - You liked this</span>';
+                    var likeCount = (parseInt(splitStringArr[3])+1).toString();
+                    var dislikeCount = disSplitStringArr[3];
+                } else if (splitStringArr[1] == 'dislike') {
+                    var appendText = '<span class=\"angst-like-button\" style=\"display:none\"> - You disliked this</span>';
+                    var likeCount = splitStringArr[3];
+                    var dislikeCount = (parseInt(disSplitStringArr[3])+1).toString();
+                }
+
+                likebutton.fadeOut('slow', function() {
+                    likebutton.before('<span class=\"angst-like-button\" style=\"display:none\">Liked ('+likeCount+')</span>').remove();
+                    $('span.angst-like-button').fadeIn('slow');
+                });
+                dislikebutton.fadeOut('slow', function() {
+                    dislikebutton.before('<span class=\"angst-like-button\" style=\"display:none\">Disliked ('+dislikeCount+')</span>'+appendText).remove();
+                    $('span.angst-like-button').fadeIn('slow');
+                });
+
+                $.get('index.php?section=angst&page='+splitStringArr[1]+'&action=ajax_vote&id='+id, '', function(data) {
+                    $('#error').append(data);
+                    
+                });
+                
+                
+
+            }
             return false;
         });
 
@@ -465,13 +502,55 @@ class skin_angst_index extends angst_skin_common {
     * Bookmark link
     *
     * @param int $id angst id
+    * @param int $reply_count javascript wants this
     * @return string html
     */
     public function bookmark_link($id, $reply_count) {
-        $bookmark_link = "<a class='angst-id-span' id='angst-bookmark-".$id."-".$reply_count."' href='index.php?section=angst&amp;page=bookmark&amp;action=index_redirect&amp;id=".$id."'>Bookmark</a>";
+        $bookmark_link = "<a class='angst-like-button' id='angst-bookmark-".$id."-".$reply_count."' href='index.php?section=angst&amp;page=bookmark&amp;action=index_redirect&amp;id=".$id."'>Bookmark</a><span class='angst-id-span' id='angst-bookmark-seperator-".$id."'> - </span>";
         return $bookmark_link;
     }
 
+   /**
+    * voting link
+    *
+    * @param int $id the angst id
+    * @param int $like_count how many likes
+    * @param int $dislike_count how many dislikes
+    * @return string html
+    */
+    public function like_dislike_link($id, $like_count, $dislike_count) {
+        $like_dislike_link = "<a class='angst-like-button' id='angst-like-".$id."-".$like_count."' href='index.php?section=angst&amp;page=like&amp;id=".$id."'>
+            Like (".$like_count.")</a><span class='angst-like-button' id='angst-like-seperator-".$id."'> - </span>
+            <a class='angst-like-button' id='angst-dislike-".$id."-".$dislike_count."' href='index.php?section=angst&amp;page=dislike&amp;id=".$id."'>
+            Dislike (".$dislike_count.")</a>";
+        return $like_dislike_link;
+    }
+
+   /**
+    * player already liked this
+    *
+    * @param int $id the angst id
+    * @param int $like_count how many likes
+    * @param int $dislike_count how many dislikes
+    * @return string html
+    */
+    public function you_liked($id, $like_count, $dislike_count) {
+        $you_liked = "<span class='angst-like-button'>Liked (".$like_count.") - Disliked (".$dislike_count.") - You liked this</span>";
+        return $you_liked;
+    }
+
+   /**
+    * player already disliked this
+    *
+    * @param int $id the angst id
+    * @param int $like_count how many likes
+    * @param int $dislike_count how many dislikes
+    * @return string html
+    */
+    public function you_disliked($id, $like_count, $dislike_count) {
+        $you_disliked = "<span class='angst-like-button'>Liked (".$like_count.") - Disliked (".$dislike_count.") - You disliked this</span>";
+        return $you_disliked;
+    }
    /**
     * reply form
     *
