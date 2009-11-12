@@ -132,37 +132,40 @@ class code_profile extends code_common {
     * @return bool success
     */
     public function add_as_friend() {
-        if($this->player->id == $this->profile->id) {
+        if ($this->player->id == $this->profile->id) {
             $message = $this->skin->error_box($this->lang->cant_self_friend);
             return $message;
         }
 
         $this->player->getFriends();
 
-        if(in_array($this->profile->id, array_keys($this->player->friends))) {
+        if (in_array($this->profile->id, array_keys($this->player->friends))) {
             $message = $this->skin->error_box($this->lang->already_friends.$this->profile->username.".");
             return $message;
         }
 
         // Get friendship status
-        $inputarr = array($this->profile->id, $this->player->id, $this->player->id, $this->profile->id);
-        $fq = $this->db->execute("SELECT * FROM `friends` WHERE (`id1`=? AND `id2`=?) OR (`id1`=? AND `id2`=?)",$inputarr);
-        if($fq->numrows()==1) {
-            $f = $fq->fetchrow();
-            if($f['id1']==$this->player->id) {
+        $player_id_array = array($this->profile->id, $this->player->id, $this->player->id, $this->profile->id);
+        $friend_query = $this->db->execute("SELECT * FROM `friends` WHERE (`id1`=? AND `id2`=?) OR (`id1`=? AND `id2`=?)",$player_id_array);
+        if($friend_query->numrows()==1) {
+            $friend_entry = $friend_query->fetchrow();
+            if ($friend_entry['id1']==$this->player->id) {
                 $message = $this->skin->error_box($this->lang->awaiting_friend_response);
                 return $message;
             } else {
                 // Accepting request!
-                $inputArr = array($this->profile->id, $this->player->id);
-                $this->db->execute("UPDATE `friends` SET `accepted`=1 WHERE `id1`=? AND `id2`=?",$inputArr);
+                $player_id_array = array($this->profile->id, $this->player->id);
+                $this->db->execute("UPDATE `friends` SET `accepted`=1 WHERE `id1`=? AND `id2`=?",$player_id_array);
                 $message = $this->skin->success_box($this->lang->now_friends.$this->profile->username.".");
                 return $message;
             }
         }
         // All else has failed, let's send a request
-        $inputArr = array($this->player->id, $this->profile->id, false);
-        $this->db->execute("INSERT INTO `friends` (`id1`,`id2`,`accepted`) VALUES (?,?,?)",$inputArr);
+        $player_id_array = array($this->player->id, $this->profile->id, 0);
+        $this->db->execute("INSERT INTO `friends` (`id1`,`id2`,`accepted`) VALUES (?,?,?)",$player_id_array);
+        require_once("code/public/code_mail.php");
+        $code_mail = new code_mail();
+        $code_mail->mail_send($this->profile->id, $this->player->id, $this->skin->friend_request($this->player->id, $this->player->username), $this->lang->friend_request);
         $message = $this->skin->success_box($this->lang->request_sent.$this->profile->username.".");
         return $message;
     }
