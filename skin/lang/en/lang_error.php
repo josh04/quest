@@ -211,5 +211,14 @@ class lang_error {
     // pages
     public $no_page_selected = "You did not select a page.";
     public $mod_updated = "The mod for that page has been updated.";
+
+    // mods
+    public $mod_no_configure = "The mod you selected doesn't have any configuration settings.";
+    public $mod_not_found = "Mod not found";
+    public $mod_installed = "Installed";
+    public $mod_not_installed = "Not installed";
+    public $mod_edit = "Edit";
+    public $mod_install = "Install";
+
 }
 ?>
