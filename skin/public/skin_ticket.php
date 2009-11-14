@@ -34,7 +34,7 @@ class skin_ticket extends skin_common {
                         <p>Welcome to the ticket system. Here you can submit any questions you may have
                         about the game. These will be read the the administrators. You can also use
                         this form to submit any bugs you may find.</p>
-                        <p><form action='index.php?page=ticket&amp;action=ticket_submit' method='POST'>
+                        <p><form action='index.php?section=public&amp;page=ticket&amp;action=ticket_submit' method='POST'>
                         <textarea rows='5' cols='80' name='message'>".$ticket_draft."</textarea>
                         <input type='submit' value='Submit Ticket' />
                         </form></p>

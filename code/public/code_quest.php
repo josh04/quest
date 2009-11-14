@@ -14,16 +14,12 @@ class code_quest extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_quest");
 
         $code_quest = $this->quest_switch();
 
-        parent::construct($code_quest);
+        return $code_quest;
     }
 
    /**
@@ -275,7 +271,7 @@ class code_quest extends code_common {
             $quest = simplexml_load_file($file);
         } else {
             $this->db->execute("UPDATE `players` SET `quest`='0' WHERE `id`=?", array($this->player->id));
-            header('location:index.php?page=quest');
+            header('location:index.php?section=public&page=quest');
         }
 
         $this->quest_stages['location'] = $quest->start;

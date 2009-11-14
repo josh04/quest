@@ -66,7 +66,7 @@ class skin_profile extends skin_common {
    * @return string html
    */
    public function add_mail_link($username) {
-       $add_interact_link = "<a href='index.php?page=mail&amp;action=compose&amp;to=".$usename."'>Mail</a>";
+       $add_interact_link = "<a href='index.php?section=public&amp;page=mail&amp;action=compose&amp;to=".$usename."'>Mail</a>";
        return $add_interact_link;
    }
 
@@ -78,7 +78,7 @@ class skin_profile extends skin_common {
    * @return string html
    */
    public function add_edit_link() {
-       $add_interact_link = "<a href='index.php?page=profile_edit'>Edit your profile</a>";
+       $add_interact_link = "<a href='index.php?section=public&amp;page=profile_edit'>Edit your profile</a>";
        return $add_interact_link;
    }
 
@@ -89,7 +89,7 @@ class skin_profile extends skin_common {
    * @return string html
    */
    public function add_friend_link($id) {
-       $add_interact_link = "<a href='index.php?page=profile&amp;id=".$id."&amp;friends=add'>Add as Friend</a>";
+       $add_interact_link = "<a href='index.php?section=public&amp;page=profile&amp;id=".$id."&amp;friends=add'>Add as Friend</a>";
        return $add_interact_link;
    }
 
@@ -105,7 +105,7 @@ class skin_profile extends skin_common {
    * @return string html
    */
    public function add_battle_link($id) {
-       $add_interact_link = "<form action='index.php?page=battle&amp;action=fight' name='profileBattleLink' method='post'>
+       $add_interact_link = "<form action='index.php?section=public&amp;page=battle&amp;action=fight' name='profileBattleLink' method='post'>
            <input type='hidden' name='id' value='".$id."' />
            <a href='#' onclick='document.profileBattleLink.submit();'>Battle</a></form>";
        return $add_interact_link;
@@ -195,7 +195,7 @@ class skin_profile extends skin_common {
     */
     public function edit_avatar($avatar_options) {
         $edit_avatar = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\");return false;'><div class='edit-profile-header'><span style='float:right;'>&laquo;</span>Change Avatar</div></a>
-            <div class='edit-profile-body' id='showhide-2' style='display:none;'><form action='index.php?page=profile_edit&amp;action=update_avatar' method='POST' enctype='multipart/form-data'>
+            <div class='edit-profile-body' id='showhide-2'><form action='index.php?section=public&amp;page=profile_edit&amp;action=update_avatar' method='POST' enctype='multipart/form-data'>
             <table>
                 " . $avatar_options . "
                 <tr><td colspan='2'><input type='submit' name='submit' value='Submit'/></td></tr>
@@ -209,13 +209,13 @@ class skin_profile extends skin_common {
     *
     * @return string html
     */
-    public function edit_avatar_url() {
+    public function edit_avatar_url($current_avatar) {
         $edit_avatar_url = "
                 <tr><td style='width:50%;'><label for='edit-avatar-url'>
                     <input type='radio' id='avatar_type_url' name='avatar_type' value='url' />
                     Enter a URL</label>
                 </td>
-                <td style='width:50%;'><input type='text' onfocus='document.getElementById(\"avatar_type_url\").checked=true;' id='edit-avatar-url' name='avatar_url' value='".$_POST['avatar_url']."' /></td></tr>
+                <td style='width:50%;'><input type='text' onfocus='document.getElementById(\"avatar_type_url\").checked=true;' id='edit-avatar-url' name='avatar_url' value='".$current_avatar."' /></td></tr>
         ";
         return $edit_avatar_url;
     }
@@ -232,7 +232,7 @@ class skin_profile extends skin_common {
                     <input type='radio' id='avatar_type_gravatar' name='avatar_type' value='gravatar' />
                     Use your gravatar</label>
                 </td>
-                <td style='width:50%;'><input type='hidden' id='edit-avatar-gravatar' name='avatar_gravatar' value='http://www.gravatar.com/avatar/".md5($email)."' />
+                <td style='width:50%;'><input type='hidden' id='edit-avatar-gravatar' name='avatar_gravatar' value='true' />
                 <img src='http://www.gravatar.com/avatar/".md5($email)."?s=40' alt='Your gravatar' style='height:40px;' /></td></tr>
         ";
         return $edit_avatar_gravatar;
@@ -281,7 +281,7 @@ class skin_profile extends skin_common {
     */
     public function edit_password() {
         $edit_password = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-3\");return false;'><div class='edit-profile-header'><span style='float:right;'>&laquo;</span>Change Password</div></a>
-            <div class='edit-profile-body' id='showhide-3' style='display:none;'><form action='index.php?page=profile_edit&amp;action=update_password' method='POST'>
+            <div class='edit-profile-body' id='showhide-3' style='display:none;'><form action='index.php?section=public&amp;page=profile_edit&amp;action=update_password' method='POST'>
             <table>
                 <tr><td style='width:50%;'><label for='edit-p1'>Current password</label></td>
                 <td style='width:50%;'><input type='password' id='edit-p1' name='current_password' /></td></tr>
@@ -401,7 +401,7 @@ class skin_profile extends skin_common {
     public function friend_entry($friend) {
         $friend_entry .= "<div class='friendentry'>
                     <img src='".$friend['avatar']."' alt='[user avatar]' class='avatar' /><br />
-                    <a href='index.php?page=profile&amp;id=3'>".$friend['username']."</a><br />
+                    <a href='index.php?section=public&amp;page=profile&amp;id=3'>".$friend['username']."</a><br />
                 </div>";
         return $friend_entry;
     }

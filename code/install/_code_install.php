@@ -111,12 +111,12 @@ class _code_install extends code_common {
         (3, 'interest', 0, 86400, 1);";
 
     public $help_insert_query = "INSERT INTO `help` (`id`, `parent`, `title`, `body`) VALUES
-        (1, 0, 'Help home', '', 0),
-        (2, 1, 'About Quest', '&lt;p&gt;Quest is soon to be a free open-source PHP persistent browser-based game. Breaking down all those long words:&lt;/p&gt;\r\n&lt;ul&gt;\r\n&lt;li&gt;Quest is &lt;strong&gt;free&lt;/strong&gt;. You can download it for free to use yourself. We also strongly encourage game masters to let players join their games for free.&lt;/li&gt;\r\n&lt;li&gt;Quest is &lt;strong&gt;open-source&lt;/strong&gt;. You can look at the code behind it, and fiddle with it to meet your needs. If you find a better way to do something, we love it when you tell us!&lt;/li&gt;\r\n&lt;li&gt;Quest is written in &lt;strong&gt;PHP&lt;/strong&gt;, a free scripting language. You can find out more about PHP &lt;a href=&quot;http://www.php.net/&quot;&gt;here&lt;/a&gt;.&lt;/li&gt;\r\n&lt;li&gt;Quest is &lt;strong&gt;persistent&lt;/strong&gt;. When you log out, the gameplay continues and you can carry on playing when you get back.&lt;/li&gt;\r\n&lt;li&gt;Quest is &lt;strong&gt;browser-based&lt;/strong&gt;. You can play it through any sort of web browser, such as Firefox, Opera, Safari or Internet Explorer.&lt;/li&gt;\r\n&lt;li&gt;Quest is a &lt;strong&gt;game&lt;/strong&gt;, first and foremost. It&#039;s designed for people to enjoy playing. If you have any ideas to make it better, tell us!&lt;/li&gt;\r\n&lt;/ul&gt;', 0),
-        (3, 1, 'Walk-through', '&lt;p&gt;Here&#039;s a quick walk-through of the various elements of Quest. If you want to know what something is, this guide should provide you with a quick background.&lt;/p&gt;\r\n\r\n&lt;h4&gt;Mail&lt;/h4&gt;\r\n&lt;p&gt;Quest&#039;s internal mail system lets you send messages to other players. These messages are only accessible through the main Quest site and support BBcode.&lt;/p&gt;\r\n\r\n&lt;h4&gt;Portal&lt;/h4&gt;\r\n&lt;p&gt;The Portal provides you with access to all the important parts of Quest. Through it, you can quickly navigate your way through the game.&lt;/p&gt;\r\n\r\n&lt;h4&gt;Quests&lt;/h4&gt;\r\n&lt;p&gt;Quest&#039;s Quests allow you to take part in an adventure, gaining experience as you go, without needing to directly do anything. Following a specific storyline, Quests lead you on all sorts of adventures.&lt;/p&gt;\r\n\r\n&lt;h4&gt;Log&lt;/h4&gt;\r\n&lt;p&gt;Your log tells keeps track of all your battles and experiences. Make sure you check it regularly to see what&#039;s been happening to your character.&lt;/p&gt;', 1),
-        (4, 1, 'How do I regain health?', '&lt;p&gt;One of the most common questions we&#039;re asked is how to regain health. Well, your first choice is to check out &lt;a href=&#039;index.php?page=hospital&#039;&gt;the hospital&lt;/a&gt;, where you can pay for medical assistance. Otherwise, all players health is reset on a regular basis. In other words, just leave it for a bit!&lt;/p&gt;', 2),
-        (5, 1, 'Need help?', '&lt;p&gt;If you need help, there are various options available to you.&lt;/p&gt;\r\n\r\n&lt;p&gt;Firstly, check if there&#039;s anything that can help in these help pages. The solution to your problem could be here, and it will be a lot quicker to check here than try another option.&lt;/p&gt;\r\n\r\n&lt;p&gt;If you can&#039;t find a solution in the help pages, you can create a &lt;a href=&#039;index.php?page=ticket&#039;&gt;Support Ticket&lt;/a&gt;, which the staff will read and act upon.&lt;/p&gt;\r\n\r\n&lt;p&gt;If your problem is critical, or requires a personal touch, you can contact &lt;a href=&#039;index.php?page=members&amp;act=staff&#039;&gt;our staff&lt;/a&gt; directly through the mail system. However, there is no guarantee that they&#039;ll respond to you.&lt;/p&gt;', 3),
-        (6, 0, 'Why can&#039;t I change my username?', '&lt;p&gt;After signing up for Quest, you&#039;ll find that you can&#039;t change your username. The reason we implemented this is to make sure other players aren&#039;t confused. When users change their names, it&#039;s hard for others to know who they are or, more importantly, who they were before. If you desperately need to change your username, a &lt;a href=&quot;index.php?page=members&amp;act=staff&quot; target=&quot;parent&quot;&gt;staff member&lt;/a&gt; may be willing to do the job for you.&lt;/p&gt;', 0);";
+        (1, 0, 'Help home', ''),
+        (2, 1, 'About Quest', '&lt;p&gt;Quest is soon to be a free open-source PHP persistent browser-based game. Breaking down all those long words:&lt;/p&gt;\r\n&lt;ul&gt;\r\n&lt;li&gt;Quest is &lt;strong&gt;free&lt;/strong&gt;. You can download it for free to use yourself. We also strongly encourage game masters to let players join their games for free.&lt;/li&gt;\r\n&lt;li&gt;Quest is &lt;strong&gt;open-source&lt;/strong&gt;. You can look at the code behind it, and fiddle with it to meet your needs. If you find a better way to do something, we love it when you tell us!&lt;/li&gt;\r\n&lt;li&gt;Quest is written in &lt;strong&gt;PHP&lt;/strong&gt;, a free scripting language. You can find out more about PHP &lt;a href=&quot;http://www.php.net/&quot;&gt;here&lt;/a&gt;.&lt;/li&gt;\r\n&lt;li&gt;Quest is &lt;strong&gt;persistent&lt;/strong&gt;. When you log out, the gameplay continues and you can carry on playing when you get back.&lt;/li&gt;\r\n&lt;li&gt;Quest is &lt;strong&gt;browser-based&lt;/strong&gt;. You can play it through any sort of web browser, such as Firefox, Opera, Safari or Internet Explorer.&lt;/li&gt;\r\n&lt;li&gt;Quest is a &lt;strong&gt;game&lt;/strong&gt;, first and foremost. It&#039;s designed for people to enjoy playing. If you have any ideas to make it better, tell us!&lt;/li&gt;\r\n&lt;/ul&gt;'),
+        (3, 1, 'Walk-through', '&lt;p&gt;Here&#039;s a quick walk-through of the various elements of Quest. If you want to know what something is, this guide should provide you with a quick background.&lt;/p&gt;\r\n\r\n&lt;h4&gt;Mail&lt;/h4&gt;\r\n&lt;p&gt;Quest&#039;s internal mail system lets you send messages to other players. These messages are only accessible through the main Quest site and support BBcode.&lt;/p&gt;\r\n\r\n&lt;h4&gt;Portal&lt;/h4&gt;\r\n&lt;p&gt;The Portal provides you with access to all the important parts of Quest. Through it, you can quickly navigate your way through the game.&lt;/p&gt;\r\n\r\n&lt;h4&gt;Quests&lt;/h4&gt;\r\n&lt;p&gt;Quest&#039;s Quests allow you to take part in an adventure, gaining experience as you go, without needing to directly do anything. Following a specific storyline, Quests lead you on all sorts of adventures.&lt;/p&gt;\r\n\r\n&lt;h4&gt;Log&lt;/h4&gt;\r\n&lt;p&gt;Your log tells keeps track of all your battles and experiences. Make sure you check it regularly to see what&#039;s been happening to your character.&lt;/p&gt;'),
+        (4, 1, 'How do I regain health?', '&lt;p&gt;One of the most common questions we&#039;re asked is how to regain health. Well, your first choice is to check out &lt;a href=&#039;index.php?page=hospital&#039;&gt;the hospital&lt;/a&gt;, where you can pay for medical assistance. Otherwise, all players health is reset on a regular basis. In other words, just leave it for a bit!&lt;/p&gt;'),
+        (5, 1, 'Need help?', '&lt;p&gt;If you need help, there are various options available to you.&lt;/p&gt;\r\n\r\n&lt;p&gt;Firstly, check if there&#039;s anything that can help in these help pages. The solution to your problem could be here, and it will be a lot quicker to check here than try another option.&lt;/p&gt;\r\n\r\n&lt;p&gt;If you can&#039;t find a solution in the help pages, you can create a &lt;a href=&#039;index.php?page=ticket&#039;&gt;Support Ticket&lt;/a&gt;, which the staff will read and act upon.&lt;/p&gt;\r\n\r\n&lt;p&gt;If your problem is critical, or requires a personal touch, you can contact &lt;a href=&#039;index.php?page=members&amp;act=staff&#039;&gt;our staff&lt;/a&gt; directly through the mail system. However, there is no guarantee that they&#039;ll respond to you.&lt;/p&gt;'),
+        (6, 0, 'Why can&#039;t I change my username?', '&lt;p&gt;After signing up for Quest, you&#039;ll find that you can&#039;t change your username. The reason we implemented this is to make sure other players aren&#039;t confused. When users change their names, it&#039;s hard for others to know who they are or, more importantly, who they were before. If you desperately need to change your username, a &lt;a href=&quot;index.php?page=members&amp;act=staff&quot; target=&quot;parent&quot;&gt;staff member&lt;/a&gt; may be willing to do the job for you.&lt;/p&gt;');";
 
     public $pages_query = "CREATE TABLE IF NOT EXISTS `pages` (
           `id` int(11) NOT NULL auto_increment,
@@ -178,7 +178,7 @@ class _code_install extends code_common {
         ('ban_multiple_email', '1'),
         ('custom_fields', '{\"description\":\"No description.\",\"gender\":\"0\",\"msn\":\" \",\"aim\":\" \",\"skype\":\" \",\"avatar\":\"images\/avatar.png\"}'),
         ('register_ip_check', '1'),
-        ('database_report_error', '0');
+        ('database_report_error', '0'),
         ('avatar_url', '1'),
         ('avatar_gravatar', '1'),
         ('avatar_upload', '0'),
@@ -352,6 +352,7 @@ CREATE TABLE IF NOT EXISTS `rpg` (
             $this->cron_insert_query.$this->pages_query.$this->pages_insert_query.$this->settings_query.$this->settings_insert_query.
             $this->menu_query.$this->menu_insert_query.$this->quests_query.$this->friends_query.$this->bank_query.$this->profile_query.
             $this->rpg_query.$this->lang_query);
+        
     }
 
    /**
@@ -398,13 +399,13 @@ CREATE TABLE IF NOT EXISTS `rpg` (
     *
     * @param string $page contains the html intended to go between the menu and the bottom.
     */
-    public function construct($page) {
+    public function finish_page($page) {
 
         $output = $this->start_header();
         $output .= $page;
         $output .= $this->skin->footer();
-
-        print $output;
+        
+        return $output;
 
     }
 

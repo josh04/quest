@@ -16,7 +16,7 @@ class skin_help extends skin_common {
     public function help_row($help_topic){
         $help_row = "
         <div class='help-item'><img src='images/icons/help.png' alt='' />
-        <a href='index.php?page=help&amp;id=".$help_topic['id']."'>".$help_topic['title']."</a></div>
+        <a href='index.php?section=public&amp;page=help&amp;id=".$help_topic['id']."'>".$help_topic['title']."</a></div>
         ";
         return $help_row;
     }

@@ -12,11 +12,7 @@ class code_start extends _code_install {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_install");
 
         if (is_writable("config.php") && is_writable("install.lock")) {
@@ -27,7 +23,7 @@ class code_start extends _code_install {
 
         
 
-        parent::construct($code_start);
+        return $code_start;
     }
 
 }

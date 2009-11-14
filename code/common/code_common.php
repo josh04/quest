@@ -93,6 +93,13 @@ class code_common {
     public $override_skin = "";
 
    /**
+    * Ajax mode disables skin dressing
+    *
+    * @var bool
+    */
+    public $ajax_mode = false;
+
+   /**
     * The common constructor for every class which extends code_common.
     *
     * Accepts and sets the section name and the page name, and an optional
@@ -394,19 +401,21 @@ class code_common {
     *
     * @param string $page contains the html intended to go between the menu and the bottom.
     */
-    public function construct($page) {
-        $output = $this->start_header();
+    public function finish_page($page) {
+        if (!$this->ajax_mode) {
+            $output = $this->start_header();
 
-        $output .= $this->make_menu();
-        
-        if ($this->settings['database_report_error'] && $this->db->_output_buffer) {
-            $page = $this->skin->error_box($this->db->_output_buffer).$page;
+            $output .= $this->make_menu();
+
+            if ($this->settings['database_report_error'] && $this->db->_output_buffer) {
+                $page = $this->skin->error_box($this->db->_output_buffer).$page;
+            }
+            $output .= $this->skin->glue($page);
+            $output .= $this->skin->footer();
+        } else {
+            $output = $page;
         }
-        $output .= $this->skin->glue($page);
-        $output .= $this->skin->footer();
-
-        print $output;
-
+        return $output;
     }
 
     /**

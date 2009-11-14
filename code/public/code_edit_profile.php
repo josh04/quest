@@ -14,16 +14,12 @@ class code_edit_profile extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_profile");
 
         $code_edit_profile = $this->profile_switch();
 
-        parent::construct($code_edit_profile);
+        return $code_edit_profile;
     }
 
    /**
@@ -63,11 +59,6 @@ class code_edit_profile extends code_common {
         }
         if (!preg_match("/^[-!#$%&\'*+\\.\/0-9=?A-Z^_`{|}~]+@([-0-9A-Z]+\.)+([0-9A-Z]){2,4}$/i", $_POST['email'])) {
             $update_profile = $this->edit_profile_page($this->skin->error_box($this->lang->email_wrong_format));
-            return $update_profile;
-        }
-
-        if (!preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\- !]+)$#iU", $_POST['avatar']) && $_POST['avatar']) {
-            $update_profile = $this->edit_profile_page($this->skin->error_box($this->lang->avatar_wrong_format));
             return $update_profile;
         }
 
@@ -133,47 +124,63 @@ class code_edit_profile extends code_common {
     * @return string html
     */
     public function update_avatar() {
+        $exists = false;
+        switch($_POST['avatar_type']) {
+            case 'gravatar':
+               // Treat a gravatar like a submitted URL.
+               $avatar_url = "http://www.gravatar.com/avatar/".md5($this->player->email)."?s=40";
+               break;
 
-        // Treat a gravatar like a submitted URL.
-        if($_POST['avatar_type']=="gravatar")
-            $_POST['avatar_url'] = $_POST['avatar_gravatar'];
+            case 'url':
+                if (!preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\- !]+)$#iU", $_POST['avatar_url']) && $_POST['avatar_url']) {
+                    $update_avatar = $this->edit_profile_page($this->skin->error_box($this->lang->avatar_wrong_format));
+                    return $update_avatar;
+                }
+                $avatar_url = $_POST['avatar_url'];
+                break;
 
-        // Treat a library image similarly to a submitted URL, but check first 'cos it's local
-        if($_POST['avatar_type']=="library") {
-            $_POST['avatar_url'] = "images/library/" . $_POST['avatar_library'];
-            $exists = file_exists($_POST['avatar_url']);
+            case 'library':
+                // Treat a library image similarly to a submitted URL, but check first 'cos it's local
+                $avatar_url = "images/library/".$_POST['avatar_library'];
+                $exists = file_exists($_POST['avatar_url']);
+                if (!$exists) {
+                    $update_avatar = $this->edit_profile_page($this->skin->error_box($this->lang->avatar_library_no));
+                    return $update_avatar;
+                }
+                break;
+            
+            case 'upload':
+                // Ultimately treat an upload like a submitted URL too. But upload it first.
+
+                if (!empty($_FILES['avatar_upload']['error'])) {
+                    $update_avatar = $this->edit_profile_page($this->skin->error_box($this->lang->avatar_upload_no));
+                    return $update_avatar;
+                }
+
+                // Put it where you want it!
+                $target_path = "images/avatars/" . $this->player->id . ".jpg";
+                if (move_uploaded_file($_FILES['avatar_upload']['tmp_name'], $target_path)) {
+                    $avatar_url = $target_path;
+                    $exists = file_exists($target_path);
+                } else {
+                    $update_avatar = $this->edit_profile_page($this->skin->error_box($this->lang->avatar_upload_no));
+                    return $update_avatar;
+                }
+                break;
         }
-
-        // Ultimately treat an upload like a submitted URL too. But upload it first.
-        if($_POST['avatar_type']=="upload") {
-            if(!empty($_FILES['avatar_upload']['error'])) {
-                $update_avatar = $this->edit_profile_page($this->skin->error_box($this->lang->avatar_upload_no));
-                return $update_avatar;
-            }
-
-            // Put it where you want it!
-            $file_name = $_FILES['avatar_upload']['name'];
-            $file_type = strtolower(strrchr($file_name, "." ));
-            $target_path = "images/avatars/" . $this->player->id . ".jpg";
-            if(move_uploaded_file($_FILES['avatar_upload']['tmp_name'], $target_path)) {
-                $_POST['avatar_url'] = $target_path;
-                $exists = file_exists($target_path);
-            } else {
-                $update_avatar = $this->edit_profile_page($this->skin->error_box($this->lang->avatar_upload_no));
-                return $update_avatar;
-            }
-        }
-
         // I'll take whatever you've got...
-        if(isset($_POST['avatar_type'])) {
-            if(!$exists) $exists = @get_headers($_POST['avatar_url']);
-            if($exists) {
-                $this->player->avatar = $_POST['avatar_url'];
+        if(isset($avatar_url)) {
+            if (!$exists) {
+                $exists = @get_headers($avatar_url);
+            }
+            if ($exists) {
+                $this->player->avatar = $avatar_url;
                 $this->player->update_player();
-                $_POST['avatar_url'] = "";
                 $update_avatar = $this->edit_profile_page($this->skin->success_box($this->lang->avatar_updated));
-            } else
+            } else {
                 $update_avatar = $this->edit_profile_page($this->skin->error_box($this->lang->avatar_url_notfound));
+            }
+
             return $update_avatar;
         }
 
@@ -193,12 +200,23 @@ class code_edit_profile extends code_common {
             $show_email = "checked='checked'";
         }
 
-        if ($this->settings['avatar_url'])
-            $avatar_options .= $this->skin->edit_avatar_url();
-        if ($this->settings['avatar_gravatar'])
+        $current_avatar = $this->player->avatar;
+        if ($_POST['avatar_url'] != "" && preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\- !]+)$#iU", $_POST['avatar_url'])) {
+            $current_avatar = $_POST['avatar_url'];
+        }
+        
+        if ($this->settings['avatar_url']) {
+            $avatar_options .= $this->skin->edit_avatar_url($current_avatar);
+        }
+
+        if ($this->settings['avatar_gravatar']) {
             $avatar_options .= $this->skin->edit_avatar_gravatar( $this->player->email );
-        if ($this->settings['avatar_upload'] && is_writeable('images/avatars'))
+        }
+
+        if ($this->settings['avatar_upload'] && is_writeable('images/avatars')) {
             $avatar_options .= $this->skin->edit_avatar_upload();
+        }
+
         if ($this->settings['avatar_library'] && is_writeable('images/library')) {
             $handle = opendir('images/library');
             while (false !== ($file = readdir($handle))) {

@@ -13,16 +13,12 @@ class code_database extends _code_install {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_install");
 
         $code_database = $this->database_switch();
 
-        parent::construct($code_database);
+        return $code_database;
     }
 
    /**
@@ -123,7 +119,6 @@ class code_database extends _code_install {
         $make_tables_success = $this->create_database();
         
         if (!$this->db->ErrorMsg()) {
-            
             $config_string = "<? 
                 /**
                  * config file

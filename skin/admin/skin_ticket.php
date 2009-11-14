@@ -76,7 +76,7 @@ class skin_ticket extends _skin_admin {
         $ticket_wrap = "
                 <h2>Ticket ".$ticket['id']."</h2>
                 ".$message."
-                <p>Issued by <a href='index.php?page=profile&id=".$ticket['player_id']."'>".$ticket['username']."</a>
+                <p>Issued by <a href='index.php?section=public&amp;page=profile&id=".$ticket['player_id']."'>".$ticket['username']."</a>
                 at <strong>".$ticket['date']."</strong></p>
                 <p>Status: <select style='width: 150px;background-color:#".$this->ticket_colour[$ticket['status']].";' onChange='window.location=\"index.php?page=ticket&section=admin&id=".$ticket['id']."&status=\"+this.value;'>
                 <option".$status_array[0]." style='background:#FFFF99 url(\"images/icons/bug.png\") no-repeat 2px 2px;padding-left:20px;height:20px;' value='0'>Open</option>

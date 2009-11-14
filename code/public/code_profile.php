@@ -15,11 +15,7 @@ class code_profile extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-             parent::construct($code_other);
-             return;
-        }  
+    public function construct() {
         $this->initiate("skin_profile");
 
         require_once("code/player/code_player_profile.php");
@@ -41,7 +37,7 @@ class code_profile extends code_common {
         }
 
 
-        parent::construct($code_profile);
+        return $code_profile;
     }
 
    /**
@@ -94,7 +90,7 @@ class code_profile extends code_common {
         } else {
             $interaction .= $this->skin->add_battle_link($this->profile->id);
             if(!in_array($this->profile->id, array_keys($this->player->friends))) {
-                $interaction .= $this->skin->add_friend_link("index.php?page=profile&amp;id=".$this->profile->id."&amp;friends=add", "Add as friend");
+                $interaction .= $this->skin->add_friend_link($this->profile->id);
             }
         }
 
@@ -120,7 +116,10 @@ class code_profile extends code_common {
         }
 
         $custom_fields = json_decode($this->settings['custom_fields'], true);
-        if(empty($this->profile->description)) $this->profile->description = $custom_fields['description'];
+
+        if (empty($this->profile->description)) {
+            $this->profile->description = $custom_fields['description'];
+        }
 
         $make_profile = $this->skin->make_profile($this->profile, $friendlist, $interaction, $message);
         return $make_profile;

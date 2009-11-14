@@ -151,11 +151,7 @@ class code_index extends code_common {
     *
     * @return string html
     */
-    public function construct($code_other = "") {
-        if ($code_other) {
-            parent::construct($code_other);
-            return;
-        }
+    public function construct() {
 
         $this->initiate("skin_index");
         if($this->player->is_member) {
@@ -164,7 +160,7 @@ class code_index extends code_common {
             $code_index = $this->index_guest("", "");
         }
         
-        parent::construct($code_index);
+        return $code_index;
     }
 
    /**

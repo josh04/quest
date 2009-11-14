@@ -26,7 +26,8 @@ class code_bootstrap {
             $_REQUEST = array_map(array($this, 'stripslashes_deep'), $_REQUEST);
         }
         $this->page_setup();
-        $this->page->construct();
+        $page = $this->page->construct();
+        print $this->page->finish_page($page);
     }
 
    /**
@@ -97,7 +98,6 @@ class code_bootstrap {
                                         "user"              =>          "user",
                                         "upgrade_database"  =>          "upgrade_database"    );
         } else {
-            
             $this->db =& code_database_wrapper::get_db($this->config); // this unassuming line creates the database
 
             if (!$this->db->IsConnected()) {
