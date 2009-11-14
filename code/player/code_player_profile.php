@@ -108,7 +108,7 @@ class code_player_profile extends code_player {
         } else {
             while($friend = $query->fetchrow()) {
                 $custom_fields = json_decode($friend['profile_string'], true);
-                $this->friends[($friend['id'])] = array('username'=>$friend['username'], 'avatar'=>$custom_fields['avatar']);
+                $this->friends[($friend['id'])] = array( 'id'=> $friend['id'], 'username' => $friend['username'], 'avatar' => $custom_fields['avatar']);
             }
             return true;
         }

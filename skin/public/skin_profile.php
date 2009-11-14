@@ -401,7 +401,7 @@ class skin_profile extends skin_common {
     public function friend_entry($friend) {
         $friend_entry .= "<div class='friendentry'>
                     <img src='".$friend['avatar']."' alt='[user avatar]' class='avatar' /><br />
-                    <a href='index.php?section=public&amp;page=profile&amp;id=3'>".$friend['username']."</a><br />
+                    <a href='index.php?section=public&amp;page=profile&amp;id=".$friend['id']."'>".$friend['username']."</a><br />
                 </div>";
         return $friend_entry;
     }
