@@ -97,9 +97,9 @@ class code_angst_bookmark extends _code_angst {
                 $this->player->bookmarks = array($id => 0);
             }
 
-            $bookmarks_array = json_decode($_COOKIE['bookmarks'], true);
+            $bookmarks_array = json_decode(code_cookie::get('bookmarks'), true);
             $bookmarks_array[$id] = 0;
-            setcookie('bookmarks', json_encode($bookmarks_array), time()+60*60*24*300);
+            code_cookie::set('bookmarks', json_encode($bookmarks_array), time()+60*60*24*300);
 
             $this->player->update_player(true);
             return true;
@@ -147,7 +147,7 @@ class code_angst_bookmark extends _code_angst {
 
         $id_range = implode(",", $bookmark_ids);
         $reply_count_query = $this->db->execute("SELECT `angst_id`, COUNT(*) AS `c` FROM `angst_replies` WHERE `angst_id` IN (".$id_range.") GROUP BY `angst_id`");
-        $bookmarks = json_decode($_COOKIE['bookmarks'], true);
+        $bookmarks = json_decode(code_cookie::get('bookmarks'), true);
 
         while ($reply_count = $reply_count_query->fetchrow()) {
             $reply_counts[$reply_count['angst_id']] = $reply_count['c'];

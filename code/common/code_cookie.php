@@ -5,19 +5,50 @@
  * @author josh04
  * @package code_public
  */
-class code_cookie extends code_common {
+class code_cookie {
 
    /**
-    * class override. calls parents, sends kids home.
+    * player object
     *
-    * @return string html
+    * @var code_player
     */
-    public function construct() {
-        $this->initiate("skin_");
+    public static $id = 0;
 
-        $code_cookie = ;
+   /**
+    * sets the player id
+    *
+    * @param int $id player id
+    */
+    public static function set_id($id) {
+        self::$id = $id;
+    }
+   /**
+    * sets a uid-specific cookie
+    *
+    * @param string $name cookie name
+    * @param string $value cookie value
+    * @param int $expire when does the cookie expire
+    * @param <type> $path
+    * @param <type> $domain
+    * @param <type> $secure
+    * @param <type> $httponly
+    * @return bool
+    */
+    public static function set($name, $value=null, $expire=null, $path=null, $domain=null, $secure=null, $httponly=null) {
+        return setcookie($name."_".self::$id, $value, $expire, $path, $domain, $secure, $httponly);
+    }
 
-        return $code_cookie;
+   /**
+    * gets a uid-specific cookie
+    *
+    * @param string $name cookie name
+    */
+    public static function get($name) {
+        if (isset($_COOKIE[$name."_".self::$id])){
+            return $_COOKIE[$name."_".self::$id];
+        } else {
+            return false;
+        }
     }
 
 }

@@ -582,7 +582,8 @@ class skin_angst_index extends angst_skin_common {
             <input type='hidden' class='angst-id' name='angst-id' value='".$id."' />
             <textarea cols='60' rows='1' class='angst-reply' name='angst-reply'></textarea></td>
             <td><input type='submit' value='Reply' class='angst-reply-button' /></td>
-        </tr></tbody></table>
+        </tr><tr><td>
+            <input type='checkbox' name='anonymous' /> Make reply anonymous? </td></tr></tbody></table>
     </form>";
         return $reply_form;
     }

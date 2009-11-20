@@ -94,7 +94,7 @@ class code_angst_index extends _code_angst {
 
         $approved = 1;
         
-        if ($_GET['show'] == "unapproved") {
+        if ($this->page == "unapproved") {
             $approved = 0;
         }
 
@@ -285,11 +285,11 @@ class code_angst_index extends _code_angst {
                     $this->player->angst_count++;
             }
 
-            $bookmarks_array = json_decode($_COOKIE['bookmarks'], true);
+            $bookmarks_array = json_decode(code_cookie::get('bookmarks'), true);
 
             $bookmarks_array[$new_angst_id] = 0;
 
-            setcookie('bookmarks', json_encode($bookmarks_array), time()+60*60*24*30);
+            code_cookie::set('bookmarks', json_encode($bookmarks_array), time()+60*60*24*30);
 
             $this->player->bookmarks[$new_angst_id] = 0;
 

@@ -184,6 +184,19 @@ if (replycounter != 1 ) {
     }
 
    /**
+    * a single anonymous reply
+    *
+    * @param array $reply reply data
+    * @return string html
+    */
+    public function anonymous_reply($reply) {
+        $reply = "<div class='reply'><p><span>".$reply['reply']."</span></p>
+                     <p class='reply-author'> - Anonymous (".$reply['date'].")</p></div>
+            ";
+            return $reply;
+    }
+
+   /**
     * needs to be seperate so we can cut it from unapproved
     *
     * @return string html
@@ -206,7 +219,10 @@ if (replycounter != 1 ) {
             <input type='hidden' class='angst-id' name='angst-id' value='".$id."' />
             <textarea cols='60' rows='1' class='angst-reply' name='angst-reply'></textarea></td>
             <td><input type='submit' value='Reply' class='angst-reply-button' /></td>
-        </tr></tbody></table>
+        </tr><tr>
+            <td><input type='checkbox' name='anonymous' /> Make reply anonymous?</td>
+        </tr>
+        </tbody></table>
     </form>";
         return $reply_form;
     }

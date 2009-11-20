@@ -166,17 +166,21 @@ class code_angst_single extends _code_angst {
                     continue;
                 }
                 $reply['date'] = $this->format_time($reply['time']);
-                $replies .= $this->skin->reply($reply);
+                if ($reply['anonymous']) {
+                    $replies .= $this->skin->anonymous_reply($reply);
+                } else {
+                    $replies .= $this->skin->reply($reply);
+                }
                 $reply_counter++;
             }
-            $bookmarks_array = json_decode($_COOKIE['bookmarks'], true);
+            $bookmarks_array = json_decode(code_cookie::get('bookmarks'), true);
 
             if ($bookmarks_array[$id] < $start + $reply_counter) {
                 $bookmarks_array[$id] = $start + $reply_counter;
             }
 
 
-            setcookie('bookmarks', json_encode($bookmarks_array), time()+60*60*24*300);
+            code_cookie::set('bookmarks', json_encode($bookmarks_array), time()+60*60*24*300);
             $replies .= $this->skin->start_input(intval($_GET['start'] + $reply_counter), $more_to_come);
         }
         return $replies;
@@ -231,6 +235,10 @@ class code_angst_single extends _code_angst {
             return $code_index;
         }
 
+        if (isset($_POST['anonymous'])) {
+            $angst_insert['anonymous'] = 1;
+        }
+
         $angst_insert['player_id'] = $this->player->id;
         $angst_insert['angst_id'] = intval($_POST['angst-id']);
         $angst_insert['reply'] = $reply;
@@ -238,11 +246,11 @@ class code_angst_single extends _code_angst {
 
         $this->db->AutoExecute('angst_replies', $angst_insert, 'INSERT');
         
-        $bookmarks_array = json_decode($_COOKIE['bookmarks'], true);
+        $bookmarks_array = json_decode(code_cookie::get('bookmarks'), true);
 
         $bookmarks_array[intval($_POST['angst-id'])]++;
 
-        setcookie('bookmarks', json_encode($bookmarks_array), time()+60*60*24*300);
+        code_cookie::set('bookmarks', json_encode($bookmarks_array), time()+60*60*24*300);
         
         return false;
     }

@@ -139,8 +139,8 @@ class code_player_profile extends code_player {
     public function log_in($username, $password) {
         $return = parent::log_in($username, $password);
 
-        if (isset($_COOKIE['bookmarks'])) {
-            $bookmarks_cookie = json_decode($_COOKIE['bookmarks'], true);
+        if (code_cookie::get('bookmarks')) {
+            $bookmarks_cookie = json_decode(code_cookie::get('bookmarks'), true);
             $i = 0;
             foreach ($this->bookmarks as $id => $reply_count) {
                 if ($bookmarks_cookie[$id] && $reply_count < $bookmarks_cookie[$id]) {
@@ -153,7 +153,7 @@ class code_player_profile extends code_player {
             }
         }
         
-        setcookie('bookmarks', json_encode($this->bookmarks), time()+60*60*24*300);
+        code_cookie::set('bookmarks', json_encode($this->bookmarks), time()+60*60*24*300);
         return $return;
     }
 }

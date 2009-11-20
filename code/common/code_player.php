@@ -35,11 +35,13 @@ class code_player {
     * @return bool good to go?
     */
     public function make_player($join = "") {
-        if ($_COOKIE['user_id']) {
-            $id = $_COOKIE['user_id'];
+        $id = 0;
+        if ($_COOKIE['logged_in_user_id']) { // VVV
+            $id = $_COOKIE['logged_in_user_id']; // non-user-specific cookie
         } else {
-            $id = $_SESSION['user_id'];
+            $id = $_SESSION['logged_in_user_id'];
         }
+        code_cookie::set_id($id);
 
         if ($join) {
             $player_query = $this->db->execute("SELECT `p`.*, `j`.* FROM `players` AS `p` LEFT JOIN `".$join."` AS `j`
@@ -53,7 +55,7 @@ class code_player {
 
         $check = md5($player_db['id'].$player_db['password'].$player_db['login_rand']);
         
-        if ($check == $_COOKIE['cookie_hash'] || $check == $_SESSION['hash']) {
+        if ($check == code_cookie::get('cookie_hash') || $check == $_SESSION['hash']) {
             $this->is_member = true;
             $last_active = time();
              
@@ -64,7 +66,7 @@ class code_player {
             $this->registered_date = date("l, jS F Y", $this->registered);
             $this->registered_days = intval((time() - $this->registered)/84600);
 
-            $this->db->execute("UPDATE `players` SET `last_active`=? WHERE `id`=?", array ($last_active, $this->id));
+            $this->update_last_active($last_active);
           
             if ($this->halt_if_suspended()) {
                 return false;
@@ -73,6 +75,15 @@ class code_player {
         return $this->halt_if_guest($this->page);
     }
  
+   /**
+    * updates the 'last active' counter. append to this any player update queries run each load.
+    *
+    * @param int $last_active player last active time
+    * return bool success
+    */
+    protected function update_last_active($last_active) {
+        return $this->db->execute("UPDATE `players` SET `last_active`=? WHERE `id`=?", array ($last_active, $this->id));
+    }
  
    /**
     * cancels all if player is suspended. don't like it.
@@ -207,8 +218,8 @@ class code_player {
     public function log_out() {
         session_unset();
         session_destroy();
-        setcookie("cookie_hash", NULL, mktime() - 36000000);
-        setcookie("user_id", NULL, mktime() - 36000000);
+        code_cookie::set("cookie_hash", NULL, mktime() - 36000000);
+        setcookie("logged_in_user_id", NULL, mktime() - 36000000); // this one needs to use setcookie as it's not player-specific
     }
 
    /**
@@ -248,10 +259,11 @@ class code_player {
 
             $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id = '.$this->id);
             $hash = md5($this->id.$this->password.$login_rand);
-            $_SESSION['user_id'] = $this->id;
+            $_SESSION['logged_in_user_id'] = $this->id;
             $_SESSION['hash'] = $hash;
-            setcookie("user_id", $this->id, time()+2592000);
-            setcookie("cookie_hash", $hash, time()+2592000);
+            setcookie("logged_in_user_id", $this->id, time()+2592000);
+            code_cookie::$id = $this->id;
+            code_cookie::set("cookie_hash", $hash, time()+2592000);
             
             return true;
         } else {
@@ -313,7 +325,7 @@ class code_player {
 
         $hash = md5($this->id.$this->password.$this->login_rand);
         $_SESSION['hash'] = $hash;
-        setcookie("cookie_hash", $hash, mktime()+2592000);
+        code_cookie::set("cookie_hash", $hash, mktime()+2592000);
         
         if ($password_query) {
             return true;
