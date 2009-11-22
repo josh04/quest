@@ -2,8 +2,6 @@
 /*   Partly Based on Gerhard Erbes' template         */
 /*****************************************************/
 
-@import url('boxes.css');
-
 body {
     font-family: TrebuchetMS, Verdana, Arial;
     font-size: 12px;
@@ -399,4 +397,43 @@ img.avatar {
     width: 100px;
     height: 25px;
     text-align: center;
+}
+
+.mod-installed {
+    display: block;
+    text-align: center;
+    background: url('../../images/icons/accept.png') no-repeat 8px 7px #CFC;
+    color: #0D0;
+    border: 1px solid #0D0;
+    width: 120px;
+    line-height: 30px;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    text-decoration: none;
+}
+
+.mod-not-installed {
+    display: block;
+    text-align: center;
+    background: url('../../images/icons/delete.png') no-repeat 8px 7px #FCC;
+    color: #D00;
+    border: 1px solid #D00;
+    width: 120px;
+    line-height: 30px;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    text-decoration: none;
+}
+
+.mod-action {
+    display: block;
+    text-align: center;
+    background: url('../../images/icons/pencil.png') no-repeat 8px 7px #CCF;
+    color: #77D;
+    border: 1px solid #77D;
+    width: 120px;
+    line-height: 30px;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    text-decoration: none;
 }

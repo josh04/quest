@@ -571,16 +571,19 @@ class code_common {
     * @param string $hook name of the hook to be executed
     */
     public function do_hook($hook) {
-        $mod = "frontpage_news";
-        $file = "main.php";
-        $function = "frontpage_news";
-        $include_path = "././mods/".$mod."/".$file;
+        global $hooks;
+
+        $mod = $hooks[$hook][0];
+        $file = $hooks[$hook][1];
+        $function = $hooks[$hook][2];
+
+        $include_path = "././hooks/".$mod."/".$file;
 
         if(!file_exists($include_path)) return;
 
         // So we don't include anything that slipped outside the function into the page
         ob_start();
-            include("././mods/".$mod."/".$file);
+            include($include_path);
         ob_end_clean();
 
         return $function($this);

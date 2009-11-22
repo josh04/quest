@@ -38,7 +38,8 @@ class code_index_admin extends _code_admin {
                 array( 'portal', 'Portal' ),
             ) ),
             array( 'ticket', 'Tickets', 'Read, organise and respond to tickets' ),
-            array( 'messages', 'Messages', 'Edit specific in-game messages to your choosing.')
+            array( 'messages', 'Messages', 'Edit specific in-game messages to your choosing.'),
+            array( 'mods', 'Mods', 'Configuration pages for loaded mods')
         );
         
         $i = 0;

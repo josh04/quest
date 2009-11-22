@@ -156,8 +156,9 @@ class _code_install extends code_common {
         (25, 'menu_admin', 'admin', 'menu'),
         (26, 'edit_profile', 'admin', 'profile_edit'),
         (27, 'messages', 'admin', 'messages'),
-        (29, 'cron_admin', 'admin', 'cron'),
-        (30, 'pages', 'admin', 'pages') ;";
+        (28, 'cron_admin', 'admin', 'cron'),
+        (29, 'pages', 'admin', 'pages'),
+        (30, 'mods', 'admin', 'mods') ;";
 
     public $settings_query = "CREATE TABLE IF NOT EXISTS `settings` (
         `name` varchar(125) NOT NULL,
