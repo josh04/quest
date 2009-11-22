@@ -188,6 +188,8 @@ class code_common {
             require_once("code/player/".$this->player_class.".php");
         }
 
+        require_once("code/common/code_cookie.php");
+
         $this->player = new $this->player_class($this->settings, $this->config);
         $this->player->page = $this->page;
         //Is our player a member, or a guest?
