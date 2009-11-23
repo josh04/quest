@@ -21,7 +21,8 @@ class code_index extends code_common {
         require_once("code/public/code_stats.php");
         $code_stats = new code_stats($this->section, $this->page);
         $code_stats->player =& $this->player;
-        $code_stats->make_skin('skin_stats');
+        $code_stats->core("page_generation");
+        $code_stats->skin =& $code_stats->page_generation->make_skin('skin_stats');
         $stats = $code_stats->stats_table($message);
 
         $extra = $this->do_hook("home/extra");
@@ -152,9 +153,9 @@ class code_index extends code_common {
     * @return string html
     */
     public function construct() {
-
         $this->initiate("skin_index");
-        if($this->player->is_member) {
+        
+        if ($this->player->is_member) {
             $code_index = $this->index_player();
         } else {
             $code_index = $this->index_guest("", "");

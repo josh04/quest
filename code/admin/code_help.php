@@ -116,7 +116,7 @@ class code_help extends _code_admin {
     *
     */
     public function help_index_save() {
-        $error = !$this->setting_update('help_format', $_POST['help_format']);
+        $error = !$this->setting->set('help_format', $_POST['help_format']);
         return;
     }
 

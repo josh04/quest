@@ -3,10 +3,9 @@
  * Description of code_cookie
  *
  * @author josh04
- * @package code_public
+ * @package code_common
  */
 class code_cookie {
-
    /**
     * player object
     *
@@ -22,6 +21,7 @@ class code_cookie {
     public static function set_id($id) {
         self::$id = $id;
     }
+
    /**
     * sets a uid-specific cookie
     *

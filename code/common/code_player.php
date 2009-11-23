@@ -25,7 +25,40 @@ class code_player {
         $this->db =& code_database_wrapper::get_db($config);
         $this->settings =& $settings;
     }
- 
+
+   /**
+    * loads the core player objecct
+    *
+    * @param code_common $common the page calling
+    * @return code_player this object
+    */
+    public function load_core($common) {
+        // (DONE) player shirt and percentage code has moved
+        // Get our player object
+
+        if ($common->player_class != "code_player") {
+            require_once("code/player/".$common->player_class.".php");
+            $player_extension = new $common->player_class($this->settings, $this->config);
+            $common->player_class = 'code_player';
+            $player_extension = $player_extension->load_core($common);
+            return $player_extension;
+        }
+        
+        session_start();
+        
+        require_once("code/common/code_cookie.php");
+
+        $this->page = $common->page;
+        //Is our player a member, or a guest?
+        $allowed = $this->make_player();
+        
+        if (!$allowed) {
+            return false;
+        }
+        
+        return $this;
+    }
+
    /**
     * Main player function. Used to generate the player who is playing.
     *

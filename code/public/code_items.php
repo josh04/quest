@@ -50,7 +50,7 @@ class code_items extends code_common {
                 $items_switch = $this->make_inventory();
                 break;
             default:
-                $this->error_page($this->lang->page_not_found);
+                $this->page_generation->error_page($this->lang->page_not_found);
         }
 
         return $items_switch;

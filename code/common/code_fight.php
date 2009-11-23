@@ -49,7 +49,7 @@ class code_fight extends code_common {
 
 
         if (!method_exists($this->enemy,"add_log")) {
-            $fight = $this->error_page($this->lang->enemy_malformed);
+            $fight = $this->page_generation->error_page($this->lang->enemy_malformed);
             return $fight;
         }
 

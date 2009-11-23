@@ -415,8 +415,9 @@ CREATE TABLE IF NOT EXISTS `rpg` (
     * @param string $skin_name name of skin file to load - if left blank, loads skin_common (not recommended)
     */
     public function initiate($skin_name = "") {
-        $this->make_default_lang();
-        $this->make_skin($skin_name);
+        $this->core("default_lang");
+        $this->core("page_generation");
+        $this->skin =& $this->page_generation->make_skin($skin_name);
     }
 
    /**
@@ -426,9 +427,10 @@ CREATE TABLE IF NOT EXISTS `rpg` (
     * @param string $page name of our particular page
     * @param string $config config values
     */
-    public function __construct($section = "", $page = "") {
+    public function __construct($section = "", $page = "", $config = array()) {
         $this->section = $section;
         $this->page = $page;
+        $this->config = $config;
     }
 }
 ?>
