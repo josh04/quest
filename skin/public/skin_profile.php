@@ -401,7 +401,7 @@ class skin_profile extends skin_common {
     public function friend_entry($friend) {
         $friend_entry .= "<div class='friendentry'>
                     <img src='".$friend['avatar']."' alt='[user avatar]' class='avatar' /><br />
-                    <a href='index.php?section=public&amp;page=profile&amp;id=3'>".$friend['username']."</a><br />
+                    <a href='index.php?section=public&amp;page=profile&amp;id=".$friend['id']."'>".$friend['username']."</a><br />
                 </div>";
         return $friend_entry;
     }
@@ -433,6 +433,18 @@ class skin_profile extends skin_common {
             <p><input type='submit' name='approve' value='Approve user' /></p>
             </div></form>";
         return $approve_user;
+    }
+
+   /**
+    * friend request pm
+    *
+    * @param int $to_id user from id
+    * @param string $from_name user to name
+    * @return return html
+    */
+    public function friend_request($to_id, $from_name) {
+        $friend_request = "You have been added as a friend by ".$from_name.". Click [url=index.php?section=public&amp;page=profile&amp;friends=add&amp;id=".$to_id."]here[/url] to accept.";
+        return $friend_request;
     }
 
 }

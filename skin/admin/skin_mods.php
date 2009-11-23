@@ -162,5 +162,16 @@ class skin_mods extends _skin_admin {
         return $or_admin_link;
     }
 
+   /**
+    * link to mod author
+    *
+    * @param string $author author name
+    * @param string $url author site
+    * @return string html
+    */
+    public function author_link($author, $url) {
+        $author_link = "<a href='".$url."'>".$author."</a>";
+        return $author_link;
+    }
 }
 ?>

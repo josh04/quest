@@ -171,12 +171,12 @@ class code_quest extends code_common {
     public function event_encounter($encounter) {
         //Player cannot attack any more
         if ($this->player->energy == 0) {
-            $this->error_page($this->lang->player_no_energy);
+            $this->page_generation->error_page($this->lang->player_no_energy);
         }
 
         //Player is unconscious
         if ($this->player->hp == 0) {
-            $this->error_page($this->lang->player_currently_incapacitated);
+            $this->page_generation->error_page($this->lang->player_currently_incapacitated);
         }
 
         $prehp = $this->player->hp;

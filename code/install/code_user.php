@@ -14,7 +14,6 @@ class code_user extends _code_install {
     */
     public function construct() {
         $this->initiate("skin_install");
-        $this->make_config();
         $this->make_db();
 
         $code_user = $this->user_switch();
@@ -131,17 +130,6 @@ class code_user extends _code_install {
 
         $insert_user = $this->skin->complete();
         return $insert_user;
-    }
-
-   /**
-    * gets config info
-    *
-    * @return array config values
-    */
-    public function make_config() {
-        require("config.php"); // Get config values.
-        $this->config = $config;
-        return $config;
     }
 
 }

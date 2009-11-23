@@ -57,14 +57,21 @@ class code_stats extends code_common {
         require_once("code/public/code_index.php");
         $code_index = new code_index($this->section, $this->page);
         $code_index->player =& $this->player;
-        $code_index->make_default_lang();
-        $code_index->make_skin("skin_index");
-        $code_index->make_extra_lang();
+        $this->core("default_lang");
+        $this->core("page_generation");
+        $this->skin =& $this->page_generation->make_skin("skin_index");
+        $this->core("extra_lang");
         $index_player = $code_index->index_player($spend);
 
         return $index_player;
     }
 
+   /**
+    * no idea, actually
+    *
+    * @param string $message error message
+    * @return string html
+    */
     public function stats_table($message = "") {
         if ($this->player->is_member == 1 && $this->player->stat_points > 0) {
             $stats_link = $this->skin->stats_link($this->player->stat_points);

@@ -10,7 +10,12 @@ class code_cron {
 
     public $db;
 
-    public function __construct($config = array()) {
+   /**
+    * constructor, gives us the db
+    *
+    * @param array $config db values
+    */
+    public function __construct($settings = array(), $config = array()) {
         $this->db = code_database_wrapper::get_db($config);
     }
 
@@ -18,7 +23,7 @@ class code_cron {
     * time to cron shit up
     * 
     */
-    public function update() {
+    public function load_core($common) {
         $cron_query = $this->db->execute("SELECT * FROM `cron` WHERE `enabled`=1");
         while ($cron = $cron_query->fetchrow()) {
             $time = time();

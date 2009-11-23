@@ -40,7 +40,7 @@ class code_mail extends code_common {
 
         $compose_query = $this->db->AutoExecute('mail', $mail_insert, 'INSERT');
         if ($this->db->ErrorMsg()) {
-            $this->error_page($this->lang->db_query_failed);
+            $this->page_generation->error_page($this->lang->db_query_failed);
         }
         return $this->db->Insert_Id();
     }

@@ -129,7 +129,7 @@ class code_quest extends _code_admin {
                 unlink($quest['old']);
         }
 
-        $attempt = $this->setting_update('quests_code',$_GET['code']);
+        $attempt = $this->setting->set('quests_code',$_GET['code']);
 
         if ($attempt) {
             $update_code = $this->skin->success_box($this->lang->setting_update_yes);

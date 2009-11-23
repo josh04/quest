@@ -43,13 +43,27 @@ class code_menu extends code_common {
     * @param array $settings array of setting keys
     * @param array $config db config
     */
-    public function __construct(&$player, $section, $page, $pages, $settings, $config = array()) {
-        $this->db =& code_database_wrapper::get_db($config);
-        $this->player =& $player;
-        $this->player_section = $section;
-        $this->player_page = $page;
-        $this->pages = $pages;
+    public function __construct($settings = array(), $config = array()) {
         $this->settings =& $settings;
+        $this->db =& code_database_wrapper::get_db($config);
+    }
+
+   /**
+    * core menu loading doofer
+    *
+    * @param code_common $common page that's calling
+    */
+    public function load_core($common) {
+        $this->player =& $common->player;
+        $this->player_section = $common->section;
+        $this->player_page = $common->page;
+        $this->pages = $common->pages;
+
+        $common->page_generation->section = $this->section;
+        $common->page_generation->page = $this->page;
+        $this->skin = $common->page_generation->make_skin('skin_menu'); //(TODO) core("skin")
+
+        return $this;
     }
 
    /**
