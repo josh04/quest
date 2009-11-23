@@ -571,6 +571,7 @@ class code_common {
     public function do_hook($hook) {
         global $hooks;
 
+        if(!isset($hooks[$hook])) return false;
         $mod = $hooks[$hook][0];
         $file = $hooks[$hook][1];
         $function = $hooks[$hook][2];
