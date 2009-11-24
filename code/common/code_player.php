@@ -36,7 +36,7 @@ class code_player {
         // (DONE) player shirt and percentage code has moved
         // Get our player object
 
-        if ($common->player_class != "code_player") {
+        if ($common->player_class != "code_player" && file_exists("code/player/".$common->player_class.".php")) {
             require_once("code/player/".$common->player_class.".php");
             $player_extension = new $common->player_class($this->settings, $this->config);
             $common->player_class = 'code_player';

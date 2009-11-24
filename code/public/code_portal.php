@@ -25,7 +25,7 @@ class code_portal extends code_common {
     *
     * @return string html
     */
-    public function portal() {
+    public function portal() { //(TODO) not site-independent
         $log_count = $this->db->getone("select count(*) as `count` from `user_log` where `player_id`=? and `status`='unread'", array($this->player->id));
         $this->core('bbcode');
         $portal_links = $this->portal_links();

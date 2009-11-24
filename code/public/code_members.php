@@ -44,14 +44,14 @@ class code_members extends code_common {
                 FROM `players` AS `p`
                 LEFT JOIN `rpg` AS `r` ON `r`.`player_id`=`p`.`id`
                 WHERE `p`.`rank`='Admin' ORDER BY `r`.`level` DESC
-                LIMIT 0,?",
+                LIMIT 0,?", //(TODO) not site-independent
                 array(intval($limit)));
         } else {
             $member_list_query = $this->db->execute("SELECT `p`.`id`, `p`.`username`, `r`.`level`
                 FROM `players` AS `p`
                 LEFT JOIN `rpg` AS `r` ON `r`.`player_id`=`p`.`id`
                 ORDER BY `r`.`level` DESC
-                LIMIT ?,?",
+                LIMIT ?,?", //(TODO) not site-independent
                 array(intval($begin), intval($limit)));
         }
 
