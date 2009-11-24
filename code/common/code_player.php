@@ -323,7 +323,7 @@ class code_player {
         $player_insert['ip'] = $_SERVER['REMOTE_ADDR'];
         $player_insert['login_salt'] = $login_salt;
 
-        if($this->settings['verification_method']==1) {
+        if($this->settings->get['verification_method']==1) {
             $player_insert['verified'] = 1;
         } else {
             $player_insert['verified'] = 0;

@@ -266,7 +266,7 @@ class code_quest extends code_common {
 
         $this->quest_stages['last'] = $this->quest_stages['start'];
 
-        $file = 'quests/quest-'.md5($this->settings['quests_code'].$this->quest_id).'.xml';
+        $file = 'quests/quest-'.md5($this->settings->get['quests_code'].$this->quest_id).'.xml';
         if (file_exists($file)) {
             $quest = simplexml_load_file($file);
         } else {

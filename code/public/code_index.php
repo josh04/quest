@@ -143,7 +143,7 @@ class code_index extends code_common {
         if ($_GET['action'] == "logged_out") {
             $login_error = $this->lang->logged_out;
         }
-        $index_guest = $this->skin->index_guest($username, $login_error, $this->settings['welcometext']);
+        $index_guest = $this->skin->index_guest($username, $login_error, $this->settings->get['welcometext']);
         return $index_guest;
     }
 

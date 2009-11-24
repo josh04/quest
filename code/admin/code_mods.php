@@ -27,7 +27,7 @@ class code_mods extends _code_admin {
     * @return string html
     */
     public function mods_switch() {
-        $id = intval($id);
+        $id = $_GET['id'];
         if ($_GET['act'] == "edit" && $id) {
             $mods_switch = $this->single_hook($id);
         } else if ($_GET['act'] == "install" && $id) {
@@ -93,8 +93,8 @@ class code_mods extends _code_admin {
         $xml = simplexml_load_file($path);
 
         if ($hooks) {
-            foreach($hooks as $hook) {
-                if($hook[0] == $hook) {
+            foreach($hooks as $a_hook) {
+                if($a_hook[0] == $hook) {
                     $install =  $this->skin->mod_installed();
                     $installed = true;
                 }

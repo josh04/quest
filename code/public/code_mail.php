@@ -100,9 +100,11 @@ class code_mail extends code_common {
 
         }
 
+        $this->core('bbcode');
+
         $mail['time'] = date("F j, Y, g:i a", $mail['time']);
         $mail['quote'] = trim($this->skin->make_quote($mail['username'], $mail['body']));
-        $mail['body'] = $this->bbparse($mail['body'], true);
+        $mail['body'] = $this->bbcode->parse($mail['body'], true);
         $mail['subject'] = nl2br($mail['subject']);
 
         if (substr($mail['subject'],0,3) != "RE:") {

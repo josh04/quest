@@ -42,7 +42,7 @@ class code_admin_template extends _code_admin {
                 $field_names[] = $data_field['name'];
                 $field_values[] = $_POST['form-'.($data_field['name'])]; // turn magic_quotes_gpc off if you need to strip slashes; it's a POS.
             }
-            $settings_update = $this->setting->set($field_names, $field_values);
+            $settings_update = $this->settings->set($field_names, $field_values);
 
             if ($settings_update) {
                 $message = $this->skin->success_box($this->lang->changes_saved);
@@ -53,7 +53,7 @@ class code_admin_template extends _code_admin {
 
         foreach($this->data['fields'] as $data_field) {
             if (!$data_field['value']) {
-                $data_field['value'] = $this->settings[($data_field['name'])];
+                $data_field['value'] = $this->settings->get[($data_field['name'])];
             }
             $lang = $this->language($data_field['lang']);
             $html .= $this->skin->add_field($data_field, $lang);

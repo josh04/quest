@@ -128,7 +128,7 @@ class code_edit_profile extends _code_admin {
         $profile = new code_player_profile($this->settings);
         $profile->get_player($id);
 
-        foreach (json_decode($this->settings['custom_fields'],true) as $field => $default) {
+        foreach (json_decode($this->settings->get['custom_fields'],true) as $field => $default) {
             $profile->$field = htmlentities($_POST[$field], ENT_QUOTES, 'utf-8');
         }
 

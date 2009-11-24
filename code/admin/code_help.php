@@ -116,7 +116,7 @@ class code_help extends _code_admin {
     *
     */
     public function help_index_save() {
-        $error = !$this->setting->set('help_format', $_POST['help_format']);
+        $error = !$this->settings->set('help_format', $_POST['help_format']);
         return;
     }
 
@@ -153,7 +153,7 @@ class code_help extends _code_admin {
         } else {
             $help = $this->skin->help_navigation($help_children, $help_row, $message);
             if($help_id==1) {
-                $selected[($this->settings['help_format'])] = " selected='selected'";
+                $selected[($this->settings->get['help_format'])] = " selected='selected'";
                 $help .= $this->skin->help_hidden_navigation($help_hidden);
                 $help .= $this->skin->help_index($selected);
             }

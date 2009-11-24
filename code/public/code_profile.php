@@ -59,7 +59,7 @@ class code_profile extends code_common {
             $message = $this->donate();
         }
 
-        $custom_fields = json_decode($this->settings['custom_fields'], true);
+        $custom_fields = json_decode($this->settings->get['custom_fields'], true);
 
         foreach ($custom_fields as $field => $default) {
             if (in_array($field, array("msn", "aim", "skype", "description", "gender", "avatar"))) {
@@ -115,7 +115,7 @@ class code_profile extends code_common {
             }
         }
 
-        $custom_fields = json_decode($this->settings['custom_fields'], true);
+        $custom_fields = json_decode($this->settings->get['custom_fields'], true);
 
         if (empty($this->profile->description)) {
             $this->profile->description = $custom_fields['description'];
