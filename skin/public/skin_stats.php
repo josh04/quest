@@ -5,7 +5,7 @@
  * Level up page skin
  *
  * @author josh04
- * @package code_public
+ * @package skin_public
  */
 class skin_stats extends skin_common {
 

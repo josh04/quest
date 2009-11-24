@@ -3,7 +3,7 @@
  * For adding the admin user. Natch.
  *
  * @author josh04
- * @package code_public
+ * @package code_install
  */
 class code_user extends _code_install {
 

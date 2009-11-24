@@ -3,7 +3,7 @@
  * Automatic admin page skin
  *
  * @author grego
- * @package skin_public
+ * @package skin_admin
  */
 class skin_admin_template extends _skin_admin {
     

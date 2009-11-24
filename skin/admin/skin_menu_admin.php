@@ -3,7 +3,7 @@
  * Description of skin_menu_admin
  *
  * @author josh04
- * @package skin_public
+ * @package skin_admin
  */
 class skin_menu_admin extends _skin_admin {
 

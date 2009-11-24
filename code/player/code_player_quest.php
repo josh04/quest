@@ -3,7 +3,7 @@
  * Description of code_player_quest
  *
  * @author josh04
- * @package code_public
+ * @package code_player
  */
 class code_player_quest extends code_player_rpg {
 

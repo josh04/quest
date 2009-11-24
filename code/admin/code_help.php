@@ -3,7 +3,7 @@
  * Help page
  *
  * @author grego
- * @package _code_admin
+ * @package code_admin
  */
 class code_help extends _code_admin {
 

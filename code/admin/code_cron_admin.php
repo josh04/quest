@@ -3,9 +3,9 @@
  * Description of code_cron_admin
  *
  * @author josh04
- * @package code_public
+ * @package code_admin
  */
-class code_cron_admin extends code_common {
+class code_cron_admin extends _code_admin {
 
    /**
     * class override. calls parents, sends kids home.

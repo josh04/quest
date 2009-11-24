@@ -114,28 +114,8 @@ class code_common {
         $this->section = $section;
         $this->page = $page;
         $this->config = $config;
+
         $this->db = code_database_wrapper::get_db($this->config);
-    }
-
-   /**
-    * Manual database connection function.
-    *
-    * Connects to the database, if for whatever reason this failed when the
-    * class was constructed.
-    *
-    * @param bool $skipError if set, the error message isn't displayed if the connection fails
-    * @return void
-    */
-    public function make_db($skipError = false) {
-        $this->db =& code_database_wrapper::get_db($this->config);
-
-        if (!$this->db->IsConnected() && !$skipError) {
-            if (!$this->skin) {
-                $this->core("page_generation");
-                $this->skin =& $this->page_generation->make_skin();
-            }
-            $this->page_generation->error_page($this->lang->failed_to_connect);
-        }
     }
 
    /**
@@ -146,7 +126,6 @@ class code_common {
     */
     public function initiate($skin_name = "", $override = "") {
         $this->core("default_lang");
-        $this->make_db();
         $this->core("settings");
         $this->core("cron");
         $this->core("player");

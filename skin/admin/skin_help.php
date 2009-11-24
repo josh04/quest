@@ -3,7 +3,7 @@
  * Help page
  *
  * @author grego
- * @package skin_public
+ * @package skin_admin
  */
 class skin_help extends skin_common {
     
