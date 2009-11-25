@@ -21,31 +21,6 @@ class code_mail extends code_common {
     }
 
    /**
-    * Send Mail API
-    *
-    * @access public
-    * @param int $to Receiving player id
-    * @param int $from Sending player id
-    * @param string $body Body of message - no html
-    * @param string $subject Subject of message - definitely no html
-    * @return int Mail database id
-    */
-    public function mail_send($to, $from, $body, $subject) {
-        $mail_insert['to'] = intval($to);
-        $mail_insert['from'] = intval($from);
-        $mail_insert['body'] = htmlentities($body,ENT_QUOTES,'UTF-8');
-        $mail_insert['subject'] = htmlentities($subject,ENT_QUOTES,'UTF-8');
-        $mail_insert['time'] = time();
-        $mail_insert['status'] = 0; // unread
-
-        $compose_query = $this->db->AutoExecute('mail', $mail_insert, 'INSERT');
-        if ($this->db->ErrorMsg()) {
-            $this->page_generation->error_page($this->lang->db_query_failed);
-        }
-        return $this->db->Insert_Id();
-    }
-
-   /**
     * where to?
     *
     * @return string html
@@ -123,11 +98,16 @@ class code_mail extends code_common {
     protected function mail_inbox($message = "") {
         $mail_query = $this->db->execute("SELECT m.*, p.username FROM mail AS m LEFT JOIN players AS p ON m.from=p.id WHERE m.to=? ORDER BY m.time DESC",
                                 array($this->player->id));
+                            
         while($mail = $mail_query->fetchrow()) {
             $mail['time'] = date("F j, Y, g:i a", $mail['time']);
             $mail_html .= $this->skin->mail_row($mail);
         }
-        if ($mail_query->numrows()==0) $mail_html = $this->skin->empty_inbox();
+
+        if ($mail_query->numrows()==0) {
+            $mail_html = $this->skin->empty_inbox();
+        }
+
         $mail_list = $this->skin->mail_wrap($mail_html, $message);
         return $mail_list;
     }
@@ -190,8 +170,8 @@ class code_mail extends code_common {
             }
         }
         
-
-        $this->mail_send($to->id, $this->player->id, $_POST['mail_body'], $_POST['mail_subject']);
+        $this->core('mail_api');
+        $this->mail_api->send($to->id, $this->player->id, $_POST['mail_body'], $_POST['mail_subject']);
 
         $compose_submit = $this->mail_inbox($this->lang->mail_sent);
         
@@ -219,13 +199,8 @@ class code_mail extends code_common {
     * @return string html
     */
     protected function delete_multiple_confirm() {
-        foreach ($_POST['mail_id'] as $mail_id) {
-            $mail_ids .= intval($mail_id).", ";
-        }
-
-        $mail_ids = "(".substr($mail_ids, 0, strlen($mail_ids)-2).")";
-
-        $this->db->execute('DELETE FROM mail WHERE id IN '.$mail_ids.' AND `to`=?', array(intval($this->player->id))); // eh, this is sloppy.
+        $this->core('mail_api');
+        $this->mail_api->delete($_POST['mail-ids']);
         $delete_multiple_confirm = $this->mail_inbox($this->lang->messages_deleted);
         return $delete_multiple_confirm;
     }
@@ -269,16 +244,15 @@ class code_mail extends code_common {
     * @return string html
     */
     protected function mark_as_multiple($read) {
-        foreach ($_POST['mail_id'] as $mail_id) {
-            $mail_ids .= intval($mail_id).", ";
+        $this->core('mail_api');
+
+        $this->mail_api->mark($_POST['mail-ids'], $read);
+        
+        if ($read) {
+            $marked = "marked_as_read";
+        } else {
+            $marked = "marked_as_unread";
         }
-
-        $mail_ids = "(".substr($mail_ids, 0, strlen($mail_ids)-2).")";
-
-        $this->db->Execute("UPDATE `mail` SET `status`=? WHERE `id` IN ".$mail_ids, array($read));
-
-        if($read) $marked = "marked_as_read";
-        else $marked = "marked_as_unread";
         $mark_as_multiple = $this->mail_inbox($this->lang->$marked);
         
         return $mark_as_multiple;
@@ -291,22 +265,26 @@ class code_mail extends code_common {
     */
     protected function multiple() {
 
-        if(empty($_POST['mail_id'])) {
-            $multiple = $this->mail_inbox( $this->lang->no_messages_selected );
+        if (empty($_POST['mail_id'])) {
+            $multiple = $this->mail_inbox($this->lang->no_messages_selected);
             return $multiple;
         }
 
-        if($_POST['multiple_action']=="mark_as_unread")
+        if ($_POST['multiple_action'] == "mark_as_unread") {
             $multiple = $this->mark_as_multiple( 0 );
+        }
 
-        if($_POST['multiple_action']=="mark_as_read")
+        if ($_POST['multiple_action'] == "mark_as_read") {
             $multiple = $this->mark_as_multiple( 1 );
+        }
 
-        if($_POST['multiple_action']=="delete_multiple")
+        if ($_POST['multiple_action'] == "delete_multiple") {
             $multiple = $this->delete_multiple();
+        }
 
-        if(!isset($multiple))
+        if (!isset($multiple)) {
             $multiple = $this->mail_inbox();
+        }
 
         return $multiple;
     }

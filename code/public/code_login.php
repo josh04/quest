@@ -199,10 +199,8 @@ class code_login extends code_common {
             $body = $username . " has just registered an account. You can approve it [url=index.php?section=admin&amp;page=profile_edit&amp;action=approve&amp;id=".$player_id."]here[/url].";
             $subject = "New account";
 
-            require_once("code/public/code_mail.php");
-
-            $mail = new code_mail();
-            $mail->mail_send($from, $from, $body, $subject);
+            $this->core('mail_api');
+            $this->mail_api->send($from, $from, $body, $subject);
         }
         // loooooooooool. I'mma leave this here.
 

@@ -163,9 +163,8 @@ class code_profile extends code_common {
         // All else has failed, let's send a request
         $player_id_array = array($this->player->id, $this->profile->id, 0);
         $this->db->execute("INSERT INTO `friends` (`id1`,`id2`,`accepted`) VALUES (?,?,?)",$player_id_array);
-        require_once("code/public/code_mail.php");
-        $code_mail = new code_mail();
-        $code_mail->mail_send($this->profile->id, $this->player->id, $this->skin->friend_request($this->player->id, $this->player->username), $this->lang->friend_request);
+        $this->core('mail_api');
+        $this->mail_api->send($this->profile->id, $this->player->id, $this->skin->friend_request($this->player->id, $this->player->username), $this->lang->friend_request);
         $message = $this->skin->success_box($this->lang->request_sent.$this->profile->username.".");
         return $message;
     }
