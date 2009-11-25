@@ -247,7 +247,6 @@ class code_mail extends code_common {
         $this->core('mail_api');
 
         $this->mail_api->mark($_POST['mail-ids'], $read);
-        
         if ($read) {
             $marked = "marked_as_read";
         } else {
