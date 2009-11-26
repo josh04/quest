@@ -9,11 +9,16 @@
  * (TODO) general skin functions are kept in here, which is probably wrong.
  * nowhere else to keep them though :(
  *
+ * (TODO) hook constants shouldn't really be defined here
+ *
  * @package code_common
  * @author josh04
  */
 
-define('HK_CONCAT',0);
+define('HK_CONCAT', 0);
+define('HK_ARRAY', 1);
+define('HK_MAXIMUM', 2);
+define('HK_MINIMUM', 3);
 
 class code_common {
 
@@ -166,12 +171,35 @@ class code_common {
     * performs a hook action
     *
     * @param string $hook name of the hook to be executed
+    * @param constant (HK_*) $method how to return the hooks
+    * @return mixed whatever the hooks do
     */
     public function do_hook($hook, $method = HK_CONCAT) {
         global $hooks;
-        if(!isset($hooks[$hook])) return false;
-        foreach($hooks[$hook] as $h) {
-            $return[] = do_hook_action($h);
+        if(!isset($hooks[$hook])) {
+            return false;
+        }
+
+        foreach(array_unique($hooks[$hook]) as $h) {
+            $return[] = $this->do_hook_action($h);
+        }
+
+        switch ($method) {
+            case HK_ARRAY:
+                return $return;
+                break;
+
+            case HK_MAXIMUM:
+                return max($return);
+                break;
+
+            case HK_MINIMUM:
+                return min($return);
+                break;
+
+            case HK_CONCAT:
+            default:
+                return implode("", $return);
         }
     }
 
@@ -179,6 +207,7 @@ class code_common {
     * performs a single function for a hook
     *
     * @param string $hook an array containing details of the hook we're doing
+    * @return mixed whatever the hook does
     */
     public function do_hook_action($hook) {
 
@@ -198,7 +227,7 @@ class code_common {
         
         // So we don't include anything that slipped outside the function into the page
         ob_start();
-            include($include_path);
+            @require_once($include_path);
         ob_end_clean();
 
         return $function($this);

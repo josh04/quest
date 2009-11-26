@@ -28,11 +28,14 @@ class code_index extends code_common {
         $extra = $this->do_hook("home/extra");
 
         $online_list = $this->online_list();
-        $quest = $this->quest();
+
+        $header  = $this->do_hook("home/header");
+        $header .= $this->quest();
+
         $log = $this->log();
         $mail = $this->mail();
 
-        $index_player = $this->skin->index_player($this->player, $stats, $extra, $online_list, $quest, $log, $mail);
+        $index_player = $this->skin->index_player($this->player, $header, $stats, $online_list, $log, $mail, $extra);
         return $index_player;
     }
 

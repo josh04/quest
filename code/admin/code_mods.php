@@ -30,12 +30,24 @@ class code_mods extends _code_admin {
         $id = $_GET['id'];
         if ($_GET['act'] == "edit" && $id) {
             $mods_switch = $this->single_hook($id);
+
+        // INSTALL
         } else if ($_GET['act'] == "install" && $id) {
             if (isset($_GET['confirmed'])) {
                 $mods_switch = $this->install_hook($id);
             } else {
                 $mods_switch = $this->install_hook_preface($id);
             }
+
+        // UNINSTALL
+        } else if ($_GET['act'] == "uninstall" && $id) {
+            if (isset($_GET['confirmed'])) {
+                $mods_switch = $this->uninstall_hook($id);
+            } else {
+                $mods_switch = $this->uninstall_hook_preface($id);
+            }
+
+        // HOME
         } else {
             $mods_switch = $this->mods_home();
         }
@@ -94,7 +106,7 @@ class code_mods extends _code_admin {
 
         if ($hooks) {
             foreach($hooks as $a_hook) {
-                if($a_hook[0] == $hook) {
+                if(in_array($hook,$a_hook[0])) {
                     $install =  $this->skin->mod_installed();
                     $installed = true;
                 }
@@ -114,6 +126,7 @@ class code_mods extends _code_admin {
             if (isset($xml->admin)) {
                 $action = $this->skin->edit_link($hook);
             }
+            $action .= $this->skin->uninstall_link($hook);
         } else {
             $action = $this->skin->install_link($hook);
         }
@@ -182,7 +195,7 @@ class code_mods extends _code_admin {
             $install_guide .= "<li>Execute the following SQL:<br /><div class='quest-select'>".$xml->sql."</div></li>";
         }
 
-        $install_hook = $this->skin->install_hook_preface($xml->title, $xml->description->long, $xml->author, $xml->version, $xml->modurl, $install_guide);
+        $install_hook = $this->skin->install_hook_preface($hook, $xml->title, $xml->description->long, $xml->author, $xml->version, $xml->modurl, $install_guide);
         return $install_hook;
     }
 
@@ -232,5 +245,81 @@ class code_mods extends _code_admin {
         return $install_hook;
     }
 
+   /**
+    * does the actual installing and sends confirmation message
+    *
+    * @param string $hook id of the hook we're installing
+    * @return string html
+    */
+    public function uninstall_hook_preface($hook) {
+
+        $path = "./hooks/".$hook."/config.xml";
+
+        if (!file_exists($path)) {
+            return $this->mods_home($this->skin->error_box($this->lang->mod_no_configure));
+        }
+
+        $xml = simplexml_load_file($path);
+
+        if ($xml->hook) {
+            $options .= $this->skin->uninstall_option("hook", $this->lang->mod_uninstall_option_unhook," checked='checked'");
+        }
+
+        if ($xml->settings) {
+            $options .= $this->skin->uninstall_option("settings", $this->lang->mod_uninstall_option_settings,"");
+        }
+
+        if ($xml->sql) {
+            $options .= $this->lang->mod_uninstall_option_sql;
+        }
+
+        $uninstall_hook = $this->skin->uninstall_hook_preface($hook, $xml->title, $options);
+        return $uninstall_hook;
+
+    }
+
+   /**
+    * does the actual installing and sends confirmation message
+    *
+    * @param string $hook id of the hook we're installing
+    * @return string html
+    */
+    public function uninstall_hook($hook) {
+
+        $path = "./hooks/".$hook."/config.xml";
+
+        if(empty($_POST)) {
+            $_POST['hook'] == "on";
+        }
+
+        if (!file_exists($path)) {
+            return $this->mods_home($this->skin->error_box($this->lang->mod_no_configure));
+        }
+
+        $xml = simplexml_load_file($path);
+
+        if ($xml->hook && $_POST['hook']=="on") {
+            $old = file_get_contents("./hooks/index.php");
+            $handle = fopen("./hooks/index.php", "w+");
+            $vals = array($hook, strval($xml->hook->file), strval($xml->hook->function));
+            if (isset($xml->admin->file)) {
+                array_push($vals, strval($xml->admin->file));
+            }
+            $old = str_replace("\r\n\$hooks['".$xml->hook->attributes()."'][] = array('".implode("','", $vals)."');","",$old);
+            fwrite($handle, $old);
+            $returns .= "<br />Unhooked";
+        }
+
+        if ($xml->settings && $_POST['settings']=="on") {
+            foreach($xml->settings->children() as $key=>$value) {
+                $this->db->execute("DELETE FROM `settings` WHERE `name`=?", array($key));
+                $returns .= "<br />Setting deleted";
+            }
+        }
+
+        $uninstall_hook = $this->skin->uninstall_hook($xml->title, $returns);
+        return $uninstall_hook;
+
+    }
 }
 ?>

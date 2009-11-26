@@ -11,12 +11,14 @@ class skin_ranks extends skin_common {
     * makes a table row for the ranks
     *
     * @param array $player player id, username and rank
-    * @param string $rank name of rank
+    * @param string $rank the rank of the player
+    * @param string $head text to preceed the rank
+    * @param string $tail text to append to the end of the rank
     * @return string html
     */
-    public function rank_row($player, $rank) {
+    public function rank_row($player, $rank, $head, $tail) {
         $rank_row = "<tr><td style=\"width:50%;\"><a href=\"index.php?section=public&amp;page=profile&id=".$player['id']."\">".$player['username']."</a></td>
-                        <td>".$player[$rank]." ".$rank."</td></tr>";
+                        <td>".$head." ".$rank." ".$tail."</td></tr>";
         return $rank_row;
     }
 

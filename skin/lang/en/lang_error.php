@@ -220,6 +220,10 @@ class lang_error {
     public $mod_not_installed = "Not installed";
     public $mod_edit = "Edit";
     public $mod_install = "Install";
+    public $mod_uninstall = "Uninstall";
+    public $mod_uninstall_option_unhook = "Unhook from Quest";
+    public $mod_uninstall_option_settings = "Remove relevant settings";
+    public $mod_uninstall_option_sql = "This mod executed some SQL when installed. We cannot reverse this process.";
 
 }
 ?>

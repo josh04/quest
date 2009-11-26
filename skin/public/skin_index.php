@@ -13,16 +13,18 @@ class skin_index extends skin_common {
     * returns the main player-logged-in screen
     *
     * @param player $player player object
+    * @param string $header what to display at the top of the page
     * @param string $stats stats html
-    * @param string $extra any extra html to display at the bottom (hook: home/extra)
     * @param string $online names of online players
-    * @param string $quest current quest html
+    * @param string $log recent log items
+    * @param string $mail recent mail messages
+    * @param string $extra any extra html to display at the bottom (hook: home/extra)
     * @return string html
     */
-    public function index_player($player, $stats, $extra, $online_list, $quest, $log, $mail) {
+    public function index_player($player, $header, $stats, $online_list, $log, $mail, $extra) {
         $index_player = "
                 <h2>Welcome, ".$player->username."</h2>
-            ".$quest."
+            ".$header."
             <table><tr><td style=\"width:50%;padding:8px;\">
             <strong>Level:</strong> ".$player->level."<br />
             <strong>XP:</strong> ".$player->exp." (".($player->exp_max-$player->exp)." to next level)<br />

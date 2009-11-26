@@ -29,24 +29,43 @@ class code_ranks extends code_common {
 
         $most_gold_query = $this->db->execute("SELECT id, username, gold FROM `players` ORDER BY `gold` DESC LIMIT 10");
         while($most_gold = $most_gold_query->fetchrow()) {
-            $most_gold_html .= $this->skin->rank_row($most_gold, "gold");
+            $most_gold_html .= $this->skin->rank_row($most_gold, $most_gold['gold'], "", "gold");
         }
 
         $make_table .= $this->skin->make_table($most_gold_html, "Richest");
 
         $most_kills_query = $this->db->execute("SELECT id, username, kills FROM `players` ORDER BY `kills` DESC LIMIT 10");
         while($most_kills = $most_kills_query->fetchrow()) {
-            $most_kills_html .= $this->skin->rank_row($most_kills, "kills");
+            $most_kills_html .= $this->skin->rank_row($most_kills, $most_kills['kills'], "", "kills");
         }
 
         $make_table .= $this->skin->make_table($most_kills_html, "Assassins");
 
         $most_deaths_query = $this->db->execute("SELECT id, username, deaths FROM `players` ORDER BY `deaths` DESC LIMIT 10");
         while($most_deaths = $most_deaths_query->fetchrow()) {
-            $most_deaths_html .= $this->skin->rank_row($most_deaths, "deaths");
+            $most_deaths_html .= $this->skin->rank_row($most_deaths, $most_deaths['deaths'], "", "deaths");
         }
 
         $make_table .= $this->skin->make_table($most_deaths_html, "Quitters");
+
+        $rankers = $this->do_hook("ranks/custom", HK_ARRAY);
+
+        if($rankers) {
+            foreach($rankers as $ranker) {
+                $result = $this->db->execute($ranker['sql']);
+
+                while($row = $result->fetchrow()) {
+                    $show = $row[($ranker['rank'])];
+                    if(function_exists($ranker['function'])) {
+                        $show = call_user_func($ranker['function'], $show);
+                    }
+                    $table .= $this->skin->rank_row($row, $show, $ranker['head'], $ranker['tail']);
+                }
+
+                $make_table .= $this->skin->make_table($table, $ranker['title']);
+                $table = "";
+            }
+        }
 
         $make_ranks = $this->skin->make_ranks($make_table);
 
