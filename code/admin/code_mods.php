@@ -118,6 +118,10 @@ class code_mods extends _code_admin {
             $installed = false;
         }
 
+        if (isset($xml->modurl)) {
+            $xml->title = $xml->title . " (<a href='".$xml->modurl."'>site</a>)";
+        }
+
         if (isset($xml->authorurl)) {
             $xml->author = "<a href='".$xml->authorurl."'>".$xml->author."</a>";
         }

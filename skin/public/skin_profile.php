@@ -70,8 +70,6 @@ class skin_profile extends skin_common {
        return $add_interact_link;
    }
 
-
-
   /**
    * edit profile link
    * 
@@ -79,6 +77,18 @@ class skin_profile extends skin_common {
    */
    public function add_edit_link() {
        $add_interact_link = "<a href='index.php?section=public&amp;page=profile_edit'>Edit your profile</a>";
+       return $add_interact_link;
+   }
+
+  /**
+   * generic interaction link
+   * 
+   * @param $url the url to link to
+   * @param $caption the text to display on the link
+   * @return string html
+   */
+   public function add_interact_link($url, $caption) {
+       $add_interact_link = "<a href='".$url."'>".$caption."</a>";
        return $add_interact_link;
    }
 
@@ -93,6 +103,12 @@ class skin_profile extends skin_common {
        return $add_interact_link;
    }
 
+  /**
+   * states user has no friends
+   *
+   * @param string $username username
+   * @return string html
+   */
    public function no_friends($username) {
        $no_friends = $username." has no friends.";
        return $no_friends;
