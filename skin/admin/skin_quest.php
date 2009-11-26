@@ -3,7 +3,7 @@
  * Skinning for admin quest section
  *
  * @author grego
- * @package skin_public
+ * @package skin_admin
  */
 class skin_quest extends _skin_admin {
     

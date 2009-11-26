@@ -3,9 +3,9 @@
  * Interface for adding/removing/moving menu items.
  *
  * @author grego
- * @package code_public
+ * @package code_admin
  */
-class code_menu_admin extends code_common {
+class code_menu_admin extends _code_admin {
 
    /**
     * class override. calls parents, sends kids home.

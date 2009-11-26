@@ -49,7 +49,7 @@ class code_quest extends _code_admin {
         if (!$quest_html) {
             $message = $this->skin->error_box($this->lang->no_quests);
         }
-        return $this->skin->quest_wrapper($quest_html, $this->settings['quests_code'], $message);
+        return $this->skin->quest_wrapper($quest_html, $this->settings->get['quests_code'], $message);
     }
 
    /**
@@ -80,7 +80,7 @@ class code_quest extends _code_admin {
         // Then we'll copy it into our files
         $insert_id = $this->db->GetOne("SELECT `id` FROM `quests` ORDER BY `id` DESC");
         
-        if(!copy($url, "quests/quest-".md5($this->settings['quests_code'].$insert_id).".xml")) {
+        if(!copy($url, "quests/quest-".md5($this->settings->get['quests_code'].$insert_id).".xml")) {
             return $this->skin->error_box($this->lang->quest_install_no);
         }
 
@@ -104,7 +104,7 @@ class code_quest extends _code_admin {
 
         // Then rip it out
         if ($keep_file == false) {
-            if (!@unlink("quests/quest-".md5($this->settings['quests_code'].$id).".xml")) {
+            if (!@unlink("quests/quest-".md5($this->settings->get['quests_code'].$id).".xml")) {
                 return $this->skin->error_box($this->lang->quest_delete_no);
             }
         }
@@ -123,13 +123,13 @@ class code_quest extends _code_admin {
         $quest_query = $this->db->execute("SELECT `id` FROM `quests`");
 
         while ($quest = $quest_query->fetchrow()) {
-                $quest['old'] = "quests/quest-".md5($this->settings['quests_code'].$quest['id']).".xml";
+                $quest['old'] = "quests/quest-".md5($this->settings->get['quests_code'].$quest['id']).".xml";
                 $quest['new'] = "quests/quest-".md5($newcode.$quest['id']).".xml";
                 copy($quest['old'],$quest['new']);
                 unlink($quest['old']);
         }
 
-        $attempt = $this->setting->set('quests_code',$_GET['code']);
+        $attempt = $this->settings->set('quests_code',$_GET['code']);
 
         if ($attempt) {
             $update_code = $this->skin->success_box($this->lang->setting_update_yes);

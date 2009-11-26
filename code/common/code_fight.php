@@ -7,7 +7,7 @@
 * @author grego
 */
  
-class code_fight extends code_common {
+class code_fight {
  
   public $db;
   public $enemy;
@@ -25,19 +25,21 @@ class code_fight extends code_common {
   public $player_class = "code_player_rpg";
 
    /**
-    * overrides the constructer to make the skin automatically
+    * gets all the stuff we need for the fight
     *
     * @param string $section section name
     * @param string $page section page
     * @param array $config config array for db
     */
-    public function __construct($section, $page, $config = array()) {
-        parent::__construct($section, $page, $config);
+    public function load_core($common) {
+        $this->db =& code_database_wrapper::get_db();
         $this->section = 'common';
         $this->page = 'fight';
-        $this->player_section = $section;
-        $this->player_page = $page;
-        $this->initiate("skin_fight");
+        $this->player_section = $common->section;
+        $this->player_page = $common->page;
+        $common->page_generation->section = 'common';
+        $this->skin =& $common->page_generation->make_skin("skin_fight");
+        $common->page->generation->section = $this->player_section; // hacky hacky hacky
     }
 
    /**
@@ -46,12 +48,6 @@ class code_fight extends code_common {
     * @return success or failure
     */
     public function battle() {
-
-
-        if (!method_exists($this->enemy,"add_log")) {
-            $fight = $this->page_generation->error_page($this->lang->enemy_malformed);
-            return $fight;
-        }
 
         if ($this->type == "player") {
             $this->player_combat_setup();

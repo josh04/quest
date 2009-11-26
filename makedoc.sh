@@ -1,5 +1,5 @@
 #!/bin/bash
-# $Id: makedoc.sh,v 1.2 2007/12/10 01:11:19 ashnazg Exp $ 
+# $Id: makedoc.sh,v 1.2 2007-12-10 01:11:19 ashnazg Exp $ 
 
 #/**
 #  * makedoc - PHPDocumentor script to save your settings
@@ -34,7 +34,7 @@ TITLE="Quest"
 #  *
 #  * @var               string PACKAGES
 #  */
-PACKAGES="quest"
+PACKAGES="default"
 
 #/** 
 #  * name of a directory(s) to parse directory1,directory2
@@ -77,7 +77,7 @@ CONVERTER=Smarty
 #  *
 #  * @var               string TEMPLATE
 #  */
-TEMPLATE=HandS
+TEMPLATE=PHP
 
 #/**
 #  * parse elements marked as private

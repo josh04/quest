@@ -67,8 +67,8 @@ class code_index_admin extends _code_admin {
         if (get_magic_quotes_gpc()) {
             $warning = $this->skin->magic_quotes_enabled();
         }
-        
-        $index = $this->skin->index_wrapper($boxes_html, $this->bbparse($this->settings['admin_notes'],true), $warning);
+        $this->core('bbcode');
+        $index = $this->skin->index_wrapper($boxes_html, $this->bbcode->parse($this->settings->get['admin_notes'], true), $warning);
 
         return $index;
     }

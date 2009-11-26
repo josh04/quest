@@ -437,3 +437,16 @@ img.avatar {
     -moz-border-radius: 6px;
     text-decoration: none;
 }
+
+input.text-button {
+    background-color:transparent;
+    border:0;
+    color:blue;
+    text-decoration:underline;
+    font-size:1em;
+    font-family:inherit;
+    cursor:pointer;
+    float:left;
+    padding:0;
+    margin: 0;
+}

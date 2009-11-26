@@ -25,11 +25,11 @@ class code_portal extends code_common {
     *
     * @return string html
     */
-    public function portal() {
+    public function portal() { //(TODO) not site-independent
         $log_count = $this->db->getone("select count(*) as `count` from `user_log` where `player_id`=? and `status`='unread'", array($this->player->id));
-
+        $this->core('bbcode');
         $portal_links = $this->portal_links();
-        $portal = $this->skin->portal($this->player->username, $log_count, $this->settings['portal_name'], $this->bbparse($this->settings['portal_welcome'],true), $portal_links);
+        $portal = $this->skin->portal($this->player->username, $log_count, $this->settings->get['portal_name'], $this->bbcode->parse($this->settings->get['portal_welcome'],true), $portal_links);
 
         return $portal;
     }
@@ -40,7 +40,7 @@ class code_portal extends code_common {
     * @return string html
     */
     public function portal_links() {
-        $l = $this->settings['portal_links'];
+        $l = $this->settings->get['portal_links'];
         preg_match_all("/(?:\s|\A)(\*+)?(?:[ ]*)(?:([^\n\r|]*)\|)?([^\n\r]+)/is",$l,$matches,PREG_SET_ORDER);
         foreach($matches as $m) {
             if($m[3]=="--") {$portal .= "</td><td>";continue;}
@@ -59,7 +59,7 @@ class code_portal extends code_common {
     * @return string new label
     */
     public static function code_portal_menu(&$menu, $label) {
-        return $menu->settings['portal_name'];
+        return $menu->settings->get['portal_name'];
     }
 }
 ?>

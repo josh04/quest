@@ -18,7 +18,7 @@ class code_index extends code_common {
     * @return string html
     */
     public function index_player($message = "") {
-        require_once("code/public/code_stats.php");
+        require_once("code/public/code_stats.php"); //(TODO) not site-independent
         $code_stats = new code_stats($this->section, $this->page);
         $code_stats->player =& $this->player;
         $code_stats->core("page_generation");
@@ -143,7 +143,7 @@ class code_index extends code_common {
         if ($_GET['action'] == "logged_out") {
             $login_error = $this->lang->logged_out;
         }
-        $index_guest = $this->skin->index_guest($username, $login_error, $this->settings['welcometext']);
+        $index_guest = $this->skin->index_guest($username, $login_error, $this->settings->get['welcometext']);
         return $index_guest;
     }
 
@@ -171,7 +171,7 @@ class code_index extends code_common {
     * @param string $label Text for the label
     * @return string html
     */
-    public static function code_index_menu(&$menu, $label) {
+    public static function code_index_menu(&$menu, $label) { //(TODO) not site-independent
         if ($menu->player->is_member) {
             if (get_class($menu->player) != "code_player_rpg") { // because we no longer necessarily have the rpg data
                 $player_query = $menu->db->execute("SELECT * FROM `rpg` WHERE `player_id`=?", array($menu->player->id));

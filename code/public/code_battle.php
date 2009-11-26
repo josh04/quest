@@ -18,7 +18,7 @@ class code_battle extends code_common {
     public function construct() {
         $this->initiate("skin_battle");
 
-        $this->fight = new code_fight($this->section, $this->page);
+        $this->core('fight');
         $code_battle = $this->battle_switch();
 
         return $code_battle;
@@ -154,10 +154,7 @@ class code_battle extends code_common {
             return $fight;
         }
 
-
-
-        require_once("code/common/code_fight.php");
-        $this->fight = new code_fight($this->section, $this->page);
+        $this->core('fight');
         
         $this->fight->enemy = new code_player_rpg;
         $this->fight->type = "player";

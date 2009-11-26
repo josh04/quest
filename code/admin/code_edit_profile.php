@@ -114,13 +114,8 @@ class code_edit_profile extends _code_admin {
     */
     public function update_profile($id) {
 
-        if (!preg_match("/^[-!#$%&\'*+\\.\/0-9=?A-Z^_`{|}~]+@([-0-9A-Z]+\.)+([0-9A-Z]){2,4}$/i", $_POST['email'])) {
+        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $update_profile = $this->edit_profile_page($id, $this->skin->error_box($this->lang->email_wrong_format));
-            return $update_profile;
-        }
-
-        if (!preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\- !]+)$#iU", $_POST['avatar']) && $_POST['avatar']) {
-            $update_profile = $this->edit_profile_page($id, $this->skin->error_box($this->lang->avatar_wrong_format));
             return $update_profile;
         }
 
@@ -128,7 +123,7 @@ class code_edit_profile extends _code_admin {
         $profile = new code_player_profile($this->settings);
         $profile->get_player($id);
 
-        foreach (json_decode($this->settings['custom_fields'],true) as $field => $default) {
+        foreach (json_decode($this->settings->get['custom_fields'],true) as $field => $default) {
             $profile->$field = htmlentities($_POST[$field], ENT_QUOTES, 'utf-8');
         }
 
@@ -138,7 +133,6 @@ class code_edit_profile extends _code_admin {
         $profile->msn           = htmlentities($_POST['msn'], ENT_QUOTES, 'utf-8');
         $profile->aim           = htmlentities($_POST['aim'], ENT_QUOTES, 'utf-8');
         $profile->skype         = htmlentities($_POST['skype'], ENT_QUOTES, 'utf-8');
-        $profile->avatar        = $_POST['avatar'];
         $profile->skin          = htmlentities($_POST['skin'], ENT_QUOTES, 'utf-8');
 
         if ($_POST['show_email'] == 'on') {

@@ -25,7 +25,7 @@ class code_player_profile extends code_player {
     */
     public function custom_fields() {
             if (!isset($this->player_id)) {
-                foreach (json_decode($this->settings['custom_fields'], true) as $field => $default) {
+                foreach (json_decode($this->settings->get['custom_fields'], true) as $field => $default) {
                     $profile_string[$field] = $default;
                 }
                 
@@ -39,7 +39,7 @@ class code_player_profile extends code_player {
             }
 
             $profile_array = json_decode($this->profile_string, true);
-            foreach (json_decode($this->settings['custom_fields'], true) as $field => $default) {
+            foreach (json_decode($this->settings->get['custom_fields'], true) as $field => $default) {
                 $this->$field = $profile_array[$field];
             }
     }
@@ -62,7 +62,7 @@ class code_player_profile extends code_player {
     * @param bool $just just do the profile?
     */
     public function update_player($just = false) {
-        foreach (json_decode($this->settings['custom_fields']) as $field => $default) {
+        foreach (json_decode($this->settings->get['custom_fields']) as $field => $default) {
             if (isset($this->$field)) {
                 $profile_array[$field] = $this->$field;
             } else {

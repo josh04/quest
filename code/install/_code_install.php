@@ -421,6 +421,27 @@ CREATE TABLE IF NOT EXISTS `rpg` (
     }
 
    /**
+    * Manual database connection function.
+    *
+    * Connects to the database, if for whatever reason this failed when the
+    * class was constructed.
+    *
+    * @param bool $skipError if set, the error message isn't displayed if the connection fails
+    * @return void
+    */
+    public function make_db($skipError = false) {
+        $this->db =& code_database_wrapper::get_db($this->config);
+
+        if (!$this->db->IsConnected() && !$skipError) {
+            if (!$this->skin) {
+                $this->core("page_generation");
+                $this->skin =& $this->page_generation->make_skin();
+            }
+            $this->page_generation->error_page($this->lang->failed_to_connect);
+        }
+    }
+    
+   /**
     * section name and page name - db clipped
     *
     * @param string $section name of the site chunk we're in
