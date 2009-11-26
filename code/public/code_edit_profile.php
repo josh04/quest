@@ -57,7 +57,7 @@ class code_edit_profile extends code_common {
             $update_profile = $this->edit_profile_page("");
             return $update_profile;
         }
-        if (!preg_match("/^[-!#$%&\'*+\\.\/0-9=?A-Z^_`{|}~]+@([-0-9A-Z]+\.)+([0-9A-Z]){2,4}$/i", $_POST['email'])) {
+        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $update_profile = $this->edit_profile_page($this->skin->error_box($this->lang->email_wrong_format));
             return $update_profile;
         }
@@ -132,7 +132,7 @@ class code_edit_profile extends code_common {
                break;
 
             case 'url':
-                if (!preg_match("#^https?://(?:[^<>*\"]+|[a-z0-9/\._\- !]+)$#iU", $_POST['avatar_url']) && $_POST['avatar_url']) {
+                if (!filter_var($_POST['avatar_url'], FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED) && $_POST['avatar_url']) {
                     $update_avatar = $this->edit_profile_page($this->skin->error_box($this->lang->avatar_wrong_format));
                     return $update_avatar;
                 }

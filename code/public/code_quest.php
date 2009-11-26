@@ -181,7 +181,7 @@ class code_quest extends code_common {
 
         $prehp = $this->player->hp;
         if (!isset($this->fight)) {
-                $this->fight = new code_fight($this->section, $this->page);
+                $this->core('fight');
                 $this->fight->player =& $this->player;
         }
 
