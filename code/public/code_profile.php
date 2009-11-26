@@ -94,6 +94,14 @@ class code_profile extends code_common {
             }
         }
 
+        // Get interaction from the profile/interact hook
+        $custom_interact = $this->do_hook("profile/interact", HK_ARRAY);
+        if($custom_interact) {
+            foreach($custom_interact as $interact) {
+                $interaction .= $this->skin->add_interact_link($interact['url'], $interact['caption']);
+            }
+        }
+
         if ($this->profile->last_active > (time()-(60*15))) {
             $this->profile->is_online = "online";
         } else {
