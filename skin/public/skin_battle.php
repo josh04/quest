@@ -66,9 +66,9 @@ class skin_battle extends skin_common {
                     ".$player['level']."
                 </td>
                 <td>
-                    <form method='POST' name='memberBattle".$player['id']."' action='index.phpsection=public&amp;?page=battle&amp;action=fight'>
+                    <form method='POST' name='memberBattle".$player['id']."' action='index.php?section=public&amp;page=battle&amp;action=fight'>
                         <input type='hidden' name='id' value='".$player['id']."' />
-                        <a href='#' onclick='document.memberBattle".$player['id'].".submit();return false;'>Attack</a>
+                        <input class='text-button' type='submit' value='Attack' style='text-decoration:underline !important;' />
                     </form>
                 </td>
             </tr>";
