@@ -208,7 +208,7 @@ class code_mods extends _code_admin {
             if (isset($xml->admin->file)) {
                 array_push($vals, strval($xml->admin->file));
             }
-            fwrite($handle, "\r\n\$hooks['".$xml->hook->attributes()."'] = array('".implode("','", $vals)."');");
+            fwrite($handle, "\r\n\$hooks['".$xml->hook->attributes()."'][] = array('".implode("','", $vals)."');");
             $returns .= "<br />Hook created";
         }
 

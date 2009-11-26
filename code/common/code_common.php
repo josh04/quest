@@ -13,6 +13,8 @@
  * @author josh04
  */
 
+define('HK_CONCAT',0);
+
 class code_common {
 
    /**
@@ -292,13 +294,24 @@ class code_common {
     *
     * @param string $hook name of the hook to be executed
     */
-    public function do_hook($hook) {
+    public function do_hook($hook, $method = HK_CONCAT) {
         global $hooks;
-
         if(!isset($hooks[$hook])) return false;
-        $mod = $hooks[$hook][0];
-        $file = $hooks[$hook][1];
-        $function = $hooks[$hook][2];
+        foreach($hooks[$hook] as $h) {
+            $return[] = do_hook_action($h);
+        }
+    }
+
+   /**
+    * performs a single function for a hook
+    *
+    * @param string $hook an array containing details of the hook we're doing
+    */
+    public function do_hook_action($hook) {
+
+        $mod = $hook[0];
+        $file = $hook[1];
+        $function = $hook[2];
 
         if ($mod == "" || $file = "" || $function = "") {
             return false;
