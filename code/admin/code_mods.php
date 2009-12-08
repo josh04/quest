@@ -90,12 +90,9 @@ class code_mods extends _code_admin {
     * collects information about a hook and then formats it
     *
     * @param string $hook the id of the hook being probed
-    * @global $hooks
     * @return string html
     */
     public function parse_hook($hook) {
-        global $hooks;
-
         $path = "./hooks/".$hook."/config.xml";
 
         if (!file_exists($path)) {
@@ -104,8 +101,8 @@ class code_mods extends _code_admin {
 
         $xml = simplexml_load_file($path);
 
-        if ($hooks) {
-            foreach($hooks as $a_hook) {
+        if ($this->hooks->hook_array) {
+            foreach($this->hooks->hook_array as $a_hook) {
                 if(in_array($hook,$a_hook[0])) {
                     $install =  $this->skin->mod_installed();
                     $installed = true;
@@ -119,11 +116,11 @@ class code_mods extends _code_admin {
         }
 
         if (isset($xml->modurl)) {
-            $xml->title = $xml->title . " (<a href='".$xml->modurl."'>site</a>)";
+            $xml->title = $xml->title . $this->skin->site_link($xml->modurl);
         }
 
         if (isset($xml->authorurl)) {
-            $xml->author = "<a href='".$xml->authorurl."'>".$xml->author."</a>";
+            $xml->author = $this->skin->author_link($xml->author, $xml->authorurl);
         }
 
         if ($installed) {
@@ -183,13 +180,13 @@ class code_mods extends _code_admin {
         $xml = simplexml_load_file($path);
 
         if ($xml->hook) {
-            $install_guide .= "<li>Hook into <em>".$xml->hook->attributes()."</em></li>";
+            $install_guide .= $this->skin->hook_into($xml->hook->attributes());
         }
 
         if ($xml->settings) {
             foreach($xml->settings->children() as $key=>$value) {
                 if ($value) {
-                    $key = $key." (default: ".$value.")";
+                    $key = $key.$this->skin->setting_default($value);
                 }
                 $install_guide .= "<li>Register the setting <em>".$key."</em></li>";
             }

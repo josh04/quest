@@ -25,11 +25,13 @@ class code_index extends code_common {
         $code_stats->skin =& $code_stats->page_generation->make_skin('skin_stats');
         $stats = $code_stats->stats_table($message);
 
-        $extra = $this->do_hook("home/extra");
+        $this->core("hooks");
+
+        $extra = $this->hooks->get("home/extra");
 
         $online_list = $this->online_list();
 
-        $header  = $this->do_hook("home/header");
+        $header  = $this->hooks->get("home/header");
         $header .= $this->quest();
 
         $log = $this->log();

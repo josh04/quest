@@ -14,6 +14,13 @@ class code_page_generation {
     public $skin;
 
    /**
+    * Ajax mode disables skin dressing
+    *
+    * @var bool
+    */
+    public $ajax_mode = false;
+    
+   /**
     * tracks down which bloody skin files to use
     *
     * @param code_common $common page that's calling
@@ -213,6 +220,27 @@ class code_page_generation {
 
         print $output;
         exit;
+    }
+
+   /**
+    * Main page function.
+    *
+    * Pieces the site together.
+    *
+    * @param string $page contains the html intended to go between the menu and the bottom.
+    * @return string html
+    */
+    public function finish_page($page, $menu) {
+        $output = $this->start_header();
+
+        $output .= $menu;
+
+        if ($this->settings->get['database_report_error'] && $this->db->_output_buffer) {
+            $page = $this->skin->error_box($this->db->_output_buffer).$page;
+        }
+        $output .= $this->skin->glue($page);
+        $output .= $this->skin->footer();
+        return $output;
     }
 
 }

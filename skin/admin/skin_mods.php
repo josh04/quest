@@ -228,5 +228,51 @@ class skin_mods extends _skin_admin {
             </p>";
         return $uninstall_option;
     }
+
+   /**
+    * link to mod author
+    *
+    * @param string $author author name
+    * @param string $url author site
+    * @return string html
+    */
+    public function author_link($author, $url) {
+        $author_link = "<a href='".$url."'>".$author."</a>";
+        return $author_link;
+    }
+
+   /**
+    * link to mod site
+    *
+    * @param string $url author site
+    * @return string html
+    */
+    public function site_link($url) {
+        $site_link = " (<a href='".$url."'>site</a>)";
+        return $site_link;
+    }
+
+   /**
+    * where's it hooking into?
+    *
+    * @param string $name name of the hook (i think)
+    * @return string html
+    */
+    public function hook_into($name) {
+        $hook_into = "<li>Hook into <em>".$name."</em></li>";
+        return $hook_into;
+    }
+
+   /**
+    * default setting value
+    *
+    * @param string $default setting default
+    * @return string html
+    */
+    public function setting_default($default) {
+        $setting_default = " (default: ".$default.")";;
+        return $setting_default;
+    }
+
 }
 ?>

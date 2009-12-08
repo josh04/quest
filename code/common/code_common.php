@@ -15,11 +15,6 @@
  * @author josh04
  */
 
-define('HK_CONCAT', 0);
-define('HK_ARRAY', 1);
-define('HK_MAXIMUM', 2);
-define('HK_MINIMUM', 3);
-
 class code_common {
 
    /**
@@ -100,13 +95,6 @@ class code_common {
     public $player_class = "code_player";
 
    /**
-    * Ajax mode disables skin dressing
-    *
-    * @var bool
-    */
-    public $ajax_mode = false;
-
-   /**
     * The common constructor for every class which extends code_common.
     *
     * Accepts and sets the section name and the page name, and an optional
@@ -141,96 +129,17 @@ class code_common {
         $this->skin =& $this->page_generation->make_skin($skin_name, $override = "");
     }
 
-   /**
-    * Main page function.
-    *
-    * Pieces the site together.
-    *
-    * @param string $page contains the html intended to go between the menu and the bottom.
-    * @return string html
-    */
+
     public function finish_page($page) {
-        if (!$this->ajax_mode) {
-            $output = $this->page_generation->start_header();
-
+        if (!$this->page_generation->ajax_mode) {
             $this->core("menu");
-            $output .= $this->menu->make_menu();
-
-            if ($this->settings->get['database_report_error'] && $this->db->_output_buffer) {
-                $page = $this->skin->error_box($this->db->_output_buffer).$page;
-            }
-            $output .= $this->skin->glue($page);
-            $output .= $this->skin->footer();
+            $menu = $this->menu->make_menu();
+            $output = $this->page_generation->finish_page($page, $menu);
         } else {
             $output = $page;
         }
+
         return $output;
-    }
-
-   /**
-    * performs a hook action
-    *
-    * @param string $hook name of the hook to be executed
-    * @param constant (HK_*) $method how to return the hooks
-    * @return mixed whatever the hooks do
-    */
-    public function do_hook($hook, $method = HK_CONCAT) {
-        global $hooks;
-        if(!isset($hooks[$hook])) {
-            return false;
-        }
-
-        foreach(array_unique($hooks[$hook]) as $h) {
-            $return[] = $this->do_hook_action($h);
-        }
-
-        switch ($method) {
-            case HK_ARRAY:
-                return $return;
-                break;
-
-            case HK_MAXIMUM:
-                return max($return);
-                break;
-
-            case HK_MINIMUM:
-                return min($return);
-                break;
-
-            case HK_CONCAT:
-            default:
-                return implode("", $return);
-        }
-    }
-
-   /**
-    * performs a single function for a hook
-    *
-    * @param string $hook an array containing details of the hook we're doing
-    * @return mixed whatever the hook does
-    */
-    public function do_hook_action($hook) {
-
-        $mod = $hook[0];
-        $file = $hook[1];
-        $function = $hook[2];
-
-        if ($mod == "" || $file == "" || $function == "") {
-            return false;
-        }
-
-        $include_path = "./hooks/".$mod."/".$file;
-
-        if (!file_exists($include_path)) {
-            return false;
-        }
-        
-        // So we don't include anything that slipped outside the function into the page
-        ob_start();
-            @require_once($include_path);
-        ob_end_clean();
-
-        return $function($this);
     }
 
    /**
