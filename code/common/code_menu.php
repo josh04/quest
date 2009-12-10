@@ -61,7 +61,7 @@ class code_menu extends code_common {
 
         $common->page_generation->section = $this->section;
         $common->page_generation->page = $this->page;
-        $this->skin = $common->page_generation->make_skin('skin_menu'); //(TODO) core("skin")
+        $this->skin = $common->page_generation->make_skin("skin_menu"); //(TODO) core("skin")
 
         return $this;
     }

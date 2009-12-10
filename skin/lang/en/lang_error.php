@@ -225,5 +225,15 @@ class lang_error {
     public $mod_uninstall_option_settings = "Remove relevant settings";
     public $mod_uninstall_option_sql = "This mod executed some SQL when installed. We cannot reverse this process.";
 
+    public $a_second_ago = "one second ago";
+    public $seconds_ago = " seconds ago";
+    public $a_minute_ago = "a minute ago";
+    public $minutes_ago = " minutes ago";
+    public $a_hour_ago = "an hour ago";
+    public $hours_ago = " hours ago";
+    public $yesterday = "yesterday";
+    public $days_ago = " days ago";
+    public $a_month_ago = "a month ago";
+
 }
 ?>
