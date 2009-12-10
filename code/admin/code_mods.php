@@ -188,12 +188,12 @@ class code_mods extends _code_admin {
                 if ($value) {
                     $key = $key.$this->skin->setting_default($value);
                 }
-                $install_guide .= "<li>Register the setting <em>".$key."</em></li>";
+                $install_guide .= $this->skin->setting_register($key);
             }
         }
 
         if ($xml->sql) {
-            $install_guide .= "<li>Execute the following SQL:<br /><div class='quest-select'>".$xml->sql."</div></li>";
+            $install_guide .= $this->skin->sql_execute($xml->sql);
         }
 
         $install_hook = $this->skin->install_hook_preface($hook, $xml->title, $xml->description->long, $xml->author, $xml->version, $xml->modurl, $install_guide);
@@ -222,20 +222,20 @@ class code_mods extends _code_admin {
             if (isset($xml->admin->file)) {
                 array_push($vals, strval($xml->admin->file));
             }
-            fwrite($handle, "\r\n\$hooks['".$xml->hook->attributes()."'][] = array('".implode("','", $vals)."');");
-            $returns .= "<br />Hook created";
+            fwrite($handle, "\n\$hooks['".$xml->hook->attributes()."'][] = array('".implode("','", $vals)."');");
+            $returns .= $this->skin->hook_created();
         }
 
         if ($xml->settings) {
             foreach($xml->settings->children() as $key=>$value) {
                 $this->db->execute("INSERT INTO `settings` (`name`,`value`) VALUES (?,?)", array($key, $value));
-                $returns .= "<br />Setting registered";
+                $returns .= $this->skin->setting_registered();
             }
         }
 
         if ($xml->sql) {
             $this->db->execute($xml->sql);
-            $returns .= "<br />SQL executed";
+            $returns .= $this->skin->sql_executed();
         }
 
         if ($xml->admin->file) {
@@ -289,7 +289,7 @@ class code_mods extends _code_admin {
 
         $path = "./hooks/".$hook."/config.xml";
 
-        if(empty($_POST)) {
+        if (empty($_POST)) {
             $_POST['hook'] == "on";
         }
 
@@ -308,13 +308,13 @@ class code_mods extends _code_admin {
             }
             $old = str_replace("\r\n\$hooks['".$xml->hook->attributes()."'][] = array('".implode("','", $vals)."');","",$old);
             fwrite($handle, $old);
-            $returns .= "<br />Unhooked";
+            $returns .= $this->skin->hook_removed();
         }
 
         if ($xml->settings && $_POST['settings']=="on") {
             foreach($xml->settings->children() as $key=>$value) {
                 $this->db->execute("DELETE FROM `settings` WHERE `name`=?", array($key));
-                $returns .= "<br />Setting deleted";
+                $returns .= $this->skin->setting_deleted();
             }
         }
 
