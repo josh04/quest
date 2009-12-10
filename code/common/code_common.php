@@ -164,7 +164,12 @@ class code_common {
         $success = $core_module->load_core(&$this);
 
         if ($success === false) {
-            $this->page_generation->error_page($this->lang->page_not_exist);
+            if (method_exists($this->page_generation, "error_page")) {
+                $this->page_generation->error_page($this->lang->page_not_exist);
+            } else {
+                print $this->lang->page_not_exist;
+                exit;
+            }
         } else {
             $this->$module = &$success;
         }
