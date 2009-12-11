@@ -57,10 +57,10 @@ class code_stats extends code_common {
         require_once("code/public/code_index.php");
         $code_index = new code_index($this->section, $this->page);
         $code_index->player =& $this->player;
-        $this->core("default_lang");
-        $this->core("page_generation");
-        $this->skin =& $this->page_generation->make_skin("skin_index");
-        $this->core("extra_lang");
+        $code_index->core("default_lang");
+        $code_index->core("page_generation");
+        $code_index->skin =& $this->page_generation->make_skin("skin_index");
+        $code_index->core("extra_lang");
         $index_player = $code_index->index_player($spend);
 
         return $index_player;

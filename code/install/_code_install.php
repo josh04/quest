@@ -401,7 +401,7 @@ CREATE TABLE IF NOT EXISTS `rpg` (
     */
     public function finish_page($page) {
 
-        $output = $this->start_header();
+        $output = $this->page_generation->start_header();
         $output .= $page;
         $output .= $this->skin->footer();
         
