@@ -142,5 +142,23 @@ class skin_quest extends skin_common {
         return $got_hp;
     }
 
+   /**
+    * returns the details of your current quest
+    *
+    * @param string $title name of quest
+    * @param string $author author of quest
+    * @param string $description desc of quest
+    * @return string html
+    */
+    public function frontpage_current_quest($title, $author, $description) {
+        $current_quest = "<div class='quest-select'>
+        <a style='float:right;' href='index.php?section=public&amp;page=quest'>See your progress</a>
+        <h3>".$quest['title']."</h3>
+        Author: ".$quest['author']."<br />
+        <p>".$quest['description']."</p></div>";
+        return $current_quest;
+    }
+
+
 }
 ?>

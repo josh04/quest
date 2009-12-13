@@ -9,3 +9,4 @@ $hooks['home/extra'][] = array('frontpage_log','log.php','log_box');
 $hooks['home/extra'][] = array('frontpage_mail','mail.php','mail_box');
 
 $hooks['home/extra'][] = array('frontpage_news','main.php','frontpage_news','admin.php');
+$hooks['home/header'][] = array('frontpage_quest','quest','quest');

@@ -21,12 +21,11 @@ class code_index extends code_common {
         
         $this->core("hooks");
 
+        $header  = $this->hooks->get("home/header");
         $extra = $this->hooks->get("home/extra");
         
-        $header  = $this->hooks->get("home/header");
-        $header .= $this->quest();
 
-        $index_player = $this->skin->index_player($this->player, $header, $stats, $online_list, $extra);
+        $index_player = $this->skin->index_player($this->player->username, $header, $extra);
         return $index_player;
     }
 
@@ -54,11 +53,19 @@ class code_index extends code_common {
     * @return string html
     */
     public function quest() {
-        preg_match("/\A([0-9]+):([0-9a-z]+)/is",$this->player->quest,$m);
-        if(!$m[1]) return '';
-        $currentq = $this->db->execute("SELECT * FROM `quests` WHERE `id`=?",array($m[1]));
-        if($currentq->numrows()!=1) return '';
-        $quest = $this->skin->current_quest($currentq->fetchrow());
+        preg_match("/\A([0-9]+):([0-9a-z]+)/is",$this->player->quest,$match);
+
+        if (!$match[1]) {
+            return '';
+        }
+
+        $quest_query = $this->db->execute("SELECT * FROM `quests` WHERE `id`=?",array($match[1]));
+
+        if ($quest_query->numrows() != 1) {
+            return '';
+        }
+
+        $quest = $this->skin->current_quest($quest_query->fetchrow());
         return $quest;
     }
 

@@ -14,14 +14,12 @@ class skin_index extends skin_common {
     *
     * @param player $player player object
     * @param string $header what to display at the top of the page
-    * @param string $stats stats html
-    * @param string $online names of online players
     * @param string $extra any extra html to display at the bottom (hook: home/extra)
     * @return string html
     */
-    public function index_player($player, $header, $stats, $online_list, $extra = "") {
+    public function index_player($username, $header, $extra = "") {
         $index_player = "
-                <h2>Welcome, ".$player->username."</h2>
+                <h2>Welcome, ".$username."</h2>
             ".$header."
 
             ".$extra;
@@ -93,21 +91,7 @@ class skin_index extends skin_common {
         $news_entry = "<div>".$message."<br /> - <a href='index.php?section=public&amp;page=profile&amp;id=".$id."'>".$username."</a></div>";
       return $news_entry;
     }
-
-   /**
-    * returns the details of your current quest
-    *
-    * @param array $quest what you're doing
-    * @return string html
-    */
-    public function current_quest($quest) {
-        return "<div class='quest-select'>
-        <a style='float:right;' href='index.php?section=public&amp;page=quest'>See your progress</a>
-        <h3>".$quest['title']."</h3>
-        Author: ".$quest['author']."<br />
-        <p>".$quest['description']."</p></div>";
-    }
-
+    
    /**
     * returns the registration form
     *
