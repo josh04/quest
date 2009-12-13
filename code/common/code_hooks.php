@@ -15,6 +15,7 @@ define('HK_MINIMUM', 3);
 class code_hooks {
 
     public $hook_array = array();
+    private $common;
 
    /**
     * core modules loading function
@@ -23,6 +24,11 @@ class code_hooks {
     * @return code_hooks this
     */
     public function load_core($common) {
+        require('hooks/index.php');
+
+        $this->hook_array = $hooks;
+
+        $this->common =& $common; // CHEATING
         return $this;
     }
 
@@ -91,7 +97,7 @@ class code_hooks {
             @require_once($include_path);
         ob_end_clean();
 
-        return $function($this);
+        return $function(&$this->common);
     }
 }
 ?>

@@ -52,8 +52,10 @@ class code_player_rpg extends code_player {
 
    /**
     * extra db insert stuff
+    *
+    * @param bool $just just do the rpg?
     */
-    public function update_player() {
+    public function update_player($just = false) {
 
         if ($this->exp > $this->exp_max) {
             $this->level++;
@@ -83,8 +85,9 @@ class code_player_rpg extends code_player {
 
 
         $this->db->AutoExecute('rpg', $rpg_update_query, 'UPDATE', '`player_id`='.$this->id);
-
-        parent::update_player();
+        if (!$just) {
+            parent::update_player();
+        }
     }
 
    /**

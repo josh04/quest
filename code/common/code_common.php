@@ -127,9 +127,20 @@ class code_common {
         $this->core("extra_lang");
         $this->core("page_generation");
         $this->skin =& $this->page_generation->make_skin($skin_name, $override = "");
+        
+        if (!$this->player->allowed) {
+            $this->page_generation->error_page($this->lang->page_not_exist);
+        }
+        
+        
     }
 
-
+   /**
+    * passes through to page_generation finish_page
+    *
+    * @param string $page page to be made
+    * @return string html
+    */
     public function finish_page($page) {
         if (!$this->page_generation->ajax_mode) {
             $this->core("menu");
@@ -161,15 +172,15 @@ class code_common {
         $class_name = "code_".$module;
         
         $core_module = new $class_name($this->settings, $this->config);
-        $success = $core_module->load_core(&$this);
+        
+        $success = false;
+        
+        if (method_exists($core_module, "load_core")) {
+            $success = $core_module->load_core(&$this);
+        }
 
-        if ($success === false) {
-            if (method_exists($this->page_generation, "error_page")) {
-                $this->page_generation->error_page($this->lang->page_not_exist);
-            } else {
-                print $this->lang->page_not_exist;
-                exit;
-            }
+        if ($success == false) {
+            $this->$module = &$core_module;
         } else {
             $this->$module = &$success;
         }

@@ -15,7 +15,7 @@ class code_mods extends _code_admin {
     */
     public function construct() {
         $this->initiate("skin_mods");
-
+        $this->core("hooks");
         $code_mods = $this->mods_switch();
 
         return $code_mods;
@@ -75,7 +75,7 @@ class code_mods extends _code_admin {
             $hooks = array(intval($_GET['id']));
         }
 
-        foreach($hooks as $hook) {
+        foreach ($hooks as $hook) {
             $hooks_rows .= $this->parse_hook($hook);
         }
 
@@ -89,11 +89,11 @@ class code_mods extends _code_admin {
    /**
     * collects information about a hook and then formats it
     *
-    * @param string $hook the id of the hook being probed
+    * @param string $hook_name the id of the hook being probed
     * @return string html
     */
-    public function parse_hook($hook) {
-        $path = "./hooks/".$hook."/config.xml";
+    public function parse_hook($hook_name) {
+        $path = "./hooks/".$hook_name."/config.xml";
 
         if (!file_exists($path)) {
             return false;
@@ -102,10 +102,12 @@ class code_mods extends _code_admin {
         $xml = simplexml_load_file($path);
 
         if ($this->hooks->hook_array) {
-            foreach($this->hooks->hook_array as $a_hook) {
-                if(in_array($hook,$a_hook[0])) {
-                    $install =  $this->skin->mod_installed();
-                    $installed = true;
+            foreach ($this->hooks->hook_array as $hook_type) {
+                foreach($hook_type as $hook) {
+                    if ($hook[0] == $hook_name) {
+                        $install = $this->skin->mod_installed();
+                        $installed = true;
+                    }
                 }
             }
         }
@@ -125,11 +127,11 @@ class code_mods extends _code_admin {
 
         if ($installed) {
             if (isset($xml->admin)) {
-                $action = $this->skin->edit_link($hook);
+                $action = $this->skin->edit_link($hook_name);
             }
-            $action .= $this->skin->uninstall_link($hook);
+            $action .= $this->skin->uninstall_link($hook_name);
         } else {
-            $action = $this->skin->install_link($hook);
+            $action = $this->skin->install_link($hook_name);
         }
 
         return $this->skin->single_hook($xml->title, $xml->description->long, $xml->author, $install, $action);

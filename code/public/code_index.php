@@ -18,13 +18,14 @@ class code_index extends code_common {
     * @return string html
     */
     public function index_player($message = "") {
+        /*
         require_once("code/public/code_stats.php"); //(TODO) not site-independent
         $code_stats = new code_stats($this->section, $this->page);
         $code_stats->player =& $this->player;
         $code_stats->core("page_generation");
         $code_stats->skin =& $code_stats->page_generation->make_skin('skin_stats');
         $stats = $code_stats->stats_table($message);
-
+*/
         $this->core("hooks");
 
         $extra = $this->hooks->get("home/extra");

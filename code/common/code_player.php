@@ -50,11 +50,7 @@ class code_player {
 
         $this->page = $common->page;
         //Is our player a member, or a guest?
-        $allowed = $this->make_player();
-        
-        if (!$allowed) {
-            return false;
-        }
+        $this->allowed = $this->make_player();
         
         return $this;
     }

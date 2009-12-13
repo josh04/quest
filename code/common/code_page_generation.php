@@ -46,7 +46,7 @@ class code_page_generation {
     * @param string $override special skin name
     * @return skin_common tha skin!
     */
-    public function make_skin($skin_name = "", $override = "") {
+    public function &make_skin($skin_name = "", $override = "") {
         $alternative_skin = "";
 
         // Is there a default skin in the settings?

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mod>
+    <title>Front page stats</title>
+    <author>josh04</author>
+    <version>1.0</version>
+    <description>
+        <short>Displays rpg stats info on the front page</short>
+        <long>Displays the rpg values, and if the player has spare stats points allows them to upgrade.</long>
+    </description>
+    <modurl></modurl>
+    <authorurl></authorurl>
+
+    <hook id="home/extra">
+        <file>main.php</file>
+        <function>stats_table</function>
+    </hook>
+    
+</mod>
