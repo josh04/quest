@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mod>
+    <title>Front page users online</title>
+    <author>josh04</author>
+    <version>1.0</version>
+    <description>
+        <short>Displays online users.</short>
+        <long>Shows who is online on the front page.</long>
+    </description>
+    <modurl></modurl>
+    <authorurl></authorurl>
+
+    <hook id="home/extra">
+        <file>online.php</file>
+        <function>online</function>
+    </hook>
+    
+</mod>

@@ -130,7 +130,6 @@ class _code_install extends code_common {
     public $pages_insert_query = "
         INSERT INTO `pages` (`id`, `name`, `section`, `redirect`) VALUES
         (1, 'login', 'public', 'login'),
-        (2, 'stats', 'public', 'stats'),
         (3, 'log', 'public', 'laptop'),
         (4, 'items', 'public', 'inventory,store'),
         (5, 'bank', 'public', 'bank'),

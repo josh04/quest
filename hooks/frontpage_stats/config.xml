@@ -11,7 +11,7 @@
     <authorurl></authorurl>
 
     <hook id="home/extra">
-        <file>main.php</file>
+        <file>stats.php</file>
         <function>stats_table</function>
     </hook>
     

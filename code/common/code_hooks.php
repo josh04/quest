@@ -47,7 +47,8 @@ class code_hooks {
             return false;
         }
 
-        foreach(array_unique($this->hook_array[$hook]) as $h) {
+        // removed array_unique as it has 'issues' with multi-dimensional arrays
+        foreach($this->hook_array[$hook] as $h) {
             $return[] = $this->run_hook($h);
         }
 
@@ -91,7 +92,7 @@ class code_hooks {
         if (!file_exists($include_path)) {
             return false;
         }
-
+        
         // So we don't include anything that slipped outside the function into the page
         ob_start();
             @require_once($include_path);

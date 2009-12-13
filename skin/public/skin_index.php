@@ -16,41 +16,15 @@ class skin_index extends skin_common {
     * @param string $header what to display at the top of the page
     * @param string $stats stats html
     * @param string $online names of online players
-    * @param string $log recent log items
-    * @param string $mail recent mail messages
     * @param string $extra any extra html to display at the bottom (hook: home/extra)
     * @return string html
     */
-    public function index_player($player, $header, $stats, $online_list, $log, $mail, $extra) {
+    public function index_player($player, $header, $stats, $online_list, $extra = "") {
         $index_player = "
                 <h2>Welcome, ".$player->username."</h2>
             ".$header."
-            <table><tr><td style=\"width:50%;padding:8px;\">
-            <strong>Level:</strong> ".$player->level."<br />
-            <strong>XP:</strong> ".$player->exp." (".($player->exp_max-$player->exp)." to next level)<br />
-            <strong>HP:</strong> ".$player->hp." (".$player->hp_percent."%)<br />
-            <strong>Energy:</strong> ".$player->energy."/".$player->energy_max."<br />
-            <strong>Registered:</strong> ".$player->registered_date."<br />
-            <strong>Last active:</strong> ".date("jS M, h:i A",$player->last_active)."
-            </td><td style=\"width:50%;\">
-            ".$stats."
-            </td></tr></table>
 
-            <h4>Users online</h4>
-            <div class=\"success\" style=\"margin: 8px;\">".$online_list."</div>
-
-            <div style=\"width:45%;float:left;\">
-            <h4>Your log (<a href=\"index.php?section=public&amp;page=laptop\">more</a>)</h4>
-            ".$log."
-            </div>
-
-            <div style=\"width:45%;float:right;\">
-            <h4>Recent mail (<a href=\"index.php?section=public&amp;page=mail\">more</a>)</h4>
-            ".$mail."
-            </div>
-            <br style=\"clear:both;\" />
-
-            ".($extra?$extra:"");
+            ".$extra;
         return $index_player;
     }
 
@@ -83,13 +57,25 @@ class skin_index extends skin_common {
     }
 
    /**
+    * frontpage users online box
+    *
+    * @param string $users who's there?
+    * @return string html
+    */
+    public function frontpage_online_box($users) {
+        $online_box = "<h4>Users online</h4>
+            <div class='success' style='margin: 8px;'>".$users."</div>";
+        return $online_box;
+    }
+
+   /**
     * returns the member name link
     *
     * @param integer $id user id
     * @param string $username username
     * @return string html
     */
-    public function member_online_link($id, $username) {
+    public function frontpage_online_link($id, $username) {
         $member_online_link = "<a href='index.php?section=public&amp;page=profile&amp;id=".$id."'>".$username."</a>";
         return $member_online_link;
 
@@ -106,30 +92,6 @@ class skin_index extends skin_common {
     public function news_entry($id, $username, $message) {
         $news_entry = "<div>".$message."<br /> - <a href='index.php?section=public&amp;page=profile&amp;id=".$id."'>".$username."</a></div>";
       return $news_entry;
-    }
-
-   /**
-    * returns a log entry
-    *
-    * @param string $message the content of the log entry
-    * @param integer $status the status of the log entry (read or unread)
-    * @return string html
-    */
-    public function log_entry($message, $status) {
-        $log_entry = "<div style='border:1px solid #CCC;margin:4px;padding:4px;".($status==0?"background-color:#FCC;":"")."'>".$message."</div>";
-        return $log_entry;
-    }
-
-   /**
-    * returns a mail message
-    *
-    * @param array $message the details of the message
-    * @return string html
-    */
-    public function mail_entry($message) {
-        $mail_entry = "<em><a href=\"?section=public&amp;page=mail&amp;action=read&amp;id=".$message['id']."\">" . $message['subject'] . "</a></em><br />From: ".$message['username'];
-        $mail_entry = $this->log_entry($mail_entry, $message['status']);
-        return $mail_entry;
     }
 
    /**

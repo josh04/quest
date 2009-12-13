@@ -28,13 +28,18 @@ function stats_table($common) {
     }
 
     if ($common->player->is_member == 1 && $common->player->stat_points > 0) {
-        $stats_link = $skin->stats_link($common->player->stat_points);
-        $stats_table = $skin->stats_table_can_spend($common->player->strength, $common->player->vitality, $common->player->agility);
+        $stats_table = $skin->stats_table_can_spend($common->player->stat_points, $common->player->strength,
+            $common->player->vitality, $common->player->agility);
     } else {
         $stats_table = $skin->stats_table($common->player->strength, $common->player->vitality, $common->player->agility);
     }
 
-    return $message.$stats_link.$stats_table;
+    $table = $skin->common_table($stats_table, $common->player->level, $common->player->exp,
+        $common->player->exp_max, $common->player->hp, $common->player->hp_max, $common->player->energy,
+        $common->player->energy_max, $common->page_generation->format_time($common->player->registered),
+        $common->page_generation->format_time($common->player->last_active), $message);
+
+    return $table;
     
 }
 

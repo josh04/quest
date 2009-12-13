@@ -18,44 +18,16 @@ class code_index extends code_common {
     * @return string html
     */
     public function index_player($message = "") {
-        /*
-        require_once("code/public/code_stats.php"); //(TODO) not site-independent
-        $code_stats = new code_stats($this->section, $this->page);
-        $code_stats->player =& $this->player;
-        $code_stats->core("page_generation");
-        $code_stats->skin =& $code_stats->page_generation->make_skin('skin_stats');
-        $stats = $code_stats->stats_table($message);
-*/
+        
         $this->core("hooks");
 
         $extra = $this->hooks->get("home/extra");
-
-        $online_list = $this->online_list();
-
+        
         $header  = $this->hooks->get("home/header");
         $header .= $this->quest();
 
-        $log = $this->log();
-        $mail = $this->mail();
-
-        $index_player = $this->skin->index_player($this->player, $header, $stats, $online_list, $log, $mail, $extra);
+        $index_player = $this->skin->index_player($this->player, $header, $stats, $online_list, $extra);
         return $index_player;
-    }
-
-   /**
-    * builds the online list
-    *
-    * @return string html
-    */
-    public function online_list() {
-        $online_query = $this->db->execute("SELECT id, username FROM players WHERE (last_active > (?))", array((time()-(60*15))));
-
-        $online_list = "";
-        while($online = $online_query->fetchrow()) {
-            $online_list[] = $this->skin->member_online_link($online['id'], $online['username']);
-        }
-        
-        return implode(", ",$online_list);
     }
 
    /**
@@ -88,56 +60,6 @@ class code_index extends code_common {
         if($currentq->numrows()!=1) return '';
         $quest = $this->skin->current_quest($currentq->fetchrow());
         return $quest;
-    }
-
-   /**
-    * recent stuff from your log
-    *
-    * @return string html
-    */
-    public function log() {
-        $log_query = $this->db->execute("SELECT `message`, `status` FROM `user_log` WHERE `player_id`=? ORDER BY `time` DESC LIMIT 5",array($this->player->id));
-
-        if (!$log_query) {
-            $log = $this->skin->log_entry($this->lang->error_getting_log, 0);
-        }
-        
-        if ($log_query->numrows() == 0) {
-            $log = $this->skin->log_entry($this->lang->no_laptop_message, 0);
-        }
-
-        while($log_entry = $log_query->fetchrow()) {
-            $log .= $this->skin->log_entry($log_entry['message'], $log_entry['status']);
-        }
-
-        return $log;
-    }
-
-   /**
-    * recent mail messages
-    *
-    * @return string html
-    */
-    public function mail() {
-        $mail_query = $this->db->execute("SELECT `mail`.`id`, `mail`.`from`, `mail`.`status`, `mail`.`subject`, `players`.`username`
-                          FROM `mail`
-                          INNER JOIN `players` ON `players`.`id` = `mail`.`from`
-                          WHERE `to`=? ORDER BY `time` DESC LIMIT 5",array($this->player->id));
-
-        if (!$mail_query) {
-            $this->skin->log_entry($this->lang->error_getting_mail, 0);
-        }
-
-        if ($mail_query->numrows()==0) {
-            $mail = $this->skin->log_entry($this->lang->no_messages_long, 0);
-        }
-
-        while($mail_row = $mail_query->fetchrow()) {
-            $mail_row['subject'] = str_replace(array("<",">"),array("&lt;","&gt;"),$mail_row['subject']);
-            $mail .= $this->skin->mail_entry($mail_row);
-        }
-
-        return $mail;
     }
 
    /**

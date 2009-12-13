@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mod>
+    <title>Front page log</title>
+    <author>josh04</author>
+    <version>1.0</version>
+    <description>
+        <short>Displays recent laptop messages on the front page.</short>
+        <long>Displays recent laptop messages on the front page.</long>
+    </description>
+    <modurl></modurl>
+    <authorurl></authorurl>
+
+    <hook id="home/extra">
+        <file>log.php</file>
+        <function>log_box</function>
+    </hook>
+    
+</mod>
