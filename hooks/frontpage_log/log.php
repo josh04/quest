@@ -17,7 +17,7 @@ function log_box($common) {
     $log_query = $common->db->execute("SELECT `message`, `status` FROM `user_log` 
         WHERE `player_id`=? ORDER BY `time` DESC LIMIT 5",array($common->player->id));
 
-    $skin = $common->page_generation->make_skin("skin_log");
+    $skin = $common->page_generation->make_skin("skin_log", '', 'public');
     
     if (!$log_query) {
         $logs = $skin->error_box($common->lang->error_getting_log);

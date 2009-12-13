@@ -15,7 +15,7 @@
 function stats_table($common) {
     $common->core("rpg_stats");
     
-    $skin = $common->page_generation->make_skin("skin_stats");
+    $skin = $common->page_generation->make_skin("skin_stats", '', 'public');
 
     if ($_GET['action'] == "spend" && $common->player->stat_points > 0) {
         $success = $common->rpg_stats->spend($_POST['stat']);

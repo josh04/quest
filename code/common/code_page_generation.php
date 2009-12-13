@@ -44,9 +44,10 @@ class code_page_generation {
     *
     * @param string $skin_name skin name
     * @param string $override special skin name
+    * @param string $section override page section
     * @return skin_common tha skin!
     */
-    public function &make_skin($skin_name = "", $override = "") {
+    public function &make_skin($skin_name = "", $override = "", $section = "") {
         $alternative_skin = "";
 
         // Is there a default skin in the settings?
@@ -63,6 +64,10 @@ class code_page_generation {
         if ($override) {
             $alternative_skin = $override;
         }
+
+        if (!$section) {
+            $section = $this->section;
+        }
         
         if ($alternative_skin) {
             // If there is an alternate skin_common to be load, do so.
@@ -70,23 +75,23 @@ class code_page_generation {
                         require_once("skin/".$alternative_skin."/common/".$alternative_skin."_skin_common.php");
             }
             // If there is a alternate, section-specific skin_common to load, do so.
-            if (file_exists("skin/".$alternative_skin."/".$this->section."/_skin_".$this->section.".php")) {
-                        require_once("skin/".$alternative_skin."/".$this->section."/_skin_".$this->section.".php");
-            } else if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) {
+            if (file_exists("skin/".$alternative_skin."/".$section."/_skin_".$section.".php")) {
+                        require_once("skin/".$alternative_skin."/".$section."/_skin_".$section.".php");
+            } else if (file_exists("skin/".$section."/_skin_".$section.".php")) {
                 // If there's a section-specific skin_common NOT of a custom skin, load that.
-                require_once("skin/".$this->section."/_skin_".$this->section.".php");
+                require_once("skin/".$section."/_skin_".$section.".php");
             }
-        } else if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) { // conflicting class names
+        } else if (file_exists("skin/".$section."/_skin_".$section.".php")) { // conflicting class names
             // ditto the above
-            require_once("skin/".$this->section."/_skin_".$this->section.".php");
+            require_once("skin/".$section."/_skin_".$section.".php");
         }
         if ($skin_name) {
             // Load the main event, as it were. The default requested skin file.
-            require_once("skin/".$this->section."/".$skin_name.".php");
+            require_once("skin/".$section."/".$skin_name.".php");
             if ($alternative_skin) {
                 // If there's an alternate skin version, grab that too and change the class name to be loaded.
-                if (file_exists("skin/".$alternative_skin."/".$this->section."/".$alternative_skin."_".$skin_name.".php")) {
-                    require_once("skin/".$alternative_skin."/".$this->section."/".$alternative_skin."_".$skin_name.".php");
+                if (file_exists("skin/".$alternative_skin."/".$section."/".$alternative_skin."_".$skin_name.".php")) {
+                    require_once("skin/".$alternative_skin."/".$section."/".$alternative_skin."_".$skin_name.".php");
                     $skin_class_name = $alternative_skin."_".$skin_name;
                 } else {
                     $skin_class_name = $skin_name;

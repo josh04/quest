@@ -16,7 +16,7 @@
  */
 function quest($common) {
         preg_match("/\A([0-9]+):([0-9a-z]+)/is", $common->player->quest, $match);
-        $skin = $common->page_generation->make_skin('skin_quest');
+        $skin = $common->page_generation->make_skin('skin_quest', '', 'public');
         if (!$match[1]) {
             return '';
         }

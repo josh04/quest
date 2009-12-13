@@ -223,10 +223,8 @@ class skin_mail extends skin_common {
     * @return string html
     */
     public function frontpage_mail($id, $username, $subject) {
-        $mail_entry = "<em><a href='index.php?section=public&amp;page=mail&amp;action=read&amp;id=".$id."'>".
-           $subject . "</a></em><br />From: ".$username;
-
-        $mail_entry = $this->log_entry($mail_entry, $message['status']);
+        $mail_entry = "<div><em><a href='index.php?section=public&amp;page=mail&amp;action=read&amp;id=".$id."'>".
+           $subject . "</a></em><br />From: ".$username."</div>";
         return $mail_entry;
     }
 

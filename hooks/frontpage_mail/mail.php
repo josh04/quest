@@ -19,7 +19,7 @@ function mail_box($common) {
                       INNER JOIN `players` ON `players`.`id` = `mail`.`from`
                       WHERE `to`=? ORDER BY `time` DESC LIMIT 5", array($common->player->id));
 
-    $skin = $common->page_generation->make_skin('skin_mail');
+    $skin = $common->page_generation->make_skin('skin_mail', '', 'public');
     if (!$mail_query) {
         $mail = $skin->error_box($common->lang->error_getting_mail);
     }
@@ -32,7 +32,7 @@ function mail_box($common) {
         if ($mail_row['status']) {
             $mail .= $skin->frontpage_mail($mail_row['id'], $mail_row['username'], $mail_row['subject']);
         } else {
-            $mail .= $skin->success_box($skin->mail_entry($mail_row['id'], $mail_row['username'], $mail_row['subject']));
+            $mail .= $skin->success_box($skin->frontpage_mail($mail_row['id'], $mail_row['username'], $mail_row['subject']));
         }
     }
 
