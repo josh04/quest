@@ -35,7 +35,7 @@ function stats_table($common) {
     }
 
     $table = $skin->common_table($stats_table, $common->player->level, $common->player->exp,
-        $common->player->exp_max, $common->player->hp, $common->player->hp_max, $common->player->energy,
+        $common->player->exp_max, $common->player->hp, $common->player->hp_percent, $common->player->energy,
         $common->player->energy_max, $common->page_generation->format_time($common->player->registered),
         $common->page_generation->format_time($common->player->last_active), $message);
 

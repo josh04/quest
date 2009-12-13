@@ -92,7 +92,7 @@ class skin_stats extends skin_common {
     * @param string $message error message
     * @return string html
     */
-    public function common_table($stats, $level, $exp, $exp_max, $hp, $hp_max,
+    public function common_table($stats, $level, $exp, $exp_max, $hp, $hp_percent,
             $energy, $energy_max, $registered, $last_active, $message = "") {
         $common_table = $message."<table><tr><td style=\"width:50%;padding:8px;\">
             <strong>Level:</strong> ".$level."<br />

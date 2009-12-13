@@ -48,28 +48,6 @@ class code_index extends code_common {
     }
 
    /**
-    * current quest
-    *
-    * @return string html
-    */
-    public function quest() {
-        preg_match("/\A([0-9]+):([0-9a-z]+)/is",$this->player->quest,$match);
-
-        if (!$match[1]) {
-            return '';
-        }
-
-        $quest_query = $this->db->execute("SELECT * FROM `quests` WHERE `id`=?",array($match[1]));
-
-        if ($quest_query->numrows() != 1) {
-            return '';
-        }
-
-        $quest = $this->skin->current_quest($quest_query->fetchrow());
-        return $quest;
-    }
-
-   /**
     * builds the guest index. losers :P
     *
     * @return string html

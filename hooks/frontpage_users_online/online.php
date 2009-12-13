@@ -16,13 +16,13 @@
  */
 function online($common) {
         $online_query = $common->db->execute("SELECT id, username FROM players WHERE (last_active > (?))", array((time()-(60*15))));
-
+        $skin = $common->page_generation->make_skin("skin_index");
         $online_list = "";
         while($online = $online_query->fetchrow()) {
-            $online_list[] = $common->skin->frontpage_online_link($online['id'], $online['username']);
+            $online_list[] = $skin->frontpage_online_link($online['id'], $online['username']);
         }
         
-        return $common->skin->frontpage_online_box(implode(", ",$online_list));
+        return $skin->frontpage_online_box(implode(", ",$online_list));
 }
 
 ?>
