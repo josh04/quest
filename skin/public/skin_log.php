@@ -39,5 +39,31 @@ class skin_log extends skin_common {
         $log_unread = "<fieldset><legend>Unread</legend>".$log."</fieldset>";
         return $log_unread;
     }
+
+   /**
+    * frontpage log box
+    *
+    * @param string $logs preparsed logs
+    * @return string html
+    */
+    public function frontpage_logs($logs) {
+        $log_box = "<div style='width:45%;float:left;'>
+            <h4>Your log (<a href='index.php?section=public&amp;page=laptop'>more</a>)</h4>
+            ".$logs."
+            </div>";
+        return $log_box;
+    }
+
+   /**
+    * single, boring log
+    *
+    * @param string $message log to show
+    * @return string html
+    */
+    public function frontpage_log($message) {
+        $log = "<div>".$message."</div>";
+        return $log;
+    }
+
 }
 ?>

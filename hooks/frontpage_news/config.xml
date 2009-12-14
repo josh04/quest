@@ -7,7 +7,8 @@
         <short>Adds news articles to the home page</short>
         <long>Allows you to write articles, or draw them from an RSS feed, and add them to your users' home page</long>
     </description>
-    <authorurl>http://www.55thscouts.com/</authorurl>
+    <modurl>http://www.phpquest.com/?page=mod&amp;fid=45</modurl>
+    <authorurl>http://www.gregarious.uni.cc/</authorurl>
 
     <settings>
         <frontpage_news_mode>manual</frontpage_news_mode>

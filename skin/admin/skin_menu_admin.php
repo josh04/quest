@@ -48,7 +48,9 @@ class skin_menu_admin extends _skin_admin {
     *
     * @param string $menu_html rooooows
     * @param string $menu_entry have they tried to make one already?
-    * @param string $message error? (TODO) Not every function should have to have $message as a variable. Maybe tag a global variable into skin_common?
+    * @param string $message error?
+    * (TODO) Not every function should have to have $message as a variable.
+    * Maybe tag a global variable into skin_common?
     * @return string html
     */
     public function menu_wrap($menu_html, $menu_entry, $message="") {

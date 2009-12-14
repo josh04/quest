@@ -14,6 +14,13 @@ class code_page_generation {
     public $skin;
 
    /**
+    * Ajax mode disables skin dressing
+    *
+    * @var bool
+    */
+    public $ajax_mode = false;
+    
+   /**
     * tracks down which bloody skin files to use
     *
     * @param code_common $common page that's calling
@@ -37,9 +44,10 @@ class code_page_generation {
     *
     * @param string $skin_name skin name
     * @param string $override special skin name
+    * @param string $section override page section
     * @return skin_common tha skin!
     */
-    public function make_skin($skin_name = "", $override = "") {
+    public function &make_skin($skin_name = "", $override = "", $section = "") {
         $alternative_skin = "";
 
         // Is there a default skin in the settings?
@@ -51,35 +59,39 @@ class code_page_generation {
         if ($this->player->skin) {
             $alternative_skin = $this->player->skin;
         }
-
+        
         // Does the module specify a skin which must be used?
         if ($override) {
             $alternative_skin = $override;
         }
 
+        if (!$section) {
+            $section = $this->section;
+        }
+        
         if ($alternative_skin) {
             // If there is an alternate skin_common to be load, do so.
             if (file_exists("skin/".$alternative_skin."/common/".$alternative_skin."_skin_common.php")) {
                         require_once("skin/".$alternative_skin."/common/".$alternative_skin."_skin_common.php");
             }
             // If there is a alternate, section-specific skin_common to load, do so.
-            if (file_exists("skin/".$alternative_skin."/".$this->section."/_skin_".$this->section.".php")) {
-                        require_once("skin/".$alternative_skin."/".$this->section."/_skin_".$this->section.".php");
-            } else if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) {
+            if (file_exists("skin/".$alternative_skin."/".$section."/_skin_".$section.".php")) {
+                        require_once("skin/".$alternative_skin."/".$section."/_skin_".$section.".php");
+            } else if (file_exists("skin/".$section."/_skin_".$section.".php")) {
                 // If there's a section-specific skin_common NOT of a custom skin, load that.
-                require_once("skin/".$this->section."/_skin_".$this->section.".php");
+                require_once("skin/".$section."/_skin_".$section.".php");
             }
-        } else if (file_exists("skin/".$this->section."/_skin_".$this->section.".php")) { // conflicting class names
+        } else if (file_exists("skin/".$section."/_skin_".$section.".php")) { // conflicting class names
             // ditto the above
-            require_once("skin/".$this->section."/_skin_".$this->section.".php");
+            require_once("skin/".$section."/_skin_".$section.".php");
         }
         if ($skin_name) {
             // Load the main event, as it were. The default requested skin file.
-            require_once("skin/".$this->section."/".$skin_name.".php");
+            require_once("skin/".$section."/".$skin_name.".php");
             if ($alternative_skin) {
                 // If there's an alternate skin version, grab that too and change the class name to be loaded.
-                if (file_exists("skin/".$alternative_skin."/".$this->section."/".$alternative_skin."_".$skin_name.".php")) {
-                    require_once("skin/".$alternative_skin."/".$this->section."/".$alternative_skin."_".$skin_name.".php");
+                if (file_exists("skin/".$alternative_skin."/".$section."/".$alternative_skin."_".$skin_name.".php")) {
+                    require_once("skin/".$alternative_skin."/".$section."/".$alternative_skin."_".$skin_name.".php");
                     $skin_class_name = $alternative_skin."_".$skin_name;
                 } else {
                     $skin_class_name = $skin_name;
@@ -102,14 +114,11 @@ class code_page_generation {
                 $skin = new skin_common;
             }
         }
-
+        
         // Some quick lang naughtiness.
         $skin->lang =& $this->lang;
-
-        $this->skin =& $skin;
-
-        if (!isset($common->skin)) {
-            $common->skin =& $skin;
+        if (!isset($this->skin)) {
+            $this->skin =& $skin;
         }
 
         return $skin;
@@ -215,5 +224,79 @@ class code_page_generation {
         exit;
     }
 
+   /**
+    * Main page function.
+    *
+    * Pieces the site together.
+    *
+    * @param string $page contains the html intended to go between the menu and the bottom.
+    * @return string html
+    */
+    public function finish_page($page, $menu) {
+        $output = $this->start_header();
+
+        $output .= $menu;
+        
+        if ($this->settings->get['database_report_error'] && $this->db->_output_buffer) {
+            $page = $this->skin->error_box($this->db->_output_buffer).$page;
+        }
+        $output .= $this->skin->glue($page);
+        $output .= $this->skin->footer();
+        return $output;
+    }
+
+   /**
+    * makes "2th nov" into "2 hours ago!"
+    * (TODO) this is a code_skin candidate
+    *
+    * @param int $time the time, datestamp
+    * @return string the time
+    */
+    public function format_time($time) {
+        $delta = time() - $time;
+
+        if ($delta == 1) {
+          return $this->lang->a_second_ago;
+        }
+
+        if ($delta < 1 * 60) {
+          return $delta.$this->lang->seconds_ago;
+        }
+
+        if ($delta < 2 * 60)  {
+          return $this->lang->a_minute_ago;
+        }
+
+        if ($delta < 45 * 60) {
+          return intval($delta/60).$this->lang->minutes_ago;
+        }
+
+        if ($delta < 120 * 60) {
+          return $this->lang->a_hour_ago;
+        }
+
+        if ($delta < 24 * 3600) {
+          return intval($delta/3600).$this->lang->hours_ago;
+        }
+
+        if ($delta < 48 * 3600) {
+          return $this->lang->yesterday;
+        }
+
+        if ($delta < 30 * 86400) {
+          return intval($delta/86400).$this->lang->days_ago;
+        }
+
+        if ($delta > 30 * 86400 && $delta < 60 * 86400) {
+            return $this->lang->a_month_ago;
+        }
+
+        return date("jS M, h:i A", $time);
+
+    }
+
+
 }
+
+
 ?>

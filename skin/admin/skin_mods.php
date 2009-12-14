@@ -228,5 +228,123 @@ class skin_mods extends _skin_admin {
             </p>";
         return $uninstall_option;
     }
+
+   /**
+    * link to mod author
+    *
+    * @param string $author author name
+    * @param string $url author site
+    * @return string html
+    */
+    public function author_link($author, $url) {
+        $author_link = "<a href='".$url."'>".$author."</a>";
+        return $author_link;
+    }
+
+   /**
+    * link to mod site
+    *
+    * @param string $url author site
+    * @return string html
+    */
+    public function site_link($url) {
+        $site_link = " (<a href='".$url."'>site</a>)";
+        return $site_link;
+    }
+
+   /**
+    * where's it hooking into?
+    *
+    * @param string $name name of the hook (i think)
+    * @return string html
+    */
+    public function hook_into($name) {
+        $hook_into = "<li>Hook into <em>".$name."</em></li>";
+        return $hook_into;
+    }
+
+   /**
+    * default setting value
+    *
+    * @param string $default setting default
+    * @return string html
+    */
+    public function setting_default($default) {
+        $setting_default = " (default: ".$default.")";;
+        return $setting_default;
+    }
+
+   /**
+    * register setting
+    *
+    * @param string $key setting name
+    * @return string html
+    */
+    public function setting_register($key) {
+        $setting_register = "<li>Register the setting <em>".$key."</em></li>";;
+        return $setting_register;
+    }
+
+   /**
+    * what sql are we running?
+    *
+    * @param string $sql sql command
+    * @return string html
+    */
+    public function sql_execute($sql) {
+        $sql_register = "<li>Execute the following SQL:<br /><div class='quest-select'>".$sql."</div></li>";
+        return $sql_register;
+    }
+
+   /**
+    * hook created?
+    *
+    * @return string html
+    */
+    public function hook_created() {
+        $hook_created = "<br />Hook created";
+        return $hook_created;
+    }
+
+   /**
+    * setting registered?
+    *
+    * @return string html
+    */
+    public function setting_registered() {
+        $hook_created = "<br />Setting registered";
+        return $hook_created;
+    }
+
+   /**
+    * sql executed?
+    *
+    * @return string html
+    */
+    public function sql_executed() {
+        $hook_created = "<br />SQL executed";
+        return $hook_created;
+    }
+
+   /**
+    * hook removed
+    *
+    * @return string html
+    */
+    public function hook_removed() {
+        $hook_created = "<br />Hook removed";
+        return $hook_created;
+    }
+
+
+   /**
+    * hook removed
+    *
+    * @return string html
+    */
+    public function setting_deleted() {
+        $hook_created = "<br />Setting deleted";
+        return $hook_created;
+    }
 }
 ?>

@@ -15,7 +15,7 @@ class code_mods extends _code_admin {
     */
     public function construct() {
         $this->initiate("skin_mods");
-
+        $this->core("hooks");
         $code_mods = $this->mods_switch();
 
         return $code_mods;
@@ -75,7 +75,7 @@ class code_mods extends _code_admin {
             $hooks = array(intval($_GET['id']));
         }
 
-        foreach($hooks as $hook) {
+        foreach ($hooks as $hook) {
             $hooks_rows .= $this->parse_hook($hook);
         }
 
@@ -89,14 +89,11 @@ class code_mods extends _code_admin {
    /**
     * collects information about a hook and then formats it
     *
-    * @param string $hook the id of the hook being probed
-    * @global $hooks
+    * @param string $hook_name the id of the hook being probed
     * @return string html
     */
-    public function parse_hook($hook) {
-        global $hooks;
-
-        $path = "./hooks/".$hook."/config.xml";
+    public function parse_hook($hook_name) {
+        $path = "./hooks/".$hook_name."/config.xml";
 
         if (!file_exists($path)) {
             return false;
@@ -104,11 +101,13 @@ class code_mods extends _code_admin {
 
         $xml = simplexml_load_file($path);
 
-        if ($hooks) {
-            foreach($hooks as $a_hook) {
-                if(in_array($hook,$a_hook[0])) {
-                    $install =  $this->skin->mod_installed();
-                    $installed = true;
+        if ($this->hooks->hook_array) {
+            foreach ($this->hooks->hook_array as $hook_type) {
+                foreach($hook_type as $hook) {
+                    if ($hook[0] == $hook_name) {
+                        $install = $this->skin->mod_installed();
+                        $installed = true;
+                    }
                 }
             }
         }
@@ -119,20 +118,20 @@ class code_mods extends _code_admin {
         }
 
         if (isset($xml->modurl)) {
-            $xml->title = $xml->title . " (<a href='".$xml->modurl."'>site</a>)";
+            $xml->title = $xml->title . $this->skin->site_link($xml->modurl);
         }
 
         if (isset($xml->authorurl)) {
-            $xml->author = "<a href='".$xml->authorurl."'>".$xml->author."</a>";
+            $xml->author = $this->skin->author_link($xml->author, $xml->authorurl);
         }
 
         if ($installed) {
             if (isset($xml->admin)) {
-                $action = $this->skin->edit_link($hook);
+                $action = $this->skin->edit_link($hook_name);
             }
-            $action .= $this->skin->uninstall_link($hook);
+            $action .= $this->skin->uninstall_link($hook_name);
         } else {
-            $action = $this->skin->install_link($hook);
+            $action = $this->skin->install_link($hook_name);
         }
 
         return $this->skin->single_hook($xml->title, $xml->description->long, $xml->author, $install, $action);
@@ -183,20 +182,20 @@ class code_mods extends _code_admin {
         $xml = simplexml_load_file($path);
 
         if ($xml->hook) {
-            $install_guide .= "<li>Hook into <em>".$xml->hook->attributes()."</em></li>";
+            $install_guide .= $this->skin->hook_into($xml->hook->attributes());
         }
 
         if ($xml->settings) {
             foreach($xml->settings->children() as $key=>$value) {
                 if ($value) {
-                    $key = $key." (default: ".$value.")";
+                    $key = $key.$this->skin->setting_default($value);
                 }
-                $install_guide .= "<li>Register the setting <em>".$key."</em></li>";
+                $install_guide .= $this->skin->setting_register($key);
             }
         }
 
         if ($xml->sql) {
-            $install_guide .= "<li>Execute the following SQL:<br /><div class='quest-select'>".$xml->sql."</div></li>";
+            $install_guide .= $this->skin->sql_execute($xml->sql);
         }
 
         $install_hook = $this->skin->install_hook_preface($hook, $xml->title, $xml->description->long, $xml->author, $xml->version, $xml->modurl, $install_guide);
@@ -225,20 +224,20 @@ class code_mods extends _code_admin {
             if (isset($xml->admin->file)) {
                 array_push($vals, strval($xml->admin->file));
             }
-            fwrite($handle, "\r\n\$hooks['".$xml->hook->attributes()."'][] = array('".implode("','", $vals)."');");
-            $returns .= "<br />Hook created";
+            fwrite($handle, "\n\$hooks['".$xml->hook->attributes()."'][] = array('".implode("','", $vals)."');");
+            $returns .= $this->skin->hook_created();
         }
 
         if ($xml->settings) {
             foreach($xml->settings->children() as $key=>$value) {
                 $this->db->execute("INSERT INTO `settings` (`name`,`value`) VALUES (?,?)", array($key, $value));
-                $returns .= "<br />Setting registered";
+                $returns .= $this->skin->setting_registered();
             }
         }
 
         if ($xml->sql) {
             $this->db->execute($xml->sql);
-            $returns .= "<br />SQL executed";
+            $returns .= $this->skin->sql_executed();
         }
 
         if ($xml->admin->file) {
@@ -292,7 +291,7 @@ class code_mods extends _code_admin {
 
         $path = "./hooks/".$hook."/config.xml";
 
-        if(empty($_POST)) {
+        if (empty($_POST)) {
             $_POST['hook'] == "on";
         }
 
@@ -311,13 +310,13 @@ class code_mods extends _code_admin {
             }
             $old = str_replace("\r\n\$hooks['".$xml->hook->attributes()."'][] = array('".implode("','", $vals)."');","",$old);
             fwrite($handle, $old);
-            $returns .= "<br />Unhooked";
+            $returns .= $this->skin->hook_removed();
         }
 
         if ($xml->settings && $_POST['settings']=="on") {
             foreach($xml->settings->children() as $key=>$value) {
                 $this->db->execute("DELETE FROM `settings` WHERE `name`=?", array($key));
-                $returns .= "<br />Setting deleted";
+                $returns .= $this->skin->setting_deleted();
             }
         }
 

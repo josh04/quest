@@ -50,9 +50,10 @@ class code_mail_api {
     * @return bool success
     */
     public function delete($ids) {
+
         if (is_array($ids)) {
             foreach ($ids as $id) {
-                $mail_ids .= intval($mail_id).", ";
+                $mail_ids .= intval($id).", ";
             }
         } else {
             $mail_ids = "(".intval($ids).")";
@@ -60,7 +61,7 @@ class code_mail_api {
 
         $mail_ids = "(".substr($mail_ids, 0, strlen($mail_ids)-2).")";
 
-        $this->db->execute('DELETE FROM mail WHERE id IN '.$mail_ids.' AND `to`=?', array(intval($this->player->id))); // eh, this is sloppy.
+        $this->db->execute('DELETE FROM `mail` WHERE `id` IN '.$mail_ids); // eh, this is sloppy.
 
         if ($this->db->ErrorMsg()) {
             return false;

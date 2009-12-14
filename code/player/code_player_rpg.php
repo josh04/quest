@@ -17,33 +17,9 @@ class code_player_rpg extends code_player {
         if ($this->is_member) {
             
             if (!isset($this->player_id)) {
-
-                // DEFAULT RPG STATS
-                $rpg_array = array(         'strength' => 1,
-                                            'vitality' => 1,
-                                            'agility' => 1,
-
-                                            'hp' => 60,
-                                            'hp_max' => 60,
-                                            'exp' => 0,
-                                            'exp_max' => 50,
-                                            'energy' => 10,
-                                            'energy_max' => 10,
-
-                                            'kills' => 0,
-                                            'deaths' => 0,
-
-                                            'level' => 1,
-                                            'stat_points' => 3
-                                            );
-
-                $rpg_array['player_id'] = $this->id;
-                $this->db->AutoExecute('rpg', $rpg_array, 'INSERT');
-
-                foreach ($rpg_array as $name => $value) {
-                    $this->$name = $value;
-                }
+                $this->generate_rpg_values();
             }
+
             $this->hp_percent = intval(($this->hp / $this->hp_max) * 100);
             $this->exp_diff = ($this->exp - $this->exp_max);
         }
@@ -51,9 +27,62 @@ class code_player_rpg extends code_player {
     }
 
    /**
-    * extra db insert stuff
+    * tags 'make rpg entries' onto get_player
+    *
+    * @param string $identity player id or name
+    * @param string $join table to join on
+    * @return bool success
     */
-    public function update_player() {
+    public function get_player($identity, $join) {
+        $return_value = parent::get_player($identity, $join);
+
+        if (!isset($this->player_id) && $return_value) {
+            $this->generate_rpg_values();
+        }
+
+        $this->hp_percent = intval(($this->hp / $this->hp_max) * 100);
+        $this->exp_diff = ($this->exp - $this->exp_max);
+
+        return $return_value;
+    }
+
+   /**
+    * generates default rpg values
+    */
+    protected function generate_rpg_values() {
+        // DEFAULT RPG STATS
+        $rpg_array = array(         'strength' => 1,
+                                    'vitality' => 1,
+                                    'agility' => 1,
+
+                                    'hp' => 60,
+                                    'hp_max' => 60,
+                                    'exp' => 0,
+                                    'exp_max' => 50,
+                                    'energy' => 10,
+                                    'energy_max' => 10,
+
+                                    'kills' => 0,
+                                    'deaths' => 0,
+
+                                    'level' => 1,
+                                    'stat_points' => 3
+                                    );
+
+        $rpg_array['player_id'] = $this->id;
+        $this->db->AutoExecute('rpg', $rpg_array, 'INSERT');
+
+        foreach ($rpg_array as $name => $value) {
+            $this->$name = $value;
+        }
+    }
+
+   /**
+    * extra db insert stuff
+    *
+    * @param bool $just just do the rpg?
+    */
+    public function update_player($just = false) {
 
         if ($this->exp > $this->exp_max) {
             $this->level++;
@@ -83,8 +112,9 @@ class code_player_rpg extends code_player {
 
 
         $this->db->AutoExecute('rpg', $rpg_update_query, 'UPDATE', '`player_id`='.$this->id);
-
-        parent::update_player();
+        if (!$just) {
+            parent::update_player();
+        }
     }
 
    /**

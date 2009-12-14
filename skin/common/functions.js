@@ -40,7 +40,7 @@ function questCountdown() {
 
 // pops up a help window
 function popup_help(id) {
-    window.open('popup_help.php?id='+id, 'popup_help', 'width=400,height=300');
+    window.open('index.php?section=public&page=help&action=popup&id='+id, 'popup_help', 'width=400,height=300');
 }
 
 // moves some help items around in their list

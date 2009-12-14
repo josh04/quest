@@ -136,7 +136,7 @@ class skin_common {
     * @return string html
     */
     public function popup_help($id) {
-        $popup_help = " <a href='#' class='popup-help-link' onclick='popup_help(${id});return false;'>(?)</a>";
+        $popup_help = " <a href='#' class='popup-help-link' onclick='popup_help(".$id.");return false;'>(?)</a>";
         return $popup_help;
     }
 

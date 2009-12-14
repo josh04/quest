@@ -215,6 +215,33 @@ class skin_mail extends skin_common {
         return $mail_preview;
     }
 
+
+   /**
+    * returns a mail message
+    *
+    * @param array $message the details of the message
+    * @return string html
+    */
+    public function frontpage_mail($id, $username, $subject) {
+        $mail_entry = "<div><em><a href='index.php?section=public&amp;page=mail&amp;action=read&amp;id=".$id."'>".
+           $subject . "</a></em><br />From: ".$username."</div>";
+        return $mail_entry;
+    }
+
+   /**
+    * frontpage mail wrapper box
+    *
+    * @param string $mail already parsed mails
+    * @return string html
+    */
+    public function frontpage_mail_wrap($mail) {
+        $mail_wrap = "<div style='width:45%;float:right;'>
+            <h4>Recent mail (<a href='index.php?section=public&amp;page=mail'>more</a>)</h4>
+            ".$mail."
+            </div><br style=\"clear:both;\" />";
+        return $mail_wrap;
+    }
+
    /**
     * static function for the menu wrapper
     *

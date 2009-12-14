@@ -1,35 +1,38 @@
 <?php
 
+// TODO
+// Admin panel
+
 function frontpage_news($factory) {
 
-$mode = $factory->settings->get['frontpage_news_mode'];
-if(!in_array($mode, array("manual","rss","twitter") )) $mode = "manual";
+    $mode = $factory->settings->get['frontpage_news_mode'];
+    if(!in_array($mode, array("manual","rss","twitter") )) $mode = "manual";
 
-$title = $factory->settings->get['frontpage_news_title'];
-if(!$title) $title = "Latest news";
+    $title = $factory->settings->get['frontpage_news_title'];
+    if(!$title) $title = "Latest news";
 
-$twitter_user = $factory->settings->get['frontpage_news_twitter'];
-if(!$twitter_user && $mode=="twitter") $mode = "manual";
+    $twitter_user = $factory->settings->get['frontpage_news_twitter'];
+    if(!$twitter_user && $mode=="twitter") $mode = "manual";
 
-$rss_url = $factory->settings->get['frontpage_news_rss'];
-if(!$rss_url && $mode=="rss") $mode = "manual";
+    $rss_url = $factory->settings->get['frontpage_news_rss'];
+    if(!$rss_url && $mode=="rss") $mode = "manual";
 
-switch ($mode) {
-    case "rss":
-        $news = frontpage_news_rss($rss_url);
-        break;
+    switch ($mode) {
+        case "rss":
+            $news = frontpage_news_rss($rss_url);
+            break;
 
-    case "twitter":
-        $news = frontpage_news_twitter($twitter_user);
-        break;
+        case "twitter":
+            $news = frontpage_news_twitter($twitter_user);
+            break;
 
-    case "manual":
-    default:
-        $news = frontpage_news_manual($factory->db);
-        break;
-}
+        case "manual":
+        default:
+            $news = frontpage_news_manual($factory->db);
+            break;
+    }
 
-return "<h4>".$title."</h4>" . $news;
+    return "<h4>".$title."</h4>" . $news;
 }
 
 // Retrieves a Twitter stream to display

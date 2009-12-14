@@ -141,7 +141,7 @@ class code_database extends _code_install {
             return $success;
         } else {
             $message = $this->lang->database_create_error;
-            $success = $this->setup_database_page($message." ".$this->db->ErrorMsg());
+            $success = $this->setup_database_form($this->skin->error_box($message." ".$this->db->ErrorMsg()));
             return $success;
         }
 

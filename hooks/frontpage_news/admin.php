@@ -3,7 +3,7 @@
 // Admin panel for frontpage_news. Allows you to change the method of integration and
 // various related details.
 
-if($_POST['form-type'] == frontpage_news_config) {
+if($_POST['form-type'] == "frontpage_news_config") {
     $updates = array('frontpage_news_mode', 'frontpage_news_title', 'frontpage_news_twitter', 'frontpage_news_rss');
     foreach($updates as $update) {
         if(isset($_POST[$update]) && !empty($_POST[$update])) $this->settings->set($update, $_POST[$update]);

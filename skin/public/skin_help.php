@@ -44,16 +44,32 @@ class skin_help extends skin_common {
     * @param array $help_topic the topic to display
     * @return string html
     */
-    public function help_single($help_topic) {
+    public function help_single($title, $body) {
         $help = "
         <h2>Help & Support</h2>
         <div class='help-item-top'>
-        ".$help_topic['title']."
+        ".$title."
         </div>
         <div class='help-item'>
-        ".$help_topic['body']."
+        ".$body."
         </div>";
         return $help;
+    }
+
+    public function popup($title, $body) {
+        $popup = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+            <html xml:lang='en' lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+            <head>
+            <title>Help - ".$title."</title>
+            <meta http-equiv='content-type' content='text/html; charset=utf-8' />
+            <link rel='stylesheet' type='text/css' href='./skin/common/default.css' />
+            </head>
+            <body>
+            <div class='help-item-top'>".$title."</div>
+            <div class='help-item'>".$body."</div>
+            </body>
+            </html>";
+        return $popup;
     }
 
 }

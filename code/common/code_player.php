@@ -50,11 +50,7 @@ class code_player {
 
         $this->page = $common->page;
         //Is our player a member, or a guest?
-        $allowed = $this->make_player();
-        
-        if (!$allowed) {
-            return false;
-        }
+        $this->allowed = $this->make_player();
         
         return $this;
     }
@@ -166,7 +162,7 @@ class code_player {
     */
     public function get_player($identity, $join="") {
         
-        if (is_int($identity)) {
+        if (is_numeric($identity)) {
             return $this->get_player_by_id($identity, $join);
         } else {
             return $this->get_player_by_name($identity, $join);
@@ -194,6 +190,7 @@ class code_player {
         }
         $player_db = $player_query->fetchrow();
         $this->player_db_to_object($player_db);
+        $this->is_member = true;
         return true;
     }
  
@@ -218,6 +215,7 @@ class code_player {
         }
         $player_db = $player_query->fetchrow();
         $this->player_db_to_object($player_db);
+        $this->is_member = true;
         return true;
     }
  
