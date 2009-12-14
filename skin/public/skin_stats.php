@@ -17,8 +17,7 @@ class skin_stats extends skin_common {
     * @return string html
     */
     public function stat_increased($stat_name, $stat_value) {
-        $stat_increased = "<div class='success'>You have increased your ".$stat_name.". It is now at ".$stat_value.".</div>
-        <a href='index.php'>Back home</a>";
+        $stat_increased = "<div class='success'>You have increased your ".$stat_name.". It is now at ".$stat_value.".</div>";
         return $stat_increased;
     }
 
@@ -51,7 +50,6 @@ class skin_stats extends skin_common {
     */
     public function stats_table_can_spend($stat_points, $strength, $vitality, $agility) {
         $stats_table = "<div class='success'>You have ".$stat_points." stat points to spend.</div>
-            <form action='index.php?section=public&amp;page=stats' method='POST'>
             <table style=\"width:100px;margin:8px auto;\">
                 <tr><th style=\"width: 100px;\">Strength</th><td><div style='margin:100% 0px;'>".$strength."</div></td>
                     <td>
@@ -71,7 +69,7 @@ class skin_stats extends skin_common {
                             <input type='hidden' name='stat' value='agility' />
                             <input type='submit' value='+' />
                         </form></td></tr>
-            </table></form>";
+            </table>";
         return $stats_table;
     }
 

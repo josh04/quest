@@ -144,7 +144,8 @@ class code_mail extends code_common {
         //Process mail info, show success message
 
         if(isset($_POST['preview'])) {
-            $_POST['mail_preview'] = $this->bbparse($_POST['mail_body'], true);
+            $this->core('bbcode');
+            $_POST['mail_preview'] = $this->bbcode->parse($_POST['mail_body'], true);
             $compose_submit = $this->compose($this->skin->mail_preview($_POST['mail_preview']));
             return $compose_submit;
         }
@@ -200,7 +201,7 @@ class code_mail extends code_common {
     */
     protected function delete_multiple_confirm() {
         $this->core('mail_api');
-        $this->mail_api->delete($_POST['mail-ids']);
+        $this->mail_api->delete($_POST['mail_id']);
         $delete_multiple_confirm = $this->mail_inbox($this->lang->messages_deleted);
         return $delete_multiple_confirm;
     }

@@ -17,9 +17,9 @@ class code_rpg_stats {
     public function spend(&$player, $stat) {
         $stats = array("strength", "vitality", "agility");
         if (in_array($stat, $stats)) {
-            $this->player->stat_points--;
-            $this->player->$stat++;
-            $this->player->update_player(true);
+            $player->stat_points--;
+            $player->$stat++;
+            $player->update_player(true);
             return true;
         }
 
