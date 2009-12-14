@@ -7,9 +7,6 @@
  * @author josh04
  */
 class code_index extends code_common {
-    
-    public $player_class = "code_player_rpg";
-    
 
    /**
     * builds the logged-in index

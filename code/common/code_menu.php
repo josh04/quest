@@ -121,9 +121,9 @@ class code_menu extends code_common {
         if ($menu_entry['function']) {
             $class = "code_".$this->pages[$menu_entry['section']][$menu_entry['page']];
             $function = "code_".$menu_entry['page']."_menu";
-            
-            require_once("code/".$menu_entry['section']."/".$class.".php"); // (Josh) iirc, require_once should cause no problems with conflicting classes. did you hit a bug?
-
+            if (file_exists("code/".$menu_entry['section']."/".$class.".php")) {
+                require_once("code/".$menu_entry['section']."/".$class.".php"); // (Josh) iirc, require_once should cause no problems with conflicting classes. did you hit a bug?
+            }
             if (method_exists($class, $function)) {
                 eval("\$menu_entry['label'] = ".$class."::".$function."(\$this, \$menu_entry['label']);"); // Hmm, this is a dirty dirty hack. I blame PHP, personally.
             }

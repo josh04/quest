@@ -62,7 +62,7 @@ class _code_install extends code_common {
         `ip` varchar(255) NOT NULL default '',
         `gold` int(11) NOT NULL default '200',
         `show_email` tinyint(3) NOT NULL default '0',
-        `skin` int(3) NOT NULL default '2',
+        `skin` varchar(255) NOT NULL default '',
         `login_rand` varchar(255) NOT NULL default '',
         `login_salt` varchar(255) NOT NULL default '',
         `verified` tinyint(1) NOT NULL default 0,
