@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mod>
+    <title>Front page news</title>
+    <author>Greg</author>
+    <version>0.2</version>
+    <description>
+        <short>Adds news articles to the home page</short>
+        <long>Allows you to write articles, or draw them from an RSS feed, and add them to your users' home page</long>
+    </description>
+    <authorurl>http://www.55thscouts.com/</authorurl>
+
+    <settings>
+        <frontpage_news_mode>manual</frontpage_news_mode>
+        <frontpage_news_title>Latest news</frontpage_news_title>
+        <frontpage_news_twitter></frontpage_news_twitter>
+        <frontpage_news_rss></frontpage_news_rss>
+    </settings>
+
+    <hook id="home/extra">
+        <file>main.php</file>
+        <function>frontpage_news</function>
+    </hook>
+
+    <admin type="page">
+        <file>admin.php</file>
+    </admin>
+
+    <sql>CREATE TABLE IF NOT EXISTS `frontpage_news` (
+  `id` int(4) NOT NULL auto_increment,
+  `title` varchar(125) NOT NULL,
+  `body` longtext NOT NULL,
+  `time` int(12) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;</sql>
+
+</mod>
