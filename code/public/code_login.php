@@ -109,8 +109,9 @@ class code_login extends code_common {
     * @return string html
     */
     public function register_submit() {
+        $this->core("email");
 
-        if($this->settings->get['verification_method']==0) {
+        if ($this->settings->get['verification_method']==0) {
             $register_submit = $this->skin->index_guest("", $this->lang->registration_disabled, $this->settings->get['welcometext']);
             return $register_submit;
         }
@@ -156,8 +157,8 @@ class code_login extends code_common {
         } else if (strlen($_POST['email']) < 3) {
             $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->lang->email_not_long_enough));
             return $register_submit;
-        } else if (!preg_match("/^[-!#$%&\'*+\\.\/0-9=?A-Z^_`{|}~]+@([-0-9A-Z]+\.)+([0-9A-Z]){2,4}$/i", $_POST['email'])) {
-            $register_submit = $this->skin->register($username, $email, email_wrong_format);
+        } else if (!$this->email->validate($_POST['email'])) {
+            $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->lang->email_wrong_format));
             return $register_submit;
         } else {
             $email_query = $this->db->execute("select `id` from `players` where `email`=?", array($_POST['email']));
@@ -166,7 +167,7 @@ class code_login extends code_common {
                 return $register_submit;
             }
         }
-
+/*
         if ($this->settings->get['register_ip_check']) {
             
             $ip_query = $this->db->execute("SELECT `registered` FROM `players` WHERE `ip`=? ORDER BY `registered` DESC", array($_SERVER['REMOTE_ADDR']));
@@ -179,7 +180,7 @@ class code_login extends code_common {
                 }
             }
         }
-        
+  */
         $registered_player = new code_player($this->settings);
         $username = htmlentities($_POST['username'], ENT_QUOTES, "utf-8");
         $email = htmlentities($_POST['email'], ENT_QUOTES, "utf-8");
@@ -190,16 +191,31 @@ class code_login extends code_common {
             $register_submit = $this->skin->register($username, $email, $this->skin->error_box($this->lang->error_registering));
             return $register_submit;
         }
-        
-        if ( $this->settings->get['verification_method']==3 ) {
-            $to = 1; // must implement bulk mail by membership group
-            $from = $success;
-            $body = $username . " has just registered an account. You can approve it [url=index.php?section=admin&amp;page=profile_edit&amp;action=approve&amp;id=".$player_id."]here[/url].";
-            $subject = "New account";
 
-            $this->core('mail_api');
-            $this->mail_api->send($from, $from, $body, $subject);
+//(TODO) new settings for message
+        switch ($this->settings->get['verification_method']) {
+            case 2:
+                $to = $_POST['email'];
+                $subject = "New account";
+                $message = $username . " has just registered an account. You can approve it [url=index.php?section=admin&amp;page=profile_edit&amp;action=approve&amp;id=".$player_id."]here[/url].";
+                $success = $this->email->send($to, $subject, $message);
+                if ($success) {
+                    print 1;
+                } else {
+                    print 2;
+                }
+                break;
+            case 3:
+                $to = 1; // must implement bulk mail by membership group
+                $from = $success;
+                $body = $username . " has just registered an account. You can approve it [url=index.php?section=admin&amp;page=profile_edit&amp;action=approve&amp;id=".$player_id."]here[/url].";
+                $subject = "New account";
+
+                $this->core('mail_api');
+                $this->mail_api->send($from, $from, $body, $subject);
+                break;
         }
+        
         // loooooooooool. I'mma leave this here.
 
         $body = "<strong>Welcome to CHERUB Quest!</strong>

@@ -33,7 +33,7 @@ class code_player_rpg extends code_player {
     * @param string $join table to join on
     * @return bool success
     */
-    public function get_player($identity, $join) {
+    public function get_player($identity, $join = "") {
         $return_value = parent::get_player($identity, $join);
 
         if (!isset($this->player_id) && $return_value) {

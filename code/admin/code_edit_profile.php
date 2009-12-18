@@ -114,7 +114,9 @@ class code_edit_profile extends _code_admin {
     */
     public function update_profile($id) {
 
-        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        $this->core("email");
+
+        if (!$this->email->validate($_POST['email'])) {
             $update_profile = $this->edit_profile_page($id, $this->skin->error_box($this->lang->email_wrong_format));
             return $update_profile;
         }

@@ -57,7 +57,10 @@ class code_edit_profile extends code_common {
             $update_profile = $this->edit_profile_page("");
             return $update_profile;
         }
-        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+
+        $this->core("email");
+
+        if (!$this->email->validate($_POST['email'])) {
             $update_profile = $this->edit_profile_page($this->skin->error_box($this->lang->email_wrong_format));
             return $update_profile;
         }

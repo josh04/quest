@@ -35,10 +35,12 @@ class code_fight {
         $this->db =& code_database_wrapper::get_db();
         $this->section = 'common';
         $this->page = 'fight';
+        $this->player =& $common->player;
         $this->player_section = $common->section;
         $this->player_page = $common->page;
         $common->page_generation->section = 'common';
         $this->skin =& $common->page_generation->make_skin("skin_fight");
+        $this->lang =& $common->lang;
         $common->page->generation->section = $this->player_section; // hacky hacky hacky
     }
 
@@ -137,7 +139,7 @@ class code_fight {
 
         //While somebody is still awake, fight!
         while ($this->enemy->hp > 0 && $this->player->hp > 0 && $battle_rounds > 0) {
-            
+
             if ( ($this->player->agility + $this->player->hp) >= ($this->enemy->agility + $this->player->hp) ) { 
                 $attacking =& $this->player;
                 $defending =& $this->enemy;

@@ -117,6 +117,11 @@ class code_battle extends code_common {
         return $battle_search_page;
     }
 
+   /**
+    * gets battle up and running
+    *
+    * @return string html
+    */
     public function battle() {
 
         $id = intval($_POST['id']);
@@ -155,7 +160,6 @@ class code_battle extends code_common {
         }
 
         $this->core('fight');
-        
         $this->fight->enemy = new code_player_rpg;
         $this->fight->type = "player";
         if (!$this->fight->enemy->get_player($id)) {
