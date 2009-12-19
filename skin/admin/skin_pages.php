@@ -21,9 +21,38 @@ class skin_pages extends _skin_admin {
                 <td>".$mod."</td>
                 <td><a href='index.php?section=admin&amp;page=pages&amp;action=mod&amp;id=".$id."' />
                     <img src='images/icons/pencil.png' alt='Edit' name='Edit' /></a></td>
+				<td><a href='index.php?section=admin&amp;page=pages&amp;action=uninstall&amp;id=".$id."' />
+					<img src='images/icons/pencil_go.png' alt='Uninstall' name='Uninstall' /></a></td>
             </tr>";
         return $page_row;
     }
+	
+	public function unins_page_row($page,$type){
+		$page_row = "<tr>
+				<td>".$page."</td>
+				<td>".$type."</td>
+				<td><a href='index.php?section=admin&amp;page=pages&amp;action=install&amp;type=".$type."&amp;id=".$page."' />
+					<img src='images/icons/pencil_add.png' alt='add' name='Add' /></a></td>
+				<td><a href='index.php?section=admin&amp;page=pages&amp;action=delpage&amp;type=".$type."&amp;id=".$page."' />
+					<img src='images/icons/pencil_delete.png' alt='Delete' name='Delete' /></a></td>
+			</tr>";
+		return $page_row;
+	}
+	
+	public function unins_wrapper($section_name,$section_html) {
+		$section_wrapper = "
+				<h2>".$section_name."</h2>
+			<table class='nutable'>
+				<tbody>
+					<tr>
+						<th>Page</th>
+						<th>Type</th>
+						<th>Install</th>
+						<th>Delete</th>
+					</tr>
+				".$section_html."</tbody></table>";
+		return $section_wrapper;
+	}
 
    /**
     * The wrapper for the current section of modules.
@@ -42,6 +71,7 @@ class skin_pages extends _skin_admin {
                         <th>Redirects</th>
                         <th>Mod loaded</th>
                         <th>Edit</th>
+						<th>Uninstall</th>
                     </tr>
             ".$section_html."</tbody></table>";
         return $section_wrapper;

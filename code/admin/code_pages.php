@@ -34,9 +34,83 @@ class code_pages extends code_common {
             $pages_switch = $this->mod_submit();
             return $pages_switch;
         }
-        $pages_switch = $this->pages_list();
+		if ($_GET['action'] == 'uninstall') {
+			$pages_switch = $this->uninstall();
+			return $pages_switch;
+		}
+		if ($_GET['action'] == 'install') {
+			$pages_switch = $this->install();
+			return $pages_switch;
+		}
+		if ($_GET['action'] == 'delpage') {
+			$pages_switch = $this->deletepg();
+			return $pages_switch;
+		}
+        $pages_switch = $this->deletepg();
         return $pages_switch;
     }
+	
+	public function deletepg(){
+		if(!isset($_GET['id']) || !isset($_GET['type'])){
+			$delete=$this->pages_list($this->skin->error_box($this->lang->no_page_selected));
+			return $delete;
+		}
+		if(file_exists("./code/".$_GET['type']."/code_".$_GET['id'].".php")){
+			$check=$this->db->execute("select * from `pages` where `name`=?",array($_GET['id']));
+			if($check->recordcount() >= 0){
+				$uninstall = $this->db->execute("delete from `pages` where `name`=?",array($_GET['id']));
+			}
+			if(unlink("./code/".$_GET['type']."/code_".$_GET['id'].".php")){
+				$delete=$this->pages_list($this->skin->success_box("Deleted!"));
+				return $delete;
+			}
+		}else{
+			$delete=$this->pages_list($this->skin->error_box($this->lang->no_page_selected));
+			return $delete;
+		}
+	}
+	
+	public function install(){
+		if(!isset($_GET['id']) || !isset($_GET['type'])){
+			$install=$this->pages_list($this->skin->error_box($this->lang->no_page_selected));
+			return $install;
+		}
+		$check=$this->db->execute("select * from `pages` where `name`=?",array($_GET['id']));
+		if($check->recordcount() == 0){
+			$insert['name'] = $_GET['id'];
+			$insert['section'] = $_GET['type'];
+			$insert['redirect'] = $_GET['id'];
+			$imod = $this->db->autoexecute("pages",$insert,"INSERT");
+			if($imod){
+			//if (!$this->db->ErrorMsg()) {
+				$install=$this->pages_list($this->skin->success_box("Installed!"));
+				return $install;
+			}
+		}else{
+			$install=$this->pages_list($this->skin->error_box("Page is already installed!"));
+			return $install;
+		}
+	}
+	
+	public function uninstall() {
+		//$this->initiate();
+		if(!isset($_GET['id'])){
+			$delmod=$this->pages_list($this->skin->error_box($this->lang->no_page_selected));
+			return $delmod;
+		}
+		$page_query=$this->db->execute("select * from `pages` where `id`=?",array($_GET['id']));
+		if($page_query->recordcount() == 1){
+			$pquery2=$this->db->execute("delete from `pages` where `id`=?",array($_GET['id']));
+			if($pquery2){
+				$delmod=$this->pages_list($this->skin->success_box("Uninstalled!"));
+				return $delmod;
+			}
+		}else{
+			$delmod=$this->pages_list($this->skin->error_box($this->lang->no_page_selected));
+			return $delmod;
+		}
+		//$query=$db->execute("select * from `pages` where `id`=?");
+	}
 
    /**
     * Makes the main page-changing menu.
@@ -57,8 +131,27 @@ class code_pages extends code_common {
         foreach ($page_sections as $section_name => $section_html) {
             $page_categories_html .= $this->skin->section_wrapper($section_name, $section_html);
         }
-
-        $pages_list = $this->skin->pages_wrapper($page_categories_html, $message);
+		
+		foreach(glob("code/admin/code_*.php") as $phplist){
+			$pagename3=str_replace("code/admin/code_","",$phplist);
+			$pagename2=str_replace(".php","",$pagename3);
+			$query=$this->db->execute("select * from `pages` where `name`=?",array($pagename2));
+			if($query->recordcount() == 0){
+				$uninsta_section_html .=$this->skin->unins_page_row($pagename2,"admin");
+			}
+		}
+		foreach(glob("code/public/code_*.php") as $phplist){
+			$pagename3=str_replace("code/public/code_","",$phplist);
+			$pagename2=str_replace(".php","",$pagename3);
+			$query=$this->db->execute("select * from `pages` where `name`=?",array($pagename2));
+			if($query->recordcount() == 0){
+				$uninst_section_html .=$this->skin->unins_page_row($pagename2,"public");
+			}
+		}
+		$page_uninsta =$this->skin->unins_wrapper("Uninstalled Admin Pages",$uninsta_section_html);
+		$page_uninst = $this->skin->unins_wrapper("Uninstalled Public Pages",$uninst_section_html);
+		$alllists=$page_categories_html.$page_uninsta.$page_uninst;
+        $pages_list = $this->skin->pages_wrapper($alllists, $message);
         return $pages_list;
     }
 
@@ -149,6 +242,5 @@ class code_pages extends code_common {
         $mod_submit = $this->pages_list($this->skin->success_box($this->lang->mod_updated));
         return $mod_submit;
     }
-
 }
 ?>
