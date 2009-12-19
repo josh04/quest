@@ -235,5 +235,10 @@ class lang_error {
     public $days_ago = " days ago";
     public $a_month_ago = "a month ago";
 
+    public $file_is_read_only = "The file you are trying to edit is read only.";
+    public $page_deleted = "Page successfully deleted.";
+    public $page_installed = "Page successfully installed.";
+    public $page_already_installed = "That page is already installed.";
+    public $page_uninstalled = "Page successfully uninstalled";
 }
 ?>

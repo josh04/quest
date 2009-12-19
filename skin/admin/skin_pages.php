@@ -3,6 +3,7 @@
  * Description of skin_pages
  *
  * @author josh04
+ * @author booher
  * @package skin_admin
  */
 class skin_pages extends _skin_admin {
@@ -21,38 +22,59 @@ class skin_pages extends _skin_admin {
                 <td>".$mod."</td>
                 <td><a href='index.php?section=admin&amp;page=pages&amp;action=mod&amp;id=".$id."' />
                     <img src='images/icons/pencil.png' alt='Edit' name='Edit' /></a></td>
-				<td><a href='index.php?section=admin&amp;page=pages&amp;action=uninstall&amp;id=".$id."' />
-					<img src='images/icons/pencil_go.png' alt='Uninstall' name='Uninstall' /></a></td>
+                <td><form method='POST' action='index.php?section=admin&amp;page=pages&amp;action=uninstall'>
+                <input type='hidden' name='id' value='".$id."' />
+                <input type='image' src='images/icons/pencil_go.png' alt='Uninstall' name='Uninstall' /></form></td>
             </tr>";
         return $page_row;
     }
-	
-	public function unins_page_row($page,$type){
-		$page_row = "<tr>
-				<td>".$page."</td>
-				<td>".$type."</td>
-				<td><a href='index.php?section=admin&amp;page=pages&amp;action=install&amp;type=".$type."&amp;id=".$page."' />
-					<img src='images/icons/pencil_add.png' alt='add' name='Add' /></a></td>
-				<td><a href='index.php?section=admin&amp;page=pages&amp;action=delpage&amp;type=".$type."&amp;id=".$page."' />
-					<img src='images/icons/pencil_delete.png' alt='Delete' name='Delete' /></a></td>
-			</tr>";
-		return $page_row;
-	}
-	
-	public function unins_wrapper($section_name,$section_html) {
-		$section_wrapper = "
-				<h2>".$section_name."</h2>
-			<table class='nutable'>
-				<tbody>
-					<tr>
-						<th>Page</th>
-						<th>Type</th>
-						<th>Install</th>
-						<th>Delete</th>
-					</tr>
-				".$section_html."</tbody></table>";
-		return $section_wrapper;
-	}
+
+   /**
+    * uninstall a page row
+    *
+    * @param string $page page name
+    * @return string html
+    */
+    public function uninstalled_page_row($page, $section) {
+        $page_row = "<tr>
+            <td>".$page."</td>
+            <td>".$type."</td>
+            <td>
+            <form method='POST' action='index.php?section=admin&amp;page=pages&amp;action=install'>
+            <input type='hidden' value='".$page."' name='path' />
+            <input type='hidden' value='".$section."' name='new_section' />
+            <input type='image' src='images/icons/pencil_add.png' alt='add' name='add' /></form></td>
+            <td>
+            <form method='POST' action='index.php?section=admin&amp;page=pages&amp;action=delete_page'>
+            <input type='hidden' value='".$page."' name='path' />
+            <input type='hidden' value='".$section."' name='new_section' />
+            <input type='image' src='images/icons/pencil_delete.png' alt='delete' name='delete' />
+            </form></td>
+            </tr>";
+        return $page_row;
+    }
+
+   /**
+    * uninstall page wrapper
+    *
+    * @param string $section_name name of the section
+    * @param string $section_html pages in that section
+    * @return string html
+    */
+    public function uninstalled_wrapper($section_name, $section_html) {
+        $section_wrapper = "
+            <h2>".$section_name."</h2>
+            <table class='nutable'>
+            <tbody>
+            <tr>
+            <th>Page</th>
+            <th>Type</th>
+            <th>Install</th>
+            <th>Delete</th>
+            </tr>
+            ".$section_html."</tbody></table>";
+        return $section_wrapper;
+    }
 
    /**
     * The wrapper for the current section of modules.

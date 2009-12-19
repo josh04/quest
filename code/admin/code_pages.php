@@ -26,91 +26,109 @@ class code_pages extends code_common {
     * @return string html
     */
     public function pages_switch() {
-        if ($_GET['action'] == 'mod') {
-            $pages_switch = $this->mod_edit_page();
-            return $pages_switch;
+        switch ($_GET['action']) {
+            case 'mod':
+                $pages_switch = $this->mod_edit_page();
+                break;
+            case 'mod_submit':
+                $pages_switch = $this->mod_submit();
+                break;
+            case 'uninstall':
+                $pages_switch = $this->uninstall_page();
+                break;
+            case 'install':
+                $pages_switch = $this->install_page();
+                break;
+            case 'delete_page':
+                $pages_switch = $this->delete_page();
+                break;
+            default:
+                $pages_switch = $this->pages_list();
         }
-        if ($_GET['action'] == 'mod_submit') {
-            $pages_switch = $this->mod_submit();
-            return $pages_switch;
-        }
-		if ($_GET['action'] == 'uninstall') {
-			$pages_switch = $this->uninstall();
-			return $pages_switch;
-		}
-		if ($_GET['action'] == 'install') {
-			$pages_switch = $this->install();
-			return $pages_switch;
-		}
-		if ($_GET['action'] == 'delpage') {
-			$pages_switch = $this->deletepg();
-			return $pages_switch;
-		}
-        $pages_switch = $this->deletepg();
         return $pages_switch;
     }
-	
-	public function deletepg(){
-		if(!isset($_GET['id']) || !isset($_GET['type'])){
-			$delete=$this->pages_list($this->skin->error_box($this->lang->no_page_selected));
-			return $delete;
-		}
-		if(file_exists("./code/".$_GET['type']."/code_".$_GET['id'].".php")){
-			$check=$this->db->execute("select * from `pages` where `name`=?",array($_GET['id']));
-			if($check->recordcount() >= 0){
-				$uninstall = $this->db->execute("delete from `pages` where `name`=?",array($_GET['id']));
-			}
-			if(unlink("./code/".$_GET['type']."/code_".$_GET['id'].".php")){
-				$delete=$this->pages_list($this->skin->success_box("Deleted!"));
-				return $delete;
-			}
-		}else{
-			$delete=$this->pages_list($this->skin->error_box($this->lang->no_page_selected));
-			return $delete;
-		}
-	}
-	
-	public function install(){
-		if(!isset($_GET['id']) || !isset($_GET['type'])){
-			$install=$this->pages_list($this->skin->error_box($this->lang->no_page_selected));
-			return $install;
-		}
-		$check=$this->db->execute("select * from `pages` where `name`=?",array($_GET['id']));
-		if($check->recordcount() == 0){
-			$insert['name'] = $_GET['id'];
-			$insert['section'] = $_GET['type'];
-			$insert['redirect'] = $_GET['id'];
-			$imod = $this->db->autoexecute("pages",$insert,"INSERT");
-			if($imod){
-			//if (!$this->db->ErrorMsg()) {
-				$install=$this->pages_list($this->skin->success_box("Installed!"));
-				return $install;
-			}
-		}else{
-			$install=$this->pages_list($this->skin->error_box("Page is already installed!"));
-			return $install;
-		}
-	}
-	
-	public function uninstall() {
-		//$this->initiate();
-		if(!isset($_GET['id'])){
-			$delmod=$this->pages_list($this->skin->error_box($this->lang->no_page_selected));
-			return $delmod;
-		}
-		$page_query=$this->db->execute("select * from `pages` where `id`=?",array($_GET['id']));
-		if($page_query->recordcount() == 1){
-			$pquery2=$this->db->execute("delete from `pages` where `id`=?",array($_GET['id']));
-			if($pquery2){
-				$delmod=$this->pages_list($this->skin->success_box("Uninstalled!"));
-				return $delmod;
-			}
-		}else{
-			$delmod=$this->pages_list($this->skin->error_box($this->lang->no_page_selected));
-			return $delmod;
-		}
-		//$query=$db->execute("select * from `pages` where `id`=?");
-	}
+
+   /**
+    * deletes a page. like, physically deletes it
+    *
+    * @return string html
+    */
+    public function delete_page() {
+        $page = str_replace("code/".$_POST['new_section']."/code_", "", $_POST['path']);
+        $page = str_replace(".php", "", $path);
+
+        if (!$page || !file_exists("code/".$_POST['new_section']."/code_".$page.".php")) {
+            $delete = $this->pages_list($this->skin->error_box($this->lang->no_page_selected));
+            return $delete;
+        }
+
+        $uninstall = $this->db->execute("DELETE FROM `pages` WHERE `name`=?", array($page));
+
+        if (unlink("./code/".$_POST['new_section']."/code_".$page.".php")) {
+            $delete = $this->pages_list($this->skin->success_box($this->lang->file_deleted));
+        } else {
+            $delete = $this->pages_list($this->skin->error_box($this->lang->file_is_read_only));
+        }
+        return $delete;
+    }
+
+   /**
+    * installs a page
+    *
+    * @return string html
+    */
+    public function install_page() {
+        $page = str_replace("code/".$_POST['new_section']."/code_", "", $_POST['path']);
+        $page = str_replace(".php", "", $page);
+        
+        if (!$page || !file_exists("./code/".$_POST['new_section']."/code_".$page.".php")) {
+            $delete = $this->pages_list($this->skin->error_box($this->lang->no_page_selected));
+            return $delete;
+        }
+
+        $page_check = $this->db->execute("SELECT * FROM `pages` WHERE `name`=? AND `section`=?", array($page, $_POST['new_section']));
+
+        if ($page_check->recordcount() == 0) {
+            $page_insert['name'] = $page;
+            $page_insert['section'] = $_POST['new_section'];
+            $page_insert['redirect'] = $page;
+            $insert_query = $this->db->autoexecute("pages", $page_insert, "INSERT");
+
+            if ($insert_query) {
+                $install=$this->pages_list($this->skin->success_box($this->lang->page_installed));
+                return $install;
+            }
+        } else {
+            $install = $this->pages_list($this->skin->error_box($this->lang->page_already_installed));
+            return $install;
+        }
+    }
+
+   /**
+    * uninstalled a particular page
+    *
+    * @return string html
+    */
+    public function uninstall_page() {
+        if (!isset($_POST['id'])) {
+            $uninstall = $this->pages_list($this->skin->error_box($this->lang->no_page_selected));
+            return $uninstall;
+        }
+
+        $page_query = $this->db->execute("SELECT * FROM `pages` WHERE `id`=?", array($_POST['id']));
+        if ($page_query->recordcount() == 1){
+
+            $page_delete_query = $this->db->execute("DELETE FROM `pages` WHERE `id`=?", array($_POST['id']));
+
+            if ($page_delete_query) {
+                $uninstall = $this->pages_list($this->skin->success_box($this->lang->page_uninstalled));
+                return $uninstall;
+            }
+        }
+
+        $uninstall = $this->pages_list($this->skin->error_box($this->lang->no_page_selected));
+        return $uninstall;
+    }
 
    /**
     * Makes the main page-changing menu.
@@ -123,35 +141,27 @@ class code_pages extends code_common {
         
         $pages_query = $this->db->execute("SELECT * FROM `pages` ORDER BY `section`");
         
-        
         while ($page = $pages_query->fetchrow()) {
+            $page_paths[$page['section']][] = "code/".$page['section']."/code_".$page['name'].".php";
             $page_sections[$page['section']] .= $this->skin->page_row($page['name'], $page['redirect'], $page['mod'], $page['id']);
         }
 
         foreach ($page_sections as $section_name => $section_html) {
             $page_categories_html .= $this->skin->section_wrapper($section_name, $section_html);
+            $uninstall_section = "";
+
+            foreach (glob("code/".$section_name."/code_*.php") as $file_path) {
+                if (!in_array($file_path, $page_paths[$section_name])) {
+                    $uninstall_section .= $this->skin->uninstalled_page_row($file_path, $section_name);
+                }
+            }
+
+            if ($uninstall_section) {
+                $uninstall_categories_html .= $this->skin->uninstalled_wrapper($section_name, $uninstall_section);
+            }
         }
-		
-		foreach(glob("code/admin/code_*.php") as $phplist){
-			$pagename3=str_replace("code/admin/code_","",$phplist);
-			$pagename2=str_replace(".php","",$pagename3);
-			$query=$this->db->execute("select * from `pages` where `name`=?",array($pagename2));
-			if($query->recordcount() == 0){
-				$uninsta_section_html .=$this->skin->unins_page_row($pagename2,"admin");
-			}
-		}
-		foreach(glob("code/public/code_*.php") as $phplist){
-			$pagename3=str_replace("code/public/code_","",$phplist);
-			$pagename2=str_replace(".php","",$pagename3);
-			$query=$this->db->execute("select * from `pages` where `name`=?",array($pagename2));
-			if($query->recordcount() == 0){
-				$uninst_section_html .=$this->skin->unins_page_row($pagename2,"public");
-			}
-		}
-		$page_uninsta =$this->skin->unins_wrapper("Uninstalled Admin Pages",$uninsta_section_html);
-		$page_uninst = $this->skin->unins_wrapper("Uninstalled Public Pages",$uninst_section_html);
-		$alllists=$page_categories_html.$page_uninsta.$page_uninst;
-        $pages_list = $this->skin->pages_wrapper($alllists, $message);
+        
+        $pages_list = $this->skin->pages_wrapper($page_categories_html.$uninstall_categories_html, $message);
         return $pages_list;
     }
 
