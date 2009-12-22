@@ -1,0 +1,91 @@
+How to code for Quest
+Josh04
+
+Introduction
+-------------------
+
+Quest is built on top of an entirely new PHP framework written by me and Greg, and it can be confusing at first, especially if you haven't written a program before which follows a design pattern.
+
+Firstly, to understand how quest works it is necessary to understand what the whole 'class' thing is. PHP has support for programming in an 'object-orientated' fashion, which basically means you can do the following:
+
+class printer {
+	public function hello() {
+		print "Hello";
+	}
+}
+$printer_object = new printer;
+$printer_object->hello();
+
+And "hello" will be printed. The advantage of this over simply having
+
+function hello() {
+	print "Hello";
+}
+
+is that if I am writing an extension to quest where I need a function hello(), I can do that without getting an error that the name is already in use.
+
+So I want to make a mod!
+-------------------
+
+Okay! Say you're going to make a mod for "guilds": Make an empty text file in code/public/code_guilds.php. 'guilds' is your page name, 'public' is your section. I'll come back to the significance of these in a moment. Enter this into your empty class file:
+
+class code_guilds extends code_common {
+	public function construct() { 
+		$this->initiate();
+		return "Hello";
+	}
+}
+
+(in the future this step will be replaced with a gui)
+There's just one more thing to do: To prevent hacking, quest will not load a page unless there is a database entry for it in the 'pages' table. So open up phpmyadmin or whatever, and go to your database, then pages, then insert. Leave the id box blank, enter "guilds" for the page, "public" for the section, and "guilds" again for the redirect. Leave "mod" blank, and insert.
+
+What is happening here is that your are telling quest to, when it receives the url "index.php?section=public&page=guilds", to load the file code_guilds.php in the code/public folder.
+
+(The redirect field is useful if you want two urls to go to the same code, but do different things. For instance, both 'inventory' and 'store' go to 'code_items.php'.)
+
+Okay, now go to "index.php?section=public&page=guilds" and you should see that quest has done one of two things: either you will see the login page, because you're not logged in ;), or you'll see the quest header, footer, and menu with your "Hello!" in the middle. All that from sex lines of code!
+
+But what's the code doing?
+-------------------
+
+Lots of things. Let's start with the first line:
+
+class code_guilds extends code_common {
+
+This declares your class ('code_guilds') and tells PHP that it is an extension of 'code_common'. This means that you get for free the two main question functions, 'initiate()' and 'core()'. I'll go through what these do in a moment. 'code_common' also sets the database up for you as well (see 'But I want to use the DB!')
+
+public function construct() {
+
+construct() is the only function your class has to have. When you run index.php?section=public&page=guilds, this is the function that will get run, and whatever you return is what gets printed to the screen.
+
+$this->initiate();
+
+The 'initiate' function is really a wrapper for running the default core modules, e.g fetching the language files, running the built-in cron function and making sure the player is logged in. It's perfectly possible to write a quest module which doesn't run this, but it's useful.
+
+A quick note on the 'core()' function: core() loads what are called quest core modules, which amount to other files under code/common designed for doing common things which aren't related to the particular page. For instance, when you run initiate() the first thing it does is run "$this->core('settings');", which loads the settings table from the database. To get a setting you would then do something like
+
+$this->settings->get['setting_name'];
+
+The other thing initiate() does is set up the skin. Quest has a relativly powerful skin templating engine based around skin_name.php files which are just classes full of functions which return html. If, for instance, we had written a file called skin_guilds.php which looked like this:
+
+class skin_guilds extends skin_common {
+    public function hello() {
+        return "Hello";
+    }
+}
+
+We could do the following in code_guilds:
+
+class code_guilds extends code_common {
+	public function construct() { 
+		$this->initiate('skin_guilds');
+		return $this->skin->hello();
+	}
+}
+
+Putting a string into initiate("skin_guilds") tells quest to load skin/public/skin_guilds.php, and you can then access your skin functions by doing $this->skin->function_name();
+
+But I want to use the DB!
+-------------------
+
+You can! Quest uses a wrapper around an ADOdb-compatible database driver, and uses some voodoo magic to ensure that it is always loaded and ready for you to use under $this->db. So to run a query, you'd run $this->db->execute("SELECT whatever FROM a table")

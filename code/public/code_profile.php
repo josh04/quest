@@ -117,7 +117,7 @@ class code_profile extends code_common {
 
         $this->profile->friendcount = count($this->profile->friends);
         if ($this->profile->friendcount==0) {
-            $friendlist = $this->skin->no_friends($this->player->username);
+            $friendlist = $this->skin->no_friends($this->profile->username);
         } else {
             foreach($this->profile->friends as $friend) {
                 $friendlist .= $this->skin->friend_entry($friend);
