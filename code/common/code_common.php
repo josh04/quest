@@ -164,13 +164,13 @@ class code_common {
         // no expert, but I think unless you made a directory called "code_"
         // you'd have a hard time convincing this to load anything other than
         // a core module
-        if (file_exists("code/common/code_".$module.".php")) { 
-            require_once("code/common/code_".$module.".php");
+        if (file_exists("code/common/core_".$module.".php")) {
+            require_once("code/common/core_".$module.".php");
         } else {
             return false;
         }
         
-        $class_name = "code_".$module;
+        $class_name = "core_".$module;
         
         $core_module = new $class_name($this->settings, $this->config);
         
@@ -198,7 +198,7 @@ class code_common {
     * @param <type> $line
     */
     public function error_handler($id, $text, $file, $line) {
-        
+
         if ($id = E_NOTICE) {
             return;
         }

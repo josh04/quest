@@ -16,6 +16,7 @@ class code_mods extends _code_admin {
     public function construct() {
         $this->initiate("skin_mods");
         $this->core("hooks");
+        
         $code_mods = $this->mods_switch();
 
         return $code_mods;

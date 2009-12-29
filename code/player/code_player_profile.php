@@ -24,24 +24,24 @@ class code_player_profile extends code_player {
     * 
     */
     public function custom_fields() {
-            if (!isset($this->player_id)) {
-                foreach (json_decode($this->settings->get['custom_fields'], true) as $field => $default) {
-                    $profile_string[$field] = $default;
-                }
-                
-                $profile_data['player_id'] = $this->id;
-                $profile_data['profile_string'] = json_encode($profile_string);
-                $this->db->AutoExecute('profiles', $profile_data, 'INSERT');
-
-                foreach ($profile_data as $name => $value) {
-                    $this->$name = $value;
-                }
-            }
-
-            $profile_array = json_decode($this->profile_string, true);
+        if (!isset($this->player_id)) {
             foreach (json_decode($this->settings->get['custom_fields'], true) as $field => $default) {
-                $this->$field = $profile_array[$field];
+                $profile_string[$field] = $default;
             }
+
+            $profile_data['player_id'] = $this->id;
+            $profile_data['profile_string'] = json_encode($profile_string);
+            $this->db->AutoExecute('profiles', $profile_data, 'INSERT');
+
+            foreach ($profile_data as $name => $value) {
+                $this->$name = $value;
+            }
+        }
+
+        $profile_array = json_decode($this->profile_string, true);
+        foreach (json_decode($this->settings->get['custom_fields'], true) as $field => $default) {
+            $this->$field = $profile_array[$field];
+        }
     }
 
    /**
