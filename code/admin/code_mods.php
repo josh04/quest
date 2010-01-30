@@ -15,7 +15,6 @@ class code_mods extends _code_admin {
     */
     public function construct() {
         $this->initiate("skin_mods");
-        $this->core("hooks");
         
         $code_mods = $this->mods_switch();
 
@@ -169,12 +168,12 @@ class code_mods extends _code_admin {
    /**
     * progressively installs a hook
     *
-    * @param string $hook id of the hook we're installing
+    * @param string $filename id of the hook we're installing
     * @return string html
     */
-    public function install_hook_preface($hook) {
+    public function install_hook_preface($filename) {
 
-        $path = "./hooks/".$hook."/config.xml";
+        $path = "./hooks/".$filename."/config.xml";
 
         if (!file_exists($path)) {
             return $this->mods_home($this->skin->error_box($this->lang->mod_no_configure));
@@ -182,9 +181,11 @@ class code_mods extends _code_admin {
 
         $xml = simplexml_load_file($path);
 
-        if ($xml->hook) {
-            $install_guide .= $this->skin->hook_into($xml->hook->attributes());
+
+        foreach ($xml->hook as $hook) {
+            $install_guide .= $this->skin->hook_into($hook->attributes());
         }
+
 
         if ($xml->settings) {
             foreach($xml->settings->children() as $key=>$value) {
@@ -199,19 +200,19 @@ class code_mods extends _code_admin {
             $install_guide .= $this->skin->sql_execute($xml->sql);
         }
 
-        $install_hook = $this->skin->install_hook_preface($hook, $xml->title, $xml->description->long, $xml->author, $xml->version, $xml->modurl, $install_guide);
+        $install_hook = $this->skin->install_hook_preface($filename, $xml->title, $xml->description->long, $xml->author, $xml->version, $xml->modurl, $install_guide);
         return $install_hook;
     }
 
    /**
     * does the actual installing and sends confirmation message
     *
-    * @param string $hook id of the hook we're installing
+    * @param string $filename id of the hook we're installing
     * @return string html
     */
-    public function install_hook($hook) {
+    public function install_hook($filename) {
 
-        $path = "./hooks/".$hook."/config.xml";
+        $path = "./hooks/".$filename."/config.xml";
 
         if (!file_exists($path)) {
             return $this->mods_home($this->skin->error_box($this->lang->mod_no_configure));
@@ -219,15 +220,18 @@ class code_mods extends _code_admin {
 
         $xml = simplexml_load_file($path);
 
-        if ($xml->hook) {
-            $handle = fopen("./hooks/index.php", "a");
-            $vals = array($hook, strval($xml->hook->file), strval($xml->hook->function));
+        $handle = fopen("./hooks/index.php", "a");
+        foreach ($xml->hook as $hook) {
+            $vals = array($filename, strval($hook->file), strval($hook->function));
             if (isset($xml->admin->file)) {
                 array_push($vals, strval($xml->admin->file));
             }
-            fwrite($handle, "\n\$hooks['".$xml->hook->attributes()."'][] = array('".implode("','", $vals)."');");
+            
+            $true = fwrite($handle, "\n\$hooks['".$hook->attributes()."'][] = array('".implode("','", $vals)."');");
+            
             $returns .= $this->skin->hook_created();
         }
+        fclose ($handle);
 
         if ($xml->settings) {
             foreach($xml->settings->children() as $key=>$value) {
@@ -242,7 +246,7 @@ class code_mods extends _code_admin {
         }
 
         if ($xml->admin->file) {
-            $or_admin = $this->skin->or_admin_link($hook);
+            $or_admin = $this->skin->or_admin_link($filename);
         }
 
         $install_hook = $this->skin->install_hook($xml->title, $returns, $or_admin);

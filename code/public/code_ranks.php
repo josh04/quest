@@ -48,7 +48,6 @@ class code_ranks extends code_common {
 
         $make_table .= $this->skin->make_table($most_deaths_html, "Quitters");
 
-        $this->core("hooks");
         $rankers = $this->hooks->get("ranks/custom", HK_ARRAY);
 
         if($rankers) {

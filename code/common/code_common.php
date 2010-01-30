@@ -124,12 +124,14 @@ class code_common {
     public function initiate($skin_name = "", $override = "") {
         $this->core("settings");
         $this->core("cron");
+        $this->core("hooks");
         $this->core("player");
         $this->core("extra_lang");
         $this->core("page_generation");
         $this->skin =& $this->page_generation->make_skin($skin_name, $override = "");
-        
-        if (!$this->player->allowed) {
+
+        $allowed = $this->player->make_player();
+        if (!$allowed) {
             $this->page_generation->error_page($this->lang->page_not_exist);
         }
         
@@ -180,57 +182,22 @@ class code_common {
             $success = $core_module->load_core(&$this);
         }
         
-        if ($success == false) {
-            $this->$module = &$core_module;
-        } else {
-            $this->$module = &$success;
-        }
-        
-        return $success;
-    }
-
-   /**
-    * error handling function
-    *
-    * @param <type> $id
-    * @param <type> $text
-    * @param <type> $file
-    * @param <type> $line
-    */
-    public function error_handler($id, $text, $file, $line) {
-
-        if ($id = E_NOTICE) {
-            return;
-        }
-        
-        if (!isset($this->lang)) {
-            $this->core("default_lang");
-        }
-
-        if (isset($this->page_generation)) {
-
-            if (!$this->skin) {
-                $this->page_generation->make_skin();
-            }
-
-            if (isset($this->settings->get['name'])) {
-                $site_name = $this->settings->get['name'];
+        if (!isset($this->$module->run_once)) {
+            if ($success == false) {
+                $this->$module = &$core_module;
+                $this->$module->run_once = true;
             } else {
-                $site_name = "Quest";
+                $this->$module = &$success;
+                $this->$module->run_once = true;
             }
-
-            $output = $this->skin->start_header("Error", $site_name, "default.css");
-
-            $output .= $this->skin->error_page($text." @ ".$file." line ".$line.".");
-
-            $output .= $this->skin->footer();    
+            return $success;
         } else {
-            print $id.$text.$file.$line;
-            $output = "Error time!";
+            if ($success == false) {
+               return $core_module;
+            } else {
+               return $success;
+            }
         }
-
-        print $output;
-        die();
     }
 
 }

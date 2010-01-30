@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mod>
+    <title>Player Profile</title>
+    <author>josh04</author>
+    <version>1.0</version>
+    <description>
+        <short>Player profile code.</short>
+        <long>Enables recording of player profile values, for use in code_player.</long>
+    </description>
+    <modurl></modurl>
+    <authorurl></authorurl>
+
+    <hook id="player/make/pre">
+        <file>profile.php</file>
+        <function>pre_make_player</function>
+    </hook>
+
+    <hook id="player/make/post">
+        <file>profile.php</file>
+        <function>post_make_player</function>
+    </hook>
+
+    <hook id="player/get/pre">
+        <file>profile.php</file>
+        <function>pre_make_player</function>
+    </hook>
+
+    <hook id="player/get/post">
+        <file>profile.php</file>
+        <function>post_make_player</function>
+    </hook>
+
+    <hook id="player/update">
+        <file>profile.php</file>
+        <function>update</function>
+    </hook>
+
+</mod>

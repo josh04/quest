@@ -15,8 +15,6 @@ class code_index extends code_common {
     * @return string html
     */
     public function index_player($message = "") {
-        
-        $this->core("hooks");
 
         $header  = $this->hooks->get("home/header");
         $extra = $this->hooks->get("home/extra");

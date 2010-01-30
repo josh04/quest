@@ -16,8 +16,9 @@ function stats_table($common) {
     $common->core("rpg_stats");
 
     if (get_class($common->player) != "code_player_rpg") { // because we no longer necessarily have the rpg data
-        require_once("code/player/code_player_rpg.php");
-        $player = new code_player_rpg();
+        /*require_once("code/player/code_player_rpg.php");
+        $player = new code_player_rpg();*/ // outdated >.>
+        $player = $common->core("player");
 
         if (!$player->get_player($common->player->id, 'rpg')) {
             return '';

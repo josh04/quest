@@ -5,7 +5,7 @@
  * @author josh04
  * @package code_player
  */
-class code_player_rpg extends code_player {
+class code_player_rpg extends core_player {
 
    /**
     * accesses the "rpg" table.

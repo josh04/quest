@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mod>
+    <title>Player RPG</title>
+    <author>josh04</author>
+    <version>1.0</version>
+    <description>
+        <short>Player RPG code.</short>
+        <long>Enables table with level, gold, XP, etc.</long>
+    </description>
+    <modurl></modurl>
+    <authorurl></authorurl>
+
+    <hook id="player/make/pre">
+        <file>rpg.php</file>
+        <function>rpg_pre_make_player</function>
+    </hook>
+
+    <hook id="player/make/post">
+        <file>rpg.php</file>
+        <function>rpg_post_make_player</function>
+    </hook>
+
+    <hook id="player/get/pre">
+        <file>rpg.php</file>
+        <function>rpg_pre_make_player</function>
+    </hook>
+
+    <hook id="player/get/post">
+        <file>rpg.php</file>
+        <function>rpg_post_make_player</function>
+    </hook>
+
+    <hook id="player/update">
+        <file>rpg.php</file>
+        <function>rpg_update</function>
+    </hook>
+
+    <hook id="player/create">
+        <file>rpg.php</file>
+        <function>rpg_create</function>
+    </hook>
+
+</mod>

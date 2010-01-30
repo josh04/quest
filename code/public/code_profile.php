@@ -8,8 +8,8 @@
 class code_profile extends code_common {
 
     public $profile;
-    public $player_class = 'code_player_profile';
-
+    public $player_flags = array("profile", "rpg");
+    
    /**
     * class override. calls parents, sends kids home.
     *
@@ -17,16 +17,16 @@ class code_profile extends code_common {
     */
     public function construct() {
         $this->initiate("skin_profile");
-
-        require_once("code/player/code_player_profile.php");
-        $this->profile = new code_player_profile($this->settings);
         
+        $this->profile = $this->core("player");
+
        // No ID or name? Show the user's profile.
         if (!isset($_GET['name']) && !isset($_GET['id'])) {
             $success = $this->profile->get_player((int) $this->player->id);
         } else if ($_GET['name']) {
             $success = $this->profile->get_player($_GET['name']);
         } else {
+            
             $success = $this->profile->get_player((int) $_GET['id']); //important
         }
 
@@ -50,7 +50,7 @@ class code_profile extends code_common {
     */
     public function make_profile($message = '') {
 
-        $this->profile->getFriends();
+        //$this->profile->getFriends();
         if ($_GET['friends']=="add") {
             $message = $this->add_as_friend();
         }
@@ -94,7 +94,6 @@ class code_profile extends code_common {
             }
         }
 
-        $this->core("hooks");
         // Get interaction from the profile/interact hook
         $custom_interact = $this->hooks->get("profile/interact", HK_ARRAY);
         if($custom_interact) {

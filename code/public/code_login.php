@@ -68,16 +68,17 @@ class code_login extends code_common {
             return $log_in;
         }
 
-        $player = new code_player();
-        $player_exists = $player->log_in($_POST['username'], $_POST['password']);
+        $this->core("player");
+        $this->player->make_player();
+        $player_exists = $this->player->log_in($_POST['username'], $_POST['password']);
 
         if (!$player_exists) {
             $log_in = $this->skin->index_guest($username, $this->lang->password_wrong, $this->settings->get['welcometext']);
             return $log_in;
         }
 
-        if ($player->verified==0) {
-            $player->log_out();
+        if ($this->player->verified==0) {
+            $this->player->log_out();
             $log_in = $this->skin->player_not_approved();
             return $log_in;
         }
