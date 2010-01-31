@@ -16,7 +16,7 @@ $hooks['player/make/pre'][] = array('player_profile','profile.php','pre_make_pla
 $hooks['player/make/post'][] = array('player_profile','profile.php','post_make_player');
 $hooks['player/get/pre'][] = array('player_profile','profile.php','pre_make_player');
 $hooks['player/get/post'][] = array('player_profile','profile.php','post_make_player');
-$hooks['player/update'][] = array('player_profile','profile.php','update_player');
+$hooks['player/update'][] = array('player_profile','profile.php','update');
 
 $hooks['player/make/pre'][] = array('player_rpg','rpg.php','rpg_pre_make_player');
 $hooks['player/make/post'][] = array('player_rpg','rpg.php','rpg_post_make_player');

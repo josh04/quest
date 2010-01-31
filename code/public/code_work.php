@@ -7,7 +7,7 @@
  */
 class code_work extends code_common {
 
-    public $player_class = "code_player_rpg";
+    public $player_flags = array("rpg");
 
    /**
     * class override. calls parents, sends kids home.

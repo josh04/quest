@@ -20,7 +20,7 @@ function stats_table($common) {
         $player = new code_player_rpg();*/ // outdated >.>
         $player = $common->core("player");
 
-        if (!$player->get_player($common->player->id, 'rpg')) {
+        if (!$player->get_player($common->player->id)) {
             return '';
         }
     } else {

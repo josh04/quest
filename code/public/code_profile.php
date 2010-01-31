@@ -8,7 +8,7 @@
 class code_profile extends code_common {
 
     public $profile;
-    public $player_flags = array("profile", "rpg");
+    public $player_flags = array("profile", "rpg", "friends");
     
    /**
     * class override. calls parents, sends kids home.
@@ -50,7 +50,6 @@ class code_profile extends code_common {
     */
     public function make_profile($message = '') {
 
-        //$this->profile->getFriends();
         if ($_GET['friends']=="add") {
             $message = $this->add_as_friend();
         }
@@ -144,8 +143,6 @@ class code_profile extends code_common {
             $message = $this->skin->error_box($this->lang->cant_self_friend);
             return $message;
         }
-
-        $this->player->getFriends();
 
         if (in_array($this->profile->id, array_keys($this->player->friends))) {
             $message = $this->skin->error_box($this->lang->already_friends.$this->profile->username.".");

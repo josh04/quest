@@ -89,3 +89,29 @@ But I want to use the DB!
 -------------------
 
 You can! Quest uses a wrapper around an ADOdb-compatible database driver, and uses some voodoo magic to ensure that it is always loaded and ready for you to use under $this->db. So to run a query, you'd run $this->db->execute("SELECT whatever FROM a table")
+
+Okay, I'm busy writing my own first guilds mod. I've added a column to the `rpg` table - how do I access it?
+-------------------
+
+It's as simple as asking the player module nicely to do it for you. You need to declare a class variable in your code_guilds.php like so:
+
+class code_guilds extends code_common {
+	public $player_flags = array("rpg");
+
+$player_flags is an array which is checked by the player module when it is run. It sets a signal variable so that hooks such as player_rpg know they are meant to run their extra code on this page load. If you set it like shown, hooks/player_rpg/rpg.php will run extra code during the player set up so that as well as fetching all the values from the `players` table, it also fetches those from the `rpg` table.
+
+Note that you can also do things like this: 
+
+class code_guilds extends code_common {
+	public $player_flags = array("rpg", "profile");
+
+And both rpg and profile will have their extra code signalled to run.
+
+I have an awesome bit of my page I'd like to be able to hook into, how do I call a hook?
+-------------------
+
+You do:
+
+$this->hooks->get("name/of/hook");
+
+And you're done!

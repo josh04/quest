@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mod>
+    <title>Player Friends</title>
+    <author>josh04</author>
+    <version>1.0</version>
+    <description>
+        <short>Player friend code.</short>
+        <long>Enables fetching of player's friend list.</long>
+    </description>
+    <modurl></modurl>
+    <authorurl></authorurl>
+
+    <hook id="player/make/pre">
+        <file>friends.php</file>
+        <function>get_friends</function>
+    </hook>
+
+</mod>

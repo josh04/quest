@@ -92,7 +92,7 @@ class code_common {
     *
     * @var string
     */
-    public $player_class = "code_player";
+    public $player_flags = array();
 
    /**
     * The common constructor for every class which extends code_common.

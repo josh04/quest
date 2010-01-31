@@ -22,7 +22,7 @@ class core_fight {
   public $save_xp = true;
   public $record_kills = true;
   public $use_energy = true;
-  public $player_class = "code_player_rpg";
+  public $player_flags = array("rpg");
 
    /**
     * gets all the stuff we need for the fight
@@ -244,16 +244,16 @@ class core_fight {
             }
             
             if ($this->save_gold && $this->save_xp) {
-                $victor->add_log($this->skin->victory_log($loser->id, $loser->username).$this->skin->gain_gold_log($gold_shift, $exp_gain));
-                $loser->add_log($this->skin->loss_log($victor->id, $victor->username).$this->skin->loss_gold_log($gold_shift));
+                $this->log->add($victor->id, $this->skin->victory_log($loser->id, $loser->username).$this->skin->gain_gold_log($gold_shift, $exp_gain));
+                $this->log->add($loser->id, $this->skin->loss_log($victor->id, $victor->username).$this->skin->loss_gold_log($gold_shift));
             } else {
-                $victor->add_log($this->skin->victory_log($loser->id, $loser->username));
-                $loser->add_log($this->skin->loss_log($victor->id, $victor->username));
+                $this->log->add($victor->id, $this->skin->victory_log($loser->id, $loser->username));
+                $this->log->add($loser->id, $this->skin->loss_log($victor->id, $victor->username));
             }
 
         } else {
-            $this->player->add_log($this->skin->draw_log($this->enemy->id, $this->enemy->username));
-            $this->enemy->add_log($this->skin->draw_log($this->player->id, $this->player->username));
+            $this->log->add($this->player->id, $this->skin->draw_log($this->enemy->id, $this->enemy->username));
+            $this->log->add($this->enemy->id, $this->skin->draw_log($this->player->id, $this->player->username));
             $banner = $this->skin->error_box($this->lang->you_drew);
         }
 
@@ -263,13 +263,13 @@ class core_fight {
         
         if ($this->player->update_player()) {
             $attacks[] = $this->skin->player_battle_row($this->player->username." gained a level!");
-            $this->player->add_log($this->lang->levelled_up);
+            $this->log->add($this->player->id, $this->lang->levelled_up);
         }
 
-        if ($this->type=="player") {
+        if ($this->type == "player") {
             if ($this->enemy->update_player()) {
                 $attacks[] = $this->skin->enemy_battle_row($this->enemy->username." gained a level!");
-                $this->enemy->add_log($this->lang->levelled_up);
+                $this->log->add($this->enemy->id, $this->lang->levelled_up);
             } 
         }
 
@@ -354,12 +354,12 @@ class core_fight {
 * @author grego
 */
 class entity_enemy {
+   public $id=0;
    public $hp=0;
    public $username='Enemy';
    public $level=1;
    public $strength=0;
    public $vitality=0;
    public $agility=0;
-   function add_log() {return;}
 }
 ?>

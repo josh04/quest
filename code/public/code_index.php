@@ -81,7 +81,7 @@ class code_index extends code_common {
     */
     public static function code_index_menu(&$menu, $label) { //(TODO) not site-independent
         if ($menu->player->is_member) {
-            if (get_class($menu->player) != "code_player_rpg") { // because we no longer necessarily have the rpg data
+            if (!isset($menu->player->level)) { // because we no longer necessarily have the rpg data
                 $player_query = $menu->db->execute("SELECT * FROM `rpg` WHERE `player_id`=?", array($menu->player->id));
                 
                 if (!$player_extra = $player_query->fetchrow()) {

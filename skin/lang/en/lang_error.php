@@ -166,7 +166,7 @@ class lang_error {
     public $not_enough_cash_to_donate = "You do not have that much cash to donate.";
 
     // hospital
-    public $full_health = "You are already at full health.";
+    public $full_health = "You are currently at full health.";
     public $beyond_maximum = "That is beyond your maximum health.";
     public $not_enough_to_heal = "You don't have enough money to heal that much.";
     public $no_amount_to_heal_entered = "You did not enter an amount to heal.";

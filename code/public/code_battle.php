@@ -8,7 +8,7 @@
 class code_battle extends code_common {
 
     public $enemy;
-    public $player_class = "code_player_rpg";
+    public $player_flags = array("rpg");
 
    /**
     * class override. calls parents, sends kids home.
@@ -127,7 +127,7 @@ class code_battle extends code_common {
         $id = intval($_POST['id']);
 
         if(!$id && isset($_POST['username'])) {
-            $test_player = new code_player;
+            $test_player = $this->core("player");
             $test_player->get_player($_POST['username']);
             if(isset($test_player->id)) {
                 $id = $test_player->id;
@@ -160,7 +160,9 @@ class code_battle extends code_common {
         }
 
         $this->core('fight');
-        $this->fight->enemy = new code_player_rpg;
+        $this->core('log');
+        $this->fight->log =& $this->log;
+        $this->fight->enemy = $this->core("player");
         $this->fight->type = "player";
         if (!$this->fight->enemy->get_player($id)) {
             $fight = $this->battle_search_page($this->skin->error_box($this->lang->player_not_found));

@@ -7,6 +7,8 @@
  */
 class code_edit_profile extends _code_admin {
 
+    public $player_flags = array("profile");
+
    /**
     * class override. calls parents, sends kids home.
     *
@@ -62,9 +64,7 @@ class code_edit_profile extends _code_admin {
     * @return string html
     */
     public function edit_profile_page($id, $message="") {
-
-        require_once("code/player/code_player_profile.php");
-        $profile = new code_player_profile($this->settings);
+        $profile = $this->core('player');
         $profile->get_player($id);
 
         $gender_list = $this->skin->gender_list($profile->gender);
@@ -92,9 +92,8 @@ class code_edit_profile extends _code_admin {
             $update_permissions = $this->edit_profile_page($id, $this->skin->error_box($this->lang->not_a_rank));
             return $update_permissions;
         }
-        
-        require_once("code/player/code_player_profile.php");
-        $profile = new code_player_profile($this->settings);
+
+        $profile = $this->core('player');
         $profile->get_player($id);
         $profile->rank = $_POST['rank'];
 
@@ -121,8 +120,7 @@ class code_edit_profile extends _code_admin {
             return $update_profile;
         }
 
-        require_once("code/player/code_player_profile.php");
-        $profile = new code_player_profile($this->settings);
+        $profile = $this->core('player');
         $profile->get_player($id);
 
         foreach (json_decode($this->settings->get['custom_fields'],true) as $field => $default) {
@@ -171,14 +169,13 @@ class code_edit_profile extends _code_admin {
             $update_password = $this->edit_profile_page($id, $this->lang->passwords_do_not_match);
             return $update_password;
         }
-        
-        require_once("code/player/code_player_profile.php");
-        $profile = new code_player_profile($this->settings);
+
+        $profile = $this->core('player');
         $profile->get_player($id);
 
         $profile->update_password($_POST['new_password']);
-        return $update_password;
-
+        $update_profile = $this->edit_profile_page($profile->id, $this->skin->success_box($this->lang->profile_updated));
+        return $update_profile;
     }
 
    /**

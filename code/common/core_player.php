@@ -404,10 +404,11 @@ class core_player {
         
         $this->password = $update_password['password'];
 
-        $hash = md5($this->id.$this->password.$this->login_rand);
-        $_SESSION['hash'] = $hash;
-        code_cookie::set("cookie_hash", $hash, mktime()+2592000);
-        
+        if ($this->id == $_COOKIE['logged_in_user_id']) {
+            $hash = md5($this->id.$this->password.$this->login_rand);
+            $_SESSION['hash'] = $hash;
+            code_cookie::set("cookie_hash", $hash, mktime()+2592000);
+        }
         if ($password_query) {
             return true;
         } else {

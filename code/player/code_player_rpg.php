@@ -118,25 +118,6 @@ class code_player_rpg extends core_player {
     }
 
    /**
-    * notify the player
-    *
-    * @param string $message what to say
-    * @return bool success
-    */
-    public function add_log($message) {
-        $insert_log['player_id'] = $this->id;
-        $insert_log['message'] = $message;
-        $insert_log['time'] = time();
-        $log_query = $this->db->AutoExecute('user_log', $insert_log, 'INSERT');
-
-        if ($log_query) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-   /**
     * fer makin' a player
     * (TODO) configuable defaults
     *

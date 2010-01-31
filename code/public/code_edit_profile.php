@@ -7,7 +7,7 @@
  */
 class code_edit_profile extends code_common {
 
-    public $player_class = "code_player_profile";
+    public $player_flags = array("profile");
 
    /**
     * class override. calls parents, sends kids home.
