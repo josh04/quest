@@ -110,7 +110,6 @@ class code_player_rpg extends core_player {
                                         'stat_points' => $this->stat_points
                                         );
 
-
         $this->db->AutoExecute('rpg', $rpg_update_query, 'UPDATE', '`player_id`='.$this->id);
         if (!$just) {
             parent::update_player();

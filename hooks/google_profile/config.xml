@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mod>
+    <title>Google Search profile</title>
+    <author>Greg</author>
+    <version>1.0</version>
+    <description>
+        <short>Searches for player's username on Google</short>
+        <long>Searches for player's username on Google</long>
+    </description>
+
+    <hook id="profile/interact">
+        <file>main.php</file>
+        <function>google_profile</function>
+    </hook>
+</mod>

@@ -68,13 +68,13 @@ class code_profile extends code_common {
             $this->profile->extras .= $this->skin->extra_link($field, $this->profile->$field);
         }
 
-        if ($this->profile->msn) {
+        if (trim($this->profile->msn)) {
             $this->profile->im_links .= $this->skin->extra_link('MSN', $this->profile->msn);
         }
-        if ($this->profile->aim) {
+        if (trim($this->profile->aim)) {
             $this->profile->im_links .= $this->skin->extra_link('AIM', $this->profile->aim);
         }
-        if ($this->profile->skype) {
+        if (trim($this->profile->skype)) {
             $this->profile->im_links .= $this->skin->extra_link('Skype', $this->profile->skype);
         }
 

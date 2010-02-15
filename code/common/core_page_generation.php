@@ -248,6 +248,7 @@ class core_page_generation {
    /**
     * makes "2th nov" into "2 hours ago!"
     * (TODO) this is a code_skin candidate
+    * (TODO) consider using phrases like "just now" rather than be too specific
     *
     * @param int $time the time, datestamp
     * @return string the time

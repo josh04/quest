@@ -62,11 +62,11 @@ class skin_profile extends skin_common {
   /**
    * send mail link
    * 
-   * @param string $username player name
+   * @param string $username player username
    * @return string html
    */
    public function add_mail_link($username) {
-       $add_interact_link = "<a href='index.php?section=public&amp;page=mail&amp;action=compose&amp;to=".$usename."'>Mail</a>";
+       $add_interact_link = "<a href='index.php?section=public&amp;page=mail&amp;action=compose&amp;to=" . $username . "'>Mail</a>";
        return $add_interact_link;
    }
 
@@ -211,7 +211,7 @@ class skin_profile extends skin_common {
     */
     public function edit_avatar($avatar_options) {
         $edit_avatar = "<a href='#' style='color:transparent;' onClick='showHide(\"showhide-2\");return false;'><div class='edit-profile-header'><span style='float:right;'>&laquo;</span>Change Avatar</div></a>
-            <div class='edit-profile-body' id='showhide-2'><form action='index.php?section=public&amp;page=profile_edit&amp;action=update_avatar' method='POST' enctype='multipart/form-data'>
+            <div class='edit-profile-body' id='showhide-2' style='display:none;'><form action='index.php?section=public&amp;page=profile_edit&amp;action=update_avatar' method='POST' enctype='multipart/form-data'>
             <table>
                 " . $avatar_options . "
                 <tr><td colspan='2'><input type='submit' name='submit' value='Submit'/></td></tr>
