@@ -183,7 +183,8 @@ class _code_install extends code_common {
         ('avatar_upload', '0'),
         ('avatar_library', '0'),
         ('help_format', 'html'),
-        ('default_skin', '');";
+        ('default_skin', ''),
+        ('guest_pages', '[\"login\",\"guesthelp\",\"ranks\", \"index\", \"unapproved\"]');";
 
     public $quests_query = "CREATE TABLE IF NOT EXISTS `quests` (
         `id` int(3) NOT NULL auto_increment,

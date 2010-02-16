@@ -117,14 +117,13 @@ class code_menu_admin extends _code_admin {
                 return $edit;
             }
             // Get me the Iron Giant!
-            require_once("code/common/code_menu.php");
-            $code_menu = new code_menu($this->db, $this->player, $this->section, $this->page, $this->pages);
+            $this->core("menu");
 
             if($id=="-1") {
-                $code_menu->add_menu_entry($item['label'], $item['category'], $item['section'],
+                $this->menu->add_menu_entry($item['label'], $item['category'], $item['section'],
                     $item['page'], $item['extra'], $item['function'], $item['enabled'], $item['guest']);
             } else {
-                $code_menu->modify_menu_entry($id, $item['label'], $item['category'], $item['section'],
+                $this->menu->modify_menu_entry($id, $item['label'], $item['category'], $item['section'],
                     $item['page'], $item['extra'], $item['function'], $item['enabled'], $item['guest']);
             }
             header("location:?section=admin&page=menu");

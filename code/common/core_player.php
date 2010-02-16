@@ -164,7 +164,7 @@ class core_player {
     * @return bool kick them out?
     */
     protected function halt_if_guest($page) {
-        $guest_pages = array("login","guesthelp","ranks", "index", "");
+        $guest_pages = json_decode($this->settings->get['guest_pages'], true);
         if(!$this->is_member && !in_array($this->page,$guest_pages)){
             return false;
         }
@@ -249,9 +249,9 @@ class core_player {
                 $query_selects .= ", `".$table."`.*";
             }
             $player_query = $this->db->execute("SELECT `p`.*".$query_selects." FROM `players` AS `p` ".$query_joins."
-                WHERE `p`.`username`=?", array(intval($name)));
+                WHERE `p`.`username`=?", array($name));
         } else {
-            $player_query = $this->db->execute("SELECT * FROM `players` WHERE `username`=?", array(intval($name)));
+            $player_query = $this->db->execute("SELECT * FROM `players` WHERE `username`=?", array($name));
         }
 
         if ($player_query->recordcount() == 0) {

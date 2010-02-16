@@ -30,7 +30,7 @@ class code_login extends code_common {
     */
     public function log_out() {
         $this->player->log_out();
-        header("Location: index.php?action=logged_out");
+        header("Location: index.php?message=logged_out");
     }
 
    /**
@@ -59,12 +59,12 @@ class code_login extends code_common {
     public function log_in() {
 
         if ($_POST['username'] == "") {
-            $log_in = $this->skin->index_guest($username, $this->lang->please_enter_username, $this->settings->get['welcometext']);
+            header("Location: index.php?message=please_enter_username");
             return $log_in;
         }
 
         if ($_POST['password'] == "") {
-            $log_in = $this->skin->index_guest($username, $this->lang->please_enter_password, $this->settings->get['welcometext']);
+            header("Location: index.php?message=please_enter_password");
             return $log_in;
         }
 
@@ -73,7 +73,7 @@ class code_login extends code_common {
         $player_exists = $this->player->log_in($_POST['username'], $_POST['password']);
 
         if (!$player_exists) {
-            $log_in = $this->skin->index_guest($username, $this->lang->password_wrong, $this->settings->get['welcometext']);
+            header("Location: index.php?message=password_wrong");
             return $log_in;
         }
 
@@ -96,7 +96,7 @@ class code_login extends code_common {
     public function register() {
 
         if($this->settings->get['verification_method']==0) {
-            $register_submit = $this->skin->index_guest("", $this->lang->registration_disabled, $this->settings->get['welcometext']);
+            header("Location: index.php?message=registration_disabled");
             return $register_submit;
         }
 
@@ -113,7 +113,7 @@ class code_login extends code_common {
         $this->core("email");
 
         if ($this->settings->get['verification_method']==0) {
-            $register_submit = $this->skin->index_guest("", $this->lang->registration_disabled, $this->settings->get['welcometext']);
+            header("Location: index.php?message=registration_disabled");
             return $register_submit;
         }
 
@@ -229,7 +229,7 @@ class code_login extends code_common {
 
         <p>But above all, have fun!</p>";
 
-        $register_submit = $this->skin->index_guest($username, $this->lang->registered, $this->settings->get['welcometext']);
+        $register_submit = header("Location: index.php?message=registered");
         return $register_submit;
 
     }

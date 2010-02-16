@@ -43,14 +43,41 @@ class code_index extends code_common {
     }
 
    /**
+    * just checks for each login error
+    *
+    * @return string error message
+    */
+    public function login_message() {
+        switch ($_GET['message']) {
+            case 'please_enter_username':
+                return $this->lang->please_enter_username;
+                break;
+            case 'please_enter_password':
+                return $this->lang->please_enter_password;
+                break;
+            case 'password_wrong':
+                return $this->lang->password_wrong;
+                break;
+            case 'registration_disabled':
+                return $this->lang->registration_disabled;
+                break;
+            case 'registered':
+                return $this->lang->registered;
+                break;
+            case 'logged_out':
+                return $this->lang->logged_out;
+                break;
+            default:
+                return "";
+        }
+    }
+
+   /**
     * builds the guest index. losers :P
     *
     * @return string html
     */
     public function index_guest($login_error) {
-        if ($_GET['action'] == "logged_out") {
-            $login_error = $this->lang->logged_out;
-        }
         $index_guest = $this->skin->index_guest($username, $login_error, $this->settings->get['welcometext']);
         return $index_guest;
     }
@@ -62,11 +89,13 @@ class code_index extends code_common {
     */
     public function construct() {
         $this->initiate("skin_index");
+
+        $message = $this->login_message();
         
         if ($this->player->is_member) {
-            $code_index = $this->index_player();
+            $code_index = $this->index_player($message);
         } else {
-            $code_index = $this->index_guest("", "");
+            $code_index = $this->index_guest($message);
         }
         
         return $code_index;
