@@ -42,6 +42,7 @@ class core_fight {
         $this->skin =& $common->page_generation->make_skin("skin_fight");
         $this->lang =& $common->lang;
         $common->page->generation->section = $this->player_section; // hacky hacky hacky
+        $this->log =& $common->log;
     }
 
    /**

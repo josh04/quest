@@ -1,6 +1,6 @@
 <?php
 /**
- * Description of skin_ticket
+ * Description of skin_mods
  *
  * @author grego
  * @package skin_admin
@@ -237,18 +237,18 @@ class skin_mods extends _skin_admin {
     * @return string html
     */
     public function author_link($author, $url) {
-        $author_link = "<a href='".$url."'>".$author."</a>";
+        $author_link = "<a href='" . htmlentities($url) . "'>".$author."</a>";
         return $author_link;
     }
 
    /**
     * link to mod site
     *
-    * @param string $url author site
+    * @param string $url mod site
     * @return string html
     */
     public function site_link($url) {
-        $site_link = " (<a href='".$url."'>site</a>)";
+        $site_link = " (<a href='" . htmlentities($url) . "'>site</a>)";
         return $site_link;
     }
 

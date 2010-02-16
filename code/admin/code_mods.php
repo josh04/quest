@@ -117,11 +117,11 @@ class code_mods extends _code_admin {
             $installed = false;
         }
 
-        if (isset($xml->modurl)) {
+        if (!empty($xml->modurl)) {
             $xml->title = $xml->title . $this->skin->site_link($xml->modurl);
         }
 
-        if (isset($xml->authorurl)) {
+        if (!empty($xml->authorurl)) {
             $xml->author = $this->skin->author_link($xml->author, $xml->authorurl);
         }
 
@@ -227,7 +227,7 @@ class code_mods extends _code_admin {
                 array_push($vals, strval($xml->admin->file));
             }
             
-            $true = fwrite($handle, "\n\$hooks['".$hook->attributes()."'][] = array('".implode("','", $vals)."');");
+            $true = fwrite($handle, "\r\n\$hooks['".$hook->attributes()."'][] = array('".implode("','", $vals)."');");
             
             $returns .= $this->skin->hook_created();
         }

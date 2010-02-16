@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mod>
+    <title>IE6 Warning</title>
+    <author>Greg</author>
+    <version>1.0</version>
+    <description>
+        <short>Warns users about using Internet Explorer 6</short>
+        <long>Internet Explorer 6 is an old and outdated web browser, but still one of the most used. This mod adds a warning to the home page to visitors who still use it, and provides alternatives.</long>
+    </description>
+
+    <hook id="home/header">
+        <file>main.php</file>
+        <function>warning</function>
+    </hook>
+</mod>
