@@ -15,7 +15,7 @@
 
 require_once("code/common/code_bootstrap.php");
 
-require_once("interfaces/basic_player.php");
+require_once("code/common/interfaces/basic_player.php");
 include("install.lock");
 
 $bootstrap = new code_bootstrap;
