@@ -96,26 +96,29 @@
     * make rpg values when we make the player, pls
     */
     function rpg_create(&$player) {
-        $rpg_array['player_id'] = $player->id;
-        $rpg_array = array( 'strength' => 1,
-                            'vitality' => 1,
-                            'agility' => 1,
+        if ($player->do_rpg == true) {
 
-                            'hp' => 60,
-                            'hp_max' => 60,
-                            'exp' => 0,
-                            'exp_max' => 50,
-                            'energy' => 10,
-                            'energy_max' => 10,
+            $rpg_array['player_id'] = $player->id;
+            $rpg_array = array( 'strength' => 1,
+                                'vitality' => 1,
+                                'agility' => 1,
 
-                            'kills' => 0,
-                            'deaths' => 0,
+                                'hp' => 60,
+                                'hp_max' => 60,
+                                'exp' => 0,
+                                'exp_max' => 50,
+                                'energy' => 10,
+                                'energy_max' => 10,
 
-                            'level' => 1,
-                            'stat_points' => 5
-                            );
+                                'kills' => 0,
+                                'deaths' => 0,
 
-        $this->db->AutoExecute('rpg', $rpg_array, 'INSERT');
+                                'level' => 1,
+                                'stat_points' => 5
+                                );
+
+            $player->db->AutoExecute('rpg', $rpg_array, 'INSERT');
+        }
     }
 
 ?>

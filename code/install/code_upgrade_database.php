@@ -7,7 +7,7 @@
  * @author josh04
  * @package code_install
  */
-class code_upgrade_database extends _code_install {
+class code_upgrade_database extends code_common_install {
 
    /**
     * class override. calls parents, sends kids home.

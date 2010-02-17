@@ -7,7 +7,7 @@
  * @author grego
  * @package code_admin
  */
-class code_mods extends _code_admin {
+class code_mods extends code_common_admin {
    /**
     * class override. calls parents, sends kids home.
     *
@@ -227,7 +227,7 @@ class code_mods extends _code_admin {
                 array_push($vals, strval($xml->admin->file));
             }
             
-            $true = fwrite($handle, "\r\n\$hooks['".$hook->attributes()."'][] = array('".implode("','", $vals)."');");
+            $true = fwrite($handle, "\n\$hooks['".$hook->attributes()."'][] = array('".implode("','", $vals)."');");
             
             $returns .= $this->skin->hook_created();
         }
@@ -313,7 +313,7 @@ class code_mods extends _code_admin {
             if (isset($xml->admin->file)) {
                 array_push($vals, strval($xml->admin->file));
             }
-            $old = str_replace("\r\n\$hooks['".$xml->hook->attributes()."'][] = array('".implode("','", $vals)."');","",$old);
+            $old = str_replace("\n\$hooks['".$xml->hook->attributes()."'][] = array('".implode("','", $vals)."');","",$old);
             fwrite($handle, $old);
             $returns .= $this->skin->hook_removed();
         }

@@ -9,7 +9,9 @@
     </description>
     <modurl></modurl>
     <authorurl></authorurl>
-
+    <settings>
+        <frontpage_mail_time>604800</frontpage_mail_time>
+    </settings>
     <hook id="home/extra">
         <file>mail.php</file>
         <function>mail_box</function>

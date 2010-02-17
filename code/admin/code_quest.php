@@ -5,7 +5,7 @@
  * @author grego
  * @package code_admin
  */
-class code_quest extends _code_admin {
+class code_quest extends code_common_admin {
    /**
     * class override. calls parents, sends kids home.
     *

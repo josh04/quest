@@ -6,7 +6,7 @@
  * @author josh04
  * @package code_admin
  */
-class code_blueprints extends _code_admin {
+class code_blueprints extends code_common_admin {
 
    /**
     * class override. calls parents, sends kids home.

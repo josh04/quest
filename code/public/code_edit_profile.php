@@ -229,7 +229,7 @@ class code_edit_profile extends code_common {
             $avatar_options .= $this->skin->edit_avatar_library( $library );
         }
 
-        $edit_profile = $this->skin->edit_profile($this->player, $gender_list, $show_email, "", $message);
+        $edit_profile = $this->skin->edit_profile($this->player, $gender_list, $show_email, $message);
         $edit_avatar = $this->skin->edit_avatar($avatar_options);
         $edit_password = $this->skin->edit_password($this->player->id);
         return $edit_profile.$edit_avatar.$edit_password;

@@ -5,7 +5,7 @@
  * @author josh04
  * @package code_admin
  */
-class code_edit_profile extends _code_admin {
+class code_edit_profile extends code_common_admin {
 
     public $player_flags = array("profile");
 
@@ -75,7 +75,7 @@ class code_edit_profile extends _code_admin {
             $show_email = "checked='checked'";
         }
 
-        $edit_profile = $this->skin->edit_profile($profile, $gender_list, $show_email, "section=admin&amp;", $message); // blurgh
+        $edit_profile = $this->skin->edit_profile($profile, $gender_list, $show_email, $message, "section=admin&amp;"); // blurgh
         $edit_permissions = $this->skin->edit_permissions($permissions_list, $profile->id);
         $edit_password = $this->skin->edit_password_admin($profile->id);
         return $edit_profile.$edit_permissions.$edit_password;

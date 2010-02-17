@@ -17,7 +17,7 @@ function mail_box($common) {
     $mail_query = $common->db->execute("SELECT `mail`.`id`, `mail`.`from`, `mail`.`status`, `mail`.`subject`, `players`.`username`
                       FROM `mail`
                       INNER JOIN `players` ON `players`.`id` = `mail`.`from`
-                      WHERE `to`=? ORDER BY `time` DESC LIMIT 5", array($common->player->id));
+                      WHERE `mail`.`to`=? AND (`mail`.`status` = 0 OR (? - `mail`.`time` < ?)) ORDER BY `time` DESC LIMIT 5", array($common->player->id, time(), $common->settings->get['frontpage_mail_time']));
 
     $skin = $common->page_generation->make_skin('skin_mail', '', 'public');
     if (!$mail_query) {
@@ -36,7 +36,7 @@ function mail_box($common) {
         }
     }
 
-    $mail_box = $skin->frontpage_mail_wrap($mail);
+    $mail_box .= $skin->frontpage_mail_wrap($mail);
     return $mail_box;
 }
 

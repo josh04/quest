@@ -182,7 +182,7 @@ class code_login extends code_common {
             }
         }
   */
-        $registered_player = new code_player($this->settings);
+        $registered_player = $this->core('player');
         $username = htmlentities($_POST['username'], ENT_QUOTES, "utf-8");
         $email = htmlentities($_POST['email'], ENT_QUOTES, "utf-8");
 
