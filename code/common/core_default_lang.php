@@ -14,7 +14,7 @@ class core_default_lang {
     * @return null
     */
     public function load_core($common) {
-        require_once("skin/lang/en/lang_error.php"); // (TODO) language string abstraction
+        require_once("skin/default/lang/en/lang_error.php"); // (TODO) language string abstraction
         $common->lang = new lang_error;
         return null;
     }

@@ -6,8 +6,8 @@
  * @package code_common
  * @author josh04
  */
- 
-class core_player {
+
+class core_player implements basic_player {
  
     public $db;
     public $is_member = false;
@@ -39,20 +39,6 @@ class core_player {
     public function load_core($common) {
         // (DONE) player shirt and percentage code has moved
         // Get our player object
-
-        if (is_array($common->player_class)) {
-            foreach ($common->player_class as $player_extension) {
-                if (file_exists("code/player/player_".$player_extension.".php")) {
-                    require_once("code/player/player_".$player_extension.".php");
-                    $class_name = "player_".$player_extension;
-                    $this->extension[] = new $class_name;
-                }
-            }
-        } else if (file_exists("code/player/player_".$common->player_class.".php")) {
-            require_once("code/player/".$common->player_class.".php");
-            $class_name = "player_".$player_extension;
-            $this->extension[] = new $class_name($this);
-        }
         
         session_start();
         

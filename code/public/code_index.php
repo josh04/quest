@@ -138,7 +138,7 @@ class code_index extends code_common {
                 $player_extra['stat_points'] = $menu->player->stat_points;
             }
 
-            require_once("skin/public/skin_index.php");
+            require_once("skin/default/public/skin_index.php");
             $menu->top .= skin_index::player_details_menu($menu->player, $player_extra);
         }
         return $label;

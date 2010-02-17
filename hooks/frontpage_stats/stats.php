@@ -15,11 +15,12 @@
 function stats_table($common) {
     $common->core("rpg_stats");
 
-    if (get_class($common->player) != "code_player_rpg") { // because we no longer necessarily have the rpg data
+    if (!$common->player->do_rpg) { // because we no longer necessarily have the rpg data
         /*require_once("code/player/code_player_rpg.php");
         $player = new code_player_rpg();*/ // outdated >.>
         $player = $common->core("player");
-
+        $player->do_rpg = true;
+        
         if (!$player->get_player($common->player->id)) {
             return '';
         }
@@ -47,7 +48,7 @@ function stats_table($common) {
     } else {
         $stats_table = $skin->stats_table($player->strength, $player->vitality, $player->agility);
     }
-
+    
     $table = $skin->common_table($stats_table, $player->level, $player->exp,
         $player->exp_max, $player->hp, $player->hp_percent, $player->energy,
         $player->energy_max, $common->page_generation->format_time($player->registered),

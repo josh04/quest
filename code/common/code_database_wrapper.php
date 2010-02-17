@@ -35,6 +35,7 @@ class code_database_wrapper {
     * @param array $config database settings
     */
     private function __construct($config) {
+        require_once("code/common/code_questdb.php");            //Initialise database first
         $this->db = &NewQuestDB();
 
         ob_start(); // Do not error if the database isn't there.

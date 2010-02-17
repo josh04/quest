@@ -10,11 +10,12 @@
 
 // ------------------------
 
-require_once("code/common/code_questdb.php");            //Initialise database first
-require_once("code/common/code_common.php");
-require_once("skin/common/skin_common.php");
+
+
+
 require_once("code/common/code_bootstrap.php");
-require_once("code/common/code_database_wrapper.php");
+
+require_once("interfaces/basic_player.php");
 include("install.lock");
 
 $bootstrap = new code_bootstrap;

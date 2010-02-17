@@ -68,26 +68,28 @@ class core_page_generation {
         if (!$section) {
             $section = $this->section;
         }
-        
+
+        require_once("skin/default/common/skin_common.php");
+
         if ($alternative_skin) {
             // If there is an alternate skin_common to be load, do so.
             if (file_exists("skin/".$alternative_skin."/common/".$alternative_skin."_skin_common.php")) {
                         require_once("skin/".$alternative_skin."/common/".$alternative_skin."_skin_common.php");
             }
             // If there is a alternate, section-specific skin_common to load, do so.
-            if (file_exists("skin/".$alternative_skin."/".$section."/_skin_".$section.".php")) {
-                        require_once("skin/".$alternative_skin."/".$section."/_skin_".$section.".php");
-            } else if (file_exists("skin/".$section."/_skin_".$section.".php")) {
+            if (file_exists("skin/".$alternative_skin."/".$section."/".$alternative_skin."_skin_common_".$section.".php")) {
+                        require_once("skin/".$alternative_skin."/".$section."/".$alternative_skin."_skin_common_".$section.".php");
+            } else if (file_exists("skin/default/".$section."/skin_common_".$section.".php")) {
                 // If there's a section-specific skin_common NOT of a custom skin, load that.
-                require_once("skin/".$section."/_skin_".$section.".php");
+                require_once("skin/default/".$section."/skin_common_".$section.".php");
             }
-        } else if (file_exists("skin/".$section."/_skin_".$section.".php")) { // conflicting class names
+        } else if (file_exists("skin/default/".$section."/skin_common_".$section.".php")) { // conflicting class names
             // ditto the above
-            require_once("skin/".$section."/_skin_".$section.".php");
+            require_once("skin/default/".$section."/skin_common_".$section.".php");
         }
         if ($skin_name) {
             // Load the main event, as it were. The default requested skin file.
-            require_once("skin/".$section."/".$skin_name.".php");
+            require_once("skin/default/".$section."/".$skin_name.".php");
             if ($alternative_skin) {
                 // If there's an alternate skin version, grab that too and change the class name to be loaded.
                 if (file_exists("skin/".$alternative_skin."/".$section."/".$alternative_skin."_".$skin_name.".php")) {
@@ -133,16 +135,10 @@ class core_page_generation {
     */
     public function start_header() {
 
-        $css = $this->player->skin;
-
-        if(!isset($this->player->skin)) {
-            $css = "default.css";
-        }
-
         if (isset($this->settings->get['name'])) {
             $site_name = $this->settings->get['name'];
         } else {
-            $site_name = "Quest";
+            $site_name = "Error";
         }
 
         if ($this->skin->title) {
@@ -151,7 +147,7 @@ class core_page_generation {
             $page_title = $site_name;
         }
 
-        $start_header = $this->skin->start_header($page_title, $site_name, "default.css");
+        $start_header = $this->skin->start_header($page_title, $site_name);
         return $start_header;
     }
 
@@ -166,6 +162,10 @@ class core_page_generation {
     public function paginate($max, $current, $per_page) {
         $num_pages = intval($max / $per_page);
 
+        if ($max <= $per_page) {
+            return "";
+        }
+
         if ($max % $per_page) {
             $num_pages++; // plus one if over a round number
         }
@@ -174,10 +174,16 @@ class core_page_generation {
 
         $current_html = $this->skin->paginate_current($current_page, $current, $this->section, $this->page);
 
-        $pagination = array( ($current_page - 2) => ($current - 2*$per_page),
+        $pagination = array(
+            ($current_page - 4) => ($current - 4*$per_page),
+            ($current_page - 3) => ($current - 3*$per_page),
+            ($current_page - 2) => ($current - 2*$per_page),
             ($current_page - 1) => ($current - $per_page),
             ($current_page + 1) => ($current + $per_page),
-            ($current_page + 2) => ($current + 2*$per_page));
+            ($current_page + 2) => ($current + 2*$per_page),
+            ($current_page + 3) => ($current + 3*$per_page),
+            ($current_page + 4) => ($current + 4*$per_page)
+            );
 
         foreach ($pagination as $page_number => $page_start) {
             if ($page_number >= 0 && $num_pages > $page_number) {
@@ -188,8 +194,17 @@ class core_page_generation {
         $paginate_links[$current_page] = $current_html;
         ksort($paginate_links);
 
+        $paginate = "";
+        if ($current - 4*$per_page > 0) {
+            $paginate = $this->skin->paginate_first($this->section, $this->page);
+        }
+
         foreach ($paginate_links as $link) {
             $paginate .= $link;
+        }
+
+        if ($current + 4*$per_page < $max - ($max % $per_page)) {
+            $paginate .= $this->skin->paginate_last($max - ($max % $per_page), $this->section, $this->page);
         }
 
         $paginate_final = $this->skin->paginate_wrap($paginate);
@@ -207,14 +222,14 @@ class core_page_generation {
         if (!$this->skin) {
             $this->make_skin();
         }
-
+        
         if (isset($this->settings->get['name'])) {
             $site_name = $this->settings->get['name'];
         } else {
-            $site_name = "Quest";
+            $site_name = "Error";
         }
 
-        $output = $this->skin->start_header("Error", $site_name, "default.css");
+        $output = $this->skin->start_header("Error", $site_name);
 
         $output .= $this->skin->error_page($error);
 
@@ -232,7 +247,7 @@ class core_page_generation {
     * @param string $page contains the html intended to go between the menu and the bottom.
     * @return string html
     */
-    public function finish_page($page, $menu) {
+    public function finish_page($page, $menu = "") {
         $output = $this->start_header();
 
         $output .= $menu;
@@ -248,7 +263,6 @@ class core_page_generation {
    /**
     * makes "2th nov" into "2 hours ago!"
     * (TODO) this is a code_skin candidate
-    * (TODO) consider using phrases like "just now" rather than be too specific
     *
     * @param int $time the time, datestamp
     * @return string the time
@@ -292,7 +306,7 @@ class core_page_generation {
             return $this->lang->a_month_ago;
         }
 
-        return date("jS M, h:i A", $time);
+        return date("jS M Y, h:i A", $time);
 
     }
 

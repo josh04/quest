@@ -128,7 +128,7 @@ class code_common {
         $this->core("player");
         $this->core("extra_lang");
         $this->core("page_generation");
-        $this->skin =& $this->page_generation->make_skin($skin_name, $override = "");
+        $this->skin =& $this->page_generation->make_skin($skin_name, $override);
 
         $allowed = $this->player->make_player();
         if (!$allowed) {

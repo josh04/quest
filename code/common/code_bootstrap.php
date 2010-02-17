@@ -25,6 +25,9 @@ class code_bootstrap {
             $_COOKIE = array_map(array($this, 'stripslashes_deep'), $_COOKIE);
             $_REQUEST = array_map(array($this, 'stripslashes_deep'), $_REQUEST);
         }
+
+        require_once("code/common/code_common.php");
+
         $this->page_setup();
         $page = $this->page->construct();
         print $this->page->finish_page($page);
@@ -87,6 +90,8 @@ class code_bootstrap {
             $section = strtolower($_GET['section']);
         }
 
+        require_once("code/common/code_database_wrapper.php");
+
        /**
         * Check if we're meant to be running the installer. If not, proceed to
         * load up the database
@@ -134,16 +139,15 @@ class code_bootstrap {
             $this->page = new code_common;
             $this->page->core("default_lang");
             $this->page->core("page_generation");
-            $this->page->skin =& $this->page->page_generation->make_skin();
             $this->page->page_generation->error_page($this->page->lang->page_not_exist);
         }
 
-        if (file_exists("code/".$section."/"."_code_".$section.".php")) {
+        if (file_exists("code/".$section."/"."code_common_".$section.".php")) {
          /**
-          *If there is, for example, a _code_install which makes universal adjustments to code_common
+          *If there is, for example, a code_common_install which makes universal adjustments to code_common
           * then load it.
           */
-            require_once("code/".$section."/"."_code_".$section.".php");
+            require_once("code/".$section."/"."code_common_".$section.".php");
         }
 
        /**

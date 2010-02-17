@@ -79,7 +79,7 @@ class code_ranks extends code_common {
     * @param string $label the name of our slot
     */
     public static function code_ranks_menu(&$menu, $label) {
-        require_once("skin/public/skin_ranks.php");
+        require_once("skin/default/public/skin_ranks.php");
         $online_query = $menu->db->execute("SELECT count(*) AS c FROM players WHERE (last_active > (".(time()-(60*15))."))");
         $online_count = $online_query->fetchrow();
         $money_query = $menu->db->execute("SELECT sum(`gold`) AS g FROM players");

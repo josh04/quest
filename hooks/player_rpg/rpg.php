@@ -23,32 +23,35 @@
     *
     */
     function rpg_post_make_player(&$player) {
-        if ($player->do_rpg == true && $player->is_member && (!isset($player->player_id))) {
-            $rpg_array = array( 'strength' => 1,
-                                'vitality' => 1,
-                                'agility' => 1,
 
-                                'hp' => 60,
-                                'hp_max' => 60,
-                                'exp' => 0,
-                                'exp_max' => 50,
-                                'energy' => 10,
-                                'energy_max' => 10,
+        if ($player->do_rpg == true && $player->is_member) {
+            if (!isset($player->level)) {
+                
+                $rpg_array = array( 'strength' => 1,
+                                    'vitality' => 1,
+                                    'agility' => 1,
 
-                                'kills' => 0,
-                                'deaths' => 0,
+                                    'hp' => 60,
+                                    'hp_max' => 60,
+                                    'exp' => 0,
+                                    'exp_max' => 50,
+                                    'energy' => 10,
+                                    'energy_max' => 10,
 
-                                'level' => 1,
-                                'stat_points' => 3
-                                );
+                                    'kills' => 0,
+                                    'deaths' => 0,
 
-            $rpg_array['player_id'] = $player->id;
-            $player->db->AutoExecute('rpg', $rpg_array, 'INSERT');
+                                    'level' => 1,
+                                    'stat_points' => 3
+                                    );
 
-            foreach ($rpg_array as $name => $value) {
-                $player->$name = $value;
+                $rpg_array['player_id'] = $player->id;
+                $player->db->AutoExecute('rpg', $rpg_array, 'INSERT');
+
+                foreach ($rpg_array as $name => $value) {
+                    $player->$name = $value;
+                }
             }
-
             $player->hp_percent = intval(($player->hp / $player->hp_max) * 100);
             $player->exp_diff = ($player->exp - $player->exp_max);
         }
