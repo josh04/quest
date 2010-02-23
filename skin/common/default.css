@@ -284,6 +284,26 @@ div.quest-select {
     font-size: 11px;
 }
 
+.quest-event {
+    width: 500px;
+    margin: 8px auto;
+    padding: 8px;
+    border: 1px solid #FF9;
+    background-color: #FFD;
+}
+
+.quest-event .title {
+    font-weight: bold;
+    font-size: 14px;
+    padding: 4px;
+}
+
+.quest-event hr {
+    border: 0px;
+    border-top: 1px solid #FF6;
+    background-color: transparent;
+}
+
 table.nutable {
     border: 1px solid #DDD;
     margin: 12px 0px;
