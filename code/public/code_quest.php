@@ -168,6 +168,7 @@ class code_quest extends code_common {
         $jump = (string)$event->jump;
         $success = true;
         $string = "";
+        $return['success'] = true;
 
         if( $event->type=="encounter" ) {
             $return = $this->do_encounter( (string)$event->id );
@@ -191,6 +192,7 @@ class code_quest extends code_common {
         }
 
         $this->save[(string)($event->id)] = array( $jump, $success, $string );
+        $this->path[(string)($event->id)] = array( $jump, $success, $string );
 
         if(!empty($this->events[$jump])) {
             $this->do_event($jump);
@@ -354,11 +356,11 @@ class code_quest extends code_common {
         $body = $this->prepare_string( implode("<hr />",$body) );
         $ret = $this->skin->render_event( $this->prepare_string($event->title), $body );
 
-        if((string)$jump=="{{END}}") {
+        if($jump=="{{END}}") {
             $ret .= $this->skin->finish_quest();
         }
 
-        if(!empty($this->path[(string)$jump])) {
+        if(!empty($this->path[$jump])) {
             $ret .= $this->draw_event($jump);
         }
 
