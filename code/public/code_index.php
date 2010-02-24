@@ -16,7 +16,7 @@ class code_index extends code_common {
     */
     public function index_player($message = "") {
 
-        $header  = $this->hooks->get("home/header");
+        $header = $this->hooks->get("home/header");
         $extra = $this->hooks->get("home/extra");
         
 

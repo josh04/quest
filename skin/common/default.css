@@ -3,7 +3,7 @@
 /*****************************************************/
 
 body {
-    font-family: TrebuchetMS, Verdana, Arial;
+    font-family: Verdana, Arial;
     font-size: 12px;
     text-align: center;
 
@@ -13,7 +13,7 @@ body {
 
 form, textarea {
     font-weight: normal;
-    font-family: TrebuchetMS, Verdana, Arial;
+    font-family: Verdana, Arial;
 }
 
 a {
@@ -31,7 +31,7 @@ table {
 input, select, textarea {
     border: 1px solid #999999;
     background-color: #EEEEEE;
-    font-family: 'Trebuchet MS', 'Verdana', 'Arial';
+    font-family: Verdana, Arial;
     padding: 2px;
     margin: 2px;
     font-size:12px;
@@ -43,7 +43,6 @@ fieldset {
     border-top: 1px solid #999999;
     border-bottom: 1px solid #999999;
     background-color: #FFFFFF;
-    font-family: 'Trebuchet MS';
     font-size: 14px;
     padding-top: 6px;
     margin: 2px;
@@ -51,7 +50,6 @@ fieldset {
 
 legend {
     font-weight: bold;
-    font-family: 'Trebuchet MS';
 }
 
 label {
@@ -202,7 +200,6 @@ th {
 .ticket {
     border: solid 1px #999;
     background:#EEE;
-    font-family: TrebuchetMS, Verdana, Arial;
     font-size:12px;
     padding:5px;
     margin:2px;
@@ -295,7 +292,7 @@ div.quest-select {
 .quest-event .title {
     font-weight: bold;
     font-size: 14px;
-    padding: 4px;
+    padding: 4px 0px;
 }
 
 .quest-event hr {

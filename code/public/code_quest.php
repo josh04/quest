@@ -165,7 +165,7 @@ class code_quest extends code_common {
 
         $this->elapsed += (int)$event->duration;
 
-        $jump = (string)$event->jump;
+        $jump = (string)$event->attributes()->jump;
         $success = true;
         $string = "";
         $return['success'] = true;
@@ -183,6 +183,9 @@ class code_quest extends code_common {
         if($return['success']) {
             if(isset($event->success)) {
                 $jump = (string)$event->success->attributes()->jump;
+            }
+            if(isset($event->reward)) {
+                $this->getRewards($event->reward);
             }
         } else {
             $success = false;
@@ -272,6 +275,21 @@ class code_quest extends code_common {
     }
 
    /**
+    * claim the rewards from a successful event
+    *
+    * @param object $reward an object from the XML containing our rewards
+    * @return void
+    */
+    public function getRewards( $reward ) {
+        foreach( $reward->children() as $a ) {
+            $type = (string)$a->attributes()->type;
+            $value = (string)$a->attributes()->value;
+            $this->player->$type += $value;
+        }
+        $this->player->update_player();
+    }
+
+   /**
     * save progress
     *
     * @return void
@@ -346,6 +364,9 @@ class code_quest extends code_common {
             if(isset($event->success)) {
                 $body[] = (string)$event->success;
             }
+            if(isset( $event->reward )) {
+                $body[] = $this->drawRewards( $event->reward );
+            }
         } else {
             $success = false;
             if(isset($event->failure)) {
@@ -388,6 +409,21 @@ class code_quest extends code_common {
     public function draw_challenge( $event_id ) {
         $load = $this->path[(string)$event_id];
         $ret = $this->skin->challenge( $load[2][0], $load[2][1], $load[2][2]);
+        return $ret;
+    }
+
+   /**
+    * draw the rewards from a successful event
+    *
+    * @param object $reward an object from the XML containing our rewards
+    * @return void
+    */
+    public function drawRewards( $reward ) {
+        $ret = "<h3>Rewards</h3>";
+        foreach( $reward->children() as $a) {
+            $stats[] = $a->attributes()->caption . ": " . $a->attributes()->value;
+        }
+        $ret .= implode("<br />", $stats);
         return $ret;
     }
 
