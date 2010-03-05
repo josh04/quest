@@ -119,7 +119,7 @@ class code_database extends code_common_install {
         $make_tables_success = $this->create_database();
         
         if (!$this->db->ErrorMsg()) {
-            $config_string = "<? 
+            $config_string = "<?php 
                 /**
                  * config file
                  * stores database username and password

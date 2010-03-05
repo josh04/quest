@@ -151,7 +151,7 @@ class code_pages extends code_common {
             $uninstall_section = "";
 
             foreach (glob("code/".$section_name."/code_*.php") as $file_path) {
-                if (!in_array($file_path, $page_paths[$section_name])) {
+                if (!in_array($file_path, $page_paths[$section_name]) && $file_path != "code/".$section_name."/code_common_".$section_name.".php") {
                     $uninstall_section .= $this->skin->uninstalled_page_row($file_path, $section_name);
                 }
             }

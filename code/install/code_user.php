@@ -121,7 +121,7 @@ class code_user extends code_common_install {
             return $insert_user;
         }
 
-            $lock_string = "<? \n
+            $lock_string = "<?php \n
                     define('IS_INSTALLED', true);\n
                     ?>";
             $lock_file = fopen("install.lock", 'w');
