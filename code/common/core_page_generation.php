@@ -47,29 +47,39 @@ class core_page_generation {
     * @param string $section override page section
     * @return skin_common tha skin!
     */
-    public function &make_skin($skin_name = "", $override = "", $section = "") {
+    public function &make_skin($skin_name = "", $override = "", $section = "", $use_alternative = true) {
         $alternative_skin = "";
 
-        // Is there a default skin in the settings?
-        if ($this->settings->get['default_skin']) {
-            $alternative_skin = $this->settings->get['default_skin'];
-        }
+        if ($use_alternative) {
+            // Is there a default skin in the settings?
+            if ($this->settings->get['default_skin']) {
+                $alternative_skin = $this->settings->get['default_skin'];
+            }
 
-        // Does the player have a personal skin set?
-        if ($this->player->skin) {
-            $alternative_skin = $this->player->skin;
+            // Does the player have a personal skin set?
+            if ($this->player->skin) {
+                $alternative_skin = $this->player->skin;
+            }
+
+            // Does the module specify a skin which must be used?
+            if ($override) {
+                $alternative_skin = $override;
+            }
         }
         
-        // Does the module specify a skin which must be used?
-        if ($override) {
-            $alternative_skin = $override;
-        }
-
         if (!$section) {
             $section = $this->section;
         }
 
-        require_once("skin/default/common/skin_common.php");
+        if ($alternative_skin) {
+            if (file_exists("skin/".$alternative_skin."/common/skin_common.php")) {
+                require_once("skin/".$alternative_skin."/common/skin_common.php");
+            } else {
+                require_once("skin/default/common/skin_common.php");
+            }
+        } else {
+            require_once("skin/default/common/skin_common.php");
+        }
 
         if ($alternative_skin) {
             // If there is an alternate skin_common to be load, do so.
@@ -89,7 +99,9 @@ class core_page_generation {
         }
         if ($skin_name) {
             // Load the main event, as it were. The default requested skin file.
-            require_once("skin/default/".$section."/".$skin_name.".php");
+            if (file_exists("skin/default/".$section."/".$skin_name.".php")) {
+                require_once("skin/default/".$section."/".$skin_name.".php");
+            }
             if ($alternative_skin) {
                 // If there's an alternate skin version, grab that too and change the class name to be loaded.
                 if (file_exists("skin/".$alternative_skin."/".$section."/".$alternative_skin."_".$skin_name.".php")) {
