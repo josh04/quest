@@ -61,8 +61,8 @@ class skin_quest extends skin_common {
     * @return string html
     */
     public function render_event($title, $body) {
-        return "<div style='width:500px;margin:8px auto;padding:4px;border:1px solid #FF0;background-color:#FFC;'>
-        <strong>".$title."</strong><br />
+        return "<div class='quest-event'>
+        <div class='title'>".$title."</div>
 	".$body."
         </div>";
     }
@@ -70,34 +70,27 @@ class skin_quest extends skin_common {
    /**
     * an encounter
     * 
-    * @param string $enconter details
-    * @param string $body main event body
-    * @param string $username current username
+    * @param string $enemies a list of enemies faced
+    * @param string $success whether or not the encounter was successful
     * @return string html
     */
-    public function encounter($encounter, $body, $username) {
-        return "<table><tr><td>".$body."<hr />" . $encounter['main'] . "<br style=\"clear:both;\" /></td>
-        <td style=\"border-left:1px solid #333;padding:4px;width:150px;height:auto;text-align:right;\">
-        <div style=\"text-align:left;\"><strong>Enemies:</strong> ".$encounter['enemies']."<br /><strong>Result:</strong> ".($encounter['success']?"Won":"Lost")."</div>
-        <br />".$encounter['gains']."</td>
-        </tr></table>";
+    public function encounter($enemies, $success) {
+        return "<h3>Encounter</h3>
+        <strong>Enemies:</strong> ".($enemies)."<br />
+        <strong>Result:</strong> ".($success?"Won":"Lost");
     }
 
    /**
     * a challenge
     * 
-    * @param object $challenge details
-    * @param string $body main event body
-    * @param string $user current username
+    * @param object $stat the stat being checked against
+    * @param string $value what the user needed
+    * @param string $result what the user got
     * @return string html
     */
-    public function challenge($challenge, $body, $user) {
-        return "<table><tr><td>".$body."<hr />".$challenge['main'] . "<br style=\"clear:both;\" /></td>
-            <td style=\"border-left:1px solid #333;padding:4px;width:150px;height:auto;text-align:right;\">
-            <div style=\"text-align:left;\">In a <strong>".$challenge['source']."
-            </strong> check of ".$challenge['value'].", ".$user." got ".$challenge['result'].".</div>
-            <br />".$challenge['gains']."</td>
-            </tr></table>";
+    public function challenge($stat, $value, $result) {
+        return "<h3>Challenge</h3>
+        In a {$stat} test of {$value}, {{USER}} got {$result}.";
     }
 
    /**
