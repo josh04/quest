@@ -7,8 +7,8 @@
  */
 class code_common_admin extends code_common {
 
-    public function inititate($skin_name) {
-        parent::initiate($skin_name);
+    public function initiate($skin_name = "", $override = "") {
+        parent::initiate($skin_name, $override);
 
         if ($this->player->rank != "Admin") { // yeah, I know, poor implementation of permissions
             $this->page_generation->error_page($this->lang->access_denied);

@@ -108,7 +108,7 @@ class core_menu {
     protected function make_menu_entry($menu_entry) {
         $this->enabled = true;
 
-        $section_class = "_code_".$menu_entry['section'];
+        $section_class = "code_common_".$menu_entry['section'];
         $section_function = $section_class."_menu";
 
         if (file_exists("code/".$menu_entry['section']."/".$section_class.".php")) {
