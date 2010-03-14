@@ -31,15 +31,17 @@ class code_battle extends code_common {
     */
     public function battle_switch() {
         switch($_GET['action']) {
-            case 'search':
-                $battle_search = $this->battle_search();
-                return $battle_search;
             case 'fight':
                 $battle_search = $this->battle();
-                return $battle_search;
+                break;
+            case 'search':
+                $battle_search = $this->battle_search();
+                break;
+            default:
+                $battle_search = $this->battle_search_page();
         }
         
-        $battle_search = $this->battle_search_page();
+        
         return $battle_search;
     }
     
@@ -50,7 +52,6 @@ class code_battle extends code_common {
     * @return string html
     */
     public function battle_search() {
-		
 	//Construct query
         $player_query_construct = "SELECT `p`.`id`, `p`.`username`, `r`.`hp`, `r`.`hp_max`, `r`.`level`
             FROM `rpg` AS `r`
@@ -96,11 +97,10 @@ class code_battle extends code_common {
         } else {
             $player_html = $this->skin->error_box($this->lang->no_players_found);
         }
-
+        
         $battle_search_page = $this->battle_search_page();
 
         $battle_search = $battle_search_page.$player_html;
-
         return $battle_search;
     }
     

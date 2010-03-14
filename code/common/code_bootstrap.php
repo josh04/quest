@@ -29,7 +29,9 @@ class code_bootstrap {
         require_once("code/common/code_common.php");
 
         $this->page_setup();
+        
         $page = $this->page->construct();
+        
         print $this->page->finish_page($page);
     }
 

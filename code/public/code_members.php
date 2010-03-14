@@ -49,21 +49,20 @@ class code_members extends code_common {
            $where = "WHERE `p`.`rank`='Admin'";
         }
 
-        if (is_array($join)) {
+        if (is_array($this->join)) {
 
-            foreach($join as $table) {
+            foreach($this->join as $table) {
                 $query_joins .= "LEFT JOIN `".$table."` ON `p`.`id` = `".$table."`.`player_id` ";
                 $query_selects .= ", `".$table."`.*";
             }
             
-            $member_list_query = $this->db->execute("SELECT `p`.`id`, `p`.`username`, ".$query_selects."
+            $member_list_query = $this->db->execute("SELECT `p`.`id`, `p`.`username` ".$query_selects."
                 FROM `players` AS `p`
                 ".$query_joins."
-                ".$where." ORDER BY `r`.`level` DESC
-                LIMIT 0,?", //(TODO) not site-independent
+                ".$where." ORDER BY `p`.`username` DESC
+                LIMIT ?,?", //(TODO) not site-independent
                 array(intval($begin), intval($limit)));
         } else {
-
             $member_list_query = $this->db->execute("SELECT `p`.`id`, `p`.`username`
                 FROM `players` AS `p`
                 ".$where." ORDER BY `p`.`username` DESC

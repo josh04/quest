@@ -60,7 +60,6 @@ class code_common_install extends code_common {
         `registered` int(11) NOT NULL default '0',
         `last_active` int(11) NOT NULL default '0',
         `ip` varchar(255) NOT NULL default '',
-        `gold` int(11) NOT NULL default '200',
         `show_email` tinyint(3) NOT NULL default '0',
         `skin` varchar(255) NOT NULL default '',
         `login_rand` varchar(255) NOT NULL default '',
@@ -328,6 +327,7 @@ CREATE TABLE IF NOT EXISTS `rpg` (
   `strength` int(11) NOT NULL,
   `vitality` int(11) NOT NULL,
   `agility` int(11) NOT NULL,
+  `gold` int(11) NOT NULL default '200',
   PRIMARY KEY  (`player_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 

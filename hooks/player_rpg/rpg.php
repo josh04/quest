@@ -42,7 +42,8 @@
                                     'deaths' => 0,
 
                                     'level' => 1,
-                                    'stat_points' => 3
+                                    'stat_points' => 3,
+                                    'gold' => 200
                                     );
 
                 $rpg_array['player_id'] = $player->id;
@@ -87,7 +88,8 @@
                                             'deaths' => $player->deaths,
 
                                             'level' => $player->level,
-                                            'stat_points' => $player->stat_points
+                                            'stat_points' => $player->stat_points,
+                                            'gold' => $player->gold
                                             );
 
 
@@ -117,7 +119,8 @@
                                 'deaths' => 0,
 
                                 'level' => 1,
-                                'stat_points' => 5
+                                'stat_points' => 5,
+                                    'gold' => 200
                                 );
 
             $player->db->AutoExecute('rpg', $rpg_array, 'INSERT');

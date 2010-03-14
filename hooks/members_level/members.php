@@ -22,8 +22,8 @@
     *
     * @return boolean success
     */
-    function members_row(&$common) {
-        return $common->skin->table_row($common->member['level']);
+    function members_column(&$common) {
+        return $common->skin->table_column($common->member['level']);
     }
 
    /**
@@ -31,8 +31,8 @@
     *
     * @return boolean success
     */
-    function members_column(&$common) {
-        return $common->skin->table_row('Level');
+    function members_header(&$common) {
+        return $common->skin->table_header('Level');
     }
 
 ?>

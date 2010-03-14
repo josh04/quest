@@ -166,7 +166,7 @@ class skin_profile extends skin_common {
                             <h2>Edit profile</h2>
                             ".$message."
                                 <a href='#' style='color:transparent;' onClick='showHide(\"showhide-1\");return false;'><div class='edit-profile-header'><span style='float:right;'>&laquo;</span>Edit Profile</div></a>
-                                <div class='edit-profile-body' id='showhide-1'><form action='index.php?".$section."page=profile_edit&amp;action=update_profile' method='POST'>
+                                <div class='edit-profile-body' id='showhide-1'><form action='index.php?section=".$section."&amp;page=profile_edit&amp;action=update_profile' method='POST'>
                                 <input type='hidden' name='id' value='".$profile->id."' />
                                 <table>
                                     <tr><td style='width:30%;'><label style='margin:0;'>Username</label></td>

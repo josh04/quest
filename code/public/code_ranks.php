@@ -6,7 +6,7 @@
  * @package code_public
  */
 class code_ranks extends code_common {
-
+    public $player_flags = array("rpg");
    /**
     * class override. calls parents, sends kids home.
     *
@@ -27,21 +27,30 @@ class code_ranks extends code_common {
     */
     public function make_ranks() {
 
-        $most_gold_query = $this->db->execute("SELECT id, username, gold FROM `players` ORDER BY `gold` DESC LIMIT 10");
+        $most_gold_query = $this->db->execute("SELECT `p`.`id`, `p`.`username`, `r`.`gold` FROM `rpg` AS `r`
+            LEFT JOIN `players` AS `p`
+            ON `r`.`player_id`=`p`.`id`
+            ORDER BY `r`.`gold` DESC LIMIT 10");
         while($most_gold = $most_gold_query->fetchrow()) {
             $most_gold_html .= $this->skin->rank_row($most_gold, $most_gold['gold'], "", "gold");
         }
 
         $make_table .= $this->skin->make_table($most_gold_html, "Richest");
 
-        $most_kills_query = $this->db->execute("SELECT id, username, kills FROM `players` ORDER BY `kills` DESC LIMIT 10");
+        $most_kills_query = $this->db->execute("SELECT `p`.`id`, `p`.`username`, `r`.`kills` FROM `rpg` AS `r`
+            LEFT JOIN `players` AS `p`
+            ON `r`.`player_id`=`p`.`id` 
+            ORDER BY `r`.`kills` DESC LIMIT 10");
         while($most_kills = $most_kills_query->fetchrow()) {
             $most_kills_html .= $this->skin->rank_row($most_kills, $most_kills['kills'], "", "kills");
         }
 
         $make_table .= $this->skin->make_table($most_kills_html, "Assassins");
 
-        $most_deaths_query = $this->db->execute("SELECT id, username, deaths FROM `players` ORDER BY `deaths` DESC LIMIT 10");
+        $most_deaths_query = $this->db->execute("SELECT `p`.`id`, `p`.`username`, `r`.`deaths` FROM `rpg` AS `r`
+            LEFT JOIN `players` AS `p`
+            ON `r`.`player_id`=`p`.`id`
+            ORDER BY `r`.`deaths` DESC LIMIT 10");
         while($most_deaths = $most_deaths_query->fetchrow()) {
             $most_deaths_html .= $this->skin->rank_row($most_deaths, $most_deaths['deaths'], "", "deaths");
         }

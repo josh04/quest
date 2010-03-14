@@ -54,8 +54,28 @@ class core_error {
 
             $output .= $this->common->skin->footer();
         } else {
-            print $id.$text.$file.$line;
-            $output = "Error time!";
+            try {
+                require_once("code/common/code_common.php");
+                $common = new code_common;
+                $common->core('default_lang');
+                $common->core('page_generation');
+                $common->skin =& $common->page_generation->make_skin();
+                if (isset($this->common->settings->get['name'])) {
+                    $site_name = $this->common->settings->get['name'];
+                } else {
+                    $site_name = "Quest";
+                }
+
+                $output = $common->skin->start_header("Error", $site_name, "default.css");
+
+                $output .= $common->skin->error_page($text." @ ".$file." line ".$line.".");
+
+                $output .= $common->skin->footer();
+            } catch (Exception $e) {
+                print $id.$text.$file.$line;
+                $output = "Error time!";
+            }
+            
         }
 
         print $output;

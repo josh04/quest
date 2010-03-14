@@ -7,6 +7,8 @@
  */
 class code_bank extends code_common {
 
+    public $player_flags = array("rpg");
+
    /**
     * class override. calls parents, sends kids home.
     *

@@ -150,7 +150,7 @@ class code_mail extends code_common {
             return $compose_submit;
         }
 
-        $to = new code_player;
+        $to = $this->core('player');
 
         if (!$to->get_player($_POST['mail_to'])) {
             $compose_submit = $this->compose($this->skin->error_box($this->lang->player_not_found));

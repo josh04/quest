@@ -25,3 +25,6 @@ $hooks['player/get/pre'][] = array('player_rpg','rpg.php','rpg_pre_make_player')
 $hooks['player/get/post'][] = array('player_rpg','rpg.php','rpg_post_make_player');
 $hooks['player/update'][] = array('player_rpg','rpg.php','rpg_update');
 $hooks['player/create'][] = array('player_rpg','rpg.php','rpg_create');
+$hooks['members/pre'][] = array('members_level','members.php','members_pre');
+$hooks['members/row'][] = array('members_level','members.php','members_column');
+$hooks['members/header'][] = array('members_level','members.php','members_header');

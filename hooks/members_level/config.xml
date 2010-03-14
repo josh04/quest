@@ -17,7 +17,7 @@
 
     <hook id="members/row">
         <file>members.php</file>
-        <function>members_row</function>
+        <function>members_column</function>
     </hook>
 
     <hook id="members/header">

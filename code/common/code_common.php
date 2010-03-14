@@ -131,10 +131,10 @@ class code_common {
         $this->skin =& $this->page_generation->make_skin($skin_name, $override);
 
         $allowed = $this->player->make_player();
+        
         if (!$allowed) {
             $this->page_generation->error_page($this->lang->page_not_exist);
         }
-        
         
     }
 
@@ -152,7 +152,7 @@ class code_common {
         } else {
             $output = $page;
         }
-
+        
         return $output;
     }
 

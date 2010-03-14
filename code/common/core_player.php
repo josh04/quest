@@ -96,7 +96,7 @@ class core_player implements basic_player {
         $player_db = $player_query->fetchrow();
         
         $check = md5($player_db['id'].$player_db['password'].$player_db['login_rand']);
-        
+
         if ($check == code_cookie::get('cookie_hash') || $check == $_SESSION['hash']) {
             $this->is_member = true;
             $last_active = time();
@@ -265,8 +265,6 @@ class core_player implements basic_player {
             $update_player['email']         = $this->email;
             $update_player['show_email']    = $this->show_email;
             $update_player['skin']          = $this->skin;
-
-            $update_player['gold'] = $this->gold;
 
             //Update victor (the loser)
             $player_query = $this->db->AutoExecute('players', $update_player, 'UPDATE', 'id='.$this->id);
