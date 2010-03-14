@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mod>
+    <title>Member List Level</title>
+    <author>josh04</author>
+    <version>1.0</version>
+    <description>
+        <short>Show level in member list.</short>
+        <long>Enables level column in member list view.</long>
+    </description>
+    <modurl></modurl>
+    <authorurl></authorurl>
+
+    <hook id="members/pre">
+        <file>members.php</file>
+        <function>members_pre</function>
+    </hook>
+
+    <hook id="members/row">
+        <file>members.php</file>
+        <function>members_row</function>
+    </hook>
+
+    <hook id="members/header">
+        <file>members.php</file>
+        <function>members_header</function>
+    </hook>
+</mod>
