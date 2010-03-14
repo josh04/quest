@@ -178,7 +178,15 @@ class code_menu_admin extends code_common_admin {
     protected function remove() {
         $id = intval($_GET['id']);
 
-        if(isset($_POST['menu-id'])) {
+        if (isset($_POST['menu-id'])) {
+            $item_select_query = $this->db->execute("SELECT * FROM `menu` WHERE `id`=?", array($id));
+            $item = $item_select_query->fetchrow();
+            
+            if ($item) {
+                $this->db->execute("UPDATE `menu` SET `order`=`order`-1 WHERE `order` > ? AND `category` = ?",
+                        array($item['order'], $item['category']));
+            }
+
             $item_delete_query = $this->db->execute("DELETE FROM `menu` WHERE `id`=?",array($id));
             
             if($item_delete_query) {
@@ -238,6 +246,11 @@ class code_menu_admin extends code_common_admin {
         return $move;
     }
 
+   /**
+    * moves a whole category up or down
+    *
+    * @return string html
+    */
     protected function category_move() {
         $move_category_name = htmlentities($_GET['category'], ENT_QUOTES,'utf-8');
 
