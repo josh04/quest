@@ -43,6 +43,7 @@ class QuestDB {
         6 => 'Update without a WHERE parameter',
         7 => 'Invalid record set provided',
         8 => 'Invalid error message',
+        9 => 'Database does not exist',
     );
     
    /**
@@ -74,6 +75,9 @@ class QuestDB {
         if (INVALID_ERROR_MESSAGE != 8) {
             define('INVALID_ERROR_MESSAGE', 8);
         }
+        if (DB_NOT_EXIST != 9) {
+            define('DB_NOT_EXIST', 9);
+        }
     }
 
    /**
@@ -96,9 +100,9 @@ class QuestDB {
             );
 
             if ($database!="") {
-                $this->SwitchDatabase($database);
+                $connected = $this->SwitchDatabase($database);
             }
-            $this->isConnected = true;
+            $this->isConnected = $connected;
         } else {
             $this->CatchError($this->_langError[ERROR_CONNECTING].' in '.__FILE__.' on line '.__LINE__);
         }
@@ -118,7 +122,7 @@ class QuestDB {
             } else if (!$this->_con) {
                 $this->CatchError($this->_langError[CONNECTION_NOT_ACTIVE].' in '.__FILE__.' on line '.__LINE__);
             } else if (!@mysqli_select_db($this->_con, $database)) {
-                $this->CatchError($this->_langError[UNEXPECTED_ERROR].' in '.__FILE__.' on line '.__LINE__);
+                $this->CatchError($this->_langError[DB_NOT_EXIST].' in '.__FILE__.' on line '.__LINE__);
             } else {
                 $this->database = $database;
                 $ret = true;
@@ -390,8 +394,11 @@ class QuestDB {
         $rs = $this->execute($sql, $fields);
         
         if($rs) {
-            if ($rs->EOF) $ret = false;
-            else $ret = reset($rs->fields);
+            if ($rs->EOF) {
+                $ret = false;
+            } else if (is_array($rs->fields)) {
+                $ret = reset($rs->fields);
+            }
             $rs->Close();
         }
         return $ret;

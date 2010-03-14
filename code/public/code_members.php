@@ -7,6 +7,9 @@
  */
 class code_members extends code_common {
 
+    public $join;
+    public $member;
+
    /**
     * class override. calls parents, sends kids home.
     *
@@ -38,32 +41,45 @@ class code_members extends code_common {
 
         $previous = $begin - $limit;
         $next = $begin + $limit;
-        
+
+        $this->hooks->get('members/pre');
+
+        $where = "";
         if ($_GET['action'] == "staff") {
-            $member_list_query = $this->db->execute("SELECT `p`.`id`, `p`.`username`, `r`.`level`
+           $where = "WHERE `p`.`rank`='Admin'";
+        }
+
+        if (is_array($join)) {
+
+            foreach($join as $table) {
+                $query_joins .= "LEFT JOIN `".$table."` ON `p`.`id` = `".$table."`.`player_id` ";
+                $query_selects .= ", `".$table."`.*";
+            }
+            
+            $member_list_query = $this->db->execute("SELECT `p`.`id`, `p`.`username`, ".$query_selects."
                 FROM `players` AS `p`
-                LEFT JOIN `rpg` AS `r` ON `r`.`player_id`=`p`.`id`
-                WHERE `p`.`rank`='Admin' ORDER BY `r`.`level` DESC
+                ".$query_joins."
+                ".$where." ORDER BY `r`.`level` DESC
                 LIMIT 0,?", //(TODO) not site-independent
-                array(intval($limit)));
+                array(intval($begin), intval($limit)));
         } else {
-            $member_list_query = $this->db->execute("SELECT `p`.`id`, `p`.`username`, `r`.`level`
+
+            $member_list_query = $this->db->execute("SELECT `p`.`id`, `p`.`username`
                 FROM `players` AS `p`
-                LEFT JOIN `rpg` AS `r` ON `r`.`player_id`=`p`.`id`
-                ORDER BY `r`.`level` DESC
+                ".$where." ORDER BY `p`.`username` DESC
                 LIMIT ?,?", //(TODO) not site-independent
                 array(intval($begin), intval($limit)));
         }
 
-        while($member = $member_list_query->fetchrow()) {
+        while($this->member = $member_list_query->fetchrow()) {
             if ($this->player->rank == "Admin") {
-                $admin = $this->skin->admin_link($member['id']);
+                $admin = $this->skin->admin_link($this->member['id']);
             }
 
-            $members_list .= $this->skin->member_row($member, $admin);
+            $members_list .= $this->skin->member_row($this->member, $admin, $this->hooks->get('members/row'));
         }
 
-        $members_list = $this->skin->members_list($begin, $next, $previous, $limit, $members_list);
+        $members_list = $this->skin->members_list($begin, $next, $previous, $limit, $members_list, $this->hooks->get('members/header'));
 
         return $members_list;
 

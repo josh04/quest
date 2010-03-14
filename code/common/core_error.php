@@ -15,7 +15,7 @@ class core_error {
     * @return core_error
     */
     public function load_core(&$common) {
-        //set_error_handler(array($this, "error_handler"), E_ALL);
+        set_error_handler(array($this, "error_handler"), E_ALL^E_NOTICE);
         $this->common =& $common;
         return $this;
     }
@@ -32,10 +32,6 @@ class core_error {
     */
     public function error_handler($id, $text, $file, $line) {
         
-        if ($id == E_NOTICE) {
-            return;
-        }
-
         if (!isset($this->common->lang)) {
             $this->core("default_lang");
         }

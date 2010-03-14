@@ -14,11 +14,11 @@ class skin_members extends skin_common {
     * @param string $admin the admin edit profile link
     * @return string html
     */
-    public function member_row($member, $admin) {
+    public function member_row($member, $admin, $extra = "") {
 
         $member_row = "<tr class='row".$num."'>
                     <td><a href='index.php?section=public&amp;page=profile&amp;id=" .$member['id']."'>
-                    ".$member['username']."</a></td><td>".$member['level']."</td>
+                    ".$member['username']."</a></td>".$extra."
                     <td><a href='index.php?section=public&amp;page=mail&amp;action=compose&amp;to=".$member['username']."'>
                     Mail</a> | <form method='POST' name='memberBattle".$member['id']."' action='index.php?section=public&amp;page=battle&amp;action=fight' style='display:inline;'>
                         <input type='hidden' name='id' value='".$member['id']."' />
@@ -50,7 +50,7 @@ class skin_members extends skin_common {
     * @param string $member_rows rows themselves
     * @return string html
     */
-    public function members_list($begin, $next, $previous, $limit, $member_rows) {
+    public function members_list($begin, $next, $previous, $limit, $member_rows, $extra = "") {
         $members_list = "
                         <h2>Members</h2>
                         <p><a href='index.php?section=public&amp;page=members&amp;begin=".$previous."&amp;limit=".$limit."'>&laquo; Previous Page</a> | <a href='index.php?section=public&amp;page=members&amp;begin=".$next."&limit=".$limit."'>Next Page &raquo;</a></p>
@@ -61,7 +61,7 @@ class skin_members extends skin_common {
                         <table style='width:100%;margin: 12px 0px; border:1px solid #DDD; padding: 4px;' cellspacing='0' cellpadding='4'>
                         <tr style='background-color:#EEE;'>
                         <th>Username</td>
-                        <th>Level</td>
+                        ".$extra."
                         <th>Actions</td>
                         </tr>
                         ".$member_rows."
@@ -71,5 +71,26 @@ class skin_members extends skin_common {
         return $members_list;
     }
 
+   /**
+    * standard table row
+    *
+    * @param string $content the content
+    * @return string html
+    */
+    public function table_column($content) {
+        $table_row = "<td>".$content."</td>";
+        return $table_row;
+    }
+
+   /**
+    * standard table header
+    *
+    * @param string $content the content
+    * @return string html
+    */
+    public function table_header($content) {
+        $table_row = "<th>".$content."</th>";
+        return $table_row;
+    }
 }
 ?>

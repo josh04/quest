@@ -57,7 +57,7 @@ class skin_menu extends skin_common {
     * @return string html
     */
     public function menu_category($category_name, $category_html) {
-        $menu_category = "<div class='left-section'><ul><li class='header'>".$category_name."</li>".$category_html."</div>";
+        $menu_category = "<div class='left-section'><ul><li class='header'>".$category_name."</li>".$category_html."</ul></div>";
         return $menu_category;
     }
     
