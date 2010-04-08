@@ -152,7 +152,7 @@ class skin_index extends skin_common {
                        <li><strong>EXP:</strong> ".$player_extra['exp']." (".$player_extra['exp_diff']." to go)</li>
                        <li><strong>Health:</strong> ".$player_extra['hp']."/".$player_extra['hp_max']."</li>
                        <li><strong>Energy:</strong> ".$player_extra['energy']."/".$player_extra['energy_max']."</li>
-                       <li><strong>Money:</strong> &#163;".$player->gold."</li>
+                       <li><strong>Money:</strong> &#163;".$player_extra['gold']."</li>
                     </ul>
                 </div>";
         return $player_details_menu;

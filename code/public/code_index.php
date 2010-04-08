@@ -136,6 +136,7 @@ class code_index extends code_common {
 
                 $player_extra['level'] = $menu->player->level;
                 $player_extra['stat_points'] = $menu->player->stat_points;
+                $player_extra['gold'] = $menu->player->stat_points;
             }
 
             require_once("skin/default/public/skin_index.php");
